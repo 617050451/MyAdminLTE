@@ -7,10 +7,32 @@
 <head id="Head1" runat="server">
     <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link href="../../../Tools/AdminLTE-2.3.11/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" /><%--table必要样式--%>
-    <link href="../../../Tools/AdminLTE-2.3.11/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" /><%--table必要样式--%>
-    <link href="../../../Tools/AdminLTE-2.3.11/dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" /><%--table必要样式--%>
-    <style>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+  <!-- Bootstrap 3.3.7 -->
+  <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/bootstrap/dist/css/bootstrap.min.css"/>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/font-awesome/css/font-awesome.min.css"/>
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/Ionicons/css/ionicons.min.css"/>
+  <!-- DataTables -->
+  <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css"/>
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/dist/css/AdminLTE.min.css"/>
+  <!-- bootstrap datepicker -->
+  <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" />
+  <!-- AdminLTE Skins. Choose a skin from the css/skins
+  folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/dist/css/skins/_all-skins.min.css"/>
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  <!-- Google Font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic"/>
+  <style>
         table {
             table-layout: fixed;
         }
@@ -23,76 +45,120 @@
             height: auto;
             white-space: normal;
         }
+      .table-l {
+          width:190px;
+          margin-top:5px;
+      }
+      .table-p {
+          float:right;
+      }
+      .table-s {
+          margin-bottom:5px;
+      }
     </style>
 </head>
 <body>
     <form id="form1" runat="server">
-    <section class="content" style="margin-top:-13px;">
-      <div class="row">
-        <div class="col-xs-12">
-        <div class="box">
-<%--            <div class="box-header">
-              <h3 class="box-title"></h3>
-            </div>--%>
-            <!-- /.box-header -->
-            <div class="box-body">
-                <table id="example" class="table table-bordered table-hover" >
-                    <thead>
-                        <tr>    
-                            <th><input id="checkboxQs" name="checkboxQs" type="checkbox" onclick="OnCheckboxClock()"/></th>                     
-                            <th>部门名称</th>
-                            <th>奖扣对象</th>
-                            <th>工号</th>
-                            <th>奖扣时间</th>
-                            <th>主题</th>
-                            <th>事件</th>
-                            <th>B分</th>
-                            <th>初审人</th>
-                            <th>终审人</th>
-                            <th>记录人</th>
-                            <th>打印状态</th>
-                            <th>事件描述</th>
-                        </tr>
-                    </thead>
-                </table>
+        <section class="content" style="margin-top: -13px;">
+            <div class="box box-solid collapsed-box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">高级查询</h3>
+                    <div class="box-tools">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box box-danger">
+                        <div class="box-body">
+                            <div class="col-lg-2 col-xs-5 table-s">
+                                <input type="text" class="form-control" placeholder="菜单名称" />
+                            </div>
+                            <div class="col-lg-2 col-xs-5 table-s">
+                                <input type="text" class="form-control pull-right" id="datepicker" placeholder="创建时间" />
+                            </div>
+                            <div class="col-lg-2 col-xs-5 table-s">
+                                <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" >
+                                    <option selected="selected">请选择（菜单状态）</option>
+                                    <option>选项1</option>
+                                    <option>选项2</option>
+                                    <option>选项3</option>
+                                </select>
+                            </div>
+                           <%-- 查询--%>
+                            <div class="col-sm-1 table-p">
+                                <button type="button" class="btn btn-danger pull-right btn-block btn-primary">查询</button>
+                            </div>
+                        </div>
+                    </div>
+                <!-- /.box-body -->
             </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-        </div>
-        <!-- /.col -->
-      </div>
-      <!-- /.row -->
-    </section>
-    <asp:HiddenField ID="HiddenField1" runat="server" Value="" />
-    <asp:HiddenField ID="HiddenField2" runat="server" Value="" />
-    <asp:HiddenField ID="QuantifyRecordId" runat="server" Value="" />
-    <asp:HiddenField ID="DepartmentId" runat="server" Value="" />
-    <asp:HiddenField ID="Empid" runat="server"  Value="" />
-    <asp:HiddenField ID="Prizes" runat="server"  Value="" />
-    <asp:Button ID="Button1" runat="server" Text="Button" OnClick="Button1_Click" style="visibility:hidden"/>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box box-primary">
+<%--                        <div class="box-header">
+                            <h3 class="box-title">title</h3>
+                        </div>--%>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <table id="example" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>菜单编号</th>
+                                        <th>父级菜单</th>
+                                        <th>菜单Header</th>
+                                        <th>菜单名称</th>
+                                        <th>菜单地址</th>
+                                        <th>菜单级别</th>
+                                        <th>菜单样式</th>
+                                        <th>排序</th>
+                                        <th>状态</th>
+                                        <th>创建时间</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
     </form>
-<%--    <script src="../../../Tools/Js/jquery-1.8.2.min.js"></script>--%>
-    <script src="../../../Tools/AdminLTE-2.3.11/plugins/jQuery/jquery-2.2.3.min.js" type="text/javascript"></script>
-    <script src="../../../Tools/AdminLTE-2.3.11/bootstrap/js/bootstrap.min.js" type="text/javascript"></script><%--table必备js--%>
-    <script src="../../../Tools/AdminLTE-2.3.11/plugins/datatables/jquery.dataTables.min.js" type="text/javascript"></script><%--table必备js--%>
-    <script src="../../../Tools/AdminLTE-2.3.11/plugins/datatables/dataTables.bootstrap.js" type="text/javascript"></script><%--table必备js--%>
+    <!-- jQuery 3 -->
+    <script src="../../Script/AdminLTE-2.4.2/bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- DataTables -->
+    <script src="../../Script/AdminLTE-2.4.2/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="../../Script/AdminLTE-2.4.2/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="../../Script/AdminLTE-2.4.2/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="../../Script/AdminLTE-2.4.2/bower_components/fastclick/lib/fastclick.js"></script>
+    <!-- AdminLTE App -->
+    <script src="../../Script/AdminLTE-2.4.2/dist/js/adminlte.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="../../Script/AdminLTE-2.4.2/dist/js/demo.js"></script>
+    <!-- bootstrap datepicker -->
+    <script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>    <script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.zh-CN.js"></script>
+    <!-- page script -->
     <script> 
-        var table;
         var columns = [
-                 { "data": "QuantifyRecordId", render: function (data, type, row) { return "<input  name='checkboxQ' type='checkbox' class='table-checkable' onclick='OnCheckboxOnSelectValue()' value='" + data + "'/>"; } },
-                 { "data": "Department" },
-                 { "data": "EmpName" },
-                 { "data": "EmpNum" },
-                 { "data": "QuantifyDate" },
-                 { "data": "QuantifyName" },
-                 { "data": "EventName" },
-                 { "data": "BScore" },
-                 { "data": "AttnBy" },
-                 { "data": "AuditBy" },
-                 { "data": "CreateBy" },
-                 { "data": "IsPrint", render: function (data, type, row) { return data == 0 ? "未打印" : "已打印" } },
-                 { "data": "EventDetail" }
+            //{ "data": "QuantifyRecordId", render: function (data, type, row) { return "<input  name='checkboxQ' type='checkbox' class='table-checkable' onclick='OnCheckboxOnSelectValue()' value='" + data + "'/>"; } },
+            { "data": "GUID" },
+            { "data": "ParentID" },
+            { "data": "MeanHeader" },
+            { "data": "MeanName" },
+            { "data": "MeanUrl" },
+            { "data": "MeanLevel" },
+            { "data": "MeanClass" },
+            { "data": "MeanOrder" },
+            { "data": "StatusID" },
+            { "data": "CreateTime" }
+            //{ "data": "IsPrint", render: function (data, type, row) { return data == 0 ? "未打印" : "已打印" } },
         ];
         var oLanguage = {    // 语言设置  
             "sProcessing": "处理中...",
@@ -111,12 +177,19 @@
             }
         }
         $(document).ready(function () {
-            getJsonDataT();
+            getJsonData();
+            //Date picker
+            $('#datepicker').datepicker({
+                language: 'zh-CN',
+                autoclose: true,
+                todayHighlight: true,
+                format: 'yyyy-mm-dd'
+            });
         });
         //获取数据
-        function getJsonDataT() {
-            table = $('#example').dataTable({
-                "dom": "t<'row'<'#id.col-xs-6'l>><'row'<'#id.col-xs-5'i><'#id.col-xs-7'p>>r",
+        function getJsonData() {
+          var table = $('#example').dataTable({
+                "dom": "t<'row'<'#id.col-xs-2 table-l'l><'#id.col-xs-3'i><'#id.col-xs-6 table-p'p>>r",
                 "lengthChange": true,
                 "autoWidth": false,
                 "aLengthMenu": [25, 50, 100, 200],
@@ -132,6 +205,7 @@
                 ajax: function (data, callback, settings) {
                     //封装请求参数
                     var param = {};
+                    param.gettype = "getDate";
                     param.limit = data.length;//页面显示记录条数，在页面显示每页显示多少项的时候
                     param.start = data.start;//开始的记录序号
                     param.page = (data.start / data.length) + 1;//当前页码;
@@ -165,9 +239,9 @@
         }
         //获取url参数        
         function getQueryString(key) {
-        var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
-        var result = window.location.search.substr(1).match(reg);
-        return result ? decodeURIComponent(result[2]) : null;
+            var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
+            var result = window.location.search.substr(1).match(reg);
+            return result ? decodeURIComponent(result[2]) : null;
         }
     </script>
 </body>
