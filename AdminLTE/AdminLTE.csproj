@@ -20,6 +20,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -59,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Admin\DMS\DMS.aspx" />
+    <Content Include="Admin\Home\DataList.aspx" />
     <Content Include="Admin\Home\index.aspx" />
     <Content Include="Admin\Home\index2.aspx" />
     <Content Include="Admin\Home\login.aspx" />
@@ -6723,6 +6725,10 @@
     </Compile>
     <Compile Include="Admin\DMS\DMS.aspx.designer.cs">
       <DependentUpon>DMS.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Home\DataList.aspx.cs">
+      <DependentUpon>DataList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Admin\Home\index.aspx.cs">
       <DependentUpon>index.aspx</DependentUpon>
