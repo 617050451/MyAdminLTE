@@ -110,26 +110,13 @@
                 "sLast": "尾页"
             }
         }
-        var state ;
         $(document).ready(function () {
-            state = 0;
             getJsonDataT();
         });
-
-        function getQueryString(key) {
-            var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
-            var result = window.location.search.substr(1).match(reg);
-            return result ? decodeURIComponent(result[2]) : null;
-        }
-
+        //获取数据
         function getJsonDataT() {
             table = $('#example').dataTable({
-                //"dom": 'rtlip<"clear">',
                 "dom": "t<'row'<'#id.col-xs-6'l>><'row'<'#id.col-xs-5'i><'#id.col-xs-7'p>>r",
-                "aoColumnDefs": [{ "bSortable": false, "aTargets": [0, 1, 2, 3, 5, 6, 8, 9, 10, 11, 12] },
-                { "sWidth": "5px", "aTargets": [0] },{ "sWidth": "9%", "aTargets": [1,2,4,11,12] },{ "sWidth": "8%", "aTargets": [8, 9, 10]}
-                ],
-                "aaSorting": [[4, "desc"]],
                 "lengthChange": true,
                 "autoWidth": false,
                 "aLengthMenu": [25, 50, 100, 200],
@@ -145,14 +132,9 @@
                 ajax: function (data, callback, settings) {
                     //封装请求参数
                     var param = {};
-                    param.dataJson = getQueryString("dataJson");
-                    param.type = getQueryString("type");
                     param.limit = data.length;//页面显示记录条数，在页面显示每页显示多少项的时候
                     param.start = data.start;//开始的记录序号
                     param.page = (data.start / data.length) + 1;//当前页码;
-                    param.order = data.order[0].column;
-                    param.orderDir = data.order[0].dir;
-                    param.state = state;
                     //ajax请求数据
                     $.ajax({
                         type: "GET",
@@ -165,7 +147,6 @@
                             if (result != false) {
                                 //setTimeout仅为测试延迟效果
                                 setTimeout(function () {
-                                    state = 1;
                                     //封装返回数据
                                     var returnData = {};
                                     returnData.draw = data.draw;//这里直接自行返回了draw计数器,应该由后台返回
@@ -174,173 +155,19 @@
                                     returnData.data = result.data;//返回的数据列表
                                     //调用DataTables提供的callback方法，代表数据已封装完成并传回DataTables进行渲染
                                     //此时的数据需确保正确无误，异常判断应在执行此回调前自行处理完毕
-                                    callback(returnData);
-                                    window.parent.praterFunsetCountTxt(result.total);
-                                    if (getQueryString("type") == "0")
-                                        setHtml();
-                                    else if (getQueryString("type") == "1")
-                                        setHtmlPrint();
-                                    else if (getQueryString("type") == "2")
-                                        window.parent.praterClose();
+                                    callback(returnData);  
                                 }, 200);
-                            } 
-                            else {
-                                window.parent.praterSx();
-                            }
+                            }    
                         }
                     });
                 }
             });
         }
-
-        function setHtml() {
-            $.ajax({
-                type: "GET",
-                url: "DataList.aspx",
-                cache: false,  //禁用缓存
-                data: { getType: "getJson" },  //传入组装的参数
-                dataType: "text",
-                success: function (result1) {
-                    if (result1 != "false") {
-                        window.parent.praterFunAddHtml(result1);
-                    } else {
-                        window.parent.praterSx();
-                    }
-                }
-            });
-        }
-
-        function setHtmlPrint() {
-            $.ajax({
-                type: "GET",
-                url: "DataList.aspx",
-                cache: false,  //禁用缓存
-                data: { getType: "getJsonPrint" },  //传入组装的参数
-                dataType: "text",
-                success: function (result1) {
-                    if (result1 != "false") {
-                        window.parent.praterFunAddOrgIndexHtml(result1);
-                    } else {
-                        window.parent.praterSx();
-                    }
-
-                }
-            });
-        }
-
-        function OnCheckboxClock() {
-            if ($("#checkboxQs").prop("checked")) {
-                $("input[name='checkboxQ']").prop("checked", 'true');//全选 
-            } else {
-                $("input[name='checkboxQ']").prop("checked", '');//取消全选 
-            }
-            OnCheckboxOnSelectValue();
-        }
-
-        function OnCheckboxOnSelectValue() {
-            var spCodesTemp = "";
-            var spCodesData = "";
-            $('input:checkbox[name=checkboxQ]:checked').each(function (i) {
-                if (0 == i) {
-                    spCodesTemp = "'" + $(this).val() + "'";
-                    spCodesData = $(this).val();
-                    $(this).parent().nextAll().each(function () {
-                        spCodesData += "★" + $(this).text();
-                    });
-                } else {
-                    spCodesTemp += ("," + "'" + $(this).val() + "'");
-                    spCodesData += "◆" + $(this).val();
-                    $(this).parent().nextAll().each(function () {
-                        spCodesData += "★" + $(this).text();
-                    });
-                }
-            });
-            window.parent.praterFunGetPrizePrint(spCodesTemp, spCodesData);
-        }
-
-        function SeacherDepartmentId(obj) {
-                $("#Empid").val("");
-                $("#DepartmentId").val(obj);
-                getJsonData();
-                setHtml();
-            }
-
-        function SeacherEmpid(obj) {
-            $("#Empid").val(obj);
-            getJsonData();
-        }
-
-        function SeacherQuantifyRecordId(obj) {
-            $("#Empid").val("");
-            $("#DepartmentId").val("");
-            $("#QuantifyRecordId").val(obj);
-            getJsonData();
-        }
-
-        function getJsonData() {
-            table.fnClearTable(false);  //清空数据.fnClearTable();//清空数据
-            table.fnDestroy(); //还原初始化了的datatable  
-            //封装请求参数
-            table = $('#example').dataTable({
-                //"dom": 'rtlip<"clear">',
-                "dom": "t<'row'<'#id.col-xs-6'l>><'row'<'#id.col-xs-5'i><'#id.col-xs-7'p>>r",
-                "aoColumnDefs": [{ "bSortable": false, "aTargets": [0, 1, 2, 3, 5, 6, 8, 9, 10, 11, 12] },
-                { "sWidth": "5px", "aTargets": [0] }, { "sWidth": "9%", "aTargets": [1, 2, 4, 11, 12] }, { "sWidth": "8%", "aTargets": [8, 9, 10] }
-                ],
-                "aaSorting": [[4, "desc"]],
-                "lengthChange": true,
-                "autoWidth": false,
-                "aLengthMenu": [25, 50, 100, 200],
-                //当处理大数据时，延迟渲染数据，有效提高Datatables处理能力 
-                //"pagingType": "full_numbers",//详细分页组，可以支持直接跳转到某页  
-                "deferRender": true,
-                "processing": true,  //隐藏加载提示,自行处理
-                "serverSide": true,  //启用服务器端分页
-                "searching": false,  //禁用原生搜索
-                "orderMulti": true,  //启用多列排序
-                "columns": columns,
-                "oLanguage": oLanguage,
-                ajax: function (data, callback, settings) {
-                    var param = {};
-                    param.empid = $("#Empid").val();
-                    param.departmentId = $("#DepartmentId").val();
-                    param.QuantifyRecordId = $("#QuantifyRecordId").val();
-                    param.order = data.order[0].column;
-                    param.orderDir = data.order[0].dir;
-                    $.ajax({
-                        type: "GET",
-                        url: "DataList.aspx",
-                        cache: false,  //禁用缓存
-                        data: param,  //传入组装的参数
-                        dataType: "json",
-                        async: false,
-                        success: function (result) {
-                            if (result != false) {
-                                //setTimeout仅为测试延迟效果
-                                setTimeout(function () {
-                                    //封装返回数据
-                                    var returnData = {};
-                                    returnData.draw = data.draw;//这里直接自行返回了draw计数器,应该由后台返回
-                                    returnData.recordsTotal = result.total;//返回数据全部记录
-                                    returnData.recordsFiltered = result.total;//后台不实现过滤功能，每次查询均视作全部结果
-                                    returnData.data = result.data;//返回的数据列表                                   
-                                    //调用DataTables提供的callback方法，代表数据已封装完成并传回DataTables进行渲染
-                                    //此时的数据需确保正确无误，异常判断应在执行此回调前自行处理完毕
-                                    callback(returnData);
-                                    window.parent.praterFunsetCountTxt(result.total);
-                                }, 200);
-                            } else {
-                                window.parent.praterSx();
-                            }
-                        }
-                    });
-                }
-            });
-        }
-
-        function DcPrize(obj) {
-            $("#Prizes").val(obj);
-            $("#Button1").click();
+        //获取url参数        
+        function getQueryString(key) {
+        var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
+        var result = window.location.search.substr(1).match(reg);
+        return result ? decodeURIComponent(result[2]) : null;
         }
     </script>
 </body>
