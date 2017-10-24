@@ -55,6 +55,9 @@
       .table-s {
           margin-bottom:5px;
       }
+      .table-label {
+          width:auto;padding-top:6px;
+      }
     </style>
 </head>
 <body>
@@ -70,24 +73,27 @@
                     </div>
                 </div>
                 <div class="box box-danger">
-                        <div class="box-body">
+                        <div class="box-body" id="selectWhere">  
+                            <div class="col-lg-2 col-xs-5 table-s">   
+                                  <label  class="col-xs control-label table-label">菜单名称</label>
+                                  <input type="text" name="MeanName" data-i="1" class="form-control" placeholder="请输入菜单名称" />                             
+                            </div>                            
                             <div class="col-lg-2 col-xs-5 table-s">
-                                <input type="text" class="form-control" placeholder="菜单名称" />
-                            </div>
+                                <label  class="col-xs control-label table-label">创建时间</label>
+                                <input type="text" name="CreateTime" data-i="2" class="form-control pull-right" data-type="datepicker"  placeholder="请选择创建时间" />
+                            </div>                          
                             <div class="col-lg-2 col-xs-5 table-s">
-                                <input type="text" class="form-control pull-right" id="datepicker" placeholder="创建时间" />
-                            </div>
-                            <div class="col-lg-2 col-xs-5 table-s">
-                                <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" >
-                                    <option selected="selected">请选择（菜单状态）</option>
-                                    <option>选项1</option>
-                                    <option>选项2</option>
-                                    <option>选项3</option>
+                                <label  class="col-xs control-label table-label">菜单样式</label>
+                                <select name="MeanClass" data-i="3" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" >
+                                    <option selected="selected" value="" >请选择（菜单样式）</option>
+                                    <option value="folder">folder</option>
+                                    <option  value="dashboard">dashboard</option>
+                                    <option  value="table">table</option>
                                 </select>
                             </div>
                            <%-- 查询--%>
-                            <div class="col-sm-1 table-p">
-                                <button type="button" class="btn btn-danger pull-right btn-block btn-primary">查询</button>
+                            <div class="col-sm-1 table-p" style="margin-top:30px;">
+                                <button type="button" class="btn btn-danger pull-right btn-block btn-primary" onclick="getJsonData('select')">查询</button>
                             </div>
                         </div>
                     </div>
@@ -177,9 +183,9 @@
             }
         }
         $(document).ready(function () {
-            getJsonData();
+            getJsonData("getDate");
             //Date picker
-            $('#datepicker').datepicker({
+            $('input[data-type=datepicker]').datepicker({
                 language: 'zh-CN',
                 autoclose: true,
                 todayHighlight: true,
@@ -187,14 +193,19 @@
             });
         });
         //获取数据
-        function getJsonData() {
-          var table = $('#example').dataTable({
+        var table;
+        function getJsonData(type) {
+            if (type == 'select') {
+                table.fnClearTable(false);  //清空数据.fnClearTable();//清空数据
+                table.fnDestroy(); //还原初始化了的datatable  
+            }
+            table = $('#example').dataTable({
                 "dom": "t<'row'<'#id.col-xs-2 table-l'l><'#id.col-xs-3'i><'#id.col-xs-6 table-p'p>>r",
                 "lengthChange": true,
                 "autoWidth": false,
                 "aLengthMenu": [25, 50, 100, 200],
                 //当处理大数据时，延迟渲染数据，有效提高Datatables处理能力 
-                //"pagingType": "full_numbers",//详细分页组，可以支持直接跳转到某页  
+                "pagingType": "full_numbers",//详细分页组，可以支持直接跳转到某页  
                 "deferRender": true,
                 "processing": true,  //隐藏加载提示,自行处理
                 "serverSide": true,  //启用服务器端分页
@@ -202,13 +213,15 @@
                 "orderMulti": true,  //启用多列排序
                 "columns": columns,
                 "oLanguage": oLanguage,
-                ajax: function (data, callback, settings) {
+                ajax: function (data, callback, settings) {                    
+                    var values = $('#selectWhere').find('input,select').serializeArray();                    
                     //封装请求参数
                     var param = {};
                     param.gettype = "getDate";
                     param.limit = data.length;//页面显示记录条数，在页面显示每页显示多少项的时候
                     param.start = data.start;//开始的记录序号
                     param.page = (data.start / data.length) + 1;//当前页码;
+                    param.values = JSON.stringify(values); ;
                     //ajax请求数据
                     $.ajax({
                         type: "GET",

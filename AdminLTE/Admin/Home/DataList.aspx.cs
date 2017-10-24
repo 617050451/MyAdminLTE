@@ -6,6 +6,7 @@ using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using BLL;
 
 public partial class Cases_baseprint_HomePage_DataList : System.Web.UI.Page
 {
@@ -13,21 +14,32 @@ public partial class Cases_baseprint_HomePage_DataList : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            string GetType =Request.QueryString["gettype"];
+            string GetType = Request.QueryString["gettype"];
             int PageIndex = Convert.ToInt32(Request.QueryString["page"]);
             int PageSize = Convert.ToInt32(Request.QueryString["limit"]);
+            int PageStart = Convert.ToInt32(Request.QueryString["start"]);
+            var PageData = Request.QueryString["values"];
             if (GetType != null && GetType == "getDate")
             {
-                PageIndex = 1;
-                PageSize = 25;
-                string sqlStr = string.Format(@"SELECT * FROM [qds108295464_db].[dbo].[t_Mean]");
-                getPrintPrizeJson(BLL.BaseClass.getDataTable(sqlStr), PageIndex, PageSize);
+                string sqlWhere = "";
+                DataTable dt = JsonHelper.DeserializeJsonToObject<DataTable>(PageData);
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        if (dt.Rows[i]["value"].ToString() != "")
+                        {
+                            sqlWhere += " and " + dt.Rows[i]["name"].ToString() + "='" + dt.Rows[i]["value"].ToString() + "'";
+                        }
+                    } 
+                }
+                string sqlStr = string.Format(@"SELECT * FROM [qds108295464_db].[dbo].[t_Mean] where 1=1 " + sqlWhere);
+                getDataJson(BLL.BaseClass.getDataTable(sqlStr), PageIndex, PageSize);
             }
-           
         }
     }
     //获取数据
-    void getPrintPrizeJson(DataTable dt, int PageIndex, int PageSize)
+    void getDataJson(DataTable dt, int PageIndex, int PageSize)
     {
         if (dt != null)
         {
