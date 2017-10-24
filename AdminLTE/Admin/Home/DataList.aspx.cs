@@ -10,6 +10,8 @@ using BLL;
 
 public partial class Cases_baseprint_HomePage_DataList : System.Web.UI.Page
 {
+    public static string listColumn = "GUID|菜单编号,ParentID|父级菜单,MeanHeader|菜单Header,MeanName|菜单名称,MeanUrl|菜单地址,MeanLevel|菜单级别,MeanClass|菜单样式,MeanOrder|排序,StatusID|状态,CreateTime|创建时间";
+
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -21,19 +23,8 @@ public partial class Cases_baseprint_HomePage_DataList : System.Web.UI.Page
             var PageData = Request.QueryString["values"];
             if (GetType != null && GetType == "getDate")
             {
-                string sqlWhere = "";
                 DataTable dt = JsonHelper.DeserializeJsonToObject<DataTable>(PageData);
-                if (dt != null && dt.Rows.Count > 0)
-                {
-                    for (int i = 0; i < dt.Rows.Count; i++)
-                    {
-                        if (dt.Rows[i]["value"].ToString() != "")
-                        {
-                            sqlWhere += " and " + dt.Rows[i]["name"].ToString() + "='" + dt.Rows[i]["value"].ToString() + "'";
-                        }
-                    } 
-                }
-                string sqlStr = string.Format(@"SELECT * FROM [qds108295464_db].[dbo].[t_Mean] where 1=1 " + sqlWhere);
+                string sqlStr = string.Format(@"SELECT * FROM [qds108295464_db].[dbo].[t_Mean] where 1=1 " + getSQLWhere(dt));
                 getDataJson(BLL.BaseClass.getDataTable(sqlStr), PageIndex, PageSize);
             }
         }
@@ -42,25 +33,12 @@ public partial class Cases_baseprint_HomePage_DataList : System.Web.UI.Page
     void getDataJson(DataTable dt, int PageIndex, int PageSize)
     {
         if (dt != null)
-        {
+        { 
             StringBuilder sb = new StringBuilder();
-            sb.Append("{\"total\":" + dt.Rows.Count + ",\"page\":1,\"limit\":" + PageSize + ",\"data\":[");
-            for (int i = 0; i < dt.Rows.Count; i++)
-            {
-                if (i > 0)
-                    sb.Append(",");
-                sb.Append("{\"GUID\":\"" + dt.Rows[i]["GUID"].ToString() + "\"");
-                sb.Append(",\"ParentID\":\"" + dt.Rows[i]["ParentID"].ToString() + "\"");
-                sb.Append(",\"MeanHeader\":\"" + dt.Rows[i]["MeanHeader"].ToString() + "\"");
-                sb.Append(",\"MeanName\":\"" + dt.Rows[i]["MeanName"].ToString() + "\"");
-                sb.Append(",\"MeanUrl\":\"" + dt.Rows[i]["MeanUrl"].ToString() + "\"");
-                sb.Append(",\"MeanLevel\":\"" + dt.Rows[i]["MeanLevel"].ToString() + "\"");
-                sb.Append(",\"MeanClass\":\"" + dt.Rows[i]["MeanClass"].ToString() + "\"");
-                sb.Append(",\"MeanOrder\":\"" + dt.Rows[i]["MeanOrder"].ToString() + "\"");
-                sb.Append(",\"StatusID\":\"" + dt.Rows[i]["StatusID"].ToString() + "\"");
-                sb.Append(",\"CreateTime\":\"" + Convert.ToDateTime(dt.Rows[i]["CreateTime"].ToString()).ToString("yyyy-MM-dd") + "\"}");
-            }
-            sb.Append("]}");
+            sb.Append("{\"total\":" + dt.Rows.Count + ",\"page\":1,\"limit\":" + PageSize + ",\"data\":");
+            string datatablejson = JsonHelper.DataTableToJsonWithJsonNet(dt);
+            sb.Append(datatablejson);
+            sb.Append("}");
             Response.Write(sb.ToString().Replace("\n", ""));
             Response.End();
         }
@@ -70,29 +48,32 @@ public partial class Cases_baseprint_HomePage_DataList : System.Web.UI.Page
             Response.End();
         }
     }
-    //分页
-    public DataTable GetPagedTable(DataTable dt, int PageIndex, int PageSize)//PageIndex表示第几页，PageSize表示每页的记录数
-    { 
-        if (PageIndex == 0)
-            return dt;//0页代表每页数据，直接返回
-        DataTable newdt = dt.Copy();
-        newdt.Clear();//copy dt的框架
-        int rowbegin = (PageIndex - 1) * PageSize;
-        int rowend = PageIndex * PageSize;
-        if (rowbegin >= dt.Rows.Count)
-            return newdt;//源数据记录数小于等于要显示的记录，直接返回dt
-        if (rowend > dt.Rows.Count)
-            rowend = dt.Rows.Count;
-        for (int i = rowbegin; i <= rowend - 1; i++)
+    //高级查询
+    string getSQLWhere(DataTable dt)
+    {
+        string strWhere = "";
+        if (dt != null && dt.Rows.Count > 0)
         {
-            DataRow newdr = newdt.NewRow();
-            DataRow dr = dt.Rows[i];
-            foreach (DataColumn column in dt.Columns)
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
-                newdr[column.ColumnName] = dr[column.ColumnName];
-            }
-            newdt.Rows.Add(newdr);
+                if (dt.Rows[i]["value"].ToString() != "")
+                {
+                    if (dt.Rows[i]["name"].ToString() == "MeanName")
+                    {
+                        strWhere += " and " + dt.Rows[i]["name"].ToString() + " like '%" + dt.Rows[i]["value"].ToString() + "%'";
+                    }
+                    else if (dt.Rows[i]["name"].ToString() == "MeanClass")
+                    {
+                        strWhere += " and " + dt.Rows[i]["name"].ToString() + " = '" + dt.Rows[i]["value"].ToString() + "'";
+                    }
+                    else if (dt.Rows[i]["name"].ToString() == "CreateTime")
+                    {
+                        strWhere += " and convert(varchar(50)," + dt.Rows[i]["name"].ToString() + ",23) <= '" + dt.Rows[i]["value"].ToString() + "'";
+                    } 
+                }
+                
+            }  
         }
-        return newdt;
+        return strWhere;
     }
 }

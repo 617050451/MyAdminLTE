@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -54,6 +55,18 @@ namespace BLL
         {
             T t = JsonConvert.DeserializeAnonymousType(json, anonymousTypeObject);
             return t;
+        }
+
+        /// <summary>
+        /// DATATABLE转JSON.
+        /// </summary>
+        /// <param name="table">数据表格</param>
+        /// <returns>DataTable</returns>
+        public static string DataTableToJsonWithJsonNet(DataTable table)
+        {
+            string JsonString = string.Empty;
+            JsonString = JsonConvert.SerializeObject(table);
+            return JsonString;
         }
     }
 }

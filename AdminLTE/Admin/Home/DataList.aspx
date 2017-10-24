@@ -108,20 +108,7 @@
                         <!-- /.box-header -->
                         <div class="box-body">
                             <table id="example" class="table table-bordered table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>菜单编号</th>
-                                        <th>父级菜单</th>
-                                        <th>菜单Header</th>
-                                        <th>菜单名称</th>
-                                        <th>菜单地址</th>
-                                        <th>菜单级别</th>
-                                        <th>菜单样式</th>
-                                        <th>排序</th>
-                                        <th>状态</th>
-                                        <th>创建时间</th>
-                                    </tr>
-                                </thead>
+                               
                             </table>
                         </div>
                         <!-- /.box-body -->
@@ -152,37 +139,11 @@
     <script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>    <script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.zh-CN.js"></script>
     <!-- page script -->
     <script> 
-        var columns = [
-            //{ "data": "QuantifyRecordId", render: function (data, type, row) { return "<input  name='checkboxQ' type='checkbox' class='table-checkable' onclick='OnCheckboxOnSelectValue()' value='" + data + "'/>"; } },
-            { "data": "GUID" },
-            { "data": "ParentID" },
-            { "data": "MeanHeader" },
-            { "data": "MeanName" },
-            { "data": "MeanUrl" },
-            { "data": "MeanLevel" },
-            { "data": "MeanClass" },
-            { "data": "MeanOrder" },
-            { "data": "StatusID" },
-            { "data": "CreateTime" }
-            //{ "data": "IsPrint", render: function (data, type, row) { return data == 0 ? "未打印" : "已打印" } },
-        ];
-        var oLanguage = {    // 语言设置  
-            "sProcessing": "处理中...",
-            "sLengthMenu": "每页显示 _MENU_ 条记录",
-            "sZeroRecords": "抱歉， 没有找到",
-            "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
-            "sInfoEmpty": "",
-            "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
-            "sZeroRecords": "没有检索到数据",
-            "sSearch": "检索:",
-            "oPaginate": {
-                "sFirst": "首页",
-                "sPrevious": "前一页",
-                "sNext": "后一页",
-                "sLast": "尾页"
-            }
-        }
+        var theadHtml = "";
+        var columns = [];
+        var listColumn = '<%=listColumn%>';
         $(document).ready(function () {
+            setheadHtml();
             getJsonData("getDate");
             //Date picker
             $('input[data-type=datepicker]').datepicker({
@@ -190,7 +151,7 @@
                 autoclose: true,
                 todayHighlight: true,
                 format: 'yyyy-mm-dd'
-            });
+            });    
         });
         //获取数据
         var table;
@@ -255,6 +216,37 @@
             var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
             var result = window.location.search.substr(1).match(reg);
             return result ? decodeURIComponent(result[2]) : null;
+        }
+        // 语言设置  
+        var oLanguage = {  
+            "sProcessing": "处理中...",
+            "sLengthMenu": "每页显示 _MENU_ 条记录",
+            "sZeroRecords": "抱歉， 没有找到",
+            "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+            "sInfoEmpty": "",
+            "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+            "sZeroRecords": "没有检索到数据",
+            "sSearch": "检索:",
+            "oPaginate": {
+                "sFirst": "首页",
+                "sPrevious": "前一页",
+                "sNext": "后一页",
+                "sLast": "尾页"
+            }
+        }
+        //设置tablethead or column
+        function setheadHtml() {
+            var list = listColumn.split(',');
+            if (list.length > 0) {
+                var theadHtml = "<thead><tr>";
+                for (var i = 0; i < list.length; i++) {
+                    var listc = list[i].split('|');
+                    columns[i] = { "data": listc[0] };
+                    theadHtml += '<th>' + listc[1] + '</th>';
+                }
+                theadHtml += "</tr></thead>";
+                $("#example").append(theadHtml);
+            }                              
         }
     </script>
 </body>
