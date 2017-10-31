@@ -86,5 +86,70 @@ namespace BLL
             else
                 return null;
         }
+        //高级查询
+        public static string setStrWhere(string columnName, string columnValue, string type)
+        {
+            string strWhere = "";
+            switch (type)
+            {
+                case "1":
+                    strWhere = " and " + columnName + " like '%" + columnValue + "%'";
+                    break;
+                case "2":
+                    if (columnValue != "0")
+                        strWhere = " and " + columnName + " = '" + columnValue + "'";
+                    break;
+                case "3":
+                    strWhere = " and convert(varchar(50)," + columnName + ",23) <= '" + columnValue + "'";
+                    break;
+                default:
+                    break;
+            }
+            return strWhere;
+        }
+        //页面加载设置
+        public static string setStrHtml(string sqlStr)
+        {
+            string[] list = sqlStr.Split('↓');
+            string strHtml = "";
+            for (var i = 0; i < list.Length; i++)
+            {
+                string[] listc = list[i].Split('↑');
+                strHtml += "<div class=\"col-lg-2 col-xs-5 table-s\">";
+                if (listc[2] == "1")
+                {
+                    strHtml += "<label class=\"col-xs control-label table-label\">" + listc[1] + "</label >";
+                    strHtml += "<input type=\"text\" name=\"" + listc[0] + "|" + listc[2] + "\"  class=\"form-control\" placeholder=\"" + listc[1] + "\" />";
+                }
+                else if (listc[2] == "2")
+                {
+                    strHtml += "<label class=\"col-xs control-label table-label\">" + listc[1] + "</label >";
+                    strHtml += "<input type=\"text\" name=\"" + listc[0] + "|" + listc[2] + "\" class=\"form-control\" placeholder=\"" + listc[1] + "\" />";
+                }
+                else if (listc[2] == "3")
+                {
+                    strHtml += "<label class=\"col-xs control-label table-label\">" + listc[1] + "</label >";
+                    strHtml += "<select name=\"" + listc[0] + "|" + listc[2] + "\" class=\"form-control select2 select2-hidden-accessible\"  tabindex=\"-1\" aria-hidden=\"true\" >";
+                    strHtml += "<option selected = \"selected\" value = \"0\" >全部</option >";
+                    string[] listw = listc[3].Split('◇');
+                    if (listw[0].ToUpper() == "SQL")
+                    {
+                        string sql = listw[1];
+                        DataTable dt = BaseClass.getDataTable(sql);
+                        if (dt != null && dt.Rows.Count > 0)
+                        {
+                            for (int j = 0; j < dt.Rows.Count; j++)
+                            {
+                                strHtml += "<option value = \"" + dt.Rows[j][1].ToString() + "\" >" + dt.Rows[j][0].ToString() + "</option >";
+                            }
+                        }
+                    }
+                    strHtml += "</select>";
+                }
+                strHtml += "</div>";
+            }
+            strHtml += "<div class=\"col-sm-1 table-p\" style=\"margin-top:30px;\"><button type =\"button\" class=\"btn btn-danger pull-right btn-block btn-primary\" onclick=\"getJsonData('select')\">查询</button></div>";
+            return strHtml;
+        }
     }
 }

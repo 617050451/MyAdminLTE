@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="DataList.aspx.cs" Inherits="AdminLTE.Admin.DataList" validateRequest="false" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Mean.aspx.cs" Inherits="AdminLTE.Admin.Aspx.Mean" validateRequest="false" %>
 
 <!DOCTYPE html>
 
@@ -74,27 +74,7 @@
                 </div>
                 <div class="box box-danger">
                         <div class="box-body" id="selectWhere">  
-                            <div class="col-lg-2 col-xs-5 table-s">   
-                                  <label  class="col-xs control-label table-label">菜单名称</label>
-                                  <input type="text" name="MeanName" data-i="1" class="form-control" placeholder="请输入菜单名称" />                             
-                            </div>                            
-                            <div class="col-lg-2 col-xs-5 table-s">
-                                <label  class="col-xs control-label table-label">创建时间</label>
-                                <input type="text" name="CreateTime" data-i="2" class="form-control pull-right" data-type="datepicker"  placeholder="请选择创建时间" />
-                            </div>                          
-                            <div class="col-lg-2 col-xs-5 table-s">
-                                <label  class="col-xs control-label table-label">菜单样式</label>
-                                <select name="MeanClass" data-i="3" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" >
-                                    <option selected="selected" value="" >请选择（菜单样式）</option>
-                                    <option value="folder">folder</option>
-                                    <option  value="dashboard">dashboard</option>
-                                    <option  value="table">table</option>
-                                </select>
-                            </div>
-                           <%-- 查询--%>
-                            <div class="col-sm-1 table-p" style="margin-top:30px;">
-                                <button type="button" class="btn btn-danger pull-right btn-block btn-primary" onclick="getJsonData('select')">查询</button>
-                            </div>
+                           
                         </div>
                     </div>
                 <!-- /.box-body -->
@@ -139,12 +119,14 @@
     <script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>    <script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.zh-CN.js"></script>
     <!-- page script -->
     <script> 
+        var htmlURL = pageName();
         var theadHtml = "";
         var columns = [];
         var listColumn = '<%=listColumn%>';
         $(document).ready(function () {
             setheadHtml();
             getJsonData("getDate");
+			setHtml();
             //Date picker
             $('input[data-type=datepicker]').datepicker({
                 language: 'zh-CN',
@@ -153,6 +135,23 @@
                 format: 'yyyy-mm-dd'
             });    
         });
+        //设置页面
+        function setHtml() {
+            var param = {};
+            param.gettype = "setHtml";
+            $.ajax({
+                type: "GET",
+                url: htmlURL,
+                cache: false,  //禁用缓存
+                data: param,  //传入组装的参数
+                dataType: "text",
+                //async: false,
+                success: function (result) {
+                    $("#selectWhere").append(result);
+                }
+            });
+
+        }
         //获取数据
         var table;
         function getJsonData(type) {
@@ -186,7 +185,7 @@
                     //ajax请求数据
                     $.ajax({
                         type: "GET",
-                        url: pageName(),
+                        url: htmlURL,
                         cache: false,  //禁用缓存
                         data: param,  //传入组装的参数
                         dataType: "json",
@@ -250,7 +249,7 @@
                 $("#example").append(theadHtml);
             }                              
         }
-        //取当前页面名称(带后缀名)
+		//取当前页面名称(带后缀名)
         function pageName() {
             var strUrl = location.href;
             var arrUrl = strUrl.split("/");

@@ -59,11 +59,13 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Admin\Aspx\Mean.aspx" />
     <Content Include="Admin\DMS\DMS.aspx" />
     <Content Include="Admin\Home\DataList.aspx" />
     <Content Include="Admin\Home\index.aspx" />
     <Content Include="Admin\Home\index2.aspx" />
     <Content Include="Admin\Home\login.aspx" />
+    <Content Include="Admin\Temp\ListTemp.aspx" />
     <Content Include="Script\AdminLTE-2.4.2\bower_components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.css" />
     <Content Include="Script\AdminLTE-2.4.2\bower_components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.min.css" />
     <Content Include="Script\AdminLTE-2.4.2\bower_components\bootstrap-colorpicker\dist\img\bootstrap-colorpicker\alpha-horizontal.png" />
@@ -6720,6 +6722,13 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Admin\Aspx\Mean.aspx.cs">
+      <DependentUpon>Mean.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Aspx\Mean.aspx.designer.cs">
+      <DependentUpon>Mean.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\DMS\DMS.aspx.cs">
       <DependentUpon>DMS.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -6751,6 +6760,13 @@
     </Compile>
     <Compile Include="Admin\Home\login.aspx.designer.cs">
       <DependentUpon>login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Temp\ListTemp.aspx.cs">
+      <DependentUpon>ListTemp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Temp\ListTemp.aspx.designer.cs">
+      <DependentUpon>ListTemp.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -7383,6 +7399,8 @@
     <Content Include="Script\AdminLTE-2.4.2\plugins\input-mask\phone-codes\phone-codes.json" />
     <Content Include="Script\AdminLTE-2.4.2\README.md" />
     <Content Include="Script\AdminLTE-2.4.2\yarn.lock" />
+    <None Include="Admin\Temp\ListTemp.temp" />
+    <Content Include="Admin\Temp\ListTemp.cs.temp" />
     <None Include="Properties\PublishProfiles\cy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -7397,6 +7415,7 @@
       <Name>BLL</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
