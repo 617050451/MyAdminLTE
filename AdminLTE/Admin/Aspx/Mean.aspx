@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Mean.aspx.cs" Inherits="AdminLTE.Admin.Aspx.Mean" validateRequest="false" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Mean.aspx.cs" Inherits="AdminLTE.Admin.Aspx.Mean" ValidateRequest="false" %>
 
 <!DOCTYPE html>
 
@@ -7,57 +7,64 @@
 <head id="Head1" runat="server">
     <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
-  <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/bootstrap/dist/css/bootstrap.min.css"/>
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/font-awesome/css/font-awesome.min.css"/>
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/Ionicons/css/ionicons.min.css"/>
-  <!-- DataTables -->
-  <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css"/>
-  <!-- Theme style -->
-  <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/dist/css/AdminLTE.min.css"/>
-  <!-- bootstrap datepicker -->
-  <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" />
-  <!-- AdminLTE Skins. Choose a skin from the css/skins
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/font-awesome/css/font-awesome.min.css" />
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/Ionicons/css/ionicons.min.css" />
+    <!-- DataTables -->
+    <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css" />
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/dist/css/AdminLTE.min.css" />
+    <!-- bootstrap datepicker -->
+    <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" />
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
   folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/dist/css/skins/_all-skins.min.css"/>
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
+    <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/dist/css/skins/_all-skins.min.css" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
-  <!-- Google Font -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic"/>
-  <style>
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
+    <style>
         table {
             table-layout: fixed;
         }
+
         td {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
+
         tr:hover td {
             height: auto;
             white-space: normal;
         }
-      .table-l {
-          width:190px;
-          margin-top:5px;
-      }
-      .table-p {
-          float:right;
-      }
-      .table-s {
-          margin-bottom:5px;
-      }
-      .table-label {
-          width:auto;padding-top:6px;
-      }
+
+        .table-l {
+            width: 190px;
+            margin-top: 5px;
+        }
+
+        .table-p {
+            float: right;
+        }
+
+        .table-s {
+            margin-bottom: 5px;
+        }
+
+        .table-label {
+            width: auto;
+            padding-top: 6px;
+        }
     </style>
 </head>
 <body>
@@ -73,22 +80,20 @@
                     </div>
                 </div>
                 <div class="box box-danger">
-                        <div class="box-body" id="selectWhere">  
-                           
-                        </div>
+                    <div class="box-body" id="selectWhere">
                     </div>
+                </div>
                 <!-- /.box-body -->
             </div>
             <div class="row">
                 <div class="col-xs-12">
                     <div class="box box-primary">
-<%--                        <div class="box-header">
+                        <%--                        <div class="box-header">
                             <h3 class="box-title">title</h3>
                         </div>--%>
                         <!-- /.box-header -->
                         <div class="box-body">
                             <table id="example" class="table table-bordered table-hover">
-                               
                             </table>
                         </div>
                         <!-- /.box-body -->
@@ -116,24 +121,21 @@
     <!-- AdminLTE for demo purposes -->
     <script src="../../Script/AdminLTE-2.4.2/dist/js/demo.js"></script>
     <!-- bootstrap datepicker -->
-    <script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>    <script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.zh-CN.js"></script>
+    <script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.zh-CN.js"></script>
     <!-- page script -->
     <script> 
         var htmlURL = pageName();
-        var theadHtml = "";
         var columns = [];
-        var listColumn = '<%=listColumn%>';
         $(document).ready(function () {
-            setheadHtml();
-            getJsonData("getDate");
-			setHtml();
+            setHtml();
             //Date picker
             $('input[data-type=datepicker]').datepicker({
                 language: 'zh-CN',
                 autoclose: true,
                 todayHighlight: true,
                 format: 'yyyy-mm-dd'
-            });    
+            });
         });
         //设置页面
         function setHtml() {
@@ -145,9 +147,18 @@
                 cache: false,  //禁用缓存
                 data: param,  //传入组装的参数
                 dataType: "text",
-                //async: false,
+                async: false,
                 success: function (result) {
-                    $("#selectWhere").append(result);
+                    var list = result.split('◇');
+                    if (list.length > 0) {
+                        $("#example").append(list[0]);
+                        var listc = list[1].split('|');
+                        for (var i = 0; i < listc.length - 1; i++) {
+                            columns[i] = { "data": listc[i] };
+                        }
+                        $("#selectWhere").append(list[2]);
+                        getJsonData("getDate");
+                    }
                 }
             });
 
@@ -173,15 +184,15 @@
                 "orderMulti": true,  //启用多列排序
                 "columns": columns,
                 "oLanguage": oLanguage,
-                ajax: function (data, callback, settings) {                    
-                    var values = $('#selectWhere').find('input,select').serializeArray();                    
+                ajax: function (data, callback, settings) {
+                    var values = $('#selectWhere').find('input,select').serializeArray();
                     //封装请求参数
                     var param = {};
                     param.gettype = "getDate";
                     param.limit = data.length;//页面显示记录条数，在页面显示每页显示多少项的时候
                     param.start = data.start;//开始的记录序号
                     param.page = (data.start / data.length) + 1;//当前页码;
-                    param.values = JSON.stringify(values); ;
+                    param.values = JSON.stringify(values);
                     //ajax请求数据
                     $.ajax({
                         type: "GET",
@@ -189,7 +200,7 @@
                         cache: false,  //禁用缓存
                         data: param,  //传入组装的参数
                         dataType: "json",
-                        //async: false,
+                        async: false,
                         success: function (result) {
                             if (result != false) {
                                 //setTimeout仅为测试延迟效果
@@ -202,9 +213,9 @@
                                     returnData.data = result.data;//返回的数据列表
                                     //调用DataTables提供的callback方法，代表数据已封装完成并传回DataTables进行渲染
                                     //此时的数据需确保正确无误，异常判断应在执行此回调前自行处理完毕
-                                    callback(returnData);  
+                                    callback(returnData);
                                 }, 200);
-                            }    
+                            }
                         }
                     });
                 }
@@ -217,7 +228,7 @@
             return result ? decodeURIComponent(result[2]) : null;
         }
         // 语言设置  
-        var oLanguage = {  
+        var oLanguage = {
             "sProcessing": "处理中...",
             "sLengthMenu": "每页显示 _MENU_ 条记录",
             "sZeroRecords": "抱歉， 没有找到",
@@ -233,23 +244,7 @@
                 "sLast": "尾页"
             }
         }
-        //设置tablethead or column
-        function setheadHtml() {
-            var list = listColumn.split(',');
-            if (list.length > 0) {
-                var theadHtml = "<thead><tr>";
-                for (var i = 0; i < list.length; i++) {
-                    var listc = list[i].split('|');
-                    if (listc[2] == "1") {
-                        columns[i] = { "data": listc[0] };
-                        theadHtml += '<th>' + listc[1] + '</th>';
-                    }
-                }
-                theadHtml += "</tr></thead>";
-                $("#example").append(theadHtml);
-            }                              
-        }
-		//取当前页面名称(带后缀名)
+        //取当前页面名称(带后缀名)
         function pageName() {
             var strUrl = location.href;
             var arrUrl = strUrl.split("/");

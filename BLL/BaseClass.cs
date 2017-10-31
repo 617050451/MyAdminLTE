@@ -86,6 +86,26 @@ namespace BLL
             else
                 return null;
         }
+        //获取表格信息SELECT * FROM t_TableField WHERE TableGUID='9D2512E9-6FF4-4E7E-BBB8-23DE83755D18'
+        public static DataTable getTableInfo(string guid)
+        {
+            string sql = string.Format("select * from t_Tables where guid='{0}'", guid);
+            DataSet ds = DAL.SQLDBHelpercs.ExecuteReader(sql, null);
+            if (ds != null && ds.Tables.Count > 0)
+                return ds.Tables[0];
+            else
+                return null;
+        }
+        //获取字段信息
+        public static DataTable getTableFieldInfo(string guid)
+        {
+            string sql = string.Format("SELECT * FROM t_TableField WHERE TableGUID='{0}'", guid);
+            DataSet ds = DAL.SQLDBHelpercs.ExecuteReader(sql, null);
+            if (ds != null && ds.Tables.Count > 0)
+                return ds.Tables[0];
+            else
+                return null;
+        }
         //高级查询
         public static string setStrWhere(string columnName, string columnValue, string type)
         {
@@ -124,11 +144,6 @@ namespace BLL
                 else if (listc[2] == "2")
                 {
                     strHtml += "<label class=\"col-xs control-label table-label\">" + listc[1] + "</label >";
-                    strHtml += "<input type=\"text\" name=\"" + listc[0] + "|" + listc[2] + "\" class=\"form-control\" placeholder=\"" + listc[1] + "\" />";
-                }
-                else if (listc[2] == "3")
-                {
-                    strHtml += "<label class=\"col-xs control-label table-label\">" + listc[1] + "</label >";
                     strHtml += "<select name=\"" + listc[0] + "|" + listc[2] + "\" class=\"form-control select2 select2-hidden-accessible\"  tabindex=\"-1\" aria-hidden=\"true\" >";
                     strHtml += "<option selected = \"selected\" value = \"0\" >全部</option >";
                     string[] listw = listc[3].Split('◇');
@@ -145,6 +160,11 @@ namespace BLL
                         }
                     }
                     strHtml += "</select>";
+                }
+                else if (listc[2] == "3")
+                {
+                    strHtml += "<label class=\"col-xs control-label table-label\">" + listc[1] + "</label >";
+                    strHtml += "<input type=\"text\" name=\"" + listc[0] + "|" + listc[2] + "\" data-type=\"datepicker\"  class=\"form-control\" placeholder=\"" + listc[1] + "\" />";
                 }
                 strHtml += "</div>";
             }

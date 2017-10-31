@@ -12,8 +12,8 @@ namespace AdminLTE.Admin.Aspx
 {
     public partial class Mean : System.Web.UI.Page
     {
-        public static string listColumn = "GUID|菜单编号|1,ParentID|父级菜单|1,MeanHeader|菜单Header|1,MeanName|菜单名称|1";
-		public static string SQLWhere ="MeanName↑菜单名称↑1↓CreateTime↑CreateTime↑2↓MeanClass↑MeanClass↑3↑sql◇SELECT DISTINCT([MeanClass]) AS 'key',([MeanClass]) as 'value'  FROM [qds108295464_db].[dbo].[t_Mean]";
+        public static string SQLWhere = "MeanName↑菜单名称↑1↓CreateTime↑CreateTime↑3↓MeanClass↑MeanClass↑2↑sql◇SELECT DISTINCT([MeanClass]) AS 'key',([MeanClass]) as 'value'  FROM [qds108295464_db].[dbo].[t_Mean]";
+        public static string guid = "9D2512E9-6FF4-4E7E-BBB8-23DE83755D18";
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -28,13 +28,21 @@ namespace AdminLTE.Admin.Aspx
                 {
                     if (GetType == "getDate")
                     {
-                        DataTable dt = JsonHelper.DeserializeJsonToObject<DataTable>(PageData);
-                        string sqlStr = string.Format(@"SELECT * FROM[qds108295464_db].[dbo].[t_Mean] where 1=1  " + getSQLWhere(dt));
-                        getDataJson(BLL.BaseClass.getDataTable(sqlStr), PageIndex, PageSize);
+                        DataTable tableInfo = BLL.BaseClass.getTableInfo(guid);
+                        if (tableInfo != null && tableInfo.Rows.Count > 0)
+                        {
+                            string tsql = tableInfo.Rows[0]["TSQL"].ToString();
+                          
+                            DataTable dt = JsonHelper.DeserializeJsonToObject<DataTable>(PageData);
+                            string sqlStr = tsql + getSQLWhere(dt);
+                            getDataJson(BLL.BaseClass.getDataTable(sqlStr), PageIndex, PageSize);
+                        }
                     }
                     else if (GetType == "setHtml")
                     {
-                        Response.Write(BaseClass.setStrHtml(SQLWhere));
+                        DataTable tableFieldInfo = BLL.BaseClass.getTableFieldInfo(guid);
+                        string tablehtml = getTableHtml(tableFieldInfo)+ "◇"+ BaseClass.setStrHtml(SQLWhere);
+                        Response.Write(tablehtml);
                         Response.End();
                     }
                 }
@@ -79,6 +87,23 @@ namespace AdminLTE.Admin.Aspx
                 }
             }
             return strWhere;
+        }
+        //设置表格
+        string getTableHtml(DataTable dt)
+        {
+            StringBuilder sb = new StringBuilder();
+            StringBuilder sbjson = new StringBuilder();
+            sb.Append("<thead><tr>");
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                if (dt.Rows[i]["FieldStatusID"].ToString() == "1")
+                {
+                    sb.Append("<th>" + dt.Rows[i]["FieldValue"].ToString() + "</th>");
+                    sbjson.Append(dt.Rows[i]["FieldKey"].ToString() + "|");
+                }
+            }
+            sb.Append("</tr></thead>");
+            return sb.ToString()+ "◇"+ sbjson.ToString();
         }
     }
 }

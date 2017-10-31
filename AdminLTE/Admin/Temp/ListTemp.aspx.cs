@@ -39,8 +39,8 @@ namespace AdminLTE.Admin.Temp
             }
             textcs = textcs.Replace("*class*", InstanceURL);
             textcs = textcs.Replace("*listColumn*", "GUID|菜单编号|1,ParentID|父级菜单|1,MeanHeader|菜单Header|1,MeanName|菜单名称|1");
-            textcs = textcs.Replace("*SQLWhere*", "MeanName↑菜单名称↑1↓CreateTime↑CreateTime↑2↓MeanClass↑MeanClass↑3↑sql◇SELECT DISTINCT([MeanClass]) AS 'key',([MeanClass]) as 'value'  FROM [qds108295464_db].[dbo].[t_Mean]");
-            textcs = textcs.Replace("*sqlStr*", "SELECT * FROM[qds108295464_db].[dbo].[t_Mean] where 1=1  ");
+            textcs = textcs.Replace("*SQLWhere*", "MeanName↑菜单名称↑1↓CreateTime↑CreateTime↑3↓MeanClass↑MeanClass↑2↑sql◇SELECT DISTINCT([MeanClass]) AS 'key',([MeanClass]) as 'value'  FROM [qds108295464_db].[dbo].[t_Mean]");
+            textcs = textcs.Replace("*sqlStr*", "SELECT * FROM [qds108295464_db].[dbo].[t_Mean] where 1=1  ");
             File.WriteAllText(HttpContext.Current.Server.MapPath("~/Admin/Aspx/" + InstanceURL + ".aspx.cs"), textcs, Encoding.UTF8);
             //designer
             string textde= "namespace AdminLTE.Admin.Aspx{public partial class " + "Mean" + "{}}";
