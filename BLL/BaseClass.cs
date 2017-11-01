@@ -195,7 +195,10 @@ namespace BLL
             {
                 if (dt.Rows[i]["FieldStatusID"].ToString() == "1")
                 {
-                    sb.Append("<th>" + dt.Rows[i]["FieldValue"].ToString() + "</th>");
+                    string healder = "";
+                    if (dt.Rows[i]["FieldHealder"].ToString() != "")
+                        healder = dt.Rows[i]["FieldHealder"].ToString();
+                    sb.Append("<th>" + healder + dt.Rows[i]["FieldValue"].ToString() + "</th>");
                     string data = "data";
                     if (dt.Rows[i]["FieldData"].ToString() != "")
                         data = dt.Rows[i]["FieldData"].ToString();

@@ -146,6 +146,8 @@
             }
             table = $('#example').dataTable({
                 "dom": "t<'row'<'#id.col-xs-2 table-l'l><'#id.col-xs-3'i><'#id.col-xs-6 table-p'p>>r",
+                "aoColumnDefs": [{ "bSortable": false, "aTargets": [0] }],
+                "aaSorting": [[1, "desc"]],
                 "lengthChange": true,
                 "autoWidth": false,
                 "aLengthMenu": [25, 50, 100, 200],
