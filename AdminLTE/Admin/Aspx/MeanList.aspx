@@ -126,7 +126,7 @@
     <!-- page script -->
     <script src="../../Script/js/cyfs.js"></script>
     <script> 
-        var columnsJson = '<%=columnsJson%>';
+        var columnsJson = <%=columnsJson%>;
         $(document).ready(function () {
             getJsonData("getDate");
             //Date picker
@@ -156,7 +156,7 @@
                 "serverSide": true,  //启用服务器端分页
                 "searching": false,  //禁用原生搜索
                 "orderMulti": true,  //启用多列排序
-                "columns": JSON.parse(columnsJson),
+                "columns": columnsJson,
                 "oLanguage": oLanguage,
                 ajax: function (data, callback, settings) {
                     var values = $('#selectWhere').find('input,select').serializeArray();

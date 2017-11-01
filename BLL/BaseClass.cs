@@ -196,7 +196,10 @@ namespace BLL
                 if (dt.Rows[i]["FieldStatusID"].ToString() == "1")
                 {
                     sb.Append("<th>" + dt.Rows[i]["FieldValue"].ToString() + "</th>");
-                    sbjson.Append("{\"data\": \"" + dt.Rows[i]["FieldKey"].ToString() + "\"},");
+                    string data = "data";
+                    if (dt.Rows[i]["FieldData"].ToString() != "")
+                        data = dt.Rows[i]["FieldData"].ToString();
+                    sbjson.Append("{\"data\": \"" + dt.Rows[i]["FieldKey"].ToString() + "\", render: function (data, type, row) { return  " + data + " }},");
                 }
             }
             sb.Append("</tr></thead>");
