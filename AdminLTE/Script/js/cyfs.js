@@ -29,8 +29,9 @@
             return strPage;
         }
         //全选
-        function OnCheckboxSelectAll(){
-            if ($("#selectAll").prop("checked")) {
+        function OnCheckboxSelectAll(obj) {
+            alert(1);
+            if ($(obj).prop("checked")) {
                 $("input[name='checkboxGuid']").prop("checked", 'true');//全选 
             } else {
                 $("input[name='checkboxGuid']").prop("checked", '');//取消全选 

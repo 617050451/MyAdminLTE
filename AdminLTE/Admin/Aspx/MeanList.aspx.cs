@@ -13,7 +13,7 @@ namespace AdminLTE.Admin.Aspx
     public partial class MeanList : System.Web.UI.Page
     {
 	    public string columnsJson = "";
-        public string guid = "9D2512E9-6FF4-4E7E-BBB8-23DE83755D18";//9D2512E9-6FF4-4E7E-BBB8-23DE83755D18
+        public string guid = "9D2512E9-6FF4-4E7E-BBB8-23DE83755D18";
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -32,7 +32,7 @@ namespace AdminLTE.Admin.Aspx
                         {
                             string tsql = tableInfo.Rows[0]["TSQL"].ToString();
                             DataTable dt = JsonHelper.DeserializeJsonToObject<DataTable>(PageData);
-                            string sqlStr = tsql + BLL.BaseClass.setStrWhere(dt);
+                            string sqlStr = BLL.BaseClass.getTSQLWhere(tsql, BLL.BaseClass.setStrWhere(dt));
                             getDataJson(BLL.BaseClass.getDataTable(sqlStr), PageIndex, PageSize);
                         }
                     }
@@ -40,11 +40,14 @@ namespace AdminLTE.Admin.Aspx
                 else
                 {
                     DataTable tableFieldInfo = BLL.BaseClass.getTableFieldInfo(guid);
-                    lblhead.Text = BLL.BaseClass.getTableHtml(tableFieldInfo, ref columnsJson);
-                    lblStrWhere.Text = BaseClass.setStrWhereHtml(tableFieldInfo);
+                    ltlhead.Text = BLL.BaseClass.getTableHtml(tableFieldInfo, ref columnsJson);
+                    ltlStrWhere.Text = BaseClass.setStrWhereHtml(tableFieldInfo);
+					ltlbnt.Text= "<button type=\"button\" class=\"btn btn-link\" onclick=\"OnCheckboxSelectAll(this)\">全选</button><button type=\"button\" class=\"btn btn-primary btn-xs\">原始按钮</button>";
                 }
             }
 			//StartWriteOne
+            
+            
             //EndWriteOne
         }
         //获取数据
@@ -66,6 +69,8 @@ namespace AdminLTE.Admin.Aspx
                 Response.End();
             }
 			//StartWriteTwo
+            
+            
             //EndWriteTwo
         }
     }

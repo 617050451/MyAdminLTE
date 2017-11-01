@@ -51,9 +51,9 @@ namespace AdminLTE.Admin.Temp
                 string textde = @"namespace AdminLTE.Admin.Aspx{
                 public partial class " + InstanceURL +
                        "{" +
-                           "protected global::System.Web.UI.WebControls.Literal lblhead;" +
-                           "protected global::System.Web.UI.WebControls.Literal lblStrWhere;" +
-                           "protected global::System.Web.UI.WebControls.HiddenField hide_ccolumns;}" +
+                           "protected global::System.Web.UI.WebControls.Literal ltlhead;" +
+                           "protected global::System.Web.UI.WebControls.Literal ltlStrWhere;" +
+                           "protected global::System.Web.UI.WebControls.Literal ltlbnt;}" +
                        "}";
                 File.WriteAllText(HttpContext.Current.Server.MapPath("~/Admin/Aspx/" + InstanceURL + ".aspx.designer.cs"), textde, Encoding.UTF8);
             }

@@ -30,40 +30,7 @@
   <![endif]-->
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
-    <style>
-        table {
-            table-layout: fixed;
-        }
-
-        td {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        tr:hover td {
-            height: auto;
-            white-space: normal;
-        }
-
-        .table-l {
-            width: 190px;
-            margin-top: 5px;
-        }
-
-        .table-p {
-            float: right;
-        }
-
-        .table-s {
-            margin-bottom: 5px;
-        }
-
-        .table-label {
-            width: auto;
-            padding-top: 6px;
-        }
-    </style>
+    <link href="../../Script/js/cyfs.css" rel="stylesheet" />
 </head>
 <body>
     <form id="form1" runat="server">
@@ -79,7 +46,7 @@
                 </div>
                 <div class="box box-danger">
                     <div class="box-body" id="selectWhere">
-                         <asp:Literal ID="lblStrWhere" runat="server" Text=""></asp:Literal> 
+                         <asp:Literal ID="ltlStrWhere" runat="server" Text=""></asp:Literal> 
                     </div>
                 </div>
                 <!-- /.box-body -->
@@ -91,9 +58,10 @@
                             <h3 class="box-title">title</h3>
                         </div>--%>
                         <!-- /.box-header -->
-                        <div class="box-body">
+                        <div class="box-body">	
+						    <asp:Literal ID="ltlbnt" runat="server" Text=""></asp:Literal>
                             <table id="example" class="table table-bordered table-hover">
-                                <asp:Literal ID="lblhead" runat="server" Text=""></asp:Literal> 
+                                <asp:Literal ID="ltlhead" runat="server" Text=""></asp:Literal> 
                             </table>
                         </div>
                         <!-- /.box-body -->
@@ -146,8 +114,8 @@
             }
             table = $('#example').dataTable({
                 "dom": "t<'row'<'#id.col-xs-2 table-l'l><'#id.col-xs-3'i><'#id.col-xs-6 table-p'p>>r",
-                "aoColumnDefs": [{ "bSortable": false, "aTargets": [0] }],
-                "aaSorting": [[1, "desc"]],
+				"aoColumnDefs": [{ "bSortable": false, "aTargets": [0]}],
+				"aaSorting": [[1, "asc"]],
                 "lengthChange": true,
                 "autoWidth": false,
                 "aLengthMenu": [25, 50, 100, 200],
@@ -196,6 +164,16 @@
                     });
                 }
             });
+        }
+        //全选
+        function OnCheckboxSelectAll(obj) {
+            if ($(obj).text() == "全选") {
+                $(obj).text("取消全选");
+                $("input[name='checkboxGuid']").prop("checked", 'true');//全选 
+            } else {
+                $(obj).text("全选");
+                $("input[name='checkboxGuid']").prop("checked", '');//取消全选 
+            }
         }
     </script>
 </body>

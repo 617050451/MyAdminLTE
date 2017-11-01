@@ -1,0 +1,32 @@
+﻿table {
+    table-layout: fixed;
+}
+
+td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+tr:hover td {
+    height: auto;
+    white-space: normal;
+}
+
+.table-l {
+    width: 190px;
+    margin-top: 5px;
+}
+
+.table-p {
+    float: right;
+}
+
+.table-s {
+    margin-bottom: 5px;
+}
+
+.table-label {
+    width: auto;
+    padding-top: 6px;
+}

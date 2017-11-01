@@ -120,14 +120,14 @@ namespace BLL
                         switch (type)
                         {
                             case "1":
-                                strWhere += " and " + name + " like '%" + dt.Rows[i]["value"].ToString() + "%'";
+                                strWhere += (strWhere != "" ? " and " : "") + name + " like '%" + dt.Rows[i]["value"].ToString() + "%'";
                                 break;
                             case "2":
                                 if (dt.Rows[i]["value"].ToString() != "0")
-                                    strWhere += " and " + name + " = '" + dt.Rows[i]["value"].ToString() + "'";
+                                    strWhere += (strWhere != "" ? " and " : "") + name + " = '" + dt.Rows[i]["value"].ToString() + "'";
                                 break;
                             case "3":
-                                strWhere += " and convert(varchar(50)," + name + ",23) = '" + dt.Rows[i]["value"].ToString() + "'";
+                                strWhere += (strWhere != "" ? " and " : "") + " convert(varchar(50)," + name + ",23) = '" + dt.Rows[i]["value"].ToString() + "'";
                                 break;
                             default:
                                 break;
@@ -195,10 +195,11 @@ namespace BLL
             {
                 if (dt.Rows[i]["FieldStatusID"].ToString() == "1")
                 {
-                    string healder = "";
-                    if (dt.Rows[i]["FieldHealder"].ToString() != "")
-                        healder = dt.Rows[i]["FieldHealder"].ToString();
-                    sb.Append("<th>" + healder + dt.Rows[i]["FieldValue"].ToString() + "</th>");
+                    //string healder = "";
+                    //if (dt.Rows[i]["FieldHealder"].ToString() != "")
+                    //    healder = dt.Rows[i]["FieldHealder"].ToString();
+                    //sb.Append("<th>" + healder + dt.Rows[i]["FieldValue"].ToString() + "</th>");
+                    sb.Append("<th>" + dt.Rows[i]["FieldValue"].ToString() + "</th>");
                     string data = "data";
                     if (dt.Rows[i]["FieldData"].ToString() != "")
                         data = dt.Rows[i]["FieldData"].ToString();
@@ -208,6 +209,32 @@ namespace BLL
             sb.Append("</tr></thead>");
             columnsJson = "[" + sbjson.ToString().TrimEnd(',') + "]";
             return sb.ToString();
+        }
+        //sql解析拼接
+        public static string getTSQLWhere(string sql, string where)
+        {
+            sql = sql.ToUpper();
+            string sqlwhere = "";
+            if (where != "")
+            {
+                if (sql.Contains("WHERE") ? true : false)
+                {
+                    sqlwhere = sql.Replace("WHERE", " where " + where + " and ");
+                }
+                else if (sql.Contains("ORDER BY") ? true : false)
+                {
+                    sqlwhere = sql.Replace("ORDER BY", " where " + where + " order by ");
+                }
+                else
+                {
+                    sqlwhere = sql + " where " + where;
+                }
+            }
+            else
+            {
+                sqlwhere = sql;
+            }
+            return sqlwhere;
         }
     }
 }

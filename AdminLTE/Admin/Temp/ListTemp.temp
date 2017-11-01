@@ -79,7 +79,7 @@
                 </div>
                 <div class="box box-danger">
                     <div class="box-body" id="selectWhere">
-                         <asp:Literal ID="lblStrWhere" runat="server" Text=""></asp:Literal> 
+                         <asp:Literal ID="ltlStrWhere" runat="server" Text=""></asp:Literal> 
                     </div>
                 </div>
                 <!-- /.box-body -->
@@ -91,9 +91,10 @@
                             <h3 class="box-title">title</h3>
                         </div>--%>
                         <!-- /.box-header -->
-                        <div class="box-body">
+                        <div class="box-body">	
+						    <asp:Literal ID="ltlbnt" runat="server" Text=""></asp:Literal>
                             <table id="example" class="table table-bordered table-hover">
-                                <asp:Literal ID="lblhead" runat="server" Text=""></asp:Literal> 
+                                <asp:Literal ID="ltlhead" runat="server" Text=""></asp:Literal> 
                             </table>
                         </div>
                         <!-- /.box-body -->
@@ -146,6 +147,8 @@
             }
             table = $('#example').dataTable({
                 "dom": "t<'row'<'#id.col-xs-2 table-l'l><'#id.col-xs-3'i><'#id.col-xs-6 table-p'p>>r",
+				"aoColumnDefs": [{ "bSortable": false, "aTargets": [0]}],
+				"aaSorting": [[1, "asc"]],
                 "lengthChange": true,
                 "autoWidth": false,
                 "aLengthMenu": [25, 50, 100, 200],
