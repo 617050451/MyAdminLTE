@@ -10,10 +10,10 @@ using BLL;
 
 namespace AdminLTE.Admin.Aspx
 {
-    public partial class Mean : System.Web.UI.Page
+    public partial class MeanList : System.Web.UI.Page
     {
-        public string columnsJson = "";
-        public string guid = "*guid*";//9D2512E9-6FF4-4E7E-BBB8-23DE83755D18
+	    public string columnsJson = "";
+        public string guid = "9D2512E9-6FF4-4E7E-BBB8-23DE83755D18";//9D2512E9-6FF4-4E7E-BBB8-23DE83755D18
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)

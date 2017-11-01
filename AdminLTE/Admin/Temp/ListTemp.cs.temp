@@ -12,9 +12,8 @@ namespace AdminLTE.Admin.Aspx
 {
     public partial class *class* : System.Web.UI.Page
     {
-        public static string listColumn = "*listColumn*";
-		public static string SQLWhere ="*SQLWhere*";
-
+	    public string columnsJson = "";
+        public string guid = "*guid*";
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -28,15 +27,21 @@ namespace AdminLTE.Admin.Aspx
                 {
                     if (GetType == "getDate")
                     {
-                        DataTable dt = JsonHelper.DeserializeJsonToObject<DataTable>(PageData);
-                        string sqlStr = string.Format(@"*sqlStr*" + getSQLWhere(dt));
-                        getDataJson(BLL.BaseClass.getDataTable(sqlStr), PageIndex, PageSize);
+                        DataTable tableInfo = BLL.BaseClass.getTableInfo(guid);
+                        if (tableInfo != null && tableInfo.Rows.Count > 0)
+                        {
+                            string tsql = tableInfo.Rows[0]["TSQL"].ToString();
+                            DataTable dt = JsonHelper.DeserializeJsonToObject<DataTable>(PageData);
+                            string sqlStr = tsql + BLL.BaseClass.setStrWhere(dt);
+                            getDataJson(BLL.BaseClass.getDataTable(sqlStr), PageIndex, PageSize);
+                        }
                     }
-                    else if (GetType == "setHtml")
-                    {
-                        Response.Write(BaseClass.setStrHtml(SQLWhere));
-                        Response.End();
-                    }
+                }
+                else
+                {
+                    DataTable tableFieldInfo = BLL.BaseClass.getTableFieldInfo(guid);
+                    lblhead.Text = BLL.BaseClass.getTableHtml(tableFieldInfo, ref columnsJson);
+                    lblStrWhere.Text = BaseClass.setStrWhereHtml(tableFieldInfo);
                 }
             }
 			//StartWriteOne
@@ -62,23 +67,6 @@ namespace AdminLTE.Admin.Aspx
             }
 			//StartWriteTwo
             //EndWriteTwo
-        }
-        //高级查询
-        string getSQLWhere(DataTable dt)
-        {
-            string strWhere = "";
-            if (dt != null && dt.Rows.Count > 0)
-            { 
-                for (int i = 0; i < dt.Rows.Count; i++)
-                {
-                    if (dt.Rows[i]["value"].ToString() != "")
-                    {
-                       string[] list = dt.Rows[i]["name"].ToString().Split('|');
-                       strWhere += BaseClass.setStrWhere(list[0], dt.Rows[i]["value"].ToString(), list[1]);
-                    }
-                }
-            }
-            return strWhere;
         }
     }
 }

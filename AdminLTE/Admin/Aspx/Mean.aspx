@@ -1,11 +1,9 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Mean.aspx.cs" Inherits="AdminLTE.Admin.Aspx.Mean" ValidateRequest="false" %>
 
 <!DOCTYPE html>
-
-
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
-    <title></title>
+    <title>*title*</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
@@ -81,6 +79,7 @@
                 </div>
                 <div class="box box-danger">
                     <div class="box-body" id="selectWhere">
+                         <asp:Literal ID="lblStrWhere" runat="server" Text=""></asp:Literal> 
                     </div>
                 </div>
                 <!-- /.box-body -->
@@ -94,6 +93,7 @@
                         <!-- /.box-header -->
                         <div class="box-body">
                             <table id="example" class="table table-bordered table-hover">
+                                <asp:Literal ID="lblhead" runat="server" Text=""></asp:Literal> 
                             </table>
                         </div>
                         <!-- /.box-body -->
@@ -124,11 +124,11 @@
     <script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
     <script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.zh-CN.js"></script>
     <!-- page script -->
+    <script src="../../Script/js/cyfs.js"></script>
     <script> 
-        var htmlURL = pageName();
-        var columns = [];
+        var columnsJson = '<%=columnsJson%>';
         $(document).ready(function () {
-            setHtml();
+            getJsonData("getDate");
             //Date picker
             $('input[data-type=datepicker]').datepicker({
                 language: 'zh-CN',
@@ -137,32 +137,6 @@
                 format: 'yyyy-mm-dd'
             });
         });
-        //设置页面
-        function setHtml() {
-            var param = {};
-            param.gettype = "setHtml";
-            $.ajax({
-                type: "GET",
-                url: htmlURL,
-                cache: false,  //禁用缓存
-                data: param,  //传入组装的参数
-                dataType: "text",
-                async: false,
-                success: function (result) {
-                    var list = result.split('◇');
-                    if (list.length > 0) {
-                        $("#example").append(list[0]);
-                        var listc = list[1].split('|');
-                        for (var i = 0; i < listc.length - 1; i++) {
-                            columns[i] = { "data": listc[i] };
-                        }
-                        $("#selectWhere").append(list[2]);
-                        getJsonData("getDate");
-                    }
-                }
-            });
-
-        }
         //获取数据
         var table;
         function getJsonData(type) {
@@ -182,7 +156,7 @@
                 "serverSide": true,  //启用服务器端分页
                 "searching": false,  //禁用原生搜索
                 "orderMulti": true,  //启用多列排序
-                "columns": columns,
+                "columns": JSON.parse(columnsJson),
                 "oLanguage": oLanguage,
                 ajax: function (data, callback, settings) {
                     var values = $('#selectWhere').find('input,select').serializeArray();
@@ -196,7 +170,7 @@
                     //ajax请求数据
                     $.ajax({
                         type: "GET",
-                        url: htmlURL,
+                        url: pageName(),
                         cache: false,  //禁用缓存
                         data: param,  //传入组装的参数
                         dataType: "json",
@@ -220,36 +194,6 @@
                     });
                 }
             });
-        }
-        //获取url参数        
-        function getQueryString(key) {
-            var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
-            var result = window.location.search.substr(1).match(reg);
-            return result ? decodeURIComponent(result[2]) : null;
-        }
-        // 语言设置  
-        var oLanguage = {
-            "sProcessing": "处理中...",
-            "sLengthMenu": "每页显示 _MENU_ 条记录",
-            "sZeroRecords": "抱歉， 没有找到",
-            "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
-            "sInfoEmpty": "",
-            "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
-            "sZeroRecords": "没有检索到数据",
-            "sSearch": "检索:",
-            "oPaginate": {
-                "sFirst": "首页",
-                "sPrevious": "前一页",
-                "sNext": "后一页",
-                "sLast": "尾页"
-            }
-        }
-        //取当前页面名称(带后缀名)
-        function pageName() {
-            var strUrl = location.href;
-            var arrUrl = strUrl.split("/");
-            var strPage = arrUrl[arrUrl.length - 1];
-            return strPage;
         }
     </script>
 </body>

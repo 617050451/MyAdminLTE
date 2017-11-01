@@ -54,7 +54,6 @@ namespace BLL
             commandText.Append(" ) ");//拼接成完整的字符串
             return DAL.SQLDBHelpercs.ExecuteNonQuery(commandText.ToString(), param, "sql");
         }
-
         //返回一个list<MODEL>
         public static List<Object> selectModel(string top, string strWhere, string orderby)
         {
@@ -76,7 +75,6 @@ namespace BLL
             }
             return Listobjectdata;
         }
-
         //返回DataTable
         public static DataTable getDataTable(string strSql)
         {
@@ -86,7 +84,7 @@ namespace BLL
             else
                 return null;
         }
-        //获取表格信息SELECT * FROM t_TableField WHERE TableGUID='9D2512E9-6FF4-4E7E-BBB8-23DE83755D18'
+        //获取表格信息
         public static DataTable getTableInfo(string guid)
         {
             string sql = string.Format("select * from t_Tables where guid='{0}'", guid);
@@ -99,7 +97,7 @@ namespace BLL
         //获取字段信息
         public static DataTable getTableFieldInfo(string guid)
         {
-            string sql = string.Format("SELECT * FROM t_TableField WHERE TableGUID='{0}'", guid);
+            string sql = string.Format("SELECT * FROM t_TableField WHERE TableGUID='{0}' order by  FieldOrder asc", guid);
             DataSet ds = DAL.SQLDBHelpercs.ExecuteReader(sql, null);
             if (ds != null && ds.Tables.Count > 0)
                 return ds.Tables[0];
@@ -107,69 +105,103 @@ namespace BLL
                 return null;
         }
         //高级查询
-        public static string setStrWhere(string columnName, string columnValue, string type)
+        public static string setStrWhere(DataTable dt)
         {
             string strWhere = "";
-            switch (type)
+            if (dt != null && dt.Rows.Count > 0)
             {
-                case "1":
-                    strWhere = " and " + columnName + " like '%" + columnValue + "%'";
-                    break;
-                case "2":
-                    if (columnValue != "0")
-                        strWhere = " and " + columnName + " = '" + columnValue + "'";
-                    break;
-                case "3":
-                    strWhere = " and convert(varchar(50)," + columnName + ",23) <= '" + columnValue + "'";
-                    break;
-                default:
-                    break;
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    if (dt.Rows[i]["value"].ToString() != "")
+                    {
+                        string[] list = dt.Rows[i]["name"].ToString().Split('|');
+                        string type = list[1];
+                        string name = list[0];
+                        switch (type)
+                        {
+                            case "1":
+                                strWhere += " and " + name + " like '%" + dt.Rows[i]["value"].ToString() + "%'";
+                                break;
+                            case "2":
+                                if (dt.Rows[i]["value"].ToString() != "0")
+                                    strWhere += " and " + name + " = '" + dt.Rows[i]["value"].ToString() + "'";
+                                break;
+                            case "3":
+                                strWhere += " and convert(varchar(50)," + name + ",23) = '" + dt.Rows[i]["value"].ToString() + "'";
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
             }
             return strWhere;
         }
-        //页面加载设置
-        public static string setStrHtml(string sqlStr)
+        //设置高级查询
+        public static string setStrWhereHtml(DataTable dt)
         {
-            string[] list = sqlStr.Split('↓');
             string strHtml = "";
-            for (var i = 0; i < list.Length; i++)
+            if (dt != null && dt.Rows.Count > 0)
             {
-                string[] listc = list[i].Split('↑');
-                strHtml += "<div class=\"col-lg-2 col-xs-5 table-s\">";
-                if (listc[2] == "1")
+                for (int i = 0; i < dt.Rows.Count; i++)
                 {
-                    strHtml += "<label class=\"col-xs control-label table-label\">" + listc[1] + "</label >";
-                    strHtml += "<input type=\"text\" name=\"" + listc[0] + "|" + listc[2] + "\"  class=\"form-control\" placeholder=\"" + listc[1] + "\" />";
-                }
-                else if (listc[2] == "2")
-                {
-                    strHtml += "<label class=\"col-xs control-label table-label\">" + listc[1] + "</label >";
-                    strHtml += "<select name=\"" + listc[0] + "|" + listc[2] + "\" class=\"form-control select2 select2-hidden-accessible\"  tabindex=\"-1\" aria-hidden=\"true\" >";
-                    strHtml += "<option selected = \"selected\" value = \"0\" >全部</option >";
-                    string[] listw = listc[3].Split('◇');
-                    if (listw[0].ToUpper() == "SQL")
+                    string type = dt.Rows[i]["SelectType"].ToString();
+                    switch (type)
                     {
-                        string sql = listw[1];
-                        DataTable dt = BaseClass.getDataTable(sql);
-                        if (dt != null && dt.Rows.Count > 0)
-                        {
-                            for (int j = 0; j < dt.Rows.Count; j++)
+                        case "1":
+                            strHtml += "<div class=\"col-lg-2 col-xs-5 table-s\">";
+                            strHtml += "<label class=\"col-xs control-label table-label\">" + dt.Rows[i]["FieldValue"].ToString() + "<span class=\"text-danger\">（模糊查询）</span></label >";
+                            strHtml += "<input type=\"text\" name=\"" + dt.Rows[i]["FieldKey"].ToString() + "|" + dt.Rows[i]["SelectType"].ToString() + "\"  class=\"form-control\" placeholder=\"" + dt.Rows[i]["FieldValue"].ToString() + "\" />";
+                            strHtml += "</div>";
+                            break;
+                        case "2":
+                            strHtml += "<div class=\"col-lg-2 col-xs-5 table-s\">";
+                            strHtml += "<label class=\"col-xs control-label table-label\">" + dt.Rows[i]["FieldValue"].ToString() + "<span class=\"text-danger\">（下拉查询）</span></label >";
+                            strHtml += "<select name=\"" + dt.Rows[i]["FieldKey"].ToString() + "|" + dt.Rows[i]["SelectType"].ToString() + "\" class=\"form-control select2 select2-hidden-accessible\"  tabindex=\"-1\" aria-hidden=\"true\" >";
+                            strHtml += "<option selected = \"selected\" value = \"0\" >全部</option >";
+                            string tsql = dt.Rows[i]["SelectTSQL"].ToString();
+                            DataTable tsqldt = BaseClass.getDataTable(tsql);
+                            if (tsqldt != null && tsqldt.Rows.Count > 0)
                             {
-                                strHtml += "<option value = \"" + dt.Rows[j][1].ToString() + "\" >" + dt.Rows[j][0].ToString() + "</option >";
+                                for (int j = 0; j < tsqldt.Rows.Count; j++)
+                                {
+                                    strHtml += "<option value = \"" + tsqldt.Rows[j][1].ToString() + "\" >" + tsqldt.Rows[j][0].ToString() + "</option >";
+                                }
                             }
-                        }
+                            strHtml += "</select>";
+                            strHtml += "</div>";
+                            break;
+                        case "3":
+                            strHtml += "<div class=\"col-lg-2 col-xs-5 table-s\">";
+                            strHtml += "<label class=\"col-xs control-label table-label\">" + dt.Rows[i]["FieldValue"].ToString() + "<span class=\"text-danger\">（等于查询）<span></label >";
+                            strHtml += "<input type=\"text\" name=\"" + dt.Rows[i]["FieldKey"].ToString() + "|" + dt.Rows[i]["SelectType"].ToString() + "\" data-type=\"datepicker\"  class=\"form-control\" placeholder=\"" + dt.Rows[i]["FieldValue"].ToString() + "\" />";
+                            strHtml += "</div>";
+                            break;
+                        default:
+                            break;
                     }
-                    strHtml += "</select>";
                 }
-                else if (listc[2] == "3")
-                {
-                    strHtml += "<label class=\"col-xs control-label table-label\">" + listc[1] + "</label >";
-                    strHtml += "<input type=\"text\" name=\"" + listc[0] + "|" + listc[2] + "\" data-type=\"datepicker\"  class=\"form-control\" placeholder=\"" + listc[1] + "\" />";
-                }
-                strHtml += "</div>";
+                strHtml += "<div class=\"col-sm-1 table-p\" style=\"margin-top:30px;\"><button type =\"button\" class=\"btn btn-danger pull-right btn-block btn-primary\" onclick=\"getJsonData('select')\">查询</button></div>";
             }
-            strHtml += "<div class=\"col-sm-1 table-p\" style=\"margin-top:30px;\"><button type =\"button\" class=\"btn btn-danger pull-right btn-block btn-primary\" onclick=\"getJsonData('select')\">查询</button></div>";
             return strHtml;
+        }
+        //设置表格
+        public static string getTableHtml(DataTable dt, ref string columnsJson)
+        {
+            StringBuilder sb = new StringBuilder();
+            StringBuilder sbjson = new StringBuilder();
+            sb.Append("<thead><tr>");
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                if (dt.Rows[i]["FieldStatusID"].ToString() == "1")
+                {
+                    sb.Append("<th>" + dt.Rows[i]["FieldValue"].ToString() + "</th>");
+                    sbjson.Append("{\"data\": \"" + dt.Rows[i]["FieldKey"].ToString() + "\"},");
+                }
+            }
+            sb.Append("</tr></thead>");
+            columnsJson = "[" + sbjson.ToString().TrimEnd(',') + "]";
+            return sb.ToString();
         }
     }
 }

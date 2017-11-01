@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Admin\Aspx\Mean.aspx" />
+    <Content Include="Admin\Aspx\MeanList.aspx" />
     <Content Include="Admin\DMS\DMS.aspx" />
     <Content Include="Admin\Home\DataList.aspx" />
     <Content Include="Admin\Home\index.aspx" />
@@ -6717,6 +6718,7 @@
     <Content Include="Script\AdminLTE-2.4.2\plugins\timepicker\bootstrap-timepicker.min.css" />
     <Content Include="Script\AdminLTE-2.4.2\plugins\timepicker\bootstrap-timepicker.min.js" />
     <Content Include="Script\AdminLTE-2.4.2\starter.html" />
+    <Content Include="Script\js\cyfs.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -6728,6 +6730,13 @@
     </Compile>
     <Compile Include="Admin\Aspx\Mean.aspx.designer.cs">
       <DependentUpon>Mean.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Aspx\MeanList.aspx.cs">
+      <DependentUpon>MeanList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Aspx\MeanList.aspx.designer.cs">
+      <DependentUpon>MeanList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\DMS\DMS.aspx.cs">
       <DependentUpon>DMS.aspx</DependentUpon>

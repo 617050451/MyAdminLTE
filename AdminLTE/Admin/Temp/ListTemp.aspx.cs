@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -19,32 +20,43 @@ namespace AdminLTE.Admin.Temp
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            //aspx
-            string InstanceURL = "Mean";
-            string text = File.ReadAllText(HttpContext.Current.Server.MapPath("~/Admin/Temp/ListTemp.temp"));
-            text = text.Replace("*name*", "Mean");
-            File.WriteAllText(HttpContext.Current.Server.MapPath("~/Admin/Aspx/" + InstanceURL + ".aspx"), text, Encoding.UTF8);
-            //cs
-            string textcs = File.ReadAllText(HttpContext.Current.Server.MapPath("~/Admin/Temp/ListTemp.cs.temp"));
-            try
+            string guid = "9D2512E9-6FF4-4E7E-BBB8-23DE83755D18";
+            DataTable dt = BLL.BaseClass.getTableInfo(guid);
+            if (dt != null && dt.Rows.Count > 0)
             {
-                string result = File.ReadAllText(HttpContext.Current.Server.MapPath("~/Admin/Aspx/" + InstanceURL + ".aspx.cs"));
-                string one = Regex.Match(result, "(?<=(//StartWriteOne))[.\\s\\S]*?(?=(//EndWriteOne))", RegexOptions.Multiline | RegexOptions.Singleline).Value;
-                string two = Regex.Match(result, "(?<=(//StartWriteTwo))[.\\s\\S]*?(?=(//EndWriteTwo))", RegexOptions.Multiline | RegexOptions.Singleline).Value;
-                textcs = textcs.Replace("//StartWriteOne", "//StartWriteOne" + one);
-                textcs = textcs.Replace("//StartWriteTwo", "//StartWriteTwo" + two);
+                //aspx
+                string InstanceURL = dt.Rows[0]["FileName"].ToString();
+                string Title = dt.Rows[0]["Title"].ToString();
+                string text = File.ReadAllText(HttpContext.Current.Server.MapPath("~/Admin/Temp/ListTemp.temp"));
+                text = text.Replace("*name*", InstanceURL);
+                text = text.Replace("*title*", Title);
+                File.WriteAllText(HttpContext.Current.Server.MapPath("~/Admin/Aspx/" + InstanceURL + ".aspx"), text, Encoding.UTF8);
+                //cs
+                string textcs = File.ReadAllText(HttpContext.Current.Server.MapPath("~/Admin/Temp/ListTemp.cs.temp"));
+                try
+                {
+                    string result = File.ReadAllText(HttpContext.Current.Server.MapPath("~/Admin/Aspx/" + InstanceURL + ".aspx.cs"));
+                    string one = Regex.Match(result, "(?<=(//StartWriteOne))[.\\s\\S]*?(?=(//EndWriteOne))", RegexOptions.Multiline | RegexOptions.Singleline).Value;
+                    string two = Regex.Match(result, "(?<=(//StartWriteTwo))[.\\s\\S]*?(?=(//EndWriteTwo))", RegexOptions.Multiline | RegexOptions.Singleline).Value;
+                    textcs = textcs.Replace("//StartWriteOne", "//StartWriteOne" + one);
+                    textcs = textcs.Replace("//StartWriteTwo", "//StartWriteTwo" + two);
+                }
+                catch (Exception)
+                {
+                }
+                textcs = textcs.Replace("*class*", InstanceURL);
+                textcs = textcs.Replace("*guid*", guid);
+                File.WriteAllText(HttpContext.Current.Server.MapPath("~/Admin/Aspx/" + InstanceURL + ".aspx.cs"), textcs, Encoding.UTF8);
+                //designer
+                string textde = @"namespace AdminLTE.Admin.Aspx{
+                public partial class " + InstanceURL +
+                       "{" +
+                           "protected global::System.Web.UI.WebControls.Literal lblhead;" +
+                           "protected global::System.Web.UI.WebControls.Literal lblStrWhere;" +
+                           "protected global::System.Web.UI.WebControls.HiddenField hide_ccolumns;}" +
+                       "}";
+                File.WriteAllText(HttpContext.Current.Server.MapPath("~/Admin/Aspx/" + InstanceURL + ".aspx.designer.cs"), textde, Encoding.UTF8);
             }
-            catch (Exception)
-            {
-            }
-            textcs = textcs.Replace("*class*", InstanceURL);
-            textcs = textcs.Replace("*listColumn*", "GUID|菜单编号|1,ParentID|父级菜单|1,MeanHeader|菜单Header|1,MeanName|菜单名称|1");
-            textcs = textcs.Replace("*SQLWhere*", "MeanName↑菜单名称↑1↓CreateTime↑CreateTime↑3↓MeanClass↑MeanClass↑2↑sql◇SELECT DISTINCT([MeanClass]) AS 'key',([MeanClass]) as 'value'  FROM [qds108295464_db].[dbo].[t_Mean]");
-            textcs = textcs.Replace("*sqlStr*", "SELECT * FROM [qds108295464_db].[dbo].[t_Mean] where 1=1  ");
-            File.WriteAllText(HttpContext.Current.Server.MapPath("~/Admin/Aspx/" + InstanceURL + ".aspx.cs"), textcs, Encoding.UTF8);
-            //designer
-            string textde= "namespace AdminLTE.Admin.Aspx{public partial class " + "Mean" + "{}}";
-            File.WriteAllText(HttpContext.Current.Server.MapPath("~/Admin/Aspx/" + InstanceURL + ".aspx.designer.cs"), textde, Encoding.UTF8);
         }
     }
 }
