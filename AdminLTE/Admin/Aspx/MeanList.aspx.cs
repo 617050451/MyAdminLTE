@@ -43,6 +43,12 @@ namespace AdminLTE.Admin.Aspx
                         Response.Write(BLL.BaseClass.deleteGUID(tableInfo, values));
                         Response.End();
                     }
+                    else if (GetType == "SumData")
+                    {
+                        string values = Request.QueryString["values"];
+                        Response.Write(BLL.BaseClass.deleteGUID(tableInfo, values));
+                        Response.End();
+                    }
                 }
                 else
                 {
@@ -51,10 +57,9 @@ namespace AdminLTE.Admin.Aspx
                     ltlhead.Text = BLL.BaseClass.getTableHtml(tableFieldInfo, tableInfo.Rows[0]["choice"].ToString(), ref columnsJson);
                     ltlStrWhere.Text = BaseClass.setStrWhereHtml(tableFieldInfo);
 					ltlbnt.Text = BLL.BaseClass.setBntHtml(tableInfo);
-                    ltlSum.Text = "<span class=\"label label-danger\">交易总金额：20（元）</span>&nbsp;<span class=\"label label-warning\">总营业额：1245.15（元）</span>&nbsp;<span class=\"label label-info\">总笔数：20（笔）</span>";
                 }
             }
-			//StartWriteOne                                                         
+			//StartWriteOne                                                                                
             //EndWriteOne
         }
     }

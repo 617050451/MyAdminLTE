@@ -30,40 +30,6 @@
   <![endif]-->
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
-    <style>
-        table {
-            table-layout: fixed;
-        }
-
-        td {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        tr:hover td {
-            height: auto;
-            white-space: normal;
-        }
-
-        .table-l {
-            width: 190px;
-            margin-top: 5px;
-        }
-
-        .table-p {
-            float: right;
-        }
-
-        .table-s {
-            margin-bottom: 5px;
-        }
-
-        .table-label {
-            width: auto;
-            padding-top: 6px;
-        }
-    </style>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -91,12 +57,11 @@
                             <h3 class="box-title">title</h3>
                         </div>--%>
                         <!-- /.box-header -->
-                        <div class="box-body">
+                        <div class="box-body">	
                             <div class="pull-left" style="margin:1px;">
                                 <asp:Literal ID="ltlbnt" runat="server" Text=""></asp:Literal>
                             </div>
-                            <div class="pull-right">
-                                <asp:Literal ID="ltlSum" runat="server" Text=""></asp:Literal>
+                            <div id="ltlSum" class="pull-right">
                             </div>
                             <table id="example" class="table table-bordered table-hover">
                                 <asp:Literal ID="ltlhead" runat="server" Text=""></asp:Literal> 
@@ -110,7 +75,6 @@
             </div>
             <!-- /.row -->
         </section>
-		<input id="hide_guid" type="hidden" />
     </form>
     <!-- jQuery 3 -->
     <script src="../../Script/AdminLTE-2.4.2/bower_components/jquery/dist/jquery.min.js"></script>
@@ -131,11 +95,12 @@
     <script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
     <script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.zh-CN.js"></script>
     <!-- page script -->
+	<link href="../../Script/js/cyfs.css" rel="stylesheet" />
     <script src="../../Script/layer-v3.1.0/layer/layer.js"></script>
     <script src="../../Script/js/cyfs.js"></script>
     <script> 
         var columnsJson = <%=columnsJson%>;
-        $(document).ready(function () {     
+        $(document).ready(function () {
             getJsonData("getDate");
             //Date picker
             $('input[data-type=datepicker]').datepicker({
@@ -198,7 +163,8 @@
                                     //调用DataTables提供的callback方法，代表数据已封装完成并传回DataTables进行渲染
                                     //此时的数据需确保正确无误，异常判断应在执行此回调前自行处理完毕
                                     callback(returnData);
-									getDataAfter($("#hide_guid"));
+                                    $("#ltlSum").html(result.sumHtml);
+									getDataAfter();
                                 }, 200);
                             }
                         }

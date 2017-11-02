@@ -232,18 +232,18 @@ namespace BLL
         {
             string sqlStr = getTSQLWhere(tsql, setStrWhere(dt));
             DataTable tableJson = BLL.BaseClass.getDataTable(sqlStr);
-            if (dt != null)
+            if (tableJson != null)
             {
                 StringBuilder sb = new StringBuilder();
                 sb.Append("{\"total\":" + tableJson.Rows.Count + ",\"page\":1,\"limit\":" + PageSize + ",\"data\":");
                 string datatablejson = JsonHelper.DataTableToJsonWithJsonNet(tableJson);
                 sb.Append(datatablejson);
-                sb.Append("}");
+                sb.Append(",\"sumHtml\":\"<span class='label label-danger'>交易总金额：20（元）</span>&nbsp;<span class='label label-warning'>总营业额：1245.15（元）</span>&nbsp;<span class='label label-info'>总笔数：" + tableJson.Rows.Count + "（笔）</span>\"}");
                 return sb.ToString().Replace("\n", "");
             }
             else
             {
-                return "{\"total\":" + 0 + ",\"page\":0,\"limit\":" + PageSize + ",\"data\":[]}";
+                return "{\"total\":" + 0 + ",\"page\":0,\"limit\":" + PageSize + ",\"data\":[],\"sumData\":\"\"}";
             }
         }
         //sql解析拼接
