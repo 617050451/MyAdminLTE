@@ -38,8 +38,8 @@ namespace AdminLTE.Admin.Temp
                     string result = File.ReadAllText(HttpContext.Current.Server.MapPath("~/Admin/Aspx/" + InstanceURL + ".aspx.cs"));
                     string one = Regex.Match(result, "(?<=(//StartWriteOne))[.\\s\\S]*?(?=(//EndWriteOne))", RegexOptions.Multiline | RegexOptions.Singleline).Value;
                     string two = Regex.Match(result, "(?<=(//StartWriteTwo))[.\\s\\S]*?(?=(//EndWriteTwo))", RegexOptions.Multiline | RegexOptions.Singleline).Value;
-                    textcs = textcs.Replace("//StartWriteOne", "//StartWriteOne" + one);
-                    textcs = textcs.Replace("//StartWriteTwo", "//StartWriteTwo" + two);
+                    textcs = textcs.Replace("//StartWriteOne", "//StartWriteOne" + one.Replace("\r\n",""));
+                    textcs = textcs.Replace("//StartWriteTwo", "//StartWriteTwo" + two.Replace("\r\n", ""));
                 }
                 catch (Exception)
                 {

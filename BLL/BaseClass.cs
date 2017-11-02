@@ -185,38 +185,78 @@ namespace BLL
             }
             return strHtml;
         }
+        //设置按钮
+        public static string setBntHtml(DataTable dt)
+        {
+            string bntHtml = "";
+            if (estimate(dt))
+            {
+                if (dt.Rows[0]["insert"].ToString() == "1")
+                    bntHtml += "<button type=\"button\" class=\"btn btn-success btn-xs\">新　增</button>&nbsp;";
+                if (dt.Rows[0]["update"].ToString() == "1")
+                    bntHtml += "<button type=\"button\" class=\"btn btn-warning btn-xs\">修　改</button>&nbsp;";
+                if (dt.Rows[0]["delete"].ToString() == "1")
+                    bntHtml += "<button id=\"deleteGUID\" tableValue=\"\" type=\"button\" class=\"btn btn-danger btn-xs\">删　除</button>&nbsp;";
+            }
+            return bntHtml;
+        }
         //设置表格
-        public static string getTableHtml(DataTable dt, ref string columnsJson)
+        public static string getTableHtml(DataTable dt, string choice, ref string columnsJson)
         {
             StringBuilder sb = new StringBuilder();
             StringBuilder sbjson = new StringBuilder();
             sb.Append("<thead><tr>");
+            if (choice == "1")
+            {
+                string html = "<input type=\"checkbox\" id=\"selectAll\" class=\"table-checkable\" >";
+                sb.Append("<th style=\"width:13px;\">" + html + "</th>");
+                sbjson.Append("{\"data\": \"CbGuid\", render: function (data, type, row) { return \"<input  name='checkboxGuid' type='checkbox' class='table-checkable'  value='\" + data + \"'/>\"}},");
+            }
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 if (dt.Rows[i]["FieldStatusID"].ToString() == "1")
                 {
-                    //string healder = "";
-                    //if (dt.Rows[i]["FieldHealder"].ToString() != "")
-                    //    healder = dt.Rows[i]["FieldHealder"].ToString();
-                    //sb.Append("<th>" + healder + dt.Rows[i]["FieldValue"].ToString() + "</th>");
                     sb.Append("<th>" + dt.Rows[i]["FieldValue"].ToString() + "</th>");
-                    string data = "data";
+                    string data = "";
                     if (dt.Rows[i]["FieldData"].ToString() != "")
-                        data = dt.Rows[i]["FieldData"].ToString();
-                    sbjson.Append("{\"data\": \"" + dt.Rows[i]["FieldKey"].ToString() + "\", render: function (data, type, row) { return  " + data + " }},");
+                        data = ", render: function (data, type, row) { return  " + dt.Rows[i]["FieldData"].ToString() + " }";
+                    sbjson.Append("{\"data\": \"" + dt.Rows[i]["FieldKey"].ToString() + "\"" + data + "},");//,\"sClass\": \"text-center\"
                 }
             }
             sb.Append("</tr></thead>");
             columnsJson = "[" + sbjson.ToString().TrimEnd(',') + "]";
             return sb.ToString();
         }
+        //获取表格数据Json
+        public static string getDataJson(string tsql, DataTable dt, int PageStart, int PageIndex, int PageSize)
+        {
+            string sqlStr = getTSQLWhere(tsql, setStrWhere(dt));
+            DataTable tableJson = BLL.BaseClass.getDataTable(sqlStr);
+            if (dt != null)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("{\"total\":" + tableJson.Rows.Count + ",\"page\":1,\"limit\":" + PageSize + ",\"data\":");
+                string datatablejson = JsonHelper.DataTableToJsonWithJsonNet(tableJson);
+                sb.Append(datatablejson);
+                sb.Append("}");
+                return sb.ToString().Replace("\n", "");
+            }
+            else
+            {
+                return "{\"total\":" + 0 + ",\"page\":0,\"limit\":" + PageSize + ",\"data\":[]}";
+            }
+        }
         //sql解析拼接
         public static string getTSQLWhere(string sql, string where)
         {
             sql = sql.ToUpper();
             string sqlwhere = "";
-            if (where != "")
+            if (sql.Contains("SELECT") ? true : false)
             {
+                sql = sql.Replace("SELECT", " SELECT GUID AS CbGuid,");
+            }
+            if (where != "")
+            {   
                 if (sql.Contains("WHERE") ? true : false)
                 {
                     sqlwhere = sql.Replace("WHERE", " where " + where + " and ");
@@ -235,6 +275,21 @@ namespace BLL
                 sqlwhere = sql;
             }
             return sqlwhere;
+        }
+        //判断dt
+        static bool estimate(DataTable dt)
+        {
+            if (dt != null && dt.Rows.Count > 0)
+                return true;
+            else
+                return false;
+        }
+        //删除
+        public static bool deleteGUID(DataTable dt, string values)
+        {
+            string tableName = dt.Rows[0]["TableName"].ToString();
+            string sqldel = string.Format(@" delete from {0} where guid in ({1})", tableName, values);
+            return DAL.SQLDBHelpercs.ExecuteNonQuery(sqldel, null, "sql");
         }
     }
 }

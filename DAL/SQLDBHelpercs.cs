@@ -62,17 +62,16 @@ namespace DAL
             }
         }
 
-        public static bool ExecuteNonQuery(string sql,SqlParameter[] paras,string type)
+        public static bool ExecuteNonQuery(string sql, SqlParameter[] paras, string type)
         {
             try
             {
                 SqlCommand comm = new SqlCommand(sql, Conn);
-                if (paras != null )
+                if (paras != null)
                 {
                     comm.Parameters.AddRange(paras);
-                    if( type != "sql") comm.CommandType = CommandType.StoredProcedure;
+                    if (type != "sql") comm.CommandType = CommandType.StoredProcedure;
                 }
-
                 return comm.ExecuteNonQuery() > 0;
             }
             catch (Exception)

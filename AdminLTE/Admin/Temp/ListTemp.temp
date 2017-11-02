@@ -105,6 +105,7 @@
             </div>
             <!-- /.row -->
         </section>
+		<input id="hide_guid" type="hidden" />
     </form>
     <!-- jQuery 3 -->
     <script src="../../Script/AdminLTE-2.4.2/bower_components/jquery/dist/jquery.min.js"></script>
@@ -125,6 +126,7 @@
     <script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
     <script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.zh-CN.js"></script>
     <!-- page script -->
+    <script src="../../Script/layer-v3.1.0/layer/layer.js"></script>
     <script src="../../Script/js/cyfs.js"></script>
     <script> 
         var columnsJson = <%=columnsJson%>;
@@ -191,6 +193,7 @@
                                     //调用DataTables提供的callback方法，代表数据已封装完成并传回DataTables进行渲染
                                     //此时的数据需确保正确无误，异常判断应在执行此回调前自行处理完毕
                                     callback(returnData);
+									getDataAfter($("#hide_guid"));
                                 }, 200);
                             }
                         }

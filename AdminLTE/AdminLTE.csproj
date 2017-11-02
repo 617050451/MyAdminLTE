@@ -6719,6 +6719,18 @@
     <Content Include="Script\AdminLTE-2.4.2\starter.html" />
     <Content Include="Script\js\cyfs.css" />
     <Content Include="Script\js\cyfs.js" />
+    <Content Include="Script\js\jquery-3.1.1.min.js" />
+    <Content Include="Script\layer-v3.1.0\layer\layer.js" />
+    <Content Include="Script\layer-v3.1.0\layer\mobile\layer.js" />
+    <Content Include="Script\layer-v3.1.0\layer\mobile\need\layer.css" />
+    <Content Include="Script\layer-v3.1.0\layer\theme\default\icon-ext.png" />
+    <Content Include="Script\layer-v3.1.0\layer\theme\default\icon.png" />
+    <Content Include="Script\layer-v3.1.0\layer\theme\default\layer.css" />
+    <Content Include="Script\layer-v3.1.0\layer\theme\default\loading-0.gif" />
+    <Content Include="Script\layer-v3.1.0\layer\theme\default\loading-1.gif" />
+    <Content Include="Script\layer-v3.1.0\layer\theme\default\loading-2.gif" />
+    <Content Include="Script\layer-v3.1.0\test.html" />
+    <Content Include="Script\layer-v3.1.0\更新日志.txt" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -7404,6 +7416,11 @@
     <None Include="Admin\Temp\ListTemp.temp" />
     <Content Include="Admin\Temp\ListTemp.cs.temp" />
     <None Include="Properties\PublishProfiles\cy.pubxml" />
+    <Content Include="Script\layer-v3.1.0\文档\jquery下载.url" />
+    <Content Include="Script\layer-v3.1.0\文档\layer官网.url" />
+    <Content Include="Script\layer-v3.1.0\文档\layer文档.url" />
+    <Content Include="Script\layer-v3.1.0\文档\Layui社区.url" />
+    <Content Include="Script\layer-v3.1.0\获得layim.url" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -7417,7 +7434,9 @@
       <Name>BLL</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Script\img\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
