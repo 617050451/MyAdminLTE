@@ -34,12 +34,12 @@
 <body>
     <form id="form1" runat="server">
         <section class="content" style="margin-top: -13px;">
-            <div class="box box-solid collapsed-box">
+            <div class="box box-solid">
                 <div class="box-header with-border">
                     <h3 class="box-title">高级查询</h3>
                     <div class="box-tools">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                            <i class="fa fa-plus"></i>
+                            <i class="fa fa-minus"></i>
                         </button>
                     </div>
                 </div>
@@ -58,7 +58,7 @@
                         </div>--%>
                         <!-- /.box-header -->
                         <div class="box-body">	
-                            <div class="pull-left" style="margin:1px;">
+                            <div id="ltlbnt1"  class="pull-left" style="margin:1px;">
                                 <asp:Literal ID="ltlbnt" runat="server" Text=""></asp:Literal>
                             </div>
                             <div id="ltlSum" class="pull-right">
@@ -164,7 +164,7 @@
                                     //此时的数据需确保正确无误，异常判断应在执行此回调前自行处理完毕
                                     callback(returnData);
                                     $("#ltlSum").html(result.sumHtml);
-									getDataAfter();
+                                    getDataAfter();
                                 }, 200);
                             }
                         }

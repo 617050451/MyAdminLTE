@@ -51,8 +51,7 @@ namespace AdminLTE.Admin.Temp
                        "{" +
                            "protected global::System.Web.UI.WebControls.Literal ltlhead;" +
                            "protected global::System.Web.UI.WebControls.Literal ltlStrWhere;" +
-                           "protected global::System.Web.UI.WebControls.Literal ltlbnt;" +
-                           "protected global::System.Web.UI.WebControls.Literal ltlSum;}" +
+                           "protected global::System.Web.UI.WebControls.Literal ltlbnt;}" +
                        "}";
                 File.WriteAllText(HttpContext.Current.Server.MapPath("~/Admin/Aspx/" + InstanceURL + ".aspx.designer.cs"), textde, Encoding.UTF8);
             }

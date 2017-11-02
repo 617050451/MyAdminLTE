@@ -43,12 +43,6 @@ namespace AdminLTE.Admin.Aspx
                         Response.Write(BLL.BaseClass.deleteGUID(tableInfo, values));
                         Response.End();
                     }
-                    else if (GetType == "SumData")
-                    {
-                        string values = Request.QueryString["values"];
-                        Response.Write(BLL.BaseClass.deleteGUID(tableInfo, values));
-                        Response.End();
-                    }
                 }
                 else
                 {

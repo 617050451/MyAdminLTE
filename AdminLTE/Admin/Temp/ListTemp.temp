@@ -34,12 +34,12 @@
 <body>
     <form id="form1" runat="server">
         <section class="content" style="margin-top: -13px;">
-            <div class="box box-solid collapsed-box">
+            <div class="box box-solid">
                 <div class="box-header with-border">
                     <h3 class="box-title">高级查询</h3>
                     <div class="box-tools">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                            <i class="fa fa-plus"></i>
+                            <i class="fa fa-minus"></i>
                         </button>
                     </div>
                 </div>
@@ -165,7 +165,8 @@
                                     //调用DataTables提供的callback方法，代表数据已封装完成并传回DataTables进行渲染
                                     //此时的数据需确保正确无误，异常判断应在执行此回调前自行处理完毕
                                     callback(returnData);
-									getDataAfter($("#hide_guid"));
+									$("#ltlSum").html(result.sumHtml);
+                                    getDataAfter();
                                 }, 200);
                             }
                         }
