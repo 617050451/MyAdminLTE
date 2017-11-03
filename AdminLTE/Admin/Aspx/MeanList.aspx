@@ -2,7 +2,7 @@
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head id="Head1" runat="server">
+<head runat="server">
     <title>菜单管理</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <!-- Tell the browser to be responsive to screen width -->
@@ -95,8 +95,8 @@
     <script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
     <script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.zh-CN.js"></script>
     <!-- page script -->
-	<link href="../../Script/js/cyfs.css" rel="stylesheet" />
     <script src="../../Script/layer-v3.1.0/layer/layer.js"></script>
+	<link href="../../Script/js/cyfs.css" rel="stylesheet" />
     <script src="../../Script/js/cyfs.js"></script>
     <script> 
         var columnsJson = <%=columnsJson%>;

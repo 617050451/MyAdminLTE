@@ -66,6 +66,8 @@
     <Content Include="Admin\Home\index2.aspx" />
     <Content Include="Admin\Home\login.aspx" />
     <Content Include="Admin\Temp\ListTemp.aspx" />
+    <Content Include="Admin\Temp\setList.aspx" />
+    <Content Include="Admin\Temp\setPages.aspx" />
     <Content Include="Script\AdminLTE-2.4.2\bower_components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.css" />
     <Content Include="Script\AdminLTE-2.4.2\bower_components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.min.css" />
     <Content Include="Script\AdminLTE-2.4.2\bower_components\bootstrap-colorpicker\dist\img\bootstrap-colorpicker\alpha-horizontal.png" />
@@ -6781,6 +6783,20 @@
     </Compile>
     <Compile Include="Admin\Temp\ListTemp.aspx.designer.cs">
       <DependentUpon>ListTemp.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Temp\setList.aspx.cs">
+      <DependentUpon>setList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Temp\setList.aspx.designer.cs">
+      <DependentUpon>setList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Temp\setPages.aspx.cs">
+      <DependentUpon>setPages.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Temp\setPages.aspx.designer.cs">
+      <DependentUpon>setPages.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

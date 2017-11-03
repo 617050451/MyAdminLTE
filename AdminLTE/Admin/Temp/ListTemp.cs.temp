@@ -14,7 +14,7 @@ namespace AdminLTE.Admin.Aspx
     {
 	    public string columnsJson = "";
         public static string guid = "*guid*";
-        public static DataTable tableInfo;
+        public DataTable tableInfo;
 
         protected void Page_Load(object sender, EventArgs e)
         {

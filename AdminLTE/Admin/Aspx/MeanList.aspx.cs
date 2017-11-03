@@ -39,6 +39,7 @@ namespace AdminLTE.Admin.Aspx
                     }
                     else if (GetType == "bntOperation")
                     {
+                        tableInfo = BLL.BaseClass.getTableInfo(guid);
                         string values = Request.QueryString["values"];
                         Response.Write(BLL.BaseClass.deleteGUID(tableInfo, values));
                         Response.End();
@@ -46,7 +47,7 @@ namespace AdminLTE.Admin.Aspx
                 }
                 else
                 {
-				    tableInfo = BLL.BaseClass.getTableInfo(guid);
+                    tableInfo = BLL.BaseClass.getTableInfo(guid);
                     DataTable tableFieldInfo = BLL.BaseClass.getTableFieldInfo(guid); 
                     ltlhead.Text = BLL.BaseClass.getTableHtml(tableFieldInfo, tableInfo.Rows[0]["choice"].ToString(), ref columnsJson);
                     ltlStrWhere.Text = BaseClass.setStrWhereHtml(tableFieldInfo);

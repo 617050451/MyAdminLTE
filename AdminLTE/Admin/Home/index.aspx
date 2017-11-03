@@ -245,7 +245,7 @@
                     <h3 class="control-sidebar-heading">DMS</h3>
                     <ul class="control-sidebar-menu">
                         <li>
-                            <a href='../DMS/DMS.aspx' target="_blank">
+                            <a href='https://dms-net.aliyun.com/?host=qds108295464.my3w.com&port=1433&dbType=SQLServer&userName=qds108295464' target="_blank">
                                 <i class="menu-icon fa fa-eyedropper bg-red"></i>
                                 <div class="menu-info">
                                     <h4 class="control-sidebar-subheading">My DMS</h4>

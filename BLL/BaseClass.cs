@@ -15,7 +15,8 @@ namespace BLL
             // TODO: Add constructor logic here
             //
         }
-        //
+
+        //添加
         public static bool insertModel(object model, string identityName)
         {
             StringBuilder commandText = new StringBuilder(" insert into ");
@@ -277,7 +278,7 @@ namespace BLL
             return sqlwhere;
         }
         //判断dt
-        static bool estimate(DataTable dt)
+        public static bool estimate(DataTable dt)
         {
             if (dt != null && dt.Rows.Count > 0)
                 return true;
@@ -290,6 +291,33 @@ namespace BLL
             string tableName = dt.Rows[0]["TableName"].ToString();
             string sqldel = string.Format(@" delete from {0} where guid in ({1})", tableName, values);
             return DAL.SQLDBHelpercs.ExecuteNonQuery(sqldel, null, "sql");
+        }
+        //显示页面修改保存
+        public static bool updateList(DataTable dt,string guid)
+        {
+            string FieldKey = "";
+            StringBuilder sbSQL = new StringBuilder();
+            string str = "";
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                if (dt.Rows[i]["name"].ToString() == "FieldKey")
+                {
+                    if (i > 0)
+                    {
+                        sbSQL.Append(str.TrimEnd(','));
+                        sbSQL.Append(string.Format(" where TableGUID ='{0}' and FieldKey = '{1}'; ", guid, FieldKey));
+                        str = "";
+                    }
+                    FieldKey = dt.Rows[i]["value"].ToString();
+                    sbSQL.Append(" update[t_TableField] set ");
+                }
+                else
+                {
+                    str += string.Format("{0}='{1}',", dt.Rows[i]["name"].ToString(), dt.Rows[i]["value"].ToString());
+                }
+            }
+            sbSQL.Append(string.Format(str.TrimEnd(',') + " where TableGUID ='{0}' and FieldKey = '{1}'; ", guid, FieldKey));
+            return DAL.SQLDBHelpercs.ExecuteNonQuery(sbSQL.ToString(), null, "sql");
         }
     }
 }
