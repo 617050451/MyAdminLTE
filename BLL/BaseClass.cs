@@ -285,6 +285,11 @@ namespace BLL
             else
                 return false;
         }
+        //读取变量
+        public static string getValueForKey(string key)
+        {
+            return "";
+        }
         //删除
         public static bool deleteGUID(DataTable dt, string values)
         {
@@ -293,30 +298,43 @@ namespace BLL
             return DAL.SQLDBHelpercs.ExecuteNonQuery(sqldel, null, "sql");
         }
         //显示页面修改保存
-        public static bool updateList(DataTable dt,string guid)
+        public static bool SaveUpdateList(DataTable dt, DataTable tableInfo, string guid)
         {
             string FieldKey = "";
             StringBuilder sbSQL = new StringBuilder();
             string str = "";
-            for (int i = 0; i < dt.Rows.Count; i++)
+            if (estimate(dt))
             {
-                if (dt.Rows[i]["name"].ToString() == "FieldKey")
+                for (int i = 0; i < dt.Rows.Count; i++)
                 {
-                    if (i > 0)
+                    if (dt.Rows[i]["name"].ToString() == "FieldKey")
                     {
-                        sbSQL.Append(str.TrimEnd(','));
-                        sbSQL.Append(string.Format(" where TableGUID ='{0}' and FieldKey = '{1}'; ", guid, FieldKey));
-                        str = "";
+                        if (i > 0)
+                        {
+                            sbSQL.Append(str.TrimEnd(','));
+                            sbSQL.Append(string.Format(" where TableGUID ='{0}' and FieldKey = '{1}'; ", guid, FieldKey));
+                            str = "";
+                        }
+                        FieldKey = dt.Rows[i]["value"].ToString();
+                        sbSQL.Append(" update[t_TableField] set ");
                     }
-                    FieldKey = dt.Rows[i]["value"].ToString();
-                    sbSQL.Append(" update[t_TableField] set ");
+                    else
+                    {
+                        str += string.Format("[{0}]='{1}',", dt.Rows[i]["name"].ToString(), dt.Rows[i]["value"].ToString());
+                    }
                 }
-                else
-                {
-                    str += string.Format("{0}='{1}',", dt.Rows[i]["name"].ToString(), dt.Rows[i]["value"].ToString());
-                }
+                sbSQL.Append(string.Format(str.TrimEnd(',') + " where TableGUID ='{0}' and FieldKey = '{1}'; ", guid, FieldKey));
+                str = "";
             }
-            sbSQL.Append(string.Format(str.TrimEnd(',') + " where TableGUID ='{0}' and FieldKey = '{1}'; ", guid, FieldKey));
+            if (estimate(tableInfo))
+            {
+                sbSQL.Append(" update t_Tables set ");
+                for (int j = 0; j < tableInfo.Rows.Count; j++)
+                {
+                    str += string.Format("[{0}]='{1}',", tableInfo.Rows[j]["name"].ToString(), tableInfo.Rows[j]["value"].ToString());
+                }
+                sbSQL.Append(string.Format(str.TrimEnd(',') + " where guid ='{0}' ; ", guid));
+            }
             return DAL.SQLDBHelpercs.ExecuteNonQuery(sbSQL.ToString(), null, "sql");
         }
     }

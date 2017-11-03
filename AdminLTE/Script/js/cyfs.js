@@ -1,4 +1,5 @@
-﻿        var hide_guid = "";
+﻿var hide_guid = "";
+var tableguid = getQueryString("tableguid");
         //获取url参数
         function getQueryString(key) {
             var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
@@ -31,6 +32,7 @@
         }
         //注册事件 全选，删除
         function getDataAfter() {
+            
             $("#selectAll").click(function () {
                 if ($(this).prop("checked")) {
                     $("input[name='checkboxGuid']").prop("checked", 'true');//全选 
