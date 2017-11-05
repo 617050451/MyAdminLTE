@@ -103,3 +103,12 @@ var tableguid = getQueryString("tableguid");
                 });
             }
         }
+        var loadIndex;
+        function loadding(obj) {
+            loadIndex = layer.msg(obj, {
+                icon: 16, shade: 0.01,time: 0
+            });
+        }
+        function loadClose(obj) {
+            layer.close(obj);
+        }

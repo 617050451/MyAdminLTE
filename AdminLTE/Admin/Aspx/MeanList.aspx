@@ -34,7 +34,7 @@
 <body>
     <form id="form1" runat="server">
         <section class="content" style="margin-top: -13px;">
-            <div class="box box-solid">
+            <div class="box box-solid <%=tableInfo.Rows[0]["strwhere"].ToString()=="0"?"hidden":"" %>">
                 <div class="box-header with-border">
                     <h3 class="box-title">高级查询</h3>
                     <div class="box-tools">

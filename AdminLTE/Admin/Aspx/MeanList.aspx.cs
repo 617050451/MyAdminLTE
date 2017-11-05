@@ -14,7 +14,7 @@ namespace AdminLTE.Admin.Aspx
     {
 	    public string columnsJson = "";
         public static string guid = "9D2512E9-6FF4-4E7E-BBB8-23DE83755D18";
-        public static DataTable tableInfo;
+        public DataTable tableInfo;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -25,6 +25,7 @@ namespace AdminLTE.Admin.Aspx
                 int PageSize = Convert.ToInt32(Request.QueryString["limit"]);
                 int PageStart = Convert.ToInt32(Request.QueryString["start"]);
                 var PageData = Request.QueryString["values"];
+                tableInfo = BLL.BaseClass.getTableInfo(guid);
                 if (GetType != null)
                 {
                     if (GetType == "getDate")
@@ -39,7 +40,6 @@ namespace AdminLTE.Admin.Aspx
                     }
                     else if (GetType == "bntOperation")
                     {
-                        tableInfo = BLL.BaseClass.getTableInfo(guid);
                         string values = Request.QueryString["values"];
                         Response.Write(BLL.BaseClass.deleteGUID(tableInfo, values));
                         Response.End();
@@ -47,11 +47,11 @@ namespace AdminLTE.Admin.Aspx
                 }
                 else
                 {
-                    tableInfo = BLL.BaseClass.getTableInfo(guid);
-                    DataTable tableFieldInfo = BLL.BaseClass.getTableFieldInfo(guid); 
+                    DataTable tableFieldInfo = BLL.BaseClass.getTableFieldInfo(guid);
                     ltlhead.Text = BLL.BaseClass.getTableHtml(tableFieldInfo, tableInfo.Rows[0]["choice"].ToString(), ref columnsJson);
-                    ltlStrWhere.Text = BaseClass.setStrWhereHtml(tableFieldInfo);
-					ltlbnt.Text = BLL.BaseClass.setBntHtml(tableInfo);
+                    ltlbnt.Text = BLL.BaseClass.setBntHtml(tableInfo);
+                    if (tableInfo.Rows[0]["strwhere"].ToString() == "1")
+                        ltlStrWhere.Text = BaseClass.setStrWhereHtml(tableFieldInfo);
                 }
             }
 			//StartWriteOne                                                                                

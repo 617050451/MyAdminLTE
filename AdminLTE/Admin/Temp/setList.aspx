@@ -36,16 +36,16 @@
     <form id="form1" runat="server">
         <section class="content" style="margin-top: -13px;">
             <div class="row">
-                <table id="tableInfo" class="table" style="margin:0px;margin-top:-2px;border-left:1px solid #ddd;border-right:1px solid #ddd;">
+                <table id="tableInfo" class="table" style="margin:0px;margin-top:-3px;border-left:1px solid #ddd;border-right:1px solid #ddd;">
                     <tbody>
                         <tr>
                             <td>
-                                <h3 style="margin: 0px;">
+                                <h4 style="margin: 0px;">
                                     <button type="button" title="数据设置" class="btn btn-warning" onclick="showTableInfoHtml()">数据设置</button>
                                     <button type="button" title="显示设置" class="btn btn-warning" onclick="showTableInfoHtml()">显示设置</button>
                                     &nbsp;<span class="label label-success"><%=tableInfo.Rows[0]["title"].ToString() %></span>
                                     <span class="label label-success"><%=tableInfo.Rows[0]["FileName"].ToString() %></span>
-                                    <span class="label label-success"><%=tableInfo.Rows[0]["TableName"].ToString() %></span></h3>
+                                    <span class="label label-success"><%=tableInfo.Rows[0]["TableName"].ToString() %></span></h4>
                             </td>
                             <td>
                                 <select name="choice" class="form-control select2 select2-hidden-accessible">
@@ -70,6 +70,12 @@
                                     <option <%=tableInfo.Rows[0]["delete"].ToString()=="0"?"selected='selected'":"" %>  value="0">无删除</option>
                                 </select>
                             </td>
+                            <td>
+                                <select name="strwhere" class="form-control select2 select2-hidden-accessible">
+                                    <option <%=tableInfo.Rows[0]["strwhere"].ToString()=="1"?"selected='selected'":"" %>  value="1">有查询</option>
+                                    <option <%=tableInfo.Rows[0]["strwhere"].ToString()=="0"?"selected='selected'":"" %>  value="0">无查询</option>
+                                </select>
+                            </td>
                             <td style="border: none;">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-info" onclick="bntSaveClick()">保&nbsp;存</button>
@@ -79,13 +85,14 @@
                         </tr>
                     </tbody>
                 </table>
-                <table id="example" class="table table-bordered table-hover">
+                <table id="example" class="table table-bordered table-hover" >
                     <thead>
                         <tr>
                             <th>字段称</th>
                             <th>显示名称</th>
-                            <th>显示转换</th>
-                            <th>是否显示</th>
+                            <th>数据呈现</th>
+                            <th>是否启用</th>
+                            <th>查询条件</th>
                             <th>排序</th>
                         </tr>
                     </thead>
@@ -138,7 +145,7 @@
                             </div>
                         </td>
                     </tr>
-                    <tr class="text-center"><td><button type="button" class="btn btn-success" onclick="bntSaveTableInfoOnclick()">成功按钮</button></td></tr>
+                    <tr class="text-center"><td><button type="button" class="btn btn-success" onclick="bntSaveTableInfoOnclick()">保存</button></td></tr>
                 </tbody>
             </table>          
         </div>
@@ -156,12 +163,20 @@
     <script src="../../Script/AdminLTE-2.4.2/bower_components/fastclick/lib/fastclick.js"></script>
     <!-- AdminLTE App -->
     <script src="../../Script/AdminLTE-2.4.2/dist/js/adminlte.min.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="../../Script/AdminLTE-2.4.2/dist/js/demo.js"></script>
     <script src="../../Script/js/cyfs.js"></script>
     <script src="../../Script/layer-v3.1.0/layer/layer.js"></script>
     <script> 
+        $(function () {
+            $("select[name=SelectType]").change(function () {
+                if ($(this).val() > 0)
+                    $(this).next("a").removeClass("hidden")
+                else
+                    $(this).next("a").addClass("hidden");
+
+            })         
+        })
         function bntSaveClick() {
+            loadding('正在保存，请稍等...');
             var values = $("#example").find("input,select").serializeArray();
             var tableInfo = $("#tableInfo").find("select").serializeArray();
             //封装请求参数
@@ -188,6 +203,7 @@
             });
         }
         function bntSaveTableInfoOnclick() {
+            loadding('正在保存，请稍等...');
             var settableinfo = $(".layui-layer-content").find("input,textarea").serializeArray();
             //封装请求参数
             var param = {};
@@ -221,6 +237,22 @@
                 area: ['620px', '440px'], //宽高
                 content: showHtml
             });
+        }
+        function setSelectData(obj) {
+            var values = $(obj).parent().find("[name=SelectData]").val();
+            var showHtml = "<div class=\"form-group text-center\">";
+            showHtml += "<textarea name=\"selectData\" class=\"form-control\" placeholder=\"设置\" rows=\"3\">" + values + "</textarea><button type=\"button\" class=\"btn btn-success\" onclick=\"javascript:void()\">保存</button></div>";
+            //页面层
+            layer.open({
+                type: 1,
+                title: '设置',
+                skin: 'layui-layer-rim', //加上边框
+                area: ['420px', '240px'], //宽高
+                content: showHtml
+            });
+        }
+        function setFieldData(obj) {
+            alert($(obj).parent().find("[name=FieldData]").val());
         }
     </script>
 </body>

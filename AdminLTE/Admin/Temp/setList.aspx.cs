@@ -71,12 +71,29 @@ namespace AdminLTE.Admin.Temp
                     string FieldData = dt.Rows[i]["FieldData"].ToString();
                     string FieldStatusID = dt.Rows[i]["FieldStatusID"].ToString();
                     string FieldOrder = dt.Rows[i]["FieldOrder"].ToString();
+                    string SelectType = dt.Rows[i]["SelectType"].ToString();
+                    string SelectData = dt.Rows[i]["SelectData"].ToString();
                     sb.Append("<tr role=\"row\" class=\"odd\">");
-                    sb.Append("<td>"+ FieldKey + "<div class=\"input-group input-group-sm\"><input type=\"text\" name=\"FieldKey\" class=\"form-control hidden\" value='"+ FieldKey + "'/></div></td>");
-                    sb.Append("<td><div class=\"input-group input-group-sm\"><input type=\"text\" name=\"FieldValue\" value='"+ FieldValue + "\'/></div></td>");
-                    sb.Append("<td>显示转换<div class=\"input-group input-group-sm\"><input type=\"text\" name=\"FieldData\" class=\"form-control hidden\" value='"+ FieldData + "'/></div></td>");
-                    sb.Append("<td><div class=\"input-group input-group-sm\"><select name=\"FieldStatusID\" class=\"form-control select2 select2-hidden-accessible\" tabindex=\"-1\" aria-hidden=\"true\"><option "+ (FieldStatusID == "1" ? "selected=\"selected\"" : "") + " value=\"1\">启用</option><option " + (FieldStatusID == "0" ? "selected=\"selected\"" : "") + " value=\"0\">禁用</option></select></td></div>");
-                    sb.Append("<td><div class=\"input-group input-group-sm\"><input type=\"text\" name=\"FieldOrder\" value='" + FieldOrder + "'/></div></td>");
+                    sb.Append("<td>" + FieldKey + "<div class=\"input-group input-group-sm\"><input type=\"text\" name=\"FieldKey\" class=\"form-control hidden\" value='" + FieldKey + "'/></div></td>");
+                    sb.Append("<td><div class=\"input-group input-group-sm\"><input type=\"text\" name=\"FieldValue\"  class=\"form-control\" value='" + FieldValue + "\'/></div></td>");
+                    sb.Append("<td><a class=\"text-primary\"  href=\"javascript:void(0)\" onclick=\"setFieldData(this)\">设置</a><input type=\"text\" name=\"FieldData\" class=\"form-control hidden\" value='" + FieldData + "'/></td>");
+                    sb.Append("<td><div class=\"input-group input-group-sm\"><select name=\"FieldStatusID\" class=\"form-control select2 select2-hidden-accessible\" tabindex=\"-1\" aria-hidden=\"true\">");
+                    sb.Append("<option " + (FieldStatusID == "1" ? "selected=\"selected\"" : "") + " value=\"1\">启用</option>");
+                    sb.Append("<option " + (FieldStatusID == "0" ? "selected=\"selected\"" : "") + " value=\"0\">禁用</option>");
+                    sb.Append("</select></div></td>");
+                    sb.Append("<td class=\"form-inline\"><div class=\"input-group input-group-sm \"><select name=\"SelectType\" class=\"form-control select2 select2-hidden-accessible\" tabindex=\"-1\" aria-hidden=\"true\">");
+                    sb.Append("<option " + (SelectType == "0" ? "selected=\"selected\"" : "") + " value=\"0\">不启用</option>");
+                    sb.Append("<option " + (SelectType == "1" ? "selected=\"selected\"" : "") + " value=\"1\">模糊查询</option>");
+                    sb.Append("<option " + (SelectType == "2" ? "selected=\"selected\"" : "") + " value=\"2\">下拉查询</option>");
+                    sb.Append("<option " + (SelectType == "3" ? "selected=\"selected\"" : "") + " value=\"3\">等于查询</option>");
+                    sb.Append("</select></div>");
+                    if (SelectType == "0")
+                        sb.Append("&nbsp;<a class=\"text-primary hidden\"  href=\"javascript:void(0)\" onclick=\"setSelectData(this)\">设置</a>");
+                    else
+                        sb.Append("&nbsp;<a class=\"text-primary\"  href=\"javascript:void(0)\" onclick=\"setSelectData(this)\">设置</a>"); 
+                    sb.Append("<input type=\"text\" class=\"form-control hidden\" name=\"SelectData\" value=\"" + SelectData + "\"/>");
+                    sb.Append("</td>");
+                    sb.Append("<td><div class=\"input-group input-group-sm\"><input type=\"text\"   class=\"form-control\"  name=\"FieldOrder\" value='" + FieldOrder + "'/></div></td>");
                 }
             }
             return sb.ToString();

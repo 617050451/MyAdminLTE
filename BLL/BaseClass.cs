@@ -160,7 +160,7 @@ namespace BLL
                             strHtml += "<label class=\"col-xs control-label table-label\">" + dt.Rows[i]["FieldValue"].ToString() + "<span class=\"text-danger\">（下拉查询）</span></label >";
                             strHtml += "<select name=\"" + dt.Rows[i]["FieldKey"].ToString() + "|" + dt.Rows[i]["SelectType"].ToString() + "\" class=\"form-control select2 select2-hidden-accessible\"  tabindex=\"-1\" aria-hidden=\"true\" >";
                             strHtml += "<option selected = \"selected\" value = \"0\" >全部</option >";
-                            string tsql = dt.Rows[i]["SelectTSQL"].ToString();
+                            string tsql = dt.Rows[i]["SelectData"].ToString();
                             DataTable tsqldt = BaseClass.getDataTable(tsql);
                             if (tsqldt != null && tsqldt.Rows.Count > 0)
                             {
@@ -335,7 +335,7 @@ namespace BLL
                 }
                 sbSQL.Append(string.Format(str.TrimEnd(',') + " where guid ='{0}' ; ", guid));
             }
-            return DAL.SQLDBHelpercs.ExecuteNonQuery(sbSQL.ToString(), null, "sql");
+            return DAL.SQLDBHelpercs.ExecuteNonQuery(sbSQL.ToString().Replace("'", "''"), null, "sql");
         }
     }
 }
