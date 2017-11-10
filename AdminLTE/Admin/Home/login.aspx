@@ -33,13 +33,13 @@
 <body class="hold-transition login-page" style="height:80%;">
     <div class="login-box">
         <div class="login-logo">
-            <a href="javascript:void(0)"><b>Family</b>Chen</a>
+            <a href="javascript:void(0)"><b>Chen</b>Family</a>
         </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
-            <p class="login-box-msg">Please Enter The Family Chen After Login</p>
+            <p class="login-box-msg"><b>请登录后进入FamilyChen</b></p>
             <div class="form-group has-feedback">
-                <input id="userid" type="email" name="userid" class="form-control" placeholder="账号" />
+                <input id="userid" type="text" name="userid" class="form-control" placeholder="账号" />
                 <span class="glyphicon glyphicon-cloud form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
@@ -58,7 +58,7 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-xs-4">
-                    <button type="button" class="btn btn-primary btn-block btn-flat"  data-loading-text="Sign In ..." onclick="signinOnclick(this)">Sign In</button>
+                    <button type="button" name="bntSave" class="btn btn-primary btn-block btn-flat"  data-loading-text="登录中....." onclick="signinOnclick(this)">登录</button>
                 </div>
                 <!-- /.col -->
             </div>
@@ -75,6 +75,7 @@
     <script src="../../Script/AdminLTE-2.4.2/plugins/iCheck/icheck.min.js"></script>
     <script src="../../Script/AdminLTE-2.4.2/dist/js/bootstrapValidator.min.js"></script>
     <script src="../../Script/AdminLTE-2.4.2/dist/js/bootstrapValidator.js"></script>
+    <script type="text/javascript" src="../../Script/AdminLTE-2.4.2/dist/js/language/zh_CN.js"></script>
     <script>
         //绑定确定事件
         $(document).keypress(function (e) {
@@ -83,17 +84,20 @@
                 signinOnclick();
             }
         });
+        $(function () {
+            $('.login-box-body').bootstrapValidator({ submitButtons: 'button[name=bntSave]' });
+        })
         //登录事件
         function signinOnclick(bnt) {
             bntLoading(bnt);
-            var email = $("#email").val();
+            var userid = $("#userid").val();
             var password = $("#password").val();
-            if (email == "" || password == "") {
+            if (userid == "" || password == "") {
                 funerrorMes('账号或错误不能为空');
                 bntCloseLoading(bnt);
                 return false;
             }
-            if (email == "admin" && password == "123") {
+            if (userid == "admin" && password == "123") {
                 $(location).attr('href', '/admin/home/index.aspx');
             } else {
                 funerrorMes('账号或错误！请进行一些更改。');
