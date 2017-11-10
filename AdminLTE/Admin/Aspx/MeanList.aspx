@@ -20,8 +20,10 @@
     <!-- bootstrap datepicker -->
     <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" />
     <!-- AdminLTE Skins. Choose a skin from the css/skins
-  folder instead of downloading all of them to reduce the load. -->
+    folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/dist/css/skins/_all-skins.min.css" />
+    <link href="../../Script/AdminLTE-2.4.2/dist/css/bootstrapValidator.min.css" rel="stylesheet" />
+    <link href="../../Script/AdminLTE-2.4.2/dist/css/bootstrapValidator.css" rel="stylesheet" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -58,7 +60,7 @@
                         </div>--%>
                         <!-- /.box-header -->
                         <div class="box-body">	
-                            <div id="ltlbnt1"  class="pull-left" style="margin:1px;">
+                            <div id="ltlbnt1"  class="pull-left" >
                                 <asp:Literal ID="ltlbnt" runat="server" Text=""></asp:Literal>
                             </div>
                             <div id="ltlSum" class="pull-right">
@@ -95,6 +97,8 @@
     <script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
     <script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.zh-CN.js"></script>
     <!-- page script -->
+    <script src="../../Script/AdminLTE-2.4.2/dist/js/bootstrapValidator.min.js"></script>
+    <script src="../../Script/AdminLTE-2.4.2/dist/js/bootstrapValidator.js"></script>
     <script src="../../Script/layer-v3.1.0/layer/layer.js"></script>
 	<link href="../../Script/js/cyfs.css" rel="stylesheet" />
     <script src="../../Script/js/cyfs.js"></script>

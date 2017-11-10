@@ -20,7 +20,7 @@ namespace AdminLTE.Admin.Temp
                 string GetType = Request.Form["gettype"];
                 if (GetType != null)
                 {
-                    if (GetType == "setDate")
+                    if (GetType == "setData")
                     {
                         string TableGuid = Request.Form["tableguid"];
                         var PageData = Request.Form["values"];
@@ -33,7 +33,7 @@ namespace AdminLTE.Admin.Temp
                             Response.End();
                         };
                     }
-                    else if (GetType == "setTableDate")
+                    else if (GetType == "setTableData")
                     {
                         string TableGuid = Request.Form["tableguid"];
                         var SetTableInfo = Request.Form["settableinfo"];

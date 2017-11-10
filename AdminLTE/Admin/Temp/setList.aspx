@@ -181,7 +181,7 @@
             var tableInfo = $("#tableInfo").find("select").serializeArray();
             //封装请求参数
             var param = {};
-            param.gettype = "setDate";
+            param.gettype = "setData";
             param.values = JSON.stringify(values);
             param.tableguid = tableguid;
             param.tableInfo = JSON.stringify(tableInfo);   
@@ -207,7 +207,7 @@
             var settableinfo = $(".layui-layer-content").find("input,textarea").serializeArray();
             //封装请求参数
             var param = {};
-            param.gettype = "setTableDate";
+            param.gettype = "setTableData";
             param.tableguid = tableguid;
             param.settableinfo = JSON.stringify(settableinfo);
             $.ajax({
@@ -238,10 +238,12 @@
                 content: showHtml
             });
         }
+        var showData;
         function setSelectData(obj) {
-            var values = $(obj).parent().find("[name=SelectData]").val();
+            showData = $(obj).parent().find("[name=SelectData]");
+            var values = $(showData).val();
             var showHtml = "<div class=\"form-group text-center\">";
-            showHtml += "<textarea name=\"selectData\" class=\"form-control\" placeholder=\"设置\" rows=\"3\">" + values + "</textarea><button type=\"button\" class=\"btn btn-success\" onclick=\"javascript:void()\">保存</button></div>";
+            showHtml += "<textarea name=\"selectData\" class=\"form-control\" placeholder=\"设置\" rows=\"3\">" + values + "</textarea><button type=\"button\" class=\"btn btn-success\" onclick=\"parentFunSetSelectData()\">保存</button></div>";
             //页面层
             layer.open({
                 type: 1,
@@ -250,6 +252,11 @@
                 area: ['420px', '240px'], //宽高
                 content: showHtml
             });
+        }
+        function parentFunSetSelectData()
+        {
+            alert($(".layui-layer [name=SelectData]").text());
+            $(showData).val()
         }
         function setFieldData(obj) {
             alert($(obj).parent().find("[name=FieldData]").val());

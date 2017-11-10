@@ -85,6 +85,11 @@ namespace BLL
             else
                 return null;
         }
+        public static DataSet getDataSet(string strSql)
+        {
+            DataSet ds = DAL.SQLDBHelpercs.ExecuteReader(strSql, null);
+            return ds;
+        }
         //获取表格信息
         public static DataTable getTableInfo(string guid)
         {
@@ -336,6 +341,21 @@ namespace BLL
                 sbSQL.Append(string.Format(str.TrimEnd(',') + " where guid ='{0}' ; ", guid));
             }
             return DAL.SQLDBHelpercs.ExecuteNonQuery(sbSQL.ToString().Replace("'", "''"), null, "sql");
+        }
+        //分页查询
+        public static DataSet PageByRownumber(string tableName, string tbFields,int PageSize,int PageIndex,string strWhere,string StrOrder)
+        {
+            string sql = string.Format(@"declare @count int
+            exec [dbo].[spSqlPageByRownumber]'{0}','{1}',{2},{3},'{4}','{5}',@count output
+            select @count", tableName, tbFields, PageSize, PageIndex, strWhere, StrOrder);
+            DataSet ds = getDataSet(sql);
+            return ds;
+        }
+        //分页
+        public static DataSet PageBySQL(string tsql, int PageSize, int PageIndex)
+        {
+            string sql = string.Format(@"select * from (select row_number()over(order by FieldOrder)rownumber,* from ({0})tb)tbs  where rownumber>{1} and  rownumber<={2}", tsql);
+            return null;
         }
     }
 }

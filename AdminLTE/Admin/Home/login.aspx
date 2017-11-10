@@ -19,32 +19,31 @@
     <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/dist/css/AdminLTE.min.css" />
     <!-- iCheck -->
     <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/plugins/iCheck/square/blue.css" />
-
+    <link href="../../Script/AdminLTE-2.4.2/dist/css/bootstrapValidator.min.css" rel="stylesheet" />
+    <link href="../../Script/AdminLTE-2.4.2/dist/css/bootstrapValidator.css" rel="stylesheet" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
-
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
 </head>
 <body class="hold-transition login-page" style="height:80%;">
     <div class="login-box">
         <div class="login-logo">
-            <a href="javascript:void(0)"><b>Admin</b>LTE</a>
+            <a href="javascript:void(0)"><b>Family</b>Chen</a>
         </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
-            <p class="login-box-msg">Sign in to start your session</p>
-
+            <p class="login-box-msg">Please Enter The Family Chen After Login</p>
             <div class="form-group has-feedback">
-                <input id="email" type="email" class="form-control" placeholder="账号" />
+                <input id="userid" type="email" name="userid" class="form-control" placeholder="账号" />
                 <span class="glyphicon glyphicon-cloud form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input id="password" type="password" class="form-control" placeholder="密码" />
+                <input id="password" type="password" name="password" class="form-control" placeholder="密码" />
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
             <div class="row">
@@ -74,6 +73,8 @@
     <script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- iCheck -->
     <script src="../../Script/AdminLTE-2.4.2/plugins/iCheck/icheck.min.js"></script>
+    <script src="../../Script/AdminLTE-2.4.2/dist/js/bootstrapValidator.min.js"></script>
+    <script src="../../Script/AdminLTE-2.4.2/dist/js/bootstrapValidator.js"></script>
     <script>
         //绑定确定事件
         $(document).keypress(function (e) {
