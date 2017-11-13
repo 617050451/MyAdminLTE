@@ -127,7 +127,7 @@
 				"aaSorting": [[1, "asc"]],
                 "lengthChange": true,
                 "autoWidth": false,
-                "aLengthMenu": [25, 50, 100, 200],
+                "aLengthMenu": [2, 50, 100, 200],
                 //当处理大数据时，延迟渲染数据，有效提高Datatables处理能力 
                 "pagingType": "full_numbers",//详细分页组，可以支持直接跳转到某页  
                 "deferRender": true,
@@ -146,6 +146,8 @@
                     param.start = data.start;//开始的记录序号
                     param.page = (data.start / data.length) + 1;//当前页码;
                     param.values = JSON.stringify(values);
+                    param.order = columnsJson[data.order[0].column]['data'];
+                    param.orderDir = data.order[0].dir;
                     //ajax请求数据
                     $.ajax({
                         type: "GET",

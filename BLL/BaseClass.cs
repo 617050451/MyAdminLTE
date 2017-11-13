@@ -234,46 +234,75 @@ namespace BLL
             return sb.ToString();
         }
         //获取表格数据Json
-        public static string getDataJson(string tsql, DataTable dt, int PageStart, int PageIndex, int PageSize)
+        public static string getDataJson(string tsql, DataTable dt, int PageStart, int PageIndex, int PageSize,string order, string sumsql)
         {
-            string sqlStr = getTSQLWhere(tsql, setStrWhere(dt));
-            DataTable tableJson = BLL.BaseClass.getDataTable(sqlStr);
-            if (tableJson != null)
+            sumsql = getTSQLWhere(sumsql, setStrWhere(dt), "", false);
+            string sqlStr = getTSQLWhere(tsql, setStrWhere(dt), order, true);
+            DataSet ds = BLL.BaseClass.PageBySQL(sqlStr, sumsql, PageStart,PageSize, PageIndex);
+            DataTable tableJson = ds.Tables[0];
+            DataTable tableSum = ds.Tables[1];
+            if (ds != null)
             {
-                StringBuilder sb = new StringBuilder();
-                sb.Append("{\"total\":" + tableJson.Rows.Count + ",\"page\":1,\"limit\":" + PageSize + ",\"data\":");
-                string datatablejson = JsonHelper.DataTableToJsonWithJsonNet(tableJson);
-                sb.Append(datatablejson);
-                sb.Append(",\"sumHtml\":\"<span class='label label-danger'>交易总金额：20（元）</span>&nbsp;<span class='label label-warning'>总营业额：1245.15（元）</span>&nbsp;<span class='label label-info'>总笔数：" + tableJson.Rows.Count + "（笔）</span>\"}");
-                return sb.ToString().Replace("\n", "");
+                if (tableJson != null)
+                {
+                    StringBuilder sb = new StringBuilder(); 
+                    sb.Append("{\"total\":" + tableSum.Rows[0]["Counts"].ToString() + ",\"page\":1,\"limit\":" + PageSize + ",\"data\":");
+                    string datatablejson = JsonHelper.DataTableToJsonWithJsonNet(tableJson);
+                    sb.Append(datatablejson);
+                    sb.Append(",\"sumHtml\":\"");
+                    for (int i = 1; i < tableSum.Rows.Count; i++)
+                    {
+                        sb.Append("<span class='label label-warning'>" + tableSum.Rows[0][i].ToString() + "</span>");
+                    }
+                    sb.Append("\"}");
+                    //sb.Append(",\"sumHtml\":\"<span class='label label-danger'>交易总金额：20（元）</span>&nbsp;<span class='label label-warning'>总营业额：1245.15（元）</span>&nbsp;<span class='label label-info'>总笔数：" + tableJson.Rows.Count + "（笔）</span>\"}");
+                    return sb.ToString().Replace("\n", "");
+                }
+                else
+                {
+                    return "{\"total\":" + 0 + ",\"page\":0,\"limit\":" + PageSize + ",\"data\":[],\"sumData\":\"\"}";
+                }
             }
-            else
-            {
+            else {
                 return "{\"total\":" + 0 + ",\"page\":0,\"limit\":" + PageSize + ",\"data\":[],\"sumData\":\"\"}";
             }
         }
         //sql解析拼接
-        public static string getTSQLWhere(string sql, string where)
+        public static string getTSQLWhere(string sql, string where, string order,bool isCbGuid)
         {
             sql = sql.ToUpper();
             string sqlwhere = "";
-            if (sql.Contains("SELECT") ? true : false)
+            if (isCbGuid)
             {
-                sql = sql.Replace("SELECT", " SELECT GUID AS CbGuid,");
+                if (sql.Contains("SELECT") ? true : false)
+                {
+                    sql = sql.Replace("SELECT", " SELECT GUID AS CbGuid,");
+                }
             }
             if (where != "")
-            {   
+            {
                 if (sql.Contains("WHERE") ? true : false)
                 {
-                    sqlwhere = sql.Replace("WHERE", " where " + where + " and ");
-                }
-                else if (sql.Contains("ORDER BY") ? true : false)
-                {
-                    sqlwhere = sql.Replace("ORDER BY", " where " + where + " order by ");
+                    if (sqlwhere.Contains("ORDER BY") ? true : false)
+                    {
+                        sqlwhere = sql.Replace("WHERE", " where " + where + " and ");
+                        sqlwhere = sqlwhere.Replace("ORDER BY", order + ",");
+                    }
+                    else
+                    {
+                        sqlwhere = sql.Replace("WHERE", " where " + where + " and ");
+                    }                    
                 }
                 else
                 {
-                    sqlwhere = sql + " where " + where;
+                    if (sql.Contains("ORDER BY") ? true : false)
+                    {
+                        sqlwhere = sql.Replace("ORDER BY", " where " + where + " ORDER BY " + order + ",");
+                    }
+                    else
+                    {
+                        sqlwhere = sql + " where " + where;
+                    }
                 }
             }
             else
@@ -352,10 +381,12 @@ namespace BLL
             return ds;
         }
         //分页
-        public static DataSet PageBySQL(string tsql, int PageSize, int PageIndex)
+        public static DataSet PageBySQL(string tsql, string sumtsql, int PageStart, int PageSize, int PageIndex)
         {
-            string sql = string.Format(@"select * from (select row_number()over(order by FieldOrder)rownumber,* from ({0})tb)tbs  where rownumber>{1} and  rownumber<={2}", tsql);
-            return null;
+            tsql = tsql.ToUpper().Replace("SELECT", " SELECT TOP(" + PageIndex * PageSize + ") row_number () OVER (ORDER BY GUID) rownumber,");
+            tsql = string.Format(@"select * from ({0})tbs  where rownumber>{1} and  rownumber<={2};", tsql, PageStart, PageSize * PageIndex);
+            DataSet ds = getDataSet(tsql + sumtsql);
+            return ds;
         }
     }
 }
