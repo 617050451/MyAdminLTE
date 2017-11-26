@@ -1,11 +1,11 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="index.aspx.cs" Inherits="AdminLTE.Admin.index" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="index.aspx.cs" Inherits="AdminLTE.Admin.Temp.index" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <meta charset="utf-8" />
-    <title>Family Chen </title>
+    <title>速代码</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
     <!-- Bootstrap 3.3.7 -->
@@ -44,9 +44,9 @@
             <!-- Logo -->
             <a href="javascript:void(0)" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
-                <span class="logo-mini"><b>C</b>FL</span>
+                <span class="logo-mini"><b>速</b>代码</span>
                 <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg"><b>Chen</b>Family</span>
+                <span class="logo-lg"><b>速</b>代码</span>
             </a>
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top">
@@ -56,62 +56,7 @@
                 </a>
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
-                        <!-- Messages: style can be found in dropdown.less-->
-                        <li class="dropdown messages-menu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-envelope-o"></i>
-                                <span class="label label-success">520</span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li class="header">You have 4 messages</li>
-                                <li>
-                                    <!-- inner menu: contains the actual data -->
-                                    <ul class="menu">
-                                        <li>
-                                            <!-- start message -->
-                                            <a href="#">
-                                                <div class="pull-left">
-                                                    <img src="<%=imgurl %>" class="img-circle" alt="User Image"/>
-                                                </div>
-                                                <h4>Support Team
-                        <small><i class="fa fa-clock-o"></i>5 mins</small>
-                                                </h4>
-                                                <p>Why not buy a new awesome theme?</p>
-                                            </a>
-                                        </li>
-                                        <!-- end message -->
-                                    </ul>
-                                </li>
-                                <li class="footer"><a href="#">See All Messages</a></li>
-                            </ul>
-                        </li>
-                        <!-- User Account: style can be found in dropdown.less -->
-                        <li class="dropdown user user-menu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="<%=imgurl %>" class="user-image" alt="User Image" />
-                                <span class="hidden-xs"><%=username %></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <!-- User image -->
-                                <li class="user-header">
-                                    <img src="<%=imgurl %>" class="img-circle" alt="User Image"/>
-                                    <p>
-                                        我有一个TA丶很傻丶但是我很爱TA
-                                     <small>11/16 2017</small>
-                                    </p>
-                                </li>
-                                <!-- Menu Footer-->
-                                <li class="user-footer">
-                                    <div class="pull-right">
-                                        <a href="login.aspx" class="btn btn-default btn-flat">注销</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-                        <!-- Control Sidebar Toggle Button -->
-                        <li>
-                            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-                        </li>
+                                            
                     </ul>
                 </div>
             </nav>
@@ -122,24 +67,10 @@
             <section class="sidebar">
                 <!-- Sidebar user panel -->
                 <div class="user-panel">
-                    <div class="pull-left image">
-                        <img src="<%=imgurl %>"" class="img-circle" alt="User Image" />
-                    </div>
-                    <div class="pull-left info">
-                        <p><%=username %></p>
-                        <a href="#"><i class="fa fa-circle text-success"></i>在线</a>
-                    </div>
                 </div>
                 <!-- search form -->
                 <form action="#" method="get" class="sidebar-form">
-                    <div class="input-group">
-                        <input type="text" name="q" class="form-control" placeholder="Search..." />
-                        <span class="input-group-btn">
-                            <button type="submit" name="search" id="search-btn" class="btn btn-flat">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </span>
-                    </div>
+
                 </form>
                 <!-- /.search form -->
                 <!-- sidebar menu: : style can be found in sidebar.less -->
@@ -152,11 +83,7 @@
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <section class="content-header">
-                <h1><small>My Family</small></h1>
-                <ol class="breadcrumb">
-                    <li><a href='javascript:setPage("My Family","index2.aspx","1")'><i class="fa fa-dashboard"></i>My Family</a></li>
-                    <li class="active"></li>
-                </ol>
+                <h1><small>首页</small></h1>
             </section>
 
             <!-- Main content -->
@@ -172,37 +99,6 @@
             </div>
             <strong>Wedding Day &copy; 2016/04/17</strong>
         </footer>
-        <!-- Control Sidebar -->
-        <aside class="control-sidebar control-sidebar-dark">
-            <!-- Create the tabs -->
-            <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-                <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
-            </ul>
-            <!-- Tab panes -->
-            <div class="tab-content">
-                <!-- Home tab content -->
-                <div class="tab-pane" id="control-sidebar-home-tab">
-                    <h3 class="control-sidebar-heading">DMS</h3>
-                    <ul class="control-sidebar-menu">
-                        <li>
-                            <a href='https://dms-net.aliyun.com/?host=qds108295464.my3w.com&port=1433&dbType=SQLServer&userName=qds108295464' target="_blank">
-                                <i class="menu-icon fa fa-eyedropper bg-red"></i>
-                                <div class="menu-info">
-                                    <h4 class="control-sidebar-subheading">My DMS</h4>
-                                    <p>qds108295464.my3w.com</p>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
-                    <!-- /.control-sidebar-menu -->
-                </div>
-                <!-- /.tab-pane -->
-                <!-- Stats tab content -->
-                <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
-                <!-- /.tab-pane -->
-            </div>
-        </aside>
-        <!-- /.control-sidebar -->
         <!-- Add the sidebar's background. This div must be placed
        immediately after the control sidebar -->
         <div class="control-sidebar-bg"></div>
@@ -251,16 +147,10 @@
         });
         //加载菜单
         function menuInit() {
-            var meanhtml = '<%=strJson%>';
-            $(".sidebar-menu").append(meanhtml);
             //绑定菜单点击事件
             $(".sidebar-menu li ul li a").click(function () {
                 mainMenuClickFunc(this);
             })
-            //默认点击第一个菜单
-            //$(".sidebar-menu li ul li a:first").click();
-            //默认点击首页
-            setPage("My Family", "/admin/home/index2.aspx", "1");
         }
         //菜单点击之后，加载页面（切换效果）
         function mainMenuClickFunc(param) {

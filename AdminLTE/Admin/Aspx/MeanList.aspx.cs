@@ -34,10 +34,10 @@ namespace AdminLTE.Admin.Aspx
                     {
                         if (tableInfo != null && tableInfo.Rows.Count > 0)
                         {
-                            string tsql = tableInfo.Rows[0]["TSQL"].ToString();
+                            string tableName = tableInfo.Rows[0]["tableName"].ToString();
                             DataTable dt = JsonHelper.DeserializeJsonToObject<DataTable>(PageData);
-                            string sumsql = "select count(guid) as 'Counts','记录总条数：'+ convert(varchar(20),count(guid))+'（条）' from " + tableInfo.Rows[0]["TableName"].ToString();
-                            Response.Write(BLL.BaseClass.getDataJson(tsql, dt, PageStart, PageIndex, PageSize, " " + Order + " " + OSrderDir, sumsql));
+                            string sumsql = tableInfo.Rows[0]["CountData"].ToString();
+                            Response.Write(BLL.BaseClass.getDataJson(tableName, dt, PageStart, PageIndex, PageSize, " " + Order + " " + OSrderDir, sumsql));
                             Response.End();
                         }
                     }

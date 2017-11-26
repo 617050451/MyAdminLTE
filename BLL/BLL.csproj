@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminLogin.cs" />
     <Compile Include="AdminLTEHelper.cs" />
     <Compile Include="BaseClass.cs" />
     <Compile Include="ConnectionInfo.cs" />

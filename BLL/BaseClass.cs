@@ -216,7 +216,7 @@ namespace BLL
             {
                 string html = "<input type=\"checkbox\" id=\"selectAll\" class=\"table-checkable\" >";
                 sb.Append("<th style=\"width:13px;\">" + html + "</th>");
-                sbjson.Append("{\"data\": \"CbGuid\", render: function (data, type, row) { return \"<input  name='checkboxGuid' type='checkbox' class='table-checkable'  value='\" + data + \"'/>\"}},");
+                sbjson.Append("{\"data\": \"CBGUID\", render: function (data, type, row) { return \"<input  name='checkboxGuid' type='checkbox' class='table-checkable'  value='\" + data + \"'/>\"}},");
             }
             for (int i = 0; i < dt.Rows.Count; i++)
             {
@@ -234,11 +234,12 @@ namespace BLL
             return sb.ToString();
         }
         //获取表格数据Json
-        public static string getDataJson(string tsql, DataTable dt, int PageStart, int PageIndex, int PageSize,string order, string sumsql)
+        public static string getDataJson(string tableName, DataTable dt, int PageStart, int PageIndex, int PageSize,string order, string sumsql)
         {
-            sumsql = getTSQLWhere(sumsql, setStrWhere(dt), "", false);
-            string sqlStr = getTSQLWhere(tsql, setStrWhere(dt), order, true);
-            DataSet ds = BLL.BaseClass.PageBySQL(sqlStr, sumsql, PageStart,PageSize, PageIndex);
+            string strwhere = setStrWhere(dt);
+            string sumsqlStr = getTSQL(tableName, "COUNT(GUID) as COUNTS," + sumsql, strwhere, "", false);
+            string sqlStr = getTSQL(tableName, "*", strwhere, order, true);
+            DataSet ds = BLL.BaseClass.PageBySQL(sqlStr, sumsqlStr, PageStart, PageSize, PageIndex);
             DataTable tableJson = ds.Tables[0];
             DataTable tableSum = ds.Tables[1];
             if (ds != null)
@@ -246,13 +247,13 @@ namespace BLL
                 if (tableJson != null)
                 {
                     StringBuilder sb = new StringBuilder(); 
-                    sb.Append("{\"total\":" + tableSum.Rows[0]["Counts"].ToString() + ",\"page\":1,\"limit\":" + PageSize + ",\"data\":");
+                    sb.Append("{\"total\":" + tableSum.Rows[0]["COUNTS"].ToString() + ",\"page\":1,\"limit\":" + PageSize + ",\"data\":");
                     string datatablejson = JsonHelper.DataTableToJsonWithJsonNet(tableJson);
                     sb.Append(datatablejson);
                     sb.Append(",\"sumHtml\":\"");
-                    for (int i = 1; i < tableSum.Rows.Count; i++)
+                    for (int i = 1; i < tableSum.Columns.Count; i++)
                     {
-                        sb.Append("<span class='label label-warning'>" + tableSum.Rows[0][i].ToString() + "</span>");
+                        sb.Append("<span class='label label-warning' style='font-size: small'>" + tableSum.Rows[0][i].ToString() + "</span>");
                     }
                     sb.Append("\"}");
                     //sb.Append(",\"sumHtml\":\"<span class='label label-danger'>交易总金额：20（元）</span>&nbsp;<span class='label label-warning'>总营业额：1245.15（元）</span>&nbsp;<span class='label label-info'>总笔数：" + tableJson.Rows.Count + "（笔）</span>\"}");
@@ -268,48 +269,17 @@ namespace BLL
             }
         }
         //sql解析拼接
-        public static string getTSQLWhere(string sql, string where, string order,bool isCbGuid)
+        public static string getTSQL(string tableName, string fileName,string strWhere, string order, bool isCbGuid)
         {
-            sql = sql.ToUpper();
-            string sqlwhere = "";
+            string sqlstr = " SELECT " + fileName;
             if (isCbGuid)
-            {
-                if (sql.Contains("SELECT") ? true : false)
-                {
-                    sql = sql.Replace("SELECT", " SELECT GUID AS CbGuid,");
-                }
-            }
-            if (where != "")
-            {
-                if (sql.Contains("WHERE") ? true : false)
-                {
-                    if (sqlwhere.Contains("ORDER BY") ? true : false)
-                    {
-                        sqlwhere = sql.Replace("WHERE", " where " + where + " and ");
-                        sqlwhere = sqlwhere.Replace("ORDER BY", order + ",");
-                    }
-                    else
-                    {
-                        sqlwhere = sql.Replace("WHERE", " where " + where + " and ");
-                    }                    
-                }
-                else
-                {
-                    if (sql.Contains("ORDER BY") ? true : false)
-                    {
-                        sqlwhere = sql.Replace("ORDER BY", " where " + where + " ORDER BY " + order + ",");
-                    }
-                    else
-                    {
-                        sqlwhere = sql + " where " + where;
-                    }
-                }
-            }
-            else
-            {
-                sqlwhere = sql;
-            }
-            return sqlwhere;
+                sqlstr += ",GUID AS CbGuid";
+            sqlstr += " from " + tableName;
+            if (strWhere != "")
+                sqlstr += " where " + strWhere;
+            if (order != "")
+                sqlstr += " order by " + order;
+            return sqlstr;
         }
         //判断dt
         public static bool estimate(DataTable dt)
@@ -365,11 +335,11 @@ namespace BLL
                 sbSQL.Append(" update t_Tables set ");
                 for (int j = 0; j < tableInfo.Rows.Count; j++)
                 {
-                    str += string.Format("[{0}]='{1}',", tableInfo.Rows[j]["name"].ToString(), tableInfo.Rows[j]["value"].ToString());
+                    str += string.Format("[{0}]='{1}',", tableInfo.Rows[j]["name"].ToString(), tableInfo.Rows[j]["value"].ToString().Replace("'", "''"));
                 }
                 sbSQL.Append(string.Format(str.TrimEnd(',') + " where guid ='{0}' ; ", guid));
             }
-            return DAL.SQLDBHelpercs.ExecuteNonQuery(sbSQL.ToString().Replace("'", "''"), null, "sql");
+            return DAL.SQLDBHelpercs.ExecuteNonQuery(sbSQL.ToString(), null, "sql");
         }
         //分页查询
         public static DataSet PageByRownumber(string tableName, string tbFields,int PageSize,int PageIndex,string strWhere,string StrOrder)

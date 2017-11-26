@@ -6,7 +6,7 @@
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>AdminLTE 2 | Log in</title>
+    <title>Family Chen | Log in</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
     <!-- Bootstrap 3.3.7 -->
@@ -37,7 +37,7 @@
         </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
-            <p class="login-box-msg"><b>请登录后进入FamilyChen</b></p>
+            <p class="login-box-msg"><b>Enter After Login Family Chen</b></p>
             <div class="form-group has-feedback">
                 <input id="userid" type="text" name="userid" class="form-control" placeholder="账号" />
                 <span class="glyphicon glyphicon-cloud form-control-feedback"></span>
@@ -58,7 +58,7 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-xs-4">
-                    <button type="button" name="bntSave" class="btn btn-primary btn-block btn-flat"  data-loading-text="登录中....." onclick="signinOnclick(this)">登录</button>
+                    <button type="button" name="bntSave" class="btn btn-primary btn-block btn-flat"  data-loading-text="登录中....." onclick="signinOnclick()">登录</button>
                 </div>
                 <!-- /.col -->
             </div>
@@ -76,6 +76,7 @@
     <script src="../../Script/AdminLTE-2.4.2/dist/js/bootstrapValidator.min.js"></script>
     <script src="../../Script/AdminLTE-2.4.2/dist/js/bootstrapValidator.js"></script>
     <script type="text/javascript" src="../../Script/AdminLTE-2.4.2/dist/js/language/zh_CN.js"></script>
+    <script src="../../Script/js/cyfs.js"></script>
     <script>
         //绑定确定事件
         $(document).keypress(function (e) {
@@ -88,7 +89,8 @@
             $('.login-box-body').bootstrapValidator({ submitButtons: 'button[name=bntSave]' });
         })
         //登录事件
-        function signinOnclick(bnt) {
+        function signinOnclick() {
+            var bnt = $("button[name=bntSave]");
             bntLoading(bnt);
             var userid = $("#userid").val();
             var password = $("#password").val();
@@ -97,13 +99,29 @@
                 bntCloseLoading(bnt);
                 return false;
             }
-            if (userid == "admin" && password == "123") {
-                $(location).attr('href', '/admin/home/index.aspx');
-            } else {
-                funerrorMes('账号或错误！请进行一些更改。');
-                bntCloseLoading(bnt);
-                return false;
-            }
+            //封装请求参数
+            var param = {};
+            param.gettype = "login";
+            param.userid = userid;
+            param.password = password;
+            //ajax请求数据
+            $.ajax({
+                type: "GET",
+                url: pageName(),
+                cache: false,  //禁用缓存
+                data: param,  //传入组装的参数
+                dataType: "text",
+                async: false,
+                success: function (result) {
+                    if (result == "True")
+                        $(location).attr('href', '/admin/home/index.aspx');
+                    else {
+                        funerrorMes('账号或错误！请进行一些更改。');
+                        bntCloseLoading(bnt);
+                        return false;
+                    }
+                }
+            });
         }
         //错误提示
         function funerrorMes(error) {

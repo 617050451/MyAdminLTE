@@ -59,10 +59,11 @@ namespace BLL
                             sb.Append("</li>");
                             result.Append(sb.ToString());
                             sb.Clear();
-
                         }
                         else
                         {
+                            if (row["MeanHeader"].ToString() != "")
+                                sb.Append("<li class=\"header\">" + row["MeanHeader"] + "</li>");
                             //isleaf=true
                             if (row[colmenulevel].ToString() == "1")
                             {

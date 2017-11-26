@@ -31,7 +31,7 @@ namespace AdminLTE.Admin.Temp
                         {
                             Response.Write("True");
                             Response.End();
-                        };
+                        }
                     }
                     else if (GetType == "setTableData")
                     {

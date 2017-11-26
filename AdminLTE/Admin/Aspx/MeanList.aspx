@@ -36,12 +36,12 @@
 <body>
     <form id="form1" runat="server">
         <section class="content" style="margin-top: -13px;">
-            <div class="box box-solid <%=tableInfo.Rows[0]["strwhere"].ToString()=="0"?"hidden":"" %>">
+            <div class="box box-solid <%=tableInfo.Rows[0]["Plus"].ToString()=="1"?"collapsed-box":"" %><%=tableInfo.Rows[0]["strwhere"].ToString()=="0"?"hidden":"" %>">
                 <div class="box-header with-border">
                     <h3 class="box-title">高级查询</h3>
                     <div class="box-tools">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                            <i class="fa fa-minus"></i>
+                            <i class="<%=tableInfo.Rows[0]["Plus"].ToString()=="1"?"fa fa-plus":"fa fa-minus" %>"></i>
                         </button>
                     </div>
                 </div>
@@ -55,15 +55,11 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="box box-primary">
-                        <%--                        <div class="box-header">
-                            <h3 class="box-title">title</h3>
-                        </div>--%>
-                        <!-- /.box-header -->
                         <div class="box-body">	
-                            <div id="ltlbnt1"  class="pull-left" >
-                                <asp:Literal ID="ltlbnt" runat="server" Text=""></asp:Literal>
+                            <div id="ltlbnt1"  class="pull-left" style="height:24px;" >
+                                   <asp:Literal ID="ltlbnt" runat="server" Text=""></asp:Literal>
                             </div>
-                            <div id="ltlSum" class="pull-right">
+                            <div id="ltlSum" class="pull-right"  style="height:24px;">
                             </div>
                             <table id="example" class="table table-bordered table-hover">
                                 <asp:Literal ID="ltlhead" runat="server" Text=""></asp:Literal> 
@@ -127,7 +123,7 @@
 				"aaSorting": [[1, "asc"]],
                 "lengthChange": true,
                 "autoWidth": false,
-                "aLengthMenu": [2, 50, 100, 200],
+                "aLengthMenu": [25, 50, 100, 200],
                 //当处理大数据时，延迟渲染数据，有效提高Datatables处理能力 
                 "pagingType": "full_numbers",//详细分页组，可以支持直接跳转到某页  
                 "deferRender": true,

@@ -65,6 +65,7 @@
     <Content Include="Admin\Home\index.aspx" />
     <Content Include="Admin\Home\index2.aspx" />
     <Content Include="Admin\Home\login.aspx" />
+    <Content Include="Admin\Temp\index.aspx" />
     <Content Include="Admin\Temp\ListTemp.aspx" />
     <Content Include="Admin\Temp\setList.aspx" />
     <Content Include="Admin\Temp\setPages.aspx" />
@@ -6757,6 +6758,9 @@
     <Content Include="Script\AdminLTE-2.4.2\plugins\timepicker\bootstrap-timepicker.min.css" />
     <Content Include="Script\AdminLTE-2.4.2\plugins\timepicker\bootstrap-timepicker.min.js" />
     <Content Include="Script\AdminLTE-2.4.2\starter.html" />
+    <Content Include="Script\img\cy.JPG" />
+    <Content Include="Script\img\fs.JPG" />
+    <Content Include="Script\img\IMG_4038.JPG" />
     <Content Include="Script\js\cyfs.css" />
     <Content Include="Script\js\cyfs.js" />
     <Content Include="Script\js\jquery-3.1.1.min.js" />
@@ -6814,6 +6818,13 @@
     </Compile>
     <Compile Include="Admin\Home\login.aspx.designer.cs">
       <DependentUpon>login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Temp\index.aspx.cs">
+      <DependentUpon>index.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Temp\index.aspx.designer.cs">
+      <DependentUpon>index.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\Temp\ListTemp.aspx.cs">
       <DependentUpon>ListTemp.aspx</DependentUpon>
@@ -7488,9 +7499,7 @@
       <Name>BLL</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Script\img\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
