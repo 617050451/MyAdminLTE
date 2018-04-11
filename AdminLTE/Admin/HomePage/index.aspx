@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="index.aspx.cs" Inherits="AdminLTE.Admin.index" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Index.aspx.cs" Inherits="AdminLTE.Admin.index" %>
 
 <!DOCTYPE html>
 
@@ -56,36 +56,6 @@
                 </a>
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
-                        <!-- Messages: style can be found in dropdown.less-->
-                        <li class="dropdown messages-menu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-envelope-o"></i>
-                                <span class="label label-success">520</span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li class="header">You have 4 messages</li>
-                                <li>
-                                    <!-- inner menu: contains the actual data -->
-                                    <ul class="menu">
-                                        <li>
-                                            <!-- start message -->
-                                            <a href="#">
-                                                <div class="pull-left">
-                                                    <img src="<%=imgurl %>" class="img-circle" alt="User Image"/>
-                                                </div>
-                                                <h4>Support Team
-                        <small><i class="fa fa-clock-o"></i>5 mins</small>
-                                                </h4>
-                                                <p>Why not buy a new awesome theme?</p>
-                                            </a>
-                                        </li>
-                                        <!-- end message -->
-                                    </ul>
-                                </li>
-                                <li class="footer"><a href="#">See All Messages</a></li>
-                            </ul>
-                        </li>
-                        <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <img src="<%=imgurl %>" class="user-image" alt="User Image" />
@@ -95,8 +65,7 @@
                                 <!-- User image -->
                                 <li class="user-header">
                                     <img src="<%=imgurl %>" class="img-circle" alt="User Image"/>
-                                    <p>
-                                        我有一个TA丶很傻丶但是我很爱TA
+                                    <p><%=username %>
                                      <small>11/16 2017</small>
                                     </p>
                                 </li>
@@ -104,6 +73,9 @@
                                 <li class="user-footer">
                                     <div class="pull-right">
                                         <a href="login.aspx" class="btn btn-default btn-flat">注销</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="login.aspx" class="btn btn-default btn-flat">修改密码</a>
                                     </div>
                                 </li>
                             </ul>
@@ -120,29 +92,6 @@
         <aside class="main-sidebar">
             <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
-                <!-- Sidebar user panel -->
-                <div class="user-panel">
-                    <div class="pull-left image">
-                        <img src="<%=imgurl %>"" class="img-circle" alt="User Image" />
-                    </div>
-                    <div class="pull-left info">
-                        <p><%=username %></p>
-                        <a href="#"><i class="fa fa-circle text-success"></i>在线</a>
-                    </div>
-                </div>
-                <!-- search form -->
-                <form action="#" method="get" class="sidebar-form">
-                    <div class="input-group">
-                        <input type="text" name="q" class="form-control" placeholder="Search..." />
-                        <span class="input-group-btn">
-                            <button type="submit" name="search" id="search-btn" class="btn btn-flat">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </span>
-                    </div>
-                </form>
-                <!-- /.search form -->
-                <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu" data-widget="tree">
                 </ul>
             </section>
@@ -154,7 +103,7 @@
             <section class="content-header">
                 <h1><small>My Family</small></h1>
                 <ol class="breadcrumb">
-                    <li><a href='javascript:setPage("My Family","index2.aspx","1")'><i class="fa fa-dashboard"></i>My Family</a></li>
+                    <li><a href='javascript:setPage("My Family","WelcomePage.aspx","1")'><i class="fa fa-dashboard"></i>My Family</a></li>
                     <li class="active"></li>
                 </ol>
             </section>
@@ -260,7 +209,7 @@
             //默认点击第一个菜单
             //$(".sidebar-menu li ul li a:first").click();
             //默认点击首页
-            setPage("My Family", "/admin/home/index2.aspx", "1");
+            setPage("My Family", "WelcomePage.aspx", "1");
         }
         //菜单点击之后，加载页面（切换效果）
         function mainMenuClickFunc(param) {

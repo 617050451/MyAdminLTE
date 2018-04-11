@@ -62,6 +62,29 @@ namespace DAL
             }
         }
 
+        public static string ExecuteReader(string sql)
+        {
+            try
+            {
+
+                SqlCommand comm = new SqlCommand(sql, Conn);
+                SqlDataAdapter da = new SqlDataAdapter(comm);
+
+                DataSet ds = new DataSet();
+
+                da.Fill(ds);
+
+                if (ds != null && ds.Tables.Count > 0)
+                    return ds.Tables[0].Rows[0][0].ToString();
+                else
+                    return "";
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
         public static bool ExecuteNonQuery(string sql, SqlParameter[] paras, string type)
         {
             try

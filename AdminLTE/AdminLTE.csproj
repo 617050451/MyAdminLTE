@@ -60,11 +60,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Admin\Aspx\MeanList.aspx" />
+    <Content Include="Admin\Aspx\Temp.aspx" />
     <Content Include="Admin\DMS\DMS.aspx" />
+    <Content Include="Admin\HomePage\WelcomePage.aspx" />
     <Content Include="Admin\Home\DataList.aspx" />
-    <Content Include="Admin\Home\index.aspx" />
-    <Content Include="Admin\Home\index2.aspx" />
-    <Content Include="Admin\Home\login.aspx" />
+    <Content Include="Admin\HomePage\Index.aspx" />
+    <Content Include="Admin\HomePage\Login.aspx" />
     <Content Include="Admin\Temp\index.aspx" />
     <Content Include="Admin\Temp\ListTemp.aspx" />
     <Content Include="Admin\Temp\setList.aspx" />
@@ -6760,7 +6761,7 @@
     <Content Include="Script\AdminLTE-2.4.2\starter.html" />
     <Content Include="Script\img\cy.JPG" />
     <Content Include="Script\img\fs.JPG" />
-    <Content Include="Script\img\IMG_4038.JPG" />
+    <Content Include="Script\img\IMG_40381.JPG" />
     <Content Include="Script\js\cyfs.css" />
     <Content Include="Script\js\cyfs.js" />
     <Content Include="Script\js\jquery-3.1.1.min.js" />
@@ -6787,6 +6788,13 @@
     <Compile Include="Admin\Aspx\MeanList.aspx.designer.cs">
       <DependentUpon>MeanList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\Aspx\Temp.aspx.cs">
+      <DependentUpon>Temp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Aspx\Temp.aspx.designer.cs">
+      <DependentUpon>Temp.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\DMS\DMS.aspx.cs">
       <DependentUpon>DMS.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -6794,30 +6802,30 @@
     <Compile Include="Admin\DMS\DMS.aspx.designer.cs">
       <DependentUpon>DMS.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\HomePage\WelcomePage.aspx.cs">
+      <DependentUpon>WelcomePage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\HomePage\WelcomePage.aspx.designer.cs">
+      <DependentUpon>WelcomePage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\Home\DataList.aspx.cs">
       <DependentUpon>DataList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Admin\Home\index.aspx.cs">
-      <DependentUpon>index.aspx</DependentUpon>
+    <Compile Include="Admin\HomePage\Index.aspx.cs">
+      <DependentUpon>Index.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Admin\Home\index.aspx.designer.cs">
-      <DependentUpon>index.aspx</DependentUpon>
+    <Compile Include="Admin\HomePage\Index.aspx.designer.cs">
+      <DependentUpon>Index.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Admin\Home\index2.aspx.cs">
-      <DependentUpon>index2.aspx</DependentUpon>
+    <Compile Include="Admin\HomePage\Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Admin\Home\index2.aspx.designer.cs">
-      <DependentUpon>index2.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\Home\login.aspx.cs">
-      <DependentUpon>login.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Home\login.aspx.designer.cs">
-      <DependentUpon>login.aspx</DependentUpon>
+    <Compile Include="Admin\HomePage\Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\Temp\index.aspx.cs">
       <DependentUpon>index.aspx</DependentUpon>

@@ -111,7 +111,7 @@ namespace BLL
                 return null;
         }
         //高级查询
-        public static string setStrWhere(DataTable dt)
+        public static string SetStrWhere(DataTable dt)
         {
             string strWhere = "";
             if (dt != null && dt.Rows.Count > 0)
@@ -233,48 +233,13 @@ namespace BLL
             columnsJson = "[" + sbjson.ToString().TrimEnd(',') + "]";
             return sb.ToString();
         }
-        //获取表格数据Json
-        public static string getDataJson(string tableName, DataTable dt, int PageStart, int PageIndex, int PageSize,string order, string sumsql)
-        {
-            string strwhere = setStrWhere(dt);
-            string sumsqlStr = getTSQL(tableName, "COUNT(GUID) as COUNTS," + sumsql, strwhere, "", false);
-            string sqlStr = getTSQL(tableName, "*", strwhere, order, true);
-            DataSet ds = BLL.BaseClass.PageBySQL(sqlStr, sumsqlStr, PageStart, PageSize, PageIndex);
-            DataTable tableJson = ds.Tables[0];
-            DataTable tableSum = ds.Tables[1];
-            if (ds != null)
-            {
-                if (tableJson != null)
-                {
-                    StringBuilder sb = new StringBuilder(); 
-                    sb.Append("{\"total\":" + tableSum.Rows[0]["COUNTS"].ToString() + ",\"page\":1,\"limit\":" + PageSize + ",\"data\":");
-                    string datatablejson = JsonHelper.DataTableToJsonWithJsonNet(tableJson);
-                    sb.Append(datatablejson);
-                    sb.Append(",\"sumHtml\":\"");
-                    for (int i = 1; i < tableSum.Columns.Count; i++)
-                    {
-                        sb.Append("<span class='label label-warning' style='font-size: small'>" + tableSum.Rows[0][i].ToString() + "</span>");
-                    }
-                    sb.Append("\"}");
-                    //sb.Append(",\"sumHtml\":\"<span class='label label-danger'>交易总金额：20（元）</span>&nbsp;<span class='label label-warning'>总营业额：1245.15（元）</span>&nbsp;<span class='label label-info'>总笔数：" + tableJson.Rows.Count + "（笔）</span>\"}");
-                    return sb.ToString().Replace("\n", "");
-                }
-                else
-                {
-                    return "{\"total\":" + 0 + ",\"page\":0,\"limit\":" + PageSize + ",\"data\":[],\"sumData\":\"\"}";
-                }
-            }
-            else {
-                return "{\"total\":" + 0 + ",\"page\":0,\"limit\":" + PageSize + ",\"data\":[],\"sumData\":\"\"}";
-            }
-        }
         //sql解析拼接
-        public static string getTSQL(string tableName, string fileName,string strWhere, string order, bool isCbGuid)
+        public static string GetTSQL(string tableName, string fileName,string strWhere, string order, bool isCbGuid)
         {
             string sqlstr = " SELECT " + fileName;
             if (isCbGuid)
                 sqlstr += ",GUID AS CbGuid";
-            sqlstr += " from " + tableName;
+            sqlstr += " from (" + tableName + ") as NEWTABLE";
             if (strWhere != "")
                 sqlstr += " where " + strWhere;
             if (order != "")
@@ -295,10 +260,9 @@ namespace BLL
             return "";
         }
         //删除
-        public static bool deleteGUID(DataTable dt, string values)
+        public static bool DeleteItemID(string tableName,string OneFileName, string values)
         {
-            string tableName = dt.Rows[0]["TableName"].ToString();
-            string sqldel = string.Format(@" delete from {0} where guid in ({1})", tableName, values);
+            string sqldel = string.Format(@" delete from {0} where "+ OneFileName + " in ({1})", tableName, values);
             return DAL.SQLDBHelpercs.ExecuteNonQuery(sqldel, null, "sql");
         }
         //显示页面修改保存
@@ -341,22 +305,30 @@ namespace BLL
             }
             return DAL.SQLDBHelpercs.ExecuteNonQuery(sbSQL.ToString(), null, "sql");
         }
-        //分页查询
-        public static DataSet PageByRownumber(string tableName, string tbFields,int PageSize,int PageIndex,string strWhere,string StrOrder)
+        /// <summary>
+        /// 拼接分页SQL语句
+        /// </summary>
+        /// <param name=""></param>
+        public static string PageBySQL(string SQL, string TableName, string OneFileName, string SQLWhere, string SQLOrder, int PageIndex, int PageLimit)
         {
-            string sql = string.Format(@"declare @count int
-            exec [dbo].[spSqlPageByRownumber]'{0}','{1}',{2},{3},'{4}','{5}',@count output
-            select @count", tableName, tbFields, PageSize, PageIndex, strWhere, StrOrder);
-            DataSet ds = getDataSet(sql);
-            return ds;
+            int minNum = (Convert.ToInt32(PageIndex) - 1) * Convert.ToInt32(PageLimit) + 1;
+            int maxNum = Convert.ToInt32(PageIndex) * Convert.ToInt32(PageLimit);
+            if (!string.IsNullOrEmpty(SQLWhere))
+            {
+                SQLWhere = " where " + SQLWhere;
+            }
+            if (string.IsNullOrEmpty(SQLOrder))
+            {
+                SQLOrder = OneFileName + " ASC";
+            }
+            string sql = string.Format(@"SELECT " + OneFileName + " AS 'ItemID',* FROM (SELECT ROW_NUMBER() OVER(ORDER BY {0}) AS NewRowID,* FROM ({1}) AS NOPOSTNEWTABLE {2})NOPOTST WHERE NOPOTST.NewRowID >={3} AND NOPOTST.NewRowID <= {4}", SQLOrder, SQL, SQLWhere, minNum, maxNum);
+            return sql;
         }
-        //分页
-        public static DataSet PageBySQL(string tsql, string sumtsql, int PageStart, int PageSize, int PageIndex)
+        //
+        public static string GetTopOneFileName(string TableName)
         {
-            tsql = tsql.ToUpper().Replace("SELECT", " SELECT TOP(" + PageIndex * PageSize + ") row_number () OVER (ORDER BY GUID) rownumber,");
-            tsql = string.Format(@"select * from ({0})tbs  where rownumber>{1} and  rownumber<={2};", tsql, PageStart, PageSize * PageIndex);
-            DataSet ds = getDataSet(tsql + sumtsql);
-            return ds;
+            string sql = string.Format("Select  top(1)Name FROM SysColumns Where id=Object_Id('{0}')", TableName);
+            return DAL.SQLDBHelpercs.ExecuteReader(sql);
         }
     }
 }

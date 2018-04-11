@@ -20,42 +20,42 @@ namespace AdminLTE.Admin.Aspx
         {
             if (!IsPostBack)
             {
-			    string GetType = Request.QueryString["gettype"];
-                tableInfo = BLL.BaseClass.getTableInfo(guid);
-                if (GetType != null)
-                {
-                    int PageIndex = Convert.ToInt32(Request.QueryString["page"]);
-                    int PageSize = Convert.ToInt32(Request.QueryString["limit"]);
-                    int PageStart = Convert.ToInt32(Request.QueryString["start"]);
-                    string Order = Request.QueryString["order"];
-                    string OSrderDir = Request.QueryString["orderDir"];
-                    var PageData = Request.QueryString["values"];
-                    if (GetType == "getDate")
-                    {
-                        if (tableInfo != null && tableInfo.Rows.Count > 0)
-                        {
-                            string tableName = tableInfo.Rows[0]["tableName"].ToString();
-                            DataTable dt = JsonHelper.DeserializeJsonToObject<DataTable>(PageData);
-                            string sumsql = tableInfo.Rows[0]["CountData"].ToString();
-                            Response.Write(BLL.BaseClass.getDataJson(tableName, dt, PageStart, PageIndex, PageSize, " " + Order + " " + OSrderDir, sumsql));
-                            Response.End();
-                        }
-                    }
-                    else if (GetType == "bntOperation")
-                    {
-                        string values = Request.QueryString["values"];
-                        Response.Write(BLL.BaseClass.deleteGUID(tableInfo, values));
-                        Response.End();
-                    }
-                }
-                else
-                {
-                    DataTable tableFieldInfo = BLL.BaseClass.getTableFieldInfo(guid);
-                    ltlhead.Text = BLL.BaseClass.getTableHtml(tableFieldInfo, tableInfo.Rows[0]["choice"].ToString(), ref columnsJson);
-                    ltlbnt.Text = BLL.BaseClass.setBntHtml(tableInfo);
-                    if (tableInfo.Rows[0]["strwhere"].ToString() == "1")
-                        ltlStrWhere.Text = BaseClass.setStrWhereHtml(tableFieldInfo);
-                }
+			    //string GetType = Request.QueryString["gettype"];
+       //         tableInfo = BLL.BaseClass.getTableInfo(guid);
+       //         if (GetType != null)
+       //         {
+       //             int PageIndex = Convert.ToInt32(Request.QueryString["page"]);
+       //             int PageSize = Convert.ToInt32(Request.QueryString["limit"]);
+       //             int PageStart = Convert.ToInt32(Request.QueryString["start"]);
+       //             string Order = Request.QueryString["order"];
+       //             string OSrderDir = Request.QueryString["orderDir"];
+       //             var PageData = Request.QueryString["values"];
+       //             if (GetType == "getDate")
+       //             {
+       //                 if (tableInfo != null && tableInfo.Rows.Count > 0)
+       //                 {
+       //                     string tableName = tableInfo.Rows[0]["tableName"].ToString();
+       //                     DataTable dt = JsonHelper.DeserializeJsonToObject<DataTable>(PageData);
+       //                     string sumsql = tableInfo.Rows[0]["CountData"].ToString();
+       //                     Response.Write(BLL.BaseClass.getDataJson(tableName, dt, PageStart, PageIndex, PageSize, " " + Order + " " + OSrderDir, sumsql));
+       //                     Response.End();
+       //                 }
+       //             }
+       //             else if (GetType == "bntOperation")
+       //             {
+       //                 string values = Request.QueryString["values"];
+       //                 Response.Write(BLL.BaseClass.deleteGUID(tableInfo, values));
+       //                 Response.End();
+       //             }
+       //         }
+       //         else
+       //         {
+       //             DataTable tableFieldInfo = BLL.BaseClass.getTableFieldInfo(guid);
+       //             ltlhead.Text = BLL.BaseClass.getTableHtml(tableFieldInfo, tableInfo.Rows[0]["choice"].ToString(), ref columnsJson);
+       //             ltlbnt.Text = BLL.BaseClass.setBntHtml(tableInfo);
+       //             if (tableInfo.Rows[0]["strwhere"].ToString() == "1")
+       //                 ltlStrWhere.Text = BaseClass.setStrWhereHtml(tableFieldInfo);
+       //         }
             }
 			//StartWriteOne                                                                                
             //EndWriteOne

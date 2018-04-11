@@ -47,6 +47,7 @@
     <Compile Include="BaseClass.cs" />
     <Compile Include="ConnectionInfo.cs" />
     <Compile Include="JsonHelper.cs" />
+    <Compile Include="MeanList.cs" />
     <Compile Include="ObjectData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

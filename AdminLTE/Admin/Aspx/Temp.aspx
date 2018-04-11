@@ -1,6 +1,6 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="MeanList.aspx.cs" Inherits="AdminLTE.Admin.Aspx.MeanList" validateRequest="false" %>
-
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Temp.aspx.cs" Inherits="AdminLTE.Admin.Aspx.Temp" validateRequest="false" %>
 <!DOCTYPE html>
+
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>菜单管理</title>
@@ -36,12 +36,12 @@
 <body>
     <form id="form1" runat="server">
         <section class="content" style="margin-top: -13px;">
-            <div class="box box-solid <%=tableInfo.Rows[0]["Plus"].ToString()=="1"?"collapsed-box":"" %> <%=tableInfo.Rows[0]["strwhere"].ToString()=="0"?"hidden":"" %>">
+            <div data-resple="iswhere" class="box box-solid">
                 <div class="box-header with-border">
                     <h3 class="box-title">高级查询</h3>
                     <div class="box-tools">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                            <i class="<%=tableInfo.Rows[0]["Plus"].ToString()=="1"?"fa fa-plus":"fa fa-minus" %>"></i>
+                            <i data-resple="isplus" class=""></i>
                         </button>
                     </div>
                 </div>
@@ -56,8 +56,8 @@
                 <div class="col-xs-12">
                     <div class="box box-primary">
                         <div class="box-body">	
-                            <div id="ltlbnt1"  class="pull-left" style="height:24px;" >
-                                   <asp:Literal ID="ltlbnt" runat="server" Text=""></asp:Literal>
+                            <div id="ltlbnts"  class="pull-left" style="height:24px;" >
+                                 <asp:Literal ID="ltlbnt" runat="server" Text=""></asp:Literal>
                             </div>
                             <div id="ltlSum" class="pull-right"  style="height:24px;">
                             </div>
@@ -73,6 +73,9 @@
             </div>
             <!-- /.row -->
         </section>
+        <asp:HiddenField ID="IsPlus" runat="server" />
+        <asp:HiddenField ID="IsWhere" runat="server" />
+        <asp:HiddenField ID="ColumnsJson" runat="server" />
     </form>
     <!-- jQuery 3 -->
     <script src="../../Script/AdminLTE-2.4.2/bower_components/jquery/dist/jquery.min.js"></script>
@@ -98,82 +101,6 @@
     <script src="../../Script/layer-v3.1.0/layer/layer.js"></script>
 	<link href="../../Script/js/cyfs.css" rel="stylesheet" />
     <script src="../../Script/js/cyfs.js"></script>
-    <script> 
-        var columnsJson = <%=columnsJson%>;
-        $(document).ready(function () {
-            getJsonData("getDate");
-            //Date picker
-            $('input[data-type=datepicker]').datepicker({
-                language: 'zh-CN',
-                autoclose: true,
-                todayHighlight: true,
-                format: 'yyyy-mm-dd'
-            });
-        });
-        //获取数据
-        var table;
-        function getJsonData(type) {
-            if (type == 'select') {
-                table.fnClearTable(false);  //清空数据.fnClearTable();//清空数据
-                table.fnDestroy(); //还原初始化了的datatable  
-            }
-            table = $('#example').dataTable({
-                "dom": "t<'row'<'#id.col-xs-2 table-l'l><'#id.col-xs-3'i><'#id.col-xs-6 table-p'p>>r",
-				"aoColumnDefs": [{ "bSortable": false, "aTargets": [0]}],
-				"aaSorting": [[1, "asc"]],
-                "lengthChange": true,
-                "autoWidth": false,
-                "aLengthMenu": [25, 50, 100, 200],
-                //当处理大数据时，延迟渲染数据，有效提高Datatables处理能力 
-                "pagingType": "full_numbers",//详细分页组，可以支持直接跳转到某页  
-                "deferRender": true,
-                "processing": true,  //隐藏加载提示,自行处理
-                "serverSide": true,  //启用服务器端分页
-                "searching": false,  //禁用原生搜索
-                "orderMulti": true,  //启用多列排序
-                "columns": columnsJson,
-                "oLanguage": oLanguage,
-                ajax: function (data, callback, settings) {
-                    var values = $('#selectWhere').find('input,select').serializeArray();
-                    //封装请求参数
-                    var param = {};
-                    param.gettype = "getDate";
-                    param.limit = data.length;//页面显示记录条数，在页面显示每页显示多少项的时候
-                    param.start = data.start;//开始的记录序号
-                    param.page = (data.start / data.length) + 1;//当前页码;
-                    param.values = JSON.stringify(values);
-                    param.order = columnsJson[data.order[0].column]['data'];
-                    param.orderDir = data.order[0].dir;
-                    //ajax请求数据
-                    $.ajax({
-                        type: "GET",
-                        url: pageName(),
-                        cache: false,  //禁用缓存
-                        data: param,  //传入组装的参数
-                        dataType: "json",
-                        async: false,
-                        success: function (result) {
-                            if (result != false) {
-                                //setTimeout仅为测试延迟效果
-                                setTimeout(function () {
-                                    //封装返回数据
-                                    var returnData = {};
-                                    returnData.draw = data.draw;//这里直接自行返回了draw计数器,应该由后台返回
-                                    returnData.recordsTotal = result.total;//返回数据全部记录
-                                    returnData.recordsFiltered = result.total;//后台不实现过滤功能，每次查询均视作全部结果
-                                    returnData.data = result.data;//返回的数据列表
-                                    //调用DataTables提供的callback方法，代表数据已封装完成并传回DataTables进行渲染
-                                    //此时的数据需确保正确无误，异常判断应在执行此回调前自行处理完毕
-                                    callback(returnData);
-                                    $("#ltlSum").html(result.sumHtml);
-                                    getDataAfter();
-                                }, 200);
-                            }
-                        }
-                    });
-                }
-            });
-        }
-    </script>
 </body>
 </html>
+

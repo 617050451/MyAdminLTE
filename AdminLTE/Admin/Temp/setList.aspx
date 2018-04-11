@@ -134,9 +134,9 @@
                     <tr>
                         <td>
                             <div class="form-group">
-                                <label for="TableName" class="col-sm-3 control-label">操作表：</label>
+                                <label for="TableName" class="col-sm-3 control-label">数据：</label>
                                 <div class="col-sm-9">
-                                    <input type="text" name="TableName" class="form-control" placeholder="操作表" value="<%=tableInfo.Rows[0]["TableName"].ToString() %>" />
+                                     <textarea name="TableName" class="form-control" placeholder="数据" rows="3"><%=tableInfo.Rows[0]["TableName"].ToString()%></textarea>
                                 </div>
                             </div>
                         </td>
@@ -289,7 +289,7 @@
                 type: 1,
                 title: '参数设置',
                 skin: 'layui-layer-rim', //加上边框
-                area: ['620px', '370px'], //宽高
+                area: ['620px', '420px'], //宽高
                 content: showHtml
             });
         }

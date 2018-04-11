@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="login.aspx.cs" Inherits="AdminLTE.Admin.Home.login" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="AdminLTE.Admin.Home.login" %>
 
 <!DOCTYPE html>
 
@@ -48,13 +48,6 @@
             </div>
             <div class="row">
                 <div class="col-xs-8">
-                    <%--       <div class="checkbox icheck">
-                            <label>
-                                <input type="checkbox">
-                                Remember Me
-           
-                            </label>
-                        </div>--%>
                 </div>
                 <!-- /.col -->
                 <div class="col-xs-4">
@@ -75,7 +68,7 @@
     <script src="../../Script/AdminLTE-2.4.2/plugins/iCheck/icheck.min.js"></script>
     <script src="../../Script/AdminLTE-2.4.2/dist/js/bootstrapValidator.min.js"></script>
     <script src="../../Script/AdminLTE-2.4.2/dist/js/bootstrapValidator.js"></script>
-    <script type="text/javascript" src="../../Script/AdminLTE-2.4.2/dist/js/language/zh_CN.js"></script>
+    <script src="../../Script/AdminLTE-2.4.2/dist/js/language/zh_CN.js"></script>
     <script src="../../Script/js/cyfs.js"></script>
     <script>
         //绑定确定事件
@@ -86,54 +79,8 @@
             }
         });
         $(function () {
-            $('.login-box-body').bootstrapValidator({ submitButtons: 'button[name=bntSave]' });
+            $('.login-box-body').bootstrapValidator({ submitButtons: 'button[name=bntSave]'});
         })
-        //登录事件
-        function signinOnclick() {
-            var bnt = $("button[name=bntSave]");
-            bntLoading(bnt);
-            var userid = $("#userid").val();
-            var password = $("#password").val();
-            if (userid == "" || password == "") {
-                funerrorMes('账号或错误不能为空');
-                bntCloseLoading(bnt);
-                return false;
-            }
-            //封装请求参数
-            var param = {};
-            param.gettype = "login";
-            param.userid = userid;
-            param.password = password;
-            //ajax请求数据
-            $.ajax({
-                type: "GET",
-                url: pageName(),
-                cache: false,  //禁用缓存
-                data: param,  //传入组装的参数
-                dataType: "text",
-                async: false,
-                success: function (result) {
-                    if (result == "True")
-                        $(location).attr('href', '/admin/home/index.aspx');
-                    else {
-                        funerrorMes('账号或错误！请进行一些更改。');
-                        bntCloseLoading(bnt);
-                        return false;
-                    }
-                }
-            });
-        }
-        //错误提示
-        function funerrorMes(error) {
-            $("#error").html('<div id="error" class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert"aria-hidden="true">&times;</button>' + error + '</div>');
-
-        }
-        function bntLoading(btn) {
-            $(btn).button('loading');
-        }
-        function bntCloseLoading(btn) {
-            $(btn).button('reset');
-        }
     </script>
 </body>
 </html>

@@ -22,10 +22,8 @@ namespace AdminLTE.Admin
                 {
                     imgurl = dtUserInfo.Rows[0]["UserImg"].ToString();
                     username = dtUserInfo.Rows[0]["UserName"].ToString();
-                    DataTable dt = new DataTable();
-                    dt = BLL.BaseClass.getDataTable("SELECT * FROM [qds108295464_db].[dbo].[t_Mean]");
                     BLL.AdminLTEHelper adminlte = new BLL.AdminLTEHelper();
-                    adminlte.GetTreeJsonByTable(dt, "GUID", "MeanName", "ParentID", "0", "MeanLevel");
+                    adminlte.GetMeanJsonData("GUID", "MeanName", "ParentID", "0", "MeanLevel");
                     strJson = adminlte.result.ToString();
                 }
             }
