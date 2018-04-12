@@ -4,7 +4,7 @@ using System.Data;
 
 namespace AdminLTE.Admin.Aspx
 {
-    public partial class Temp : System.Web.UI.Page
+    public partial class MeanList : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -22,24 +22,25 @@ namespace AdminLTE.Admin.Aspx
                     if (GetType == "getDate")
                     {
                         DataTable dt = JsonHelper.DeserializeJsonToObject<DataTable>(PageData);//条件数据
-                        Response.Write(BLL.MeanList.GetDataJson(dt, PageStart, PageIndex, PageSize, " " + Order + " " + OSrderDir));
+                        Response.Write(BLL.MeanListClass.GetDataJson(dt, PageStart, PageIndex, PageSize, " " + Order + " " + OSrderDir));
                         Response.End();
                     }
                     else if (GetType == "bntOperation")
                     {
                         string values = Request.QueryString["values"];
-                        Response.Write(BLL.BaseClass.DeleteItemID(BLL.MeanList.FileName, BLL.MeanList.OneFileName, values));
+                        Response.Write(BLL.BaseClass.DeleteItemID(BLL.MeanListClass.TMeanList.TableName, BLL.MeanListClass.OneFileName, values));
                         Response.End();
                     }
                 }
                 else
                 {
-                    ltlhead.Text = BLL.MeanList.GetTableHtml();
-                    ltlbnt.Text = BLL.MeanList.setBntHtml();
-                    ltlStrWhere.Text = BLL.MeanList.SetStrWhereHtml();
-                    IsPlus.Value = BLL.MeanList.Plus;
-                    IsWhere.Value = BLL.MeanList.Strwhere;
-                    ColumnsJson.Value = BLL.MeanList.ColumnsJson;
+                    ltlhead.Text = BLL.MeanListClass.GetTableHtml();
+                    ltlbnt.Text = BLL.MeanListClass.SetBntHtml();
+                    ltlStrWhere.Text = BLL.MeanListClass.SetStrWhereHtml();
+                    IsPlus.Value = BLL.MeanListClass.TMeanList.Plus;
+                    IsWhere.Value = BLL.MeanListClass.TMeanList.Strwhere;
+                    ColumnsJson.Value = BLL.MeanListClass.ColumnsJson;
+                    IsChoice.Value = BLL.MeanListClass.TMeanList.Choice;
                 }
             }
         }

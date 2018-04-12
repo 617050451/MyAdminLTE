@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="setPages.aspx.cs" Inherits="AdminLTE.Admin.Temp.setPages" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SetPages.aspx.cs" Inherits="AdminLTE.Admin.Temp.SetPages" %>
 
 <!DOCTYPE html>
 

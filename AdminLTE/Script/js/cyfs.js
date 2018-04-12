@@ -40,11 +40,17 @@ function getDataAfter() {
         }
         OnCheckboxOnSelectValue();
     })
+    $("button[name=UpdateItemID]").click(function () {
+        alert("修改：" + $(this).val());
+    })
+    $("button[name=DeleteItemID]").click(function () {
+        alert("删除：" + $(this).val());
+    })
     $('input:checkbox[name=checkboxItemID]').click(function () {
         OnCheckboxOnSelectValue();
     })
-    $('#deleteItemID').click(function () {
-        deleteItemID();
+    $('#DeleteItemID').click(function () {
+        DeleteItemID();
     })
 }
 //选中的值
@@ -65,43 +71,43 @@ function OnCheckboxOnSelectValue() {
     hide_guid = guidValues;
 }
 //删除BY GUID
-function deleteItemID() {
-            if (hide_guid == "") {
-                layer.msg('请选择需要删除的数据！');
-            } else {
-                //询问框
-                layer.confirm('你确定要删除当前选择的数据？', {
-                    title: '删除',
-                    btn: ['确定', '取消'] //按钮
-                }, function () {
-                    var param = {};
-                    param.gettype = "bntOperation";
-                    param.values = hide_guid;
-                    //ajax请求数据
-                    $.ajax({
-                        type: "GET",
-                        url: pageName(),
-                        data: param,
-                        cache: false,  //禁用缓存
-                        dataType: "text",
-                        async: false,
-                        success: function (result) {
-                            if (result == "True") {
-                                layer.msg('操作成功！', {
-                                    icon: 1, end: function () {
-                                        location.reload();
-                                    }
-                                });
-                            } else {
-                                layer.msg('操作失败！', {
-                                    icon: 2
-                                });
+function DeleteItemID() {
+    if (hide_guid == "") {
+        layer.msg('请选择需要删除的数据！');
+    } else {
+        //询问框
+        layer.confirm('你确定要删除当前选择的数据？', {
+            title: '删除',
+            btn: ['确定', '取消'] //按钮
+        }, function () {
+            var param = {};
+            param.gettype = "bntOperation";
+            param.values = hide_guid;
+            //ajax请求数据
+            $.ajax({
+                type: "GET",
+                url: pageName(),
+                data: param,
+                cache: false,  //禁用缓存
+                dataType: "text",
+                async: false,
+                success: function (result) {
+                    if (result == "True") {
+                        layer.msg('操作成功！', {
+                            icon: 1, end: function () {
+                                location.reload();
                             }
-                        }
-                    });
-                });
-            }
-        }
+                        });
+                    } else {
+                        layer.msg('操作失败！', {
+                            icon: 2
+                        });
+                    }
+                }
+            });
+        });
+    }
+}
 var loadIndex;
 function loadding(obj) {
             loadIndex = layer.msg(obj, {
@@ -174,15 +180,10 @@ var columnsJson = eval("(" + $("#ColumnsJson").val() + ")");
 $(document).ready(function () {
     setTimeout(getJsonData("getDate"), 50);
     //Date picker
-    $('input[data-type=datepicker]').datepicker({
-        language: 'zh-CN',
-        autoclose: true,
-        todayHighlight: true,
-        format: 'yyyy-mm-dd'
-    });
 });
 //获取数据
 var table;
+var ischoice = parseInt($("#IsChoice").val());
 function getJsonData(type) {
     if (type == 'select') {
         table.fnClearTable(false);  //清空数据.fnClearTable();//清空数据
@@ -190,8 +191,8 @@ function getJsonData(type) {
     }
     table = $('#example').dataTable({
         "dom": "t<'row'<'#id.col-xs-2 table-l'l><'#id.col-xs-3'i><'#id.col-xs-6 table-p'p>>r",
-        "aoColumnDefs": [{ "bSortable": false, "aTargets": [0] }],
-        "aaSorting": [[1, "asc"]],
+        "aoColumnDefs": [{ "bSortable": false, "aTargets": [ischoice-1]}],
+        "aaSorting": [[ischoice, "asc"]],
         "lengthChange": true,
         "autoWidth": false,
         "aLengthMenu": [25, 50, 100, 200],

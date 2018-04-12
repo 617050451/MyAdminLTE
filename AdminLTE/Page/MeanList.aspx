@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Temp.aspx.cs" Inherits="AdminLTE.Admin.Aspx.Temp" validateRequest="false" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="MeanList.aspx.cs" Inherits="AdminLTE.Admin.Aspx.MeanList" validateRequest="false" %>
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -75,6 +75,7 @@
         </section>
         <asp:HiddenField ID="IsPlus" runat="server" />
         <asp:HiddenField ID="IsWhere" runat="server" />
+        <asp:HiddenField ID="IsChoice" runat="server" />
         <asp:HiddenField ID="ColumnsJson" runat="server" />
     </form>
     <!-- jQuery 3 -->

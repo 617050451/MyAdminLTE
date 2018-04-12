@@ -7,23 +7,11 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-    public class MeanList
+    public class MeanListClass
     {
-        public static string GuID = "9D2512E9-6FF4-4E7E-BBB8-23DE83755D18";
-        public static string Title = "菜单管理2";
-        public static string SQL = "SELECT top(10000) * FROM  [t_Mean]";
-        public static string TableName = "[t_Mean]";
-        public static string FileName = "MeanList";
-        public static string Note = "";
-        public static string Choice = "1";
-        public static string Insert = "1";
-        public static string Update = "1";
-        public static string Delete = "1";
-        public static string Strwhere = "1";
-        public static string CountData = "'记录总条数：'+ convert(varchar(20),count(guid))+'（条）'";
-        public static string Plus = "1";
+        public static Model.TableMeanList TMeanList = new Model.TableMeanList();
         public static string ColumnsJson = string.Empty;
-        public static string OneFileName= BaseClass.GetTopOneFileName(TableName);
+        public static string OneFileName= BaseClass.GetTopOneFileName(TMeanList.TableName);
         //实例化字段数据
         public static DataTable SetTableFieldInfo()
         {
@@ -71,12 +59,21 @@ namespace BLL
             DataTable dt = GetTableFieldInfo();
             StringBuilder sb = new StringBuilder();
             StringBuilder sbjson = new StringBuilder();
+            string BntHtml = string.Empty;
+            if (TMeanList.Update == "1")
+            {
+                BntHtml += "<button name = 'UpdateItemID' type = 'button' class='btn btn-warning  btn-xs' value='\" + data + \"'>修　改</button>&nbsp;";
+            }
             sb.Append("<thead><tr>");
-            if (Choice == "1")
+            if (TMeanList.Choice == "1")
             {
                 string html = "<input type=\"checkbox\" id=\"selectAll\" class=\"table-checkable\" >";
                 sb.Append("<th style=\"width:13px;\">" + html + "</th>");
                 sbjson.Append("{\"data\": \"ItemID\", render: function (data, type, row) { return \"<input  name='checkboxItemID' type='checkbox' class='table-checkable'  value='\" + data + \"'/>\"}},");
+            }
+            else if(TMeanList.Delete == "1")
+            {
+                BntHtml += "<button name = 'DeleteItemID' type = 'button' class='btn btn-danger  btn-xs' value='\" + data + \"'>删　除</button>&nbsp;";
             }
             for (int i = 0; i < dt.Rows.Count; i++)
             {
@@ -89,10 +86,10 @@ namespace BLL
                     sbjson.Append("{\"data\": \"" + dt.Rows[i]["FieldKey"].ToString() + "\"" + data + "},");//,\"sClass\": \"text-center\"
                 }
             }
-            if (Update == "1")
+            if (!string.IsNullOrEmpty(BntHtml))
             {
                 sb.Append("<th>操作</th>");
-                sbjson.Append("{\"data\": \"UpdateItemID\", render: function (data, type, row) { return \"<button  type='button' class='btn btn-warning  btn-xs' style='width: 60px;height: 27px;'>修　改</button>\"}},");
+                sbjson.Append("{\"data\": \"ItemID\", render: function (data, type, row) { return \"" + BntHtml + "\"}}");
             }
             sb.Append("</tr></thead>");
             ColumnsJson = "[" + sbjson.ToString().TrimEnd(',') + "]";
@@ -103,7 +100,7 @@ namespace BLL
         {
             DataTable dt = GetTableFieldInfo();
             string strHtml = "";
-            if (Strwhere == "1")
+            if (TMeanList.Strwhere == "1")
             {
                 if (dt != null && dt.Rows.Count > 0)
                 {
@@ -151,12 +148,12 @@ namespace BLL
             return strHtml;
         }
         //设置按钮
-        public static string setBntHtml()
+        public static string SetBntHtml()
         {
             string bntHtml = "";
-            if (Delete == "1")
-                bntHtml += "<button id=\"deleteItemID\" tableValue=\"\" type=\"button\" class=\"btn btn-danger btn-xs\">删　除</button>&nbsp;";
-            if (Insert == "1")
+            if (TMeanList.Delete == "1" &&TMeanList.Choice == "1")
+                bntHtml += "<button id=\"DeleteItemID\" tableValue=\"\" type=\"button\" class=\"btn btn-danger btn-xs\">删　除</button>&nbsp;";
+            if (TMeanList.Insert == "1")
                 bntHtml += "<button type=\"button\" class=\"btn btn-success btn-xs\">新　增</button>&nbsp;";
             return bntHtml;
         }
@@ -164,8 +161,8 @@ namespace BLL
         public static string GetDataJson(DataTable dt, int PageStart, int PageIndex, int PageSize, string order)
         {
             string strwhere = BaseClass.SetStrWhere(dt);
-            string sumsqlStr = BaseClass.GetTSQL(SQL, "COUNT(GUID) as COUNTS," + CountData, strwhere, "", false);
-            string sqlStr = BaseClass.PageBySQL(SQL, TableName, OneFileName, strwhere, order, PageIndex, PageSize);
+            string sumsqlStr = BaseClass.GetTSQL(TMeanList.SQL, "COUNT(" + OneFileName + ") as COUNTS," + TMeanList.CountData, strwhere, "", false);
+            string sqlStr = BaseClass.PageBySQL(TMeanList.SQL, TMeanList.TableName, OneFileName, strwhere, order, PageIndex, PageSize);
             DataSet ds = BLL.BaseClass.getDataSet(sqlStr + sumsqlStr);
             DataTable tableJson = ds.Tables[0];
             DataTable tableSum = ds.Tables[1];

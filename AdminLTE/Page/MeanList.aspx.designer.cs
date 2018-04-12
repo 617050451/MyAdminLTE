@@ -10,7 +10,8 @@
 namespace AdminLTE.Admin.Aspx {
     
     
-    public partial class Temp {
+    public partial class MeanList
+    {
         
         /// <summary>
         /// form1 控件。
@@ -65,7 +66,15 @@ namespace AdminLTE.Admin.Aspx {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField IsWhere;
-        
+        /// <summary>
+        /// IsWhere 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField IsChoice;
+
         /// <summary>
         /// ColumnsJson 控件。
         /// </summary>

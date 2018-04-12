@@ -10,7 +10,7 @@
 namespace AdminLTE.Admin.Temp {
     
     
-    public partial class setList {
+    public partial class SetList {
         
         /// <summary>
         /// form1 控件。

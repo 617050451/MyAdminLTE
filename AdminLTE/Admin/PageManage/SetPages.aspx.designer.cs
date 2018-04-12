@@ -10,7 +10,7 @@
 namespace AdminLTE.Admin.Temp {
     
     
-    public partial class setPages {
+    public partial class SetPages {
         
         /// <summary>
         /// form1 控件。

@@ -42,19 +42,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdminLogin.cs" />
-    <Compile Include="AdminLTEHelper.cs" />
-    <Compile Include="BaseClass.cs" />
-    <Compile Include="ConnectionInfo.cs" />
-    <Compile Include="JsonHelper.cs" />
-    <Compile Include="MeanList.cs" />
-    <Compile Include="ObjectData.cs" />
+    <Compile Include="Admin\AdminLogin.cs" />
+    <Compile Include="Admin\AdminLTEHelper.cs" />
+    <Compile Include="Admin\BaseClass.cs" />
+    <Compile Include="Admin\ConnectionInfo.cs" />
+    <Compile Include="Admin\JsonHelper.cs" />
+    <Compile Include="Admin\TablesClass.cs" />
+    <Compile Include="Page\MeanListClass.cs" />
+    <Compile Include="Admin\ObjectData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAL\DAL.csproj">
       <Project>{a09b925e-448b-43d8-807f-d73b491edeb2}</Project>
       <Name>DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{86060af8-8149-42c9-8397-052e5c1d259f}</Project>
+      <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

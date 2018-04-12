@@ -59,17 +59,14 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Admin\Aspx\MeanList.aspx" />
-    <Content Include="Admin\Aspx\Temp.aspx" />
+    <Content Include="Page\MeanList.aspx" />
     <Content Include="Admin\DMS\DMS.aspx" />
     <Content Include="Admin\HomePage\WelcomePage.aspx" />
-    <Content Include="Admin\Home\DataList.aspx" />
     <Content Include="Admin\HomePage\Index.aspx" />
     <Content Include="Admin\HomePage\Login.aspx" />
-    <Content Include="Admin\Temp\index.aspx" />
-    <Content Include="Admin\Temp\ListTemp.aspx" />
-    <Content Include="Admin\Temp\setList.aspx" />
-    <Content Include="Admin\Temp\setPages.aspx" />
+    <Content Include="Admin\PageManage\AddPage.aspx" />
+    <Content Include="Admin\PageManage\SetList.aspx" />
+    <Content Include="Admin\PageManage\SetPages.aspx" />
     <Content Include="Script\AdminLTE-2.4.2\bower_components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.css" />
     <Content Include="Script\AdminLTE-2.4.2\bower_components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.min.css" />
     <Content Include="Script\AdminLTE-2.4.2\bower_components\bootstrap-colorpicker\dist\img\bootstrap-colorpicker\alpha-horizontal.png" />
@@ -6781,19 +6778,12 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Admin\Aspx\MeanList.aspx.cs">
+    <Compile Include="Page\MeanList.aspx.cs">
       <DependentUpon>MeanList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Admin\Aspx\MeanList.aspx.designer.cs">
+    <Compile Include="Page\MeanList.aspx.designer.cs">
       <DependentUpon>MeanList.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\Aspx\Temp.aspx.cs">
-      <DependentUpon>Temp.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Aspx\Temp.aspx.designer.cs">
-      <DependentUpon>Temp.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\DMS\DMS.aspx.cs">
       <DependentUpon>DMS.aspx</DependentUpon>
@@ -6809,10 +6799,6 @@
     <Compile Include="Admin\HomePage\WelcomePage.aspx.designer.cs">
       <DependentUpon>WelcomePage.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Admin\Home\DataList.aspx.cs">
-      <DependentUpon>DataList.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="Admin\HomePage\Index.aspx.cs">
       <DependentUpon>Index.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -6827,33 +6813,26 @@
     <Compile Include="Admin\HomePage\Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Admin\Temp\index.aspx.cs">
-      <DependentUpon>index.aspx</DependentUpon>
+    <Compile Include="Admin\PageManage\AddPage.aspx.cs">
+      <DependentUpon>AddPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Admin\Temp\index.aspx.designer.cs">
-      <DependentUpon>index.aspx</DependentUpon>
+    <Compile Include="Admin\PageManage\AddPage.aspx.designer.cs">
+      <DependentUpon>AddPage.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Admin\Temp\ListTemp.aspx.cs">
-      <DependentUpon>ListTemp.aspx</DependentUpon>
+    <Compile Include="Admin\PageManage\SetList.aspx.cs">
+      <DependentUpon>SetList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Admin\Temp\ListTemp.aspx.designer.cs">
-      <DependentUpon>ListTemp.aspx</DependentUpon>
+    <Compile Include="Admin\PageManage\SetList.aspx.designer.cs">
+      <DependentUpon>SetList.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Admin\Temp\setList.aspx.cs">
-      <DependentUpon>setList.aspx</DependentUpon>
+    <Compile Include="Admin\PageManage\SetPages.aspx.cs">
+      <DependentUpon>SetPages.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Admin\Temp\setList.aspx.designer.cs">
-      <DependentUpon>setList.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\Temp\setPages.aspx.cs">
-      <DependentUpon>setPages.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Temp\setPages.aspx.designer.cs">
-      <DependentUpon>setPages.aspx</DependentUpon>
+    <Compile Include="Admin\PageManage\SetPages.aspx.designer.cs">
+      <DependentUpon>SetPages.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -7486,8 +7465,6 @@
     <Content Include="Script\AdminLTE-2.4.2\plugins\input-mask\phone-codes\phone-codes.json" />
     <Content Include="Script\AdminLTE-2.4.2\README.md" />
     <Content Include="Script\AdminLTE-2.4.2\yarn.lock" />
-    <None Include="Admin\Temp\ListTemp.temp" />
-    <Content Include="Admin\Temp\ListTemp.cs.temp" />
     <None Include="Properties\PublishProfiles\cy.pubxml" />
     <Content Include="Script\layer-v3.1.0\文档\jquery下载.url" />
     <Content Include="Script\layer-v3.1.0\文档\layer官网.url" />
@@ -7505,6 +7482,10 @@
     <ProjectReference Include="..\BLL\BLL.csproj">
       <Project>{0ad656b2-9ddc-4ce2-90c1-869acf3aa099}</Project>
       <Name>BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{86060af8-8149-42c9-8397-052e5c1d259f}</Project>
+      <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 
 namespace AdminLTE.Admin.Temp
 {
-    public partial class setList : System.Web.UI.Page
+    public partial class SetList : System.Web.UI.Page
     {
         public static DataTable tableInfo;
 

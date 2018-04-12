@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="setList.aspx.cs" Inherits="AdminLTE.Admin.Temp.setList" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SetList.aspx.cs" Inherits="AdminLTE.Admin.Temp.SetList" %>
 
 <!DOCTYPE html>
 
@@ -136,7 +136,7 @@
                             <div class="form-group">
                                 <label for="TableName" class="col-sm-3 control-label">数据：</label>
                                 <div class="col-sm-9">
-                                     <textarea name="TableName" class="form-control" placeholder="数据" rows="3"><%=tableInfo.Rows[0]["TableName"].ToString()%></textarea>
+                                    <textarea name="TableName" class="form-control" placeholder="数据" rows="3"><%=tableInfo.Rows[0]["TableName"].ToString()%></textarea>
                                 </div>
                             </div>
                         </td>

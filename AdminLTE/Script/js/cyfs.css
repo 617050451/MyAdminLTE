@@ -30,3 +30,11 @@ tr:hover td {
     width: auto;
     padding-top: 6px;
 }
+.content button {
+    border: none;
+}
+#example button {
+    border-radius:3px;
+        width: 60px;
+    height: 27px;
+}
