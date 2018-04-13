@@ -11,7 +11,7 @@ namespace BLL
     {
         public static string SQL = "select [GUID],[Title],[FileName] from [t_Tables] ";
         public static string TableName = "[t_Tables] ";
-        public static string OneFileName = "[GUID]";
+        public static string OneFileName = "GUID";
         //获取表格数据Json
         public static string GetDataListJson(DataTable dt, int PageStart, int PageIndex, int PageSize, string order)
         {

@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class1.cs" />
     <Compile Include="PageManage\t_MeanList.cs" />
     <Compile Include="Admin\t_Tables.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -268,7 +268,7 @@ function GetFromJson(obj) {
         // 后台PHP采用urldecode()函数还原数据  
         m.push('"' + field.name + '":"' + encodeURI(field.value) + '"');
     });
-    idata = '{' + t + m.join(',') + '}';
+    idata = '{' + m.join(',') + '}';
     // 按字符 idata 转换成 JSON 格式  
     return idata;
 }

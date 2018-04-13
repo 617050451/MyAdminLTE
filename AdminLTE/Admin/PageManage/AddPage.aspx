@@ -80,7 +80,7 @@
         <div id="LayerOpenHtml" class="hidden">
             <div id="LayerOpenHtmlFrom">
                 <div class="form-group" style="display: -webkit-box; margin-top: 10px;">
-                    <label for="Title" class="col-sm-2 control-label text-right" style="padding: 0px; line-height: 32px;">标题：</label>
+                    <label for="Title" class="col-sm-2 control-label text-right" lay-verify="email" style="padding: 0px; line-height: 32px;">标题：</label>
                     <div class="col-sm-10">
                         <input type="text" name="Title" class="form-control" placeholder="标题" value="" />
                     </div>
@@ -110,7 +110,7 @@
                     </div>
                 </div>
                 <div class="form-group text-center">
-                    <button type="button" class="btn btn-success" onclick="BntSaveTable()">保　存</button>
+                    <button type="button" class="btn btn-success" onclick="BntSaveFromData()">保　存</button>
                 </div>
                 <div class="hidden">
                     <label id="Gettype"></label>
@@ -141,7 +141,7 @@
     <script>
         var Index;
         var GetType;
-        function LayerOpenHtml(title, gettype,value) {
+        function LayerOpenHtml(title,value) {
             var showHtml = $("#LayerOpenHtml").html();
             //页面层
             Index = layer.open({
@@ -151,7 +151,6 @@
                 area: ['620px', '450px'], //宽高
                 content: showHtml,
                 success: function () {
-                    GetType = gettype;
                     ChoiceValue = value;
                     if (ChoiceValue != undefined) {
                         var param = {};
@@ -183,13 +182,12 @@
             });
         }
         
-        function BntSaveTable() {
+        function BntSaveFromData() {
             var FromValues = $(".layui-layer #LayerOpenHtmlFrom").find(fromchildren).serializeArray();
             var param = {};
-            param.Gettype = GetType
+            param.Gettype = 'SaveFromData';
             param.ChoiceValue = ChoiceValue;
             param.FromValues = GetFromJson(FromValues);
-            return false;
             //ajax请求数据
             $.ajax({
                 type: "GET",

@@ -74,14 +74,16 @@ namespace BLL
                 string fieldName = pros[i].Name;
                 if (!fieldName.ToUpper().Equals(identityName == null ? "" : identityName.ToUpper()))
                 {
+                    object val = type.GetProperty(fieldName).GetValue(model, null);
+                    if (val == null)
+                        break;
                     //非自动增长字段才加入SQL语句
-                    fieldStr.Append("[" + fieldName + "]=@"+ fieldName);
+                    fieldStr.Append("[" + fieldName + "]=@" + fieldName);
                     if (i < (len - 1))
                     {
                         fieldStr.Append(",");//参数和字段用逗号隔开
                         paramStr.Append(",");
                     }
-                    object val = type.GetProperty(fieldName).GetValue(model, null);
                     if (val == null) val = DBNull.Value;//如果该值为空的话,则将其转化为数据库的NULL
                     param[paramLIndex] = new SqlParameter(fieldName, val);//给每个参数赋值
                     paramLIndex++;
