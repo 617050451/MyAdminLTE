@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.Data;
 namespace Model
 {
-    public class t_Tables
+    public class t_Tables1
     {
 
         Dictionary<string, bool> IsDicMyProperty = new Dictionary<string, bool>();
         /// <summary>
         /// GUID
         /// </summary>		
-
+        private bool IsGUID = false;
         private Guid GUIDValue;
         public Guid GUID
         {
@@ -19,13 +19,13 @@ namespace Model
             set
             {
                 GUIDValue = value;
-                IsDicMyProperty[nameof(GUID)] = true;
+                IsGUID = true;
             }
         }
         /// <summary>
         /// Title
         /// </summary>		
-
+        private bool IsTitle = false;
         private string TitleValue;
         public string Title
         {
@@ -33,13 +33,13 @@ namespace Model
             set
             {
                 TitleValue = value;
-                IsDicMyProperty[nameof(Title)] = true;
+                IsTitle = true;
             }
         }
         /// <summary>
         /// SQL
         /// </summary>		
-
+        private bool IsSQL = false;
         private string SQLValue;
         public string SQL
         {
@@ -47,13 +47,13 @@ namespace Model
             set
             {
                 SQLValue = value;
-                IsDicMyProperty[nameof(SQL)] = true;
+                IsSQL = true;
             }
         }
         /// <summary>
         /// TableName
         /// </summary>		
-
+        private bool IsTableName = false;
         private string TableNameValue;
         public string TableName
         {
@@ -61,13 +61,13 @@ namespace Model
             set
             {
                 TableNameValue = value;
-                IsDicMyProperty[nameof(TableName)] = true;
+                IsTableName = true;
             }
         }
         /// <summary>
         /// FileName
         /// </summary>		
-
+        private bool IsFileName = false;
         private string FileNameValue;
         public string FileName
         {
@@ -75,13 +75,13 @@ namespace Model
             set
             {
                 FileNameValue = value;
-                IsDicMyProperty[nameof(FileName)] = true;
+                IsFileName = true;
             }
         }
         /// <summary>
         /// Note
         /// </summary>		
-
+        private bool IsNote = false;
         private string NoteValue;
         public string Note
         {
@@ -89,13 +89,13 @@ namespace Model
             set
             {
                 NoteValue = value;
-                IsDicMyProperty[nameof(Note)] = true;
+                IsNote = true;
             }
         }
         /// <summary>
         /// choice
         /// </summary>		
-
+        private bool Ischoice = false;
         private int choiceValue;
         public int choice
         {
@@ -103,13 +103,13 @@ namespace Model
             set
             {
                 choiceValue = value;
-                IsDicMyProperty[nameof(choice)] = true;
+                Ischoice = true;
             }
         }
         /// <summary>
         /// insert
         /// </summary>		
-
+        private bool Isinsert = false;
         private int insertValue;
         public int insert
         {
@@ -117,13 +117,13 @@ namespace Model
             set
             {
                 insertValue = value;
-                IsDicMyProperty[nameof(insert)] = true;
+                Isinsert = true;
             }
         }
         /// <summary>
         /// update
         /// </summary>		
-
+        private bool Isupdate = false;
         private int updateValue;
         public int update
         {
@@ -131,13 +131,13 @@ namespace Model
             set
             {
                 updateValue = value;
-                IsDicMyProperty[nameof(update)] = true;
+                Isupdate = true;
             }
         }
         /// <summary>
         /// delete
         /// </summary>		
-
+        private bool Isdelete = false;
         private int deleteValue;
         public int delete
         {
@@ -145,13 +145,13 @@ namespace Model
             set
             {
                 deleteValue = value;
-                IsDicMyProperty[nameof(delete)] = true;
+                Isdelete = true;
             }
         }
         /// <summary>
         /// strwhere
         /// </summary>		
-
+        private bool Isstrwhere = false;
         private int strwhereValue;
         public int strwhere
         {
@@ -159,13 +159,13 @@ namespace Model
             set
             {
                 strwhereValue = value;
-                IsDicMyProperty[nameof(strwhere)] = true;
+                Isstrwhere = true;
             }
         }
         /// <summary>
         /// CountData
         /// </summary>		
-
+        private bool IsCountData = false;
         private string CountDataValue;
         public string CountData
         {
@@ -173,13 +173,13 @@ namespace Model
             set
             {
                 CountDataValue = value;
-                IsDicMyProperty[nameof(CountData)] = true;
+                IsCountData = true;
             }
         }
         /// <summary>
         /// Plus
         /// </summary>		
-
+        private bool IsPlus = false;
         private int PlusValue;
         public int Plus
         {
@@ -187,7 +187,7 @@ namespace Model
             set
             {
                 PlusValue = value;
-                IsDicMyProperty[nameof(Plus)] = true;
+                IsPlus = true;
             }
         }
         public bool IsFieldAssign(string Fieldname)
