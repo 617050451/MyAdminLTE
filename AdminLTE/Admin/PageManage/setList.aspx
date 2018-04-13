@@ -211,7 +211,7 @@
             var tableInfo = $("#tableInfo").find("select").serializeArray();
             //封装请求参数
             var param = {};
-            param.gettype = "setData";
+            param.gettype = "SetData";
             param.values = JSON.stringify(values);
             param.tableguid = tableguid;
             param.tableInfo = JSON.stringify(tableInfo);   
@@ -237,7 +237,7 @@
             var settableinfo = $(".layui-layer-content").find("input,textarea").serializeArray();
             //封装请求参数
             var param = {};
-            param.gettype = "setTableData";
+            param.gettype = "SetTableData";
             param.tableguid = tableguid;
             param.settableinfo = JSON.stringify(settableinfo);
             $.ajax({

@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-    public class TablesClass
+    public class t_TablesClass
     {
-        public static string SQL = "select [GUID] , [Title] , [FileName]  from [t_Tables] ";
+        public static string SQL = "select [GUID],[Title],[FileName] from [t_Tables] ";
         public static string TableName = "[t_Tables] ";
         public static string OneFileName = "[GUID]";
         //获取表格数据Json
-        public static string GetDataJson(DataTable dt, int PageStart, int PageIndex, int PageSize, string order)
+        public static string GetDataListJson(DataTable dt, int PageStart, int PageIndex, int PageSize, string order)
         {
             string strwhere = BaseClass.SetStrWhere(dt);
             string sumsqlStr = BaseClass.GetTSQL(SQL, "COUNT("+ OneFileName + ") as COUNTS", strwhere, "", false);
             string sqlStr = BaseClass.PageBySQL(SQL, TableName, OneFileName, strwhere, order, PageIndex, PageSize);
-            DataSet ds = BLL.BaseClass.getDataSet(sqlStr+ sumsqlStr);
+            DataSet ds = BLL.BaseClass.GetDataSet(sqlStr+ sumsqlStr);
             DataTable tableJson = ds.Tables[0];
             DataTable tableSum = ds.Tables[1];
             if (ds != null)
@@ -47,6 +47,15 @@ namespace BLL
             {
                 return "{\"total\":" + 0 + ",\"page\":0,\"limit\":" + PageSize + ",\"data\":[],\"sumData\":\"\"}";
             }
+        }
+        public static string GetDataViewJson(string ChoiceKey, string ChoiceValue)
+        {
+            string sql = string.Format("select * from {0} where {1}='{2}'", TableName, ChoiceKey, ChoiceValue);
+            DataTable tableJson = DAL.SQLDBHelpercs.ExecuteReaderTable(sql, null);
+            if (tableJson != null && tableJson.Rows.Count > 0)
+                return JsonHelper.DataTableToJsonWithJsonNet(tableJson);
+            else
+                return "";
         }
     }
 }

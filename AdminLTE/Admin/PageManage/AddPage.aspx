@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <div class="box box-danger">
-                    <div class="box-body" id="selectWhere">
+                    <div class="box-body" id="SelectWhereFrom">
                         <asp:Literal ID="ltlStrWhere" runat="server" Text=""></asp:Literal>
                     </div>
                 </div>
@@ -77,39 +77,50 @@
             </div>
             <!-- /.row -->
         </section>
-        <div id="AddTable" class="hidden">
-            <div class="form-group" style="display:-webkit-box;margin-top:10px;">
-                <label for="title" class="col-sm-2 control-label text-right" style="padding:0px;line-height:32px;">标题：</label>
-                <div class="col-sm-10">
-                    <input type="text" name="title" class="form-control" placeholder="标题" value="" />
+        <div id="LayerOpenHtml" class="hidden">
+            <div id="LayerOpenHtmlFrom">
+                <div class="form-group" style="display: -webkit-box; margin-top: 10px;">
+                    <label for="Title" class="col-sm-2 control-label text-right" style="padding: 0px; line-height: 32px;">标题：</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="Title" class="form-control" placeholder="标题" value="" />
+                    </div>
                 </div>
-            </div>
-            <div class="form-group" style="display:-webkit-box;">
-                <label for="FileName" class="col-sm-2 control-label text-right" style="padding:0px;line-height:32px;">页面名称：</label>
-                <div class="col-sm-10">
-                    <input type="text" name="FileName" class="form-control" placeholder="页面名称" value="" />
+                <div class="form-group" style="display: -webkit-box;">
+                    <label for="FileName" class="col-sm-2 control-label text-right" style="padding: 0px; line-height: 32px;">页面名称：</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="FileName" class="form-control" placeholder="页面名称" value="" />
+                    </div>
                 </div>
-            </div>
-            <div class="form-group" style="display:-webkit-box;">
-                <label for="TableName" class="col-sm-2 control-label text-right" style="padding:0px;">数据：</label>
-                <div class="col-sm-10">
-                    <textarea name="TableName" class="form-control" placeholder="数据" rows="3"></textarea>
+                <div class="form-group" style="display: -webkit-box; margin-top: 10px;">
+                    <label for="TableName" class="col-sm-2 control-label text-right" style="padding: 0px; line-height: 32px;">数据表：</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="TableName" class="form-control" placeholder="数据表" value="" />
+                    </div>
                 </div>
-            </div>
-            <div class="form-group" style="display:-webkit-box;">
-                <label for="Note" class="col-sm-2 control-label text-right" style="padding:0px;">备注：</label>
-                <div class="col-sm-10">
-                    <textarea name="Note" class="form-control" placeholder="备注" rows="3"></textarea>
+                <div class="form-group" style="display: -webkit-box;">
+                    <label for="SQL" class="col-sm-2 control-label text-right" style="padding: 0px;">SQL：</label>
+                    <div class="col-sm-10">
+                        <textarea name="" class="form-control" placeholder="SQL" rows="3"></textarea>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group text-center">
-                    <button type="button" class="btn btn-success" onclick="BntSaveAddTable()">保存</button>
+                <div class="form-group" style="display: -webkit-box;">
+                    <label for="Note" class="col-sm-2 control-label text-right" style="padding: 0px;">备注：</label>
+                    <div class="col-sm-10">
+                        <textarea name="Note" class="form-control" placeholder="备注" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="form-group text-center">
+                    <button type="button" class="btn btn-success" onclick="BntSaveTable()">保　存</button>
+                </div>
+                <div class="hidden">
+                    <label id="Gettype"></label>
+                </div>
             </div>
         </div>
         <asp:HiddenField ID="IsPlus" runat="server"  Value="0"/>
         <asp:HiddenField ID="IsWhere" runat="server" Value="0"/>
         <asp:HiddenField ID="IsChoice" runat="server" Value="0"/>
-        <asp:HiddenField ID="ColumnsJson" runat="server" Value="[{&quot;data&quot;: &quot;GUID&quot;},{&quot;data&quot;: &quot;Title&quot;},{&quot;data&quot;: &quot;FileName&quot;},{&quot;data&quot;: &quot;ItemID&quot;, render: function (data, type, row) { return &quot;<button name = 'UpdateItemID' type = 'button' class='btn btn-warning  btn-xs' value='&quot; + data + &quot;'>修　改</button>&amp;nbsp;<button name = 'DeleteItemID' type = 'button' class='btn btn-danger  btn-xs' value='&quot; + data + &quot;'>删　除</button>&amp;nbsp;&quot;}}]"/>
+        <asp:HiddenField ID="ColumnsJson" runat="server" Value="[{&quot;data&quot;: &quot;GUID&quot;},{&quot;data&quot;: &quot;Title&quot;},{&quot;data&quot;: &quot;FileName&quot;},{&quot;data&quot;: &quot;ItemID&quot;, render: function (data, type, row) { return &quot;<button name='UpdateItemID' type = 'button' class='btn btn-warning  btn-xs' value='&quot; + data + &quot;'>修　改</button>&amp;nbsp;<button name = 'DeleteItemID' type = 'button' class='btn btn-danger  btn-xs' value='&quot; + data + &quot;'>删　除</button>&amp;nbsp;&quot;}}]"/>
     </form>
     <!-- jQuery 3 -->
     <script src="../../Script/AdminLTE-2.4.2/bower_components/jquery/dist/jquery.min.js"></script>
@@ -128,19 +139,96 @@
     <link href="../../Script/js/cyfs.css" rel="stylesheet" />
     <script src="../../Script/layer-v3.1.0/layer/layer.js"></script>
     <script>
-        function ShowAddTableHtml(title) {
-            var showHtml = $("#AddTable").html();
+        var Index;
+        var GetType;
+        function LayerOpenHtml(title, gettype,value) {
+            var showHtml = $("#LayerOpenHtml").html();
             //页面层
-            layer.open({
+            Index = layer.open({
                 type: 1,
                 title: title,
                 skin: 'layui-layer-rim', //加上边框
-                area: ['620px', '420px'], //宽高
-                content: showHtml
+                area: ['620px', '450px'], //宽高
+                content: showHtml,
+                success: function () {
+                    GetType = gettype;
+                    ChoiceValue = value;
+                    if (ChoiceValue != undefined) {
+                        var param = {};
+                        param.Gettype = 'GetDataView';
+                        param.ChoiceValue = ChoiceValue;
+                        $.ajax({
+                            type: "GET",
+                            url: pageName(),
+                            cache: false,  //禁用缓存
+                            data: param,  //传入组装的参数
+                            dataType: "json",
+                            async: false,
+                            success: function (result) {
+                                if (result != null && result != "") {
+                                    var json = result[0]; 
+                                    $.each(json, function (key, val) {
+                                        $(".layui-layer [name=" + key + "]").val(val);
+                                    });
+                                } else {
+                                    layer.msg("系统繁忙，请稍等.....");
+                                }
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                layer.msg("系统繁忙，请稍等.....");
+                            }
+                        });
+                    }
+                }
             });
         }
-        function BntSaveAddTable() {
-            layer.msg("新增");
+        
+        function BntSaveTable() {
+            var FromValues = $(".layui-layer #LayerOpenHtmlFrom").find(fromchildren).serializeArray();
+            var param = {};
+            param.Gettype = GetType
+            param.ChoiceValue = ChoiceValue;
+            param.FromValues = GetFromJson(FromValues);
+            return false;
+            //ajax请求数据
+            $.ajax({
+                type: "GET",
+                url: pageName(),
+                cache: false,  //禁用缓存
+                data: param,  //传入组装的参数
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    if (result != null && result[0].code == "100") {
+                        //setTimeout仅为测试延迟效果
+                        setTimeout(function () {
+                            layer.msg('保存成功', {
+                                icon: 1, time: 1500, end: function () {
+                                    layer.close(index);
+                                    location.reload();
+                                }
+                            });
+                        }, 50);
+                    } else {
+                        layer.msg("系统繁忙，请稍等.....");
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    layer.msg("系统繁忙，请稍等.....");
+                }
+            });
+        }
+
+        function GetDataSuccess() {
+            setTimeout(function () {
+                $("button[name=UpdateItemID]").unbind("click");
+                $("button[name=UpdateItemID]").click(function () {
+                    LayerOpenHtml('修改页面', $(this).val());
+                })
+                $("button[name=DeleteItemID]").click(function () {
+                    alert("删除1：" + $(this).val());
+                })
+            }, 50);
         }
     </script>
 </body>

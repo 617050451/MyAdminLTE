@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class TableMeanList
+    public class t_MeanList
     {
         private string GuIDValue= "9D2512E9-6FF4-4E7E-BBB8-23DE83755D18";
         public string GuID { get => GuIDValue; set => GuIDValue = value; }

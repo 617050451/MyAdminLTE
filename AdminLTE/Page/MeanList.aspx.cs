@@ -18,14 +18,14 @@ namespace AdminLTE.Admin.Aspx
                     int PageStart = Convert.ToInt32(Request.QueryString["start"]);
                     string Order = Request.QueryString["order"];
                     string OSrderDir = Request.QueryString["orderDir"];
-                    var PageData = Request.QueryString["values"];
-                    if (GetType == "getDate")
+                    var WhereValues = Request.QueryString["WhereValues"];
+                    if (GetType == "GetDataList")
                     {
-                        DataTable dt = JsonHelper.DeserializeJsonToObject<DataTable>(PageData);//条件数据
+                        DataTable dt = (WhereValues == null ? null : JsonHelper.DeserializeJsonToObject<DataTable>(WhereValues));//条件数据
                         Response.Write(BLL.MeanListClass.GetDataJson(dt, PageStart, PageIndex, PageSize, " " + Order + " " + OSrderDir));
                         Response.End();
                     }
-                    else if (GetType == "bntOperation")
+                    else if (GetType == "BntOperation")
                     {
                         string values = Request.QueryString["values"];
                         Response.Write(BLL.BaseClass.DeleteItemID(BLL.MeanListClass.TMeanList.TableName, BLL.MeanListClass.OneFileName, values));

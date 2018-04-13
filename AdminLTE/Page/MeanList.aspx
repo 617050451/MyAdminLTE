@@ -46,7 +46,7 @@
                     </div>
                 </div>
                 <div class="box box-danger">
-                    <div class="box-body" id="selectWhere">
+                    <div class="box-body" id="SelectWhereFrom">
                          <asp:Literal ID="ltlStrWhere" runat="server" Text=""></asp:Literal> 
                     </div>
                 </div>

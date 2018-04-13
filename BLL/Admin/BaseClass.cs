@@ -17,7 +17,83 @@ namespace BLL
         }
 
         //添加
-        public static bool insertModel(object model, string identityName)
+        public static bool InsertModel(object model, string identityName)
+        {
+            StringBuilder commandText = new StringBuilder(" insert into ");
+            Type type = model.GetType();
+            string tableName = type.Name;//表名称
+            PropertyInfo[] pros = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);//所有字段名称
+            StringBuilder fieldStr = new StringBuilder();//拼接需要插入数据库的字段
+            StringBuilder paramStr = new StringBuilder();//拼接每个字段对应的参数
+            int len = pros.Length;
+            SqlParameter[] param = new SqlParameter[len];
+            if (!"".Equals(identityName) && null != identityName) param = new SqlParameter[len - 1];//如果有自动增长的字段,则该字段不需要SqlParameter
+            int paramLIndex = 0;
+            for (int i = 0; i < len; i++)
+            {
+                string fieldName = pros[i].Name;
+                if (!fieldName.ToUpper().Equals(identityName == null ? "" : identityName.ToUpper()))
+                {
+                    //非自动增长字段才加入SQL语句
+                    fieldStr.Append("[" + fieldName + "]");
+                    paramStr.Append("@" + fieldName);
+                    if (i < (len - 1))
+                    {
+                        fieldStr.Append(",");//参数和字段用逗号隔开
+                        paramStr.Append(",");
+                    }
+                    object val = type.GetProperty(fieldName).GetValue(model, null);
+                    if (val == null) val = DBNull.Value;//如果该值为空的话,则将其转化为数据库的NULL
+                    param[paramLIndex] = new SqlParameter(fieldName, val);//给每个参数赋值
+                    paramLIndex++;
+                }
+            }
+            commandText.Append(tableName);
+            commandText.Append(" ( ");
+            commandText.Append(fieldStr);
+            commandText.Append(" ) values ( ");
+            commandText.Append(paramStr);
+            commandText.Append(" ) ");//拼接成完整的字符串
+            return DAL.SQLDBHelpercs.ExecuteNonQuery(commandText.ToString(), param, "sql");
+        }
+        //添加
+        public static bool UpdateModel(object model, string identityName, string identityValue)
+        {
+            StringBuilder commandText = new StringBuilder(" update ");
+            Type type = model.GetType();
+            string tableName = type.Name;//表名称
+            PropertyInfo[] pros = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);//所有字段名称
+            StringBuilder fieldStr = new StringBuilder();//拼接需要插入数据库的字段
+            StringBuilder paramStr = new StringBuilder();//拼接每个字段对应的参数
+            int len = pros.Length;
+            SqlParameter[] param = new SqlParameter[len];
+            if (!"".Equals(identityName) && null != identityName) param = new SqlParameter[len - 1];//如果有自动增长的字段,则该字段不需要SqlParameter
+            int paramLIndex = 0;
+            for (int i = 0; i < len; i++)
+            {
+                string fieldName = pros[i].Name;
+                if (!fieldName.ToUpper().Equals(identityName == null ? "" : identityName.ToUpper()))
+                {
+                    //非自动增长字段才加入SQL语句
+                    fieldStr.Append("[" + fieldName + "]=@"+ fieldName);
+                    if (i < (len - 1))
+                    {
+                        fieldStr.Append(",");//参数和字段用逗号隔开
+                        paramStr.Append(",");
+                    }
+                    object val = type.GetProperty(fieldName).GetValue(model, null);
+                    if (val == null) val = DBNull.Value;//如果该值为空的话,则将其转化为数据库的NULL
+                    param[paramLIndex] = new SqlParameter(fieldName, val);//给每个参数赋值
+                    paramLIndex++;
+                }
+            }
+            commandText.Append(tableName);
+            commandText.Append(" set ");
+            commandText.Append(fieldStr);
+            commandText.Append(" where " + identityName + "='" + identityValue + "'");//拼接成完整的字符串
+            return DAL.SQLDBHelpercs.ExecuteNonQuery(commandText.ToString(), param, "sql");
+        }
+        public static int InsertModelInt(object model, string identityName)
         {
             StringBuilder commandText = new StringBuilder(" insert into ");
             Type type = model.GetType();
@@ -41,7 +117,8 @@ namespace BLL
                     {
                         fieldStr.Append(",");//参数和字段用逗号隔开
                         paramStr.Append(",");
-                    } object val = type.GetProperty(fieldName).GetValue(model, null);// 根据属性名称获取当前属性的值
+                    }
+                    object val = type.GetProperty(fieldName).GetValue(model, null);// 根据属性名称获取当前属性的值
                     if (val == null) val = DBNull.Value;//如果该值为空的话,则将其转化为数据库的NULL
                     param[paramLIndex] = new SqlParameter(fieldName, val);//给每个参数赋值
                     paramLIndex++;
@@ -53,10 +130,10 @@ namespace BLL
             commandText.Append(" ) values ( ");
             commandText.Append(paramStr);
             commandText.Append(" ) ");//拼接成完整的字符串
-            return DAL.SQLDBHelpercs.ExecuteNonQuery(commandText.ToString(), param, "sql");
+            return DAL.SQLDBHelpercs.ExecuteNonQueryInt(commandText.ToString(), param, "sql");
         }
         //返回一个list<MODEL>
-        public static List<Object> selectModel(string top, string strWhere, string orderby)
+        public static List<Object> SelectModel(string top, string strWhere, string orderby)
         {
             List<Object> Listobjectdata = new List<Object>();
             string sql = "select * from ChenYTest.dbo.t_ConfigCon";
@@ -77,7 +154,7 @@ namespace BLL
             return Listobjectdata;
         }
         //返回DataTable
-        public static DataTable getDataTable(string strSql)
+        public static DataTable GetDataTable(string strSql)
         {
             DataSet ds = DAL.SQLDBHelpercs.ExecuteReader(strSql, null);
             if (ds != null && ds.Tables.Count > 0)
@@ -85,13 +162,13 @@ namespace BLL
             else
                 return null;
         }
-        public static DataSet getDataSet(string strSql)
+        public static DataSet GetDataSet(string strSql)
         {
             DataSet ds = DAL.SQLDBHelpercs.ExecuteReader(strSql, null);
             return ds;
         }
         //获取表格信息
-        public static DataTable getTableInfo(string guid)
+        public static DataTable GetTableInfo(string guid)
         {
             string sql = string.Format("select * from t_Tables where guid='{0}'", guid);
             DataSet ds = DAL.SQLDBHelpercs.ExecuteReader(sql, null);
@@ -101,7 +178,7 @@ namespace BLL
                 return null;
         }
         //获取字段信息
-        public static DataTable getTableFieldInfo(string guid)
+        public static DataTable GetTableFieldInfo(string guid)
         {
             string sql = string.Format("SELECT * FROM t_TableField WHERE TableGUID='{0}' order by  FieldOrder asc", guid);
             DataSet ds = DAL.SQLDBHelpercs.ExecuteReader(sql, null);
@@ -144,7 +221,7 @@ namespace BLL
             return strWhere;
         }
         //设置高级查询
-        public static string setStrWhereHtml(DataTable dt)
+        public static string SetStrWhereHtml(DataTable dt)
         {
             string strHtml = "";
             if (dt != null && dt.Rows.Count > 0)
@@ -166,7 +243,7 @@ namespace BLL
                             strHtml += "<select name=\"" + dt.Rows[i]["FieldKey"].ToString() + "|" + dt.Rows[i]["SelectType"].ToString() + "\" class=\"form-control select2 select2-hidden-accessible\"  tabindex=\"-1\" aria-hidden=\"true\" >";
                             strHtml += "<option selected = \"selected\" value = \"0\" >全部</option >";
                             string tsql = dt.Rows[i]["SelectData"].ToString();
-                            DataTable tsqldt = BaseClass.getDataTable(tsql);
+                            DataTable tsqldt = BaseClass.GetDataTable(tsql);
                             if (tsqldt != null && tsqldt.Rows.Count > 0)
                             {
                                 for (int j = 0; j < tsqldt.Rows.Count; j++)
@@ -192,7 +269,7 @@ namespace BLL
             return strHtml;
         }
         //设置按钮
-        public static string setBntHtml(DataTable dt)
+        public static string SetBntHtml(DataTable dt)
         {
             string bntHtml = "";
             if (estimate(dt))
@@ -207,7 +284,7 @@ namespace BLL
             return bntHtml;
         }
         //设置表格
-        public static string getTableHtml(DataTable dt, string choice, ref string columnsJson)
+        public static string GetTableHtml(DataTable dt, string choice, ref string columnsJson)
         {
             StringBuilder sb = new StringBuilder();
             StringBuilder sbjson = new StringBuilder();
@@ -255,7 +332,7 @@ namespace BLL
                 return false;
         }
         //读取变量
-        public static string getValueForKey(string key)
+        public static string GetValueForKey(string key)
         {
             return "";
         }
@@ -324,7 +401,7 @@ namespace BLL
             string sql = string.Format(@"SELECT " + OneFileName + " AS 'ItemID',* FROM (SELECT ROW_NUMBER() OVER(ORDER BY {0}) AS NewRowID,* FROM ({1}) AS NOPOSTNEWTABLE {2})NOPOTST WHERE NOPOTST.NewRowID >={3} AND NOPOTST.NewRowID <= {4}", SQLOrder, SQL, SQLWhere, minNum, maxNum);
             return sql;
         }
-        //
+        //获取表的第一个字段名
         public static string GetTopOneFileName(string TableName)
         {
             string sql = string.Format("Select  top(1)Name FROM SysColumns Where id=Object_Id('{0}')", TableName);

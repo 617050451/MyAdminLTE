@@ -23,17 +23,47 @@ namespace AdminLTE.Admin.Temp
                     int PageStart = Convert.ToInt32(Request.QueryString["start"]);
                     string Order = Request.QueryString["order"];
                     string OSrderDir = Request.QueryString["orderDir"];
-                    var PageData = Request.QueryString["values"];
-                    if (GetType == "getDate")
+                    var WhereValues = Request.QueryString["WhereValues"];
+                    if (GetType == "GetDataList")
                     {
-                        DataTable dt = JsonHelper.DeserializeJsonToObject<DataTable>(PageData);//条件数据
-                        Response.Write(BLL.TablesClass.GetDataJson(dt, PageStart, PageIndex, PageSize, " " + Order + " " + OSrderDir));
+                        DataTable dt = (WhereValues == null ? null : JsonHelper.DeserializeJsonToObject<DataTable>(WhereValues));//条件数据
+                        Response.Write(BLL.t_TablesClass.GetDataListJson(dt, PageStart, PageIndex, PageSize, " " + Order + " " + OSrderDir));
+                        Response.End();
+                    }
+                    else if (GetType == "SaveFromData")
+                    {
+                        var ChoiceKey = BLL.t_TablesClass.OneFileName;
+                        var ChoiceValue = Request.QueryString["ChoiceValue"];
+                        var FromValues = Request.QueryString["FromValues"];
+                        Model.t_Tables ModelData = (FromValues == null ? null : JsonHelper.DeserializeJsonToObject<Model.t_Tables>(FromValues));//表单数据
+                        var RowNum = true;
+                        var CodeJson = "";
+                        if (ChoiceValue != null && ChoiceValue != "")//修改
+                        {
+                            RowNum = BLL.BaseClass.UpdateModel(ModelData, ChoiceKey, ChoiceValue);
+                        }
+                        else//添加
+                        {
+                            RowNum = BLL.BaseClass.InsertModel(ModelData, ChoiceKey);
+                        }
+                        if (RowNum)
+                            CodeJson = "[{\"code\":100}]";
+                        else
+                            CodeJson = "[{\"code\":105}]";
+                        Response.Write(CodeJson);
+                        Response.End();
+                    }
+                    else if (GetType == "GetDataView")
+                    {
+                        var ChoiceKey = BLL.t_TablesClass.OneFileName;
+                        var ChoiceValue = Request.QueryString["ChoiceValue"];
+                        Response.Write(BLL.t_TablesClass.GetDataViewJson(ChoiceKey, ChoiceValue));
                         Response.End();
                     }
                 }
                 else
                 {
-                    ltlbnt.Text = "<button type=\"button\" class=\"btn btn-success btn-xs\" onclick=\"ShowAddTableHtml('添加页面')\">新　增</button>";
+                    ltlbnt.Text = "<button type=\"button\" class=\"btn btn-success btn-xs\" onclick=\"LayerOpenHtml('添加页面','SaveInsertFromData')\">新　增</button>";
                 }
             }
         }

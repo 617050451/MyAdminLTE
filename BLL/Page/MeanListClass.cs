@@ -9,9 +9,9 @@ namespace BLL
 {
     public class MeanListClass
     {
-        public static Model.TableMeanList TMeanList = new Model.TableMeanList();
+        public static Model.t_MeanList TMeanList = new Model.t_MeanList();
         public static string ColumnsJson = string.Empty;
-        public static string OneFileName= BaseClass.GetTopOneFileName(TMeanList.TableName);
+        public static string OneFileName = BaseClass.GetTopOneFileName(TMeanList.TableName);
         //实例化字段数据
         public static DataTable SetTableFieldInfo()
         {
@@ -121,7 +121,7 @@ namespace BLL
                                 strHtml += "<select name=\"" + dt.Rows[i]["FieldKey"].ToString() + "|" + dt.Rows[i]["SelectType"].ToString() + "\" class=\"form-control select2 select2-hidden-accessible\"  tabindex=\"-1\" aria-hidden=\"true\" >";
                                 strHtml += "<option selected = \"selected\" value = \"0\" >全部</option >";
                                 string tsql = dt.Rows[i]["SelectData"].ToString();
-                                DataTable tsqldt = BaseClass.getDataTable(tsql);
+                                DataTable tsqldt = BaseClass.GetDataTable(tsql);
                                 if (tsqldt != null && tsqldt.Rows.Count > 0)
                                 {
                                     for (int j = 0; j < tsqldt.Rows.Count; j++)
@@ -163,7 +163,7 @@ namespace BLL
             string strwhere = BaseClass.SetStrWhere(dt);
             string sumsqlStr = BaseClass.GetTSQL(TMeanList.SQL, "COUNT(" + OneFileName + ") as COUNTS," + TMeanList.CountData, strwhere, "", false);
             string sqlStr = BaseClass.PageBySQL(TMeanList.SQL, TMeanList.TableName, OneFileName, strwhere, order, PageIndex, PageSize);
-            DataSet ds = BLL.BaseClass.getDataSet(sqlStr + sumsqlStr);
+            DataSet ds = BLL.BaseClass.GetDataSet(sqlStr + sumsqlStr);
             DataTable tableJson = ds.Tables[0];
             DataTable tableSum = ds.Tables[1];
             if (ds != null)

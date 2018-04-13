@@ -20,7 +20,7 @@ namespace AdminLTE.Admin.Temp
                 string GetType = Request.Form["gettype"];
                 if (GetType != null)
                 {
-                    if (GetType == "setData")
+                    if (GetType == "SetData")
                     {
                         string TableGuid = Request.Form["tableguid"];
                         var PageData = Request.Form["values"];
@@ -33,7 +33,7 @@ namespace AdminLTE.Admin.Temp
                             Response.End();
                         }
                     }
-                    else if (GetType == "setTableData")
+                    else if (GetType == "SetTableData")
                     {
                         string TableGuid = Request.Form["tableguid"];
                         var SetTableInfo = Request.Form["settableinfo"];
@@ -50,7 +50,7 @@ namespace AdminLTE.Admin.Temp
                     string tableGuid = Request.QueryString["tableguid"];
                     if (tableGuid != null)
                     {
-                        tableInfo = BLL.BaseClass.getTableInfo(tableGuid);
+                        tableInfo = BLL.BaseClass.GetTableInfo(tableGuid);
                         ltlTable.Text = getSetListHtml(tableGuid);
                     }
                 }
@@ -60,7 +60,7 @@ namespace AdminLTE.Admin.Temp
         {
             //string sql = string.Format(@"select * from [t_TableField]  where TableGUID ='{0}' ORDER BY [FieldOrder]", tableGuid);
             string sql = string.Format(@"select * from [t_TableField]  ORDER BY [FieldOrder]");
-            DataTable dt = BLL.BaseClass.getDataTable(sql);
+            DataTable dt = BLL.BaseClass.GetDataTable(sql);
             StringBuilder sb = new StringBuilder();
             if (BLL.BaseClass.estimate(dt))
             {

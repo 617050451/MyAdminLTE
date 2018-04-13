@@ -8,7 +8,7 @@ function getQueryString(key) {
         }
 // 语言设置  
 var oLanguage = {
-            "sProcessing": "处理中...",
+            "sProcessing": "加载中...",
             "sLengthMenu": "每页显示 _MENU_ 条记录",
             "sZeroRecords": "抱歉， 没有找到",
             "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
@@ -31,7 +31,7 @@ function pageName() {
             return strPage;
         }
 //注册事件 全选，删除
-function getDataAfter() {
+function GetDataAfter() {
     $("#selectAll").click(function () {
         if ($(this).prop("checked")) {
             $("input[name='checkboxItemID']").prop("checked", 'true');//全选 
@@ -52,6 +52,9 @@ function getDataAfter() {
     $('#DeleteItemID').click(function () {
         DeleteItemID();
     })
+    if (jQuery.isFunction(GetDataSuccess)) {
+        GetDataSuccess();
+    }
 }
 //选中的值
 function OnCheckboxOnSelectValue() {
@@ -81,7 +84,7 @@ function DeleteItemID() {
             btn: ['确定', '取消'] //按钮
         }, function () {
             var param = {};
-            param.gettype = "bntOperation";
+            param.gettype = "BntOperation";
             param.values = hide_guid;
             //ajax请求数据
             $.ajax({
@@ -178,12 +181,13 @@ if (iswhere == "0")
     $("div[data-resple='iswhere']").addClass("hidden");
 var columnsJson = eval("(" + $("#ColumnsJson").val() + ")");
 $(document).ready(function () {
-    setTimeout(getJsonData("getDate"), 50);
+    setTimeout(getJsonData("GetDateList"), 50);
     //Date picker
 });
 //获取数据
 var table;
 var ischoice = parseInt($("#IsChoice").val());
+var fromchildren = "input, textarea";
 function getJsonData(type) {
     if (type == 'select') {
         table.fnClearTable(false);  //清空数据.fnClearTable();//清空数据
@@ -206,14 +210,14 @@ function getJsonData(type) {
         "columns": columnsJson,
         "oLanguage": oLanguage,
         ajax: function (data, callback, settings) {
-            var values = $('#selectWhere').find('input,select').serializeArray();
+            var WhereValues = $('#SelectWhereFrom').find(fromchildren).serializeArray();
             //封装请求参数
             var param = {};
-            param.gettype = "getDate";
+            param.gettype = "GetDataList";
             param.limit = data.length;//页面显示记录条数，在页面显示每页显示多少项的时候
             param.start = data.start;//开始的记录序号
             param.page = (data.start / data.length) + 1;//当前页码;
-            param.values = JSON.stringify(values);
+            param.WhereValues = JSON.stringify(WhereValues);
             param.order = columnsJson[data.order[0].column]['data'];
             param.orderDir = data.order[0].dir;
             //ajax请求数据
@@ -238,11 +242,33 @@ function getJsonData(type) {
                             //此时的数据需确保正确无误，异常判断应在执行此回调前自行处理完毕
                             callback(returnData);
                             $("#ltlSum").html(result.sumHtml);
-                            getDataAfter();
+                            GetDataAfter();
                         }, 200);
                     }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    // 状态码
+                    console.log(XMLHttpRequest.status);
+                    // 状态
+                    console.log(XMLHttpRequest.readyState);
+                    // 错误信息   
+                    console.log(textStatus);
+                    layer.msg("系统繁忙，请稍等.....");
                 }
             });
         }
     });
+}
+var ChoiceValue;
+//序列化
+function GetFromJson(obj) {
+    var m = [], idata;
+    $.each(obj, function (i, field) {
+        // 由于会出现"双引号字符会导致接下来的数据打包失败，故此对元素内容进行encodeURI编码  
+        // 后台PHP采用urldecode()函数还原数据  
+        m.push('"' + field.name + '":"' + encodeURI(field.value) + '"');
+    });
+    idata = '{' + t + m.join(',') + '}';
+    // 按字符 idata 转换成 JSON 格式  
+    return idata;
 }

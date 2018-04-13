@@ -61,6 +61,35 @@ namespace DAL
                 return null;
             }
         }
+        public static DataTable ExecuteReaderTable(string sql, SqlParameter[] paras)
+        {
+            try
+            {
+
+                SqlCommand comm = new SqlCommand(sql, Conn);
+
+                if (paras != null)
+                {
+                    comm.CommandType = CommandType.StoredProcedure;
+                    comm.Parameters.AddRange(paras);
+                }
+
+                SqlDataAdapter da = new SqlDataAdapter(comm);
+
+                DataSet ds = new DataSet();
+
+                da.Fill(ds);
+
+                if (ds != null && ds.Tables.Count > 0)
+                    return ds.Tables[0];
+                else
+                    return null;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
 
         public static string ExecuteReader(string sql)
         {
@@ -79,7 +108,7 @@ namespace DAL
                 else
                     return "";
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }
@@ -97,9 +126,26 @@ namespace DAL
                 }
                 return comm.ExecuteNonQuery() > 0;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return false;
+            }
+        }
+        public static int ExecuteNonQueryInt(string sql, SqlParameter[] paras, string type)
+        {
+            try
+            {
+                SqlCommand comm = new SqlCommand(sql, Conn);
+                if (paras != null)
+                {
+                    comm.Parameters.AddRange(paras);
+                    if (type != "sql") comm.CommandType = CommandType.StoredProcedure;
+                }
+                return comm.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+                return 0;
             }
         }
     }

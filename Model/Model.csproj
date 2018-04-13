@@ -41,8 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Table\TableMeanList.cs" />
-    <Compile Include="Table\Tables.cs" />
+    <Compile Include="PageManage\t_MeanList.cs" />
+    <Compile Include="Admin\t_Tables.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
