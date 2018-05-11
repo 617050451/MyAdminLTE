@@ -6776,6 +6776,7 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="XML\AddPage.xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Page\MeanList.aspx.cs">

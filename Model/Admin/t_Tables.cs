@@ -19,7 +19,7 @@ namespace Model
             set
             {
                 GUIDValue = value;
-                IsDicMyProperty[nameof(GUID)] = true;
+                IsDicMyProperty.Add(nameof(GUID), true);
             }
         }
         /// <summary>
@@ -33,7 +33,7 @@ namespace Model
             set
             {
                 TitleValue = value;
-                IsDicMyProperty[nameof(Title)] = true;
+                IsDicMyProperty.Add(nameof(Title), true);
             }
         }
         /// <summary>
@@ -47,7 +47,7 @@ namespace Model
             set
             {
                 SQLValue = value;
-                IsDicMyProperty[nameof(SQL)] = true;
+                IsDicMyProperty.Add(nameof(SQL), true);
             }
         }
         /// <summary>
@@ -61,9 +61,11 @@ namespace Model
             set
             {
                 TableNameValue = value;
-                IsDicMyProperty[nameof(TableName)] = true;
+                IsDicMyProperty.Add(nameof(TableName), true);
             }
         }
+
+        
         /// <summary>
         /// FileName
         /// </summary>		
@@ -75,7 +77,7 @@ namespace Model
             set
             {
                 FileNameValue = value;
-                IsDicMyProperty[nameof(FileName)] = true;
+                IsDicMyProperty.Add(nameof(FileName), true);
             }
         }
         /// <summary>
@@ -89,77 +91,77 @@ namespace Model
             set
             {
                 NoteValue = value;
-                IsDicMyProperty[nameof(Note)] = true;
+                IsDicMyProperty.Add(nameof(Note), true);
             }
         }
         /// <summary>
         /// choice
         /// </summary>		
 
-        private int choiceValue;
-        public int choice
+        private int ChoiceValue;
+        public int Choice
         {
-            get { return choiceValue; }
+            get { return ChoiceValue; }
             set
             {
-                choiceValue = value;
-                IsDicMyProperty[nameof(choice)] = true;
+                ChoiceValue = value;
+                IsDicMyProperty.Add(nameof(Choice), true);
             }
         }
         /// <summary>
         /// insert
         /// </summary>		
 
-        private int insertValue;
-        public int insert
+        private int InsertValue;
+        public int Insert
         {
-            get { return insertValue; }
+            get { return InsertValue; }
             set
             {
-                insertValue = value;
-                IsDicMyProperty[nameof(insert)] = true;
+                InsertValue = value;
+                IsDicMyProperty.Add(nameof(Insert), true);
             }
         }
         /// <summary>
         /// update
         /// </summary>		
 
-        private int updateValue;
-        public int update
+        private int UpdateValue;
+        public int Update
         {
-            get { return updateValue; }
+            get { return UpdateValue; }
             set
             {
-                updateValue = value;
-                IsDicMyProperty[nameof(update)] = true;
+                UpdateValue = value;
+                IsDicMyProperty.Add(nameof(Update), true);
             }
         }
         /// <summary>
         /// delete
         /// </summary>		
 
-        private int deleteValue;
-        public int delete
+        private int DeleteValue;
+        public int Delete
         {
-            get { return deleteValue; }
+            get { return DeleteValue; }
             set
             {
-                deleteValue = value;
-                IsDicMyProperty[nameof(delete)] = true;
+                DeleteValue = value;
+                IsDicMyProperty.Add(nameof(Delete), true);
             }
         }
         /// <summary>
         /// strwhere
         /// </summary>		
 
-        private int strwhereValue;
-        public int strwhere
+        private int StrwhereValue;
+        public int Strwhere
         {
-            get { return strwhereValue; }
+            get { return StrwhereValue; }
             set
             {
-                strwhereValue = value;
-                IsDicMyProperty[nameof(strwhere)] = true;
+                StrwhereValue = value;
+                IsDicMyProperty.Add(nameof(Strwhere), true);
             }
         }
         /// <summary>
@@ -173,7 +175,7 @@ namespace Model
             set
             {
                 CountDataValue = value;
-                IsDicMyProperty[nameof(CountData)] = true;
+                IsDicMyProperty.Add(nameof(CountData), true);
             }
         }
         /// <summary>
@@ -187,12 +189,15 @@ namespace Model
             set
             {
                 PlusValue = value;
-                IsDicMyProperty[nameof(Plus)] = true;
+                IsDicMyProperty.Add(nameof(Plus), true);
             }
         }
         public bool IsFieldAssign(string Fieldname)
         {
-            return IsDicMyProperty[nameof(Fieldname)];
+            if (IsDicMyProperty.ContainsKey(Fieldname))
+                return IsDicMyProperty[Fieldname];
+            else
+                return false;
         }
 
     }

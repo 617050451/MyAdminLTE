@@ -1,185 +1,5 @@
-﻿var hide_guid = "";
+﻿
 var tableguid = getQueryString("tableguid");
-//获取url参数
-function getQueryString(key) {
-            var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
-            var result = window.location.search.substr(1).match(reg);
-            return result ? decodeURIComponent(result[2]) : null;
-        }
-// 语言设置  
-var oLanguage = {
-            "sProcessing": "加载中...",
-            "sLengthMenu": "每页显示 _MENU_ 条记录",
-            "sZeroRecords": "抱歉， 没有找到",
-            "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
-            "sInfoEmpty": "",
-            "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
-            "sZeroRecords": "没有检索到数据",
-            "sSearch": "检索:",
-            "oPaginate": {
-                "sFirst": "首页",
-                "sPrevious": "前一页",
-                "sNext": "后一页",
-                "sLast": "尾页"
-            }
-        }
-//取当前页面名称(带后缀名)
-function pageName() {
-            var strUrl = location.href;
-            var arrUrl = strUrl.split("/");
-            var strPage = arrUrl[arrUrl.length - 1];
-            return strPage;
-        }
-//注册事件 全选，删除
-function GetDataAfter() {
-    $("#selectAll").click(function () {
-        if ($(this).prop("checked")) {
-            $("input[name='checkboxItemID']").prop("checked", 'true');//全选 
-        } else {
-            $("input[name='checkboxItemID']").prop("checked", '');//取消全选 
-        }
-        OnCheckboxOnSelectValue();
-    })
-    $("button[name=UpdateItemID]").click(function () {
-        alert("修改：" + $(this).val());
-    })
-    $("button[name=DeleteItemID]").click(function () {
-        alert("删除：" + $(this).val());
-    })
-    $('input:checkbox[name=checkboxItemID]').click(function () {
-        OnCheckboxOnSelectValue();
-    })
-    $('#DeleteItemID').click(function () {
-        DeleteItemID();
-    })
-    if (jQuery.isFunction(GetDataSuccess)) {
-        GetDataSuccess();
-    }
-}
-//选中的值
-function OnCheckboxOnSelectValue() {
-    var guidValues = "";
-    var checkboxChecked = $('input:checkbox[name=checkboxItemID]:checked');
-    var checkbox = $('input:checkbox[name=checkboxItemID]');
-    if (checkboxChecked.length == checkbox.length && checkboxChecked.length > 0) {
-        $("#selectAll").prop("checked", 'true');
-    } else {
-        $("#selectAll").prop("checked", '');
-    }
-    $(checkboxChecked).each(function (i) {
-        if (i > 0)
-            guidValues += ",";
-        guidValues += "'" + $(this).val() + "'";
-    });
-    hide_guid = guidValues;
-}
-//删除BY GUID
-function DeleteItemID() {
-    if (hide_guid == "") {
-        layer.msg('请选择需要删除的数据！');
-    } else {
-        //询问框
-        layer.confirm('你确定要删除当前选择的数据？', {
-            title: '删除',
-            btn: ['确定', '取消'] //按钮
-        }, function () {
-            var param = {};
-            param.gettype = "BntOperation";
-            param.values = hide_guid;
-            //ajax请求数据
-            $.ajax({
-                type: "GET",
-                url: pageName(),
-                data: param,
-                cache: false,  //禁用缓存
-                dataType: "text",
-                async: false,
-                success: function (result) {
-                    if (result == "True") {
-                        layer.msg('操作成功！', {
-                            icon: 1, end: function () {
-                                location.reload();
-                            }
-                        });
-                    } else {
-                        layer.msg('操作失败！', {
-                            icon: 2
-                        });
-                    }
-                }
-            });
-        });
-    }
-}
-var loadIndex;
-function loadding(obj) {
-            loadIndex = layer.msg(obj, {
-                icon: 16, shade: 0.01,time: 0
-            });
-        }
-function loadClose(obj) {
-            layer.close(obj);
-}
-
-//登录
-//登录事件
-function signinOnclick() {
-    var bnt = $("button[name=bntSave]");
-    bntLoading(bnt);
-    var userid = $("#userid").val();
-    var password = $("#password").val();
-    if (userid == "" || password == "") {
-        funerrorMes('账号或错误不能为空');
-        bntCloseLoading(bnt);
-        return false;
-    }
-    //封装请求参数
-    var param = {};
-    param.gettype = "login";
-    param.userid = userid;
-    param.password = password;
-    //ajax请求数据
-    $.ajax({
-        type: "GET",
-        url: pageName(),
-        cache: false,  //禁用缓存
-        data: param,  //传入组装的参数
-        dataType: "text",
-        async: false,
-        success: function (result) {
-            if (result == "True")
-                $(location).attr('href', 'Index.aspx');
-            else {
-                funerrorMes('账号或错误！请进行一些更改。');
-                bntCloseLoading(bnt);
-                return false;
-            }
-        }
-    });
-}
-//错误提示
-function funerrorMes(error) {
-    $("#error").html('<div id="error" class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert"aria-hidden="true">&times;</button>' + error + '</div>');
-}
-function bntLoading(btn) {
-    $(btn).button('loading');
-}
-function bntCloseLoading(btn) {
-    $(btn).button('reset');
-}
-
-//加载数据
-var isplus = $("#IsPlus").val();
-var iswhere = $("#IsWhere").val();
-if (isplus == "1") {
-    $("div[data-resple='iswhere']").addClass("collapsed-box");
-    $("i[data-resple='isplus']").addClass("fa fa-plus");
-} else {
-    $("i[data-resple='isplus']").addClass("fa fa-minus");
-}
-if (iswhere == "0")
-    $("div[data-resple='iswhere']").addClass("hidden");
-var columnsJson = eval("(" + $("#ColumnsJson").val() + ")");
 $(document).ready(function () {
     setTimeout(getJsonData("GetDateList"), 50);
     //Date picker
@@ -195,7 +15,7 @@ function getJsonData(type) {
     }
     table = $('#example').dataTable({
         "dom": "t<'row'<'#id.col-xs-2 table-l'l><'#id.col-xs-3'i><'#id.col-xs-6 table-p'p>>r",
-        "aoColumnDefs": [{ "bSortable": false, "aTargets": [ischoice-1]}],
+        "aoColumnDefs": [{ "bSortable": false, "aTargets": [ischoice - 1] }],
         "aaSorting": [[ischoice, "asc"]],
         "lengthChange": true,
         "autoWidth": false,
@@ -259,7 +79,192 @@ function getJsonData(type) {
         }
     });
 }
-var ChoiceValue;
+//加载数据
+var isplus = $("#IsPlus").val();
+var iswhere = $("#IsWhere").val();
+if (isplus == "1") {
+    $("div[data-resple='iswhere']").addClass("collapsed-box");
+    $("i[data-resple='isplus']").addClass("fa fa-plus");
+} else {
+    $("i[data-resple='isplus']").addClass("fa fa-minus");
+}
+if (iswhere == "0")
+    $("div[data-resple='iswhere']").addClass("hidden");
+var columnsJson = eval("(" + $("#ColumnsJson").val() + ")");
+//获取url参数
+function getQueryString(key) {
+            var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
+            var result = window.location.search.substr(1).match(reg);
+            return result ? decodeURIComponent(result[2]) : null;
+        }
+// 语言设置  
+var oLanguage = {
+            "sProcessing": "加载中...",
+            "sLengthMenu": "每页显示 _MENU_ 条记录",
+            "sZeroRecords": "抱歉， 没有找到",
+            "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+            "sInfoEmpty": "",
+            "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+            "sZeroRecords": "没有检索到数据",
+            "sSearch": "检索:",
+            "oPaginate": {
+                "sFirst": "首页",
+                "sPrevious": "前一页",
+                "sNext": "后一页",
+                "sLast": "尾页"
+            }
+        }
+//取当前页面名称(带后缀名)
+function pageName() {
+            var strUrl = location.href;
+            var arrUrl = strUrl.split("/");
+            var strPage = arrUrl[arrUrl.length - 1];
+            return strPage;
+        }
+//注册事件 全选，删除
+function GetDataAfter() {
+    $("#selectAll").click(function () {
+        if ($(this).prop("checked")) {
+            $("input[name='checkboxItemID']").prop("checked", 'true');//全选 
+        } else {
+            $("input[name='checkboxItemID']").prop("checked", '');//取消全选 
+        }
+        OnCheckboxOnSelectValue();
+    })
+    $("button[name=UpdateItemID]").click(function () {
+        alert("修改：" + $(this).val());
+    })
+    $("button[name=DeleteItemID]").click(function () {
+        DeleteItemID(ChoiceValue);
+    })
+    $("#DeleteItemID").click(function () {
+        DeleteItemID(OnCheckboxOnSelectValue());
+    })
+    $('input:checkbox[name=checkboxItemID]').click(function () {
+        OnCheckboxOnClick();
+    })
+    if (jQuery.isFunction(GetDataSuccess)) {
+        GetDataSuccess();
+    }
+}
+//选中的值
+function OnCheckboxOnClick() {
+    var guidValues = "";
+    var checkboxChecked = $('input:checkbox[name=checkboxItemID]:checked');
+    var checkbox = $('input:checkbox[name=checkboxItemID]');
+    if (checkboxChecked.length == checkbox.length && checkboxChecked.length > 0) {
+        $("#selectAll").prop("checked", 'true');
+    } else {
+        $("#selectAll").prop("checked", '');
+    }
+    $(checkboxChecked).each(function (i) {
+        if (i > 0)
+            guidValues += ",";
+        guidValues += "'" + $(this).val() + "'";
+    });
+    return guidValues;
+}
+function OnCheckboxOnSelectValue() {
+    var checkboxChecked = $('input:checkbox[name=checkboxItemID]:checked');
+    $(checkboxChecked).each(function (i) {
+        if (i > 0)
+            guidValues += ",";
+        guidValues += "'" + $(this).val() + "'";
+    });
+    return guidValues;
+}
+//删除BY GUID
+function DeleteItemID() {
+    if (ChoiceValue == "") {
+        layer.msg('请选择需要删除的数据！');
+    } else {
+        //询问框
+        layer.confirm('你确定要删除当前选择的数据？', {
+            title: '删除',
+            btn: ['确定', '取消'] //按钮
+        }, function () {
+            var param = {};
+            param.gettype = "BntOperation";
+            param.values = ChoiceValue;
+            //ajax请求数据
+            $.ajax({
+                type: "GET",
+                url: pageName(),
+                data: param,
+                cache: false,  //禁用缓存
+                dataType: "text",
+                async: false,
+                success: function (result) {
+                    if (result == "True") {
+                        layer.msg('操作成功！', {
+                            icon: 1, end: function () {
+                                location.reload();
+                            }
+                        });
+                    } else {
+                        layer.msg('操作失败！', {
+                            icon: 2
+                        });
+                    }
+                }
+            });
+        });
+    }
+}
+var loadIndex;
+function loadding(obj) {
+    loadIndex = layer.msg(obj, {
+        icon: 16, shade: 0.01, time: 0
+    });
+}
+function loadClose(obj) {
+    layer.close(obj);
+}
+//登录事件
+function signinOnclick() {
+    var bnt = $("button[name=bntSave]");
+    bntLoading(bnt);
+    var userid = $("#userid").val();
+    var password = $("#password").val();
+    if (userid == "" || password == "") {
+        funerrorMes('账号或错误不能为空');
+        bntCloseLoading(bnt);
+        return false;
+    }
+    //封装请求参数
+    var param = {};
+    param.gettype = "login";
+    param.userid = userid;
+    param.password = password;
+    //ajax请求数据
+    $.ajax({
+        type: "GET",
+        url: pageName(),
+        cache: false,  //禁用缓存
+        data: param,  //传入组装的参数
+        dataType: "text",
+        async: false,
+        success: function (result) {
+            if (result == "True")
+                $(location).attr('href', 'Index.aspx');
+            else {
+                funerrorMes('账号或错误！请进行一些更改。');
+                bntCloseLoading(bnt);
+                return false;
+            }
+        }
+    });
+}
+//错误提示
+function funerrorMes(error) {
+    $("#error").html('<div id="error" class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert"aria-hidden="true">&times;</button>' + error + '</div>');
+}
+function bntLoading(btn) {
+    $(btn).button('loading');
+}
+function bntCloseLoading(btn) {
+    $(btn).button('reset');
+}
 //序列化
 function GetFromJson(obj) {
     var m = [], idata;

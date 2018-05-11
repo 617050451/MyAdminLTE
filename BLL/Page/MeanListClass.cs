@@ -15,22 +15,7 @@ namespace BLL
         //实例化字段数据
         public static DataTable SetTableFieldInfo()
         {
-            DataTable TableFieldInfo = new DataTable();
-            DataColumn dc = new DataColumn("FieldKey", Type.GetType("System.String"));
-            dc = new DataColumn("FieldKey", Type.GetType("System.String"));
-            TableFieldInfo.Columns.Add(dc);
-            dc = new DataColumn("FieldValue", Type.GetType("System.String"));
-            TableFieldInfo.Columns.Add(dc);
-            dc = new DataColumn("SelectType", Type.GetType("System.String"));
-            TableFieldInfo.Columns.Add(dc);
-            dc = new DataColumn("SelectData", Type.GetType("System.String"));
-            TableFieldInfo.Columns.Add(dc);
-            dc = new DataColumn("FieldStatusID", Type.GetType("System.String"));
-            TableFieldInfo.Columns.Add(dc);
-            dc = new DataColumn("FieldData", Type.GetType("System.String"));
-            TableFieldInfo.Columns.Add(dc);
-            dc = new DataColumn("FieldOrder", Type.GetType("System.String"));
-            TableFieldInfo.Columns.Add(dc);
+            DataTable TableFieldInfo = new DataTable();            
             return TableFieldInfo;
         }
         //添加字段数据

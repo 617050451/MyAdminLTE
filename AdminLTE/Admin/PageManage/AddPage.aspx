@@ -46,7 +46,7 @@
                 </div>
                 <div class="box box-danger">
                     <div class="box-body" id="SelectWhereFrom">
-                        <asp:Literal ID="ltlStrWhere" runat="server" Text=""></asp:Literal>
+                         <asp:Literal ID="ltlStrWhere" runat="server" Text=""></asp:Literal> 
                     </div>
                 </div>
                 <!-- /.box-body -->
@@ -54,19 +54,14 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="box box-primary">
-                        <div class="box-body">
-                            <div id="ltlbnts" class="pull-left" style="height: 24px;">
-                                <asp:Literal ID="ltlbnt" runat="server" Text=""></asp:Literal>
+                        <div class="box-body">	
+                            <div id="ltlbnts"  class="pull-left" style="height:24px;" >
+                                 <asp:Literal ID="ltlbnt" runat="server" Text=""></asp:Literal>
+                            </div>
+                            <div id="ltlSum" class="pull-right"  style="height:24px;">
                             </div>
                             <table id="example" class="table table-bordered table-hover">
-                                <thead>
-                                    <tr role="row">
-                                        <th class="sorting_asc" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="页面编号: activate to sort column descending">页面编号</th>
-                                        <th class="sorting" tabindex="1" aria-controls="example" rowspan="1" colspan="1" aria-label="页面说明: activate to sort column ascending">页面说明</th>
-                                        <th class="sorting" tabindex="2" aria-controls="example" rowspan="1" colspan="1" aria-label="页面名称: activate to sort column ascending">页面名称</th>
-                                        <th class="sorting" tabindex="3" aria-controls="example" rowspan="1" colspan="1" aria-label="操作: ">操作</th>
-                                    </tr>
-                                </thead>
+                                <asp:Literal ID="ltlhead" runat="server" Text=""></asp:Literal> 
                             </table>
                         </div>
                         <!-- /.box-body -->
@@ -112,13 +107,10 @@
                 <div class="form-group text-center">
                     <button type="button" class="btn btn-success" onclick="BntSaveFromData()">保　存</button>
                 </div>
-                <div class="hidden">
-                    <label id="Gettype"></label>
-                </div>
             </div>
         </div>
-        <asp:HiddenField ID="IsPlus" runat="server"  Value="0"/>
-        <asp:HiddenField ID="IsWhere" runat="server" Value="0"/>
+        <asp:HiddenField ID="IsPlus" runat="server"  Value="1"/>
+        <asp:HiddenField ID="IsWhere" runat="server" Value="1"/>
         <asp:HiddenField ID="IsChoice" runat="server" Value="0"/>
         <asp:HiddenField ID="ColumnsJson" runat="server" Value="[{&quot;data&quot;: &quot;GUID&quot;},{&quot;data&quot;: &quot;Title&quot;},{&quot;data&quot;: &quot;FileName&quot;},{&quot;data&quot;: &quot;ItemID&quot;, render: function (data, type, row) { return &quot;<button name='UpdateItemID' type = 'button' class='btn btn-warning  btn-xs' value='&quot; + data + &quot;'>修　改</button>&amp;nbsp;<button name = 'DeleteItemID' type = 'button' class='btn btn-danger  btn-xs' value='&quot; + data + &quot;'>删　除</button>&amp;nbsp;&quot;}}]"/>
     </form>
@@ -139,23 +131,23 @@
     <link href="../../Script/js/cyfs.css" rel="stylesheet" />
     <script src="../../Script/layer-v3.1.0/layer/layer.js"></script>
     <script>
+        //layer 弹层
         var Index;
-        var GetType;
-        function LayerOpenHtml(title,value) {
+        function LayerOpenHtml(title, value) {
             var showHtml = $("#LayerOpenHtml").html();
             //页面层
             Index = layer.open({
+                id: value,
                 type: 1,
                 title: title,
                 skin: 'layui-layer-rim', //加上边框
                 area: ['620px', '450px'], //宽高
                 content: showHtml,
                 success: function () {
-                    ChoiceValue = value;
-                    if (ChoiceValue != undefined) {
+                    if (value != undefined) {
                         var param = {};
                         param.Gettype = 'GetDataView';
-                        param.ChoiceValue = ChoiceValue;
+                        param.ChoiceValue = value;
                         $.ajax({
                             type: "GET",
                             url: pageName(),
@@ -165,7 +157,7 @@
                             async: false,
                             success: function (result) {
                                 if (result != null && result != "") {
-                                    var json = result[0]; 
+                                    var json = result[0];
                                     $.each(json, function (key, val) {
                                         $(".layui-layer [name=" + key + "]").val(val);
                                     });
@@ -180,13 +172,13 @@
                     }
                 }
             });
-        }
-        
+        }     
+        //保存事件
         function BntSaveFromData() {
             var FromValues = $(".layui-layer #LayerOpenHtmlFrom").find(fromchildren).serializeArray();
             var param = {};
             param.Gettype = 'SaveFromData';
-            param.ChoiceValue = ChoiceValue;
+            param.ChoiceValue = $(".layui-layer-content").attr("ID");
             param.FromValues = GetFromJson(FromValues);
             //ajax请求数据
             $.ajax({
@@ -202,7 +194,7 @@
                         setTimeout(function () {
                             layer.msg('保存成功', {
                                 icon: 1, time: 1500, end: function () {
-                                    layer.close(index);
+                                    layer.close(Index);
                                     location.reload();
                                 }
                             });
@@ -216,15 +208,16 @@
                 }
             });
         }
-
+        //获取数据后，重写一些方法
         function GetDataSuccess() {
             setTimeout(function () {
                 $("button[name=UpdateItemID]").unbind("click");
                 $("button[name=UpdateItemID]").click(function () {
                     LayerOpenHtml('修改页面', $(this).val());
                 })
+                $("button[name=DeleteItemID]").unbind("click");
                 $("button[name=DeleteItemID]").click(function () {
-                    alert("删除1：" + $(this).val());
+                    DeleteItemID($(this).val());
                 })
             }, 50);
         }

@@ -6,11 +6,13 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Xml;
 
 namespace AdminLTE.Admin.Temp
 {
     public partial class AddPage : System.Web.UI.Page
     {
+        BLL.t_TablesClass tableModel = new t_TablesClass("9D2512E9-6FF4-4E7E-BBB8-23DE83755D18");
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -27,24 +29,23 @@ namespace AdminLTE.Admin.Temp
                     if (GetType == "GetDataList")
                     {
                         DataTable dt = (WhereValues == null ? null : JsonHelper.DeserializeJsonToObject<DataTable>(WhereValues));//条件数据
-                        Response.Write(BLL.t_TablesClass.GetDataListJson(dt, PageStart, PageIndex, PageSize, " " + Order + " " + OSrderDir));
+                        Response.Write(tableModel.GetDataListJson(dt, PageStart, PageIndex, PageSize, " " + Order + " " + OSrderDir));
                         Response.End();
                     }
                     else if (GetType == "SaveFromData")
                     {
-                        var ChoiceKey = BLL.t_TablesClass.OneFileName;
                         var ChoiceValue = Request.QueryString["ChoiceValue"];
-                        var FromValues = Request.QueryString["FromValues"];
+                        var FromValues = Server.UrlDecode(Request.QueryString["FromValues"]);
                         Model.t_Tables ModelData = (FromValues == null ? null : JsonHelper.DeserializeJsonToObject<Model.t_Tables>(FromValues));//表单数据
                         var RowNum = true;
                         var CodeJson = "";
                         if (ChoiceValue != null && ChoiceValue != "")//修改
                         {
-                            RowNum = BLL.BaseClass.UpdateModel(ModelData, ChoiceKey, ChoiceValue);
+                            RowNum = tableModel.UpdateModel(ModelData, ChoiceValue);
                         }
                         else//添加
                         {
-                            RowNum = BLL.BaseClass.InsertModel(ModelData, ChoiceKey);
+                            RowNum = tableModel.InsertModel(ModelData);
                         }
                         if (RowNum)
                             CodeJson = "[{\"code\":100}]";
@@ -55,15 +56,26 @@ namespace AdminLTE.Admin.Temp
                     }
                     else if (GetType == "GetDataView")
                     {
-                        var ChoiceKey = BLL.t_TablesClass.OneFileName;
                         var ChoiceValue = Request.QueryString["ChoiceValue"];
-                        Response.Write(BLL.t_TablesClass.GetDataViewJson(ChoiceKey, ChoiceValue));
+                        Response.Write(tableModel.GetDataViewJson(ChoiceValue));
+                        Response.End();
+                    }
+                    else if (GetType == "BntOperation")
+                    {
+                        var ChoiceValue = Request.QueryString["ChoiceValue"];
+                        Response.Write(tableModel.DeleteData(ChoiceValue));
                         Response.End();
                     }
                 }
                 else
                 {
-                    ltlbnt.Text = "<button type=\"button\" class=\"btn btn-success btn-xs\" onclick=\"LayerOpenHtml('添加页面','SaveInsertFromData')\">新　增</button>";
+                    ltlhead.Text = tableModel.GetTableHtml();
+                    ltlbnt.Text = tableModel.SetBntHtml();
+                    ltlStrWhere.Text = tableModel.SetStrWhereHtml();
+                    ColumnsJson.Value = tableModel.ColumnsJson;
+                    IsPlus.Value = tableModel.TableModel.Plus.ToString();
+                    IsWhere.Value = tableModel.TableModel.Strwhere.ToString();
+                    IsChoice.Value = tableModel.TableModel.Choice.ToString();
                 }
             }
         }

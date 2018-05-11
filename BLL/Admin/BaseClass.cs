@@ -56,7 +56,7 @@ namespace BLL
             commandText.Append(" ) ");//拼接成完整的字符串
             return DAL.SQLDBHelpercs.ExecuteNonQuery(commandText.ToString(), param, "sql");
         }
-        //添加
+        //修改
         public static bool UpdateModel(object model, string identityName, string identityValue)
         {
             StringBuilder commandText = new StringBuilder(" update ");
@@ -313,17 +313,18 @@ namespace BLL
             return sb.ToString();
         }
         //sql解析拼接
-        public static string GetTSQL(string tableName, string fileName,string strWhere, string order, bool isCbGuid)
+        public static string GetTSQL(string SQL, string fileName, string strWhere, string order, bool isCbGuid)
         {
+            SQL = SQL.ToUpper().Replace("SELECT", "SELECT TOP(20000) ");
             string sqlstr = " SELECT " + fileName;
             if (isCbGuid)
                 sqlstr += ",GUID AS CbGuid";
-            sqlstr += " from (" + tableName + ") as NEWTABLE";
+            sqlstr += " from (" + SQL + ") as NEWTABLE";
             if (strWhere != "")
                 sqlstr += " where " + strWhere;
             if (order != "")
                 sqlstr += " order by " + order;
-            return sqlstr;
+            return sqlstr + ";";
         }
         //判断dt
         public static bool estimate(DataTable dt)
@@ -390,6 +391,7 @@ namespace BLL
         /// <param name=""></param>
         public static string PageBySQL(string SQL, string TableName, string OneFileName, string SQLWhere, string SQLOrder, int PageIndex, int PageLimit)
         {
+            SQL = SQL.ToUpper().Replace("SELECT", "SELECT TOP(20000) ");
             int minNum = (Convert.ToInt32(PageIndex) - 1) * Convert.ToInt32(PageLimit) + 1;
             int maxNum = Convert.ToInt32(PageIndex) * Convert.ToInt32(PageLimit);
             if (!string.IsNullOrEmpty(SQLWhere))
@@ -401,7 +403,7 @@ namespace BLL
                 SQLOrder = OneFileName + " ASC";
             }
             string sql = string.Format(@"SELECT " + OneFileName + " AS 'ItemID',* FROM (SELECT ROW_NUMBER() OVER(ORDER BY {0}) AS NewRowID,* FROM ({1}) AS NOPOSTNEWTABLE {2})NOPOTST WHERE NOPOTST.NewRowID >={3} AND NOPOTST.NewRowID <= {4}", SQLOrder, SQL, SQLWhere, minNum, maxNum);
-            return sql;
+            return sql + ";";
         }
         //获取表的第一个字段名
         public static string GetTopOneFileName(string TableName)
