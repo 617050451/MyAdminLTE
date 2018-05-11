@@ -41,11 +41,11 @@ namespace AdminLTE.Admin.Temp
                         var CodeJson = "";
                         if (ChoiceValue != null && ChoiceValue != "")//修改
                         {
-                            RowNum = tableModel.UpdateModel(ModelData, ChoiceValue);
+                            //RowNum = tableModel.UpdateModel(ModelData, ChoiceValue);
                         }
                         else//添加
                         {
-                            RowNum = tableModel.InsertModel(ModelData);
+                            //RowNum = tableModel.InsertModel(ModelData);
                         }
                         if (RowNum)
                             CodeJson = "[{\"code\":100}]";
@@ -62,8 +62,11 @@ namespace AdminLTE.Admin.Temp
                     }
                     else if (GetType == "BntOperation")
                     {
-                        var ChoiceValue = Request.QueryString["ChoiceValue"];
-                        Response.Write(tableModel.DeleteData(ChoiceValue));
+                        var ChoiceValue = Request["ChoiceValue"];
+                        if (!string.IsNullOrWhiteSpace(ChoiceValue))
+                            Response.Write(tableModel.DeleteData(ChoiceValue));
+                        else
+                            Response.Write("False");
                         Response.End();
                     }
                 }

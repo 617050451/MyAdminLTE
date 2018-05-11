@@ -5,16 +5,17 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml;
 
 namespace BLL
 {
     public class t_TablesClass
     {
-        public  Model.t_Tables TableModel = new Model.t_Tables();
-        public  string ColumnsJson = string.Empty;
-        public  string OneFileName = string.Empty;
-        public  string GUIDValue = string.Empty;
+        public Model.t_Tables TableModel = new Model.t_Tables();
+        public string ColumnsJson = string.Empty;
+        public string OneFileName = string.Empty;
+        public string GUIDValue = string.Empty;
         public t_TablesClass(string GUID)
         {
             GUIDValue = GUID;
@@ -28,13 +29,13 @@ namespace BLL
             return DAL.SQLDBHelpercs.ExecuteReader(sql);
         }
         //获取TableFiel信息
-        public  DataTable GetTableFieldInfo(string GUIDValue)
+        public DataTable GetTableFieldInfo(string GUIDValue)
         {
             string sql = string.Format("select  * from [t_TableField] WHERE [TableGUID] ='{0}' order by FieldOrder ", GUIDValue);
             return GetDataTable(sql);
         }
         //获取高级查询
-        public  string SetStrWhere(DataTable dt)
+        public string SetStrWhere(DataTable dt)
         {
             string strWhere = "";
             if (dt != null && dt.Rows.Count > 0)
@@ -67,7 +68,7 @@ namespace BLL
             return strWhere;
         }
         //设置数据总条数SQL拼接
-        public  string GetTSQL(string SQL, string fileName, string strWhere, string order, bool isCbGuid)
+        public string GetTSQL(string SQL, string fileName, string strWhere, string order, bool isCbGuid)
         {
             SQL = SQL.ToUpper().Replace("SELECT", "SELECT TOP(20000) ");
             string sqlstr = " SELECT " + fileName;
@@ -81,7 +82,7 @@ namespace BLL
             return sqlstr + ";";
         }
         // 设置分页SQL语句拼接
-        public  string PageBySQL(string SQL, string TableName, string OneFileName, string SQLWhere, string SQLOrder, int PageIndex, int PageLimit)
+        public string PageBySQL(string SQL, string TableName, string OneFileName, string SQLWhere, string SQLOrder, int PageIndex, int PageLimit)
         {
             SQL = SQL.ToUpper().Replace("SELECT", "SELECT TOP(20000) ");
             int minNum = (Convert.ToInt32(PageIndex) - 1) * Convert.ToInt32(PageLimit) + 1;
@@ -98,10 +99,9 @@ namespace BLL
             return sql + ";";
         }
         //返回一个list<MODEL>
-        public static List<Object> SelectModel(string top, string strWhere, string orderby)
+        public static List<Object> SelectModel(string sql)
         {
             List<Object> Listobjectdata = new List<Object>();
-            string sql = "select * from ChenYTest.dbo.t_ConfigCon";
             DataSet ds = DAL.SQLDBHelpercs.ExecuteReader(sql, null);
             if (ds != null && ds.Tables.Count > 0)
             {
@@ -164,7 +164,7 @@ namespace BLL
             return itemlist;
         }
         //设置表格
-        public  string GetTableHtml()
+        public string GetTableHtml()
         {
             DataTable dt = GetTableFieldInfo(GUIDValue);
             StringBuilder sb = new StringBuilder();
@@ -206,7 +206,7 @@ namespace BLL
             return sb.ToString();
         }
         //设置高级查询
-        public  string SetStrWhereHtml()
+        public string SetStrWhereHtml()
         {
             DataTable dt = GetTableFieldInfo(GUIDValue);
             string strHtml = "";
@@ -258,7 +258,7 @@ namespace BLL
             return strHtml;
         }
         //设置按钮
-        public  string SetBntHtml()
+        public string SetBntHtml()
         {
             string bntHtml = "";
             if (TableModel.Delete == 1 && TableModel.Choice == 1)
@@ -266,6 +266,26 @@ namespace BLL
             if (TableModel.Insert == 1)
                 bntHtml += "<button type=\"button\" class=\"btn btn-success btn-xs\">新　增</button>&nbsp;";
             return bntHtml;
+        }
+        //设置Sum显示
+        public string SetSumHtml(string Strwhere)
+        {
+            string[] color = { "success", "primary", "info", "warning", "danger", "default" };
+            string result = string.Empty;
+            string[] list = TableModel.CountData.Split('|');
+            string sql = " select {0} from " + TableModel.TableName + (Strwhere == "" ? "" : " where " + Strwhere);
+            for (int i = 0; i < list.Length; i++)
+            {
+                string resul = list[i];
+                Regex reg = new Regex("(?<={).*?(?=})", RegexOptions.IgnoreCase);
+                MatchCollection mc = reg.Matches(resul);
+                foreach (Match m in mc)
+                {
+                    resul = resul.Replace("{" + m.Value + "}", GetDataViewSQL(string.Format(sql, m.Value)));
+                }
+                result += "<span class='label label-" + color[i] + "' style='font-size: small'>" + resul + "</span>&nbsp;";
+            }
+            return result;
         }
         //获取表格数据Json
         public  string GetDataListJson(DataTable dt, int PageStart, int PageIndex, int PageSize, string order)
@@ -285,21 +305,18 @@ namespace BLL
                     string datatablejson = JsonHelper.DataTableToJsonWithJsonNet(tableJson);
                     sb.Append(datatablejson);
                     sb.Append(",\"sumHtml\":\"");
-                    for (int i = 1; i < tableSum.Columns.Count; i++)
-                    {
-                        sb.Append("<span class='label label-warning' style='font-size: small'>" + tableSum.Rows[0][i].ToString() + "</span>");
-                    }
+                    sb.Append(SetSumHtml(strwhere));
                     sb.Append("\"}");
                     return sb.ToString().Replace("\n", "");
                 }
                 else
                 {
-                    return "{\"total\":" + 0 + ",\"page\":0,\"limit\":" + PageSize + ",\"data\":[],\"sumData\":\"\"}";
+                    return "{\"total\":" + 0 + ",\"page\":0,\"limit\":" + PageSize + ",\"data\":[]}";
                 }
             }
             else
             {
-                return "{\"total\":" + 0 + ",\"page\":0,\"limit\":" + PageSize + ",\"data\":[],\"sumData\":\"\"}";
+                return "{\"total\":" + 0 + ",\"page\":0,\"limit\":" + PageSize + ",\"data\":[]}";
             }
         }
         //获取单条数据
@@ -312,8 +329,17 @@ namespace BLL
             else
                 return "";
         }
+        //获取单行单咧数据
+        public string GetDataViewSQL(string sql)
+        {
+            DataTable tableJson = DAL.SQLDBHelpercs.ExecuteReaderTable(sql, null);
+            if (tableJson != null && tableJson.Rows.Count > 0)
+                return tableJson.Rows[0][0].ToString();
+            else
+                return "";
+        }
         //新增数据
-        public  bool InsertModel(Model.t_Tables model)
+        public  bool InsertModel(ObjectData model)
         {
             StringBuilder commandText = new StringBuilder(" insert into ");
             Type type = model.GetType();
@@ -327,7 +353,7 @@ namespace BLL
                 string fieldName = pros[i].Name;
                 if (!fieldName.ToUpper().Equals(OneFileName == null ? "" : OneFileName.ToUpper()))
                 {
-                    if (model.IsFieldAssign(fieldName))//是否赋值了
+                    if (model.IsSet(fieldName))//是否赋值了
                     {
                         //非自动增长字段才加入SQL语句
                         fieldStr.Append("[" + fieldName + "],");
@@ -348,7 +374,7 @@ namespace BLL
             return DAL.SQLDBHelpercs.ExecuteNonQuery(commandText.ToString(), param, "sql");
         }
         //修改
-        public  bool UpdateModel(Model.t_Tables model, string IdentityValue)
+        public  bool UpdateModel(ObjectData model, string IdentityValue)
         {
             StringBuilder commandText = new StringBuilder(" update ");
             Type type = model.GetType();
@@ -361,7 +387,7 @@ namespace BLL
                 string fieldName = pros[i].Name;
                 if (!fieldName.ToUpper().Equals(OneFileName == null ? "" : OneFileName.ToUpper()))
                 {
-                    if (model.IsFieldAssign(fieldName))//是否赋值了
+                    if (model.IsSet(fieldName))//是否赋值了
                     {
                         //非自动增长字段才加入SQL语句
                         fieldStr.Append("[" + fieldName + "]=@" + fieldName + ",");

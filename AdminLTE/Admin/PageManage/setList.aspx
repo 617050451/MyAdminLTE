@@ -42,7 +42,7 @@
                             <td>
                                 <h4 style="margin: 0px;">
                                     <button type="button" title="数据设置" class="btn btn-warning" onclick="showTableInfoHtml()">数据设置</button>
-                                    <button type="button" title="显示设置" class="btn btn-warning" onclick="showTableInfoHtml1()">显示设置</button>
+                                    <button type="button" title="显示设置" class="btn btn-warning" onclick="showTableInfoHtmlSum()">显示设置</button>
                                     &nbsp;<span class="label label-success"><%=tableInfo.Rows[0]["title"].ToString() %></span>
                                     <span class="label label-success"><%=tableInfo.Rows[0]["FileName"].ToString() %></span>
                                     <span class="label label-success"><%=tableInfo.Rows[0]["TableName"].ToString() %></span></h4>
@@ -131,6 +131,16 @@
                             </div>
                         </td>
                     </tr>
+                     <tr>
+                        <td>
+                            <div class="form-group">
+                                <label for="TableName" class="col-sm-3 control-label">SQL：</label>
+                                <div class="col-sm-9">
+                                    <textarea name="SQL" class="form-control" placeholder="数据" rows="3"><%=tableInfo.Rows[0]["SQL"].ToString()%></textarea>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
                     <tr>
                         <td>
                             <div class="form-group">
@@ -158,7 +168,7 @@
                 </tbody>
             </table>
         </div>
-        <div id="setTableInfo1" class="hidden">
+        <div id="setTableInfoSum" class="hidden">
             <table class="table" style="border: 1px solid #ddd; text-align: right">
                 <tbody>
                     <tr>
@@ -289,12 +299,12 @@
                 type: 1,
                 title: '参数设置',
                 skin: 'layui-layer-rim', //加上边框
-                area: ['620px', '420px'], //宽高
+                area: ['780px', '540px'], //宽高
                 content: showHtml
             });
         }
-        function showTableInfoHtml1() {
-            var showHtml = $("#setTableInfo1").html();
+        function showTableInfoHtmlSum() {
+            var showHtml = $("#setTableInfoSum").html();
             //页面层
             layer.open({
                 type: 1,

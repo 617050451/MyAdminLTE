@@ -135,7 +135,7 @@ function GetDataAfter() {
         alert("修改：" + $(this).val());
     })
     $("button[name=DeleteItemID]").click(function () {
-        DeleteItemID(ChoiceValue);
+        DeleteItemID(OnCheckboxOnSelectValue());
     })
     $("#DeleteItemID").click(function () {
         DeleteItemID(OnCheckboxOnSelectValue());
@@ -165,6 +165,7 @@ function OnCheckboxOnClick() {
     return guidValues;
 }
 function OnCheckboxOnSelectValue() {
+    var guidValues = "";
     var checkboxChecked = $('input:checkbox[name=checkboxItemID]:checked');
     $(checkboxChecked).each(function (i) {
         if (i > 0)
@@ -174,7 +175,7 @@ function OnCheckboxOnSelectValue() {
     return guidValues;
 }
 //删除BY GUID
-function DeleteItemID() {
+function DeleteItemID(ChoiceValue) {
     if (ChoiceValue == "") {
         layer.msg('请选择需要删除的数据！');
     } else {
@@ -185,7 +186,7 @@ function DeleteItemID() {
         }, function () {
             var param = {};
             param.gettype = "BntOperation";
-            param.values = ChoiceValue;
+            param.ChoiceValue = ChoiceValue;
             //ajax请求数据
             $.ajax({
                 type: "GET",
@@ -195,15 +196,16 @@ function DeleteItemID() {
                 dataType: "text",
                 async: false,
                 success: function (result) {
-                    if (result == "True") {
+                    if (result == "False") {
+                        console.log(result);
+                        layer.msg('操作失败！', {
+                            icon: 2
+                        });
+                    } else {
                         layer.msg('操作成功！', {
                             icon: 1, end: function () {
                                 location.reload();
                             }
-                        });
-                    } else {
-                        layer.msg('操作失败！', {
-                            icon: 2
                         });
                     }
                 }
