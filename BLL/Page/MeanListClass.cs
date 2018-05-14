@@ -164,6 +164,7 @@ namespace BLL
                     {
                         sb.Append("<span class='label label-warning' style='font-size: small'>" + tableSum.Rows[0][i].ToString() + "</span>");
                     }
+                    sb.Append(",\"sumHtml\":\"");
                     sb.Append("\"}");
                     //sb.Append(",\"sumHtml\":\"<span class='label label-danger'>交易总金额：20（元）</span>&nbsp;<span class='label label-warning'>总营业额：1245.15（元）</span>&nbsp;<span class='label label-info'>总笔数：" + tableJson.Rows.Count + "（笔）</span>\"}");
                     return sb.ToString().Replace("\n", "");

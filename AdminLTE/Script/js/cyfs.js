@@ -6,8 +6,12 @@ $(document).ready(function () {
 });
 //获取数据
 var table;
-var ischoice = parseInt($("#IsChoice").val());
 var fromchildren = "input, textarea";
+var PageConfig = {};
+PageConfig.IsPlus = $("#IsPlus").val();
+PageConfig.IsWhere = $("#IsWhere").val();
+PageConfig.IsChoice = $("#IsChoice").val();
+PageConfig.Columns = eval("(" + $("#ColumnsJson").val() + ")");
 function getJsonData(type) {
     if (type == 'select') {
         table.fnClearTable(false);  //清空数据.fnClearTable();//清空数据
@@ -15,8 +19,8 @@ function getJsonData(type) {
     }
     table = $('#example').dataTable({
         "dom": "t<'row'<'#id.col-xs-2 table-l'l><'#id.col-xs-3'i><'#id.col-xs-6 table-p'p>>r",
-        "aoColumnDefs": [{ "bSortable": false, "aTargets": [ischoice - 1] }],
-        "aaSorting": [[ischoice, "asc"]],
+        "aoColumnDefs": [{ "bSortable": false, "aTargets": [PageConfig.IsChoice - 1] }],
+        "aaSorting": [[PageConfig.IsChoice, "asc"]],
         "lengthChange": true,
         "autoWidth": false,
         "aLengthMenu": [25, 50, 100, 200],
@@ -27,7 +31,7 @@ function getJsonData(type) {
         "serverSide": true,  //启用服务器端分页
         "searching": false,  //禁用原生搜索
         "orderMulti": true,  //启用多列排序
-        "columns": columnsJson,
+        "columns": PageConfig.Columns,
         "oLanguage": oLanguage,
         ajax: function (data, callback, settings) {
             var WhereValues = $('#SelectWhereFrom').find(fromchildren).serializeArray();
@@ -38,7 +42,7 @@ function getJsonData(type) {
             param.start = data.start;//开始的记录序号
             param.page = (data.start / data.length) + 1;//当前页码;
             param.WhereValues = JSON.stringify(WhereValues);
-            param.order = columnsJson[data.order[0].column]['data'];
+            param.order = PageConfig.Columns[data.order[0].column]['data'];
             param.orderDir = data.order[0].dir;
             //ajax请求数据
             $.ajax({
@@ -80,23 +84,20 @@ function getJsonData(type) {
     });
 }
 //加载数据
-var isplus = $("#IsPlus").val();
-var iswhere = $("#IsWhere").val();
-if (isplus == "1") {
+if (PageConfig.IsPlus == 1) {
     $("div[data-resple='iswhere']").addClass("collapsed-box");
     $("i[data-resple='isplus']").addClass("fa fa-plus");
 } else {
     $("i[data-resple='isplus']").addClass("fa fa-minus");
 }
-if (iswhere == "0")
+if (PageConfig.IsWhere == 0)
     $("div[data-resple='iswhere']").addClass("hidden");
-var columnsJson = eval("(" + $("#ColumnsJson").val() + ")");
 //获取url参数
 function getQueryString(key) {
-            var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
-            var result = window.location.search.substr(1).match(reg);
-            return result ? decodeURIComponent(result[2]) : null;
-        }
+    var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
+    var result = window.location.search.substr(1).match(reg);
+    return result ? decodeURIComponent(result[2]) : null;
+}
 // 语言设置  
 var oLanguage = {
             "sProcessing": "加载中...",
@@ -116,11 +117,11 @@ var oLanguage = {
         }
 //取当前页面名称(带后缀名)
 function pageName() {
-            var strUrl = location.href;
-            var arrUrl = strUrl.split("/");
-            var strPage = arrUrl[arrUrl.length - 1];
-            return strPage;
-        }
+    var strUrl = location.href;
+    var arrUrl = strUrl.split("/");
+    var strPage = arrUrl[arrUrl.length - 1];
+    return strPage;
+}
 //注册事件 全选，删除
 function GetDataAfter() {
     $("#selectAll").click(function () {
@@ -131,13 +132,13 @@ function GetDataAfter() {
         }
         OnCheckboxOnSelectValue();
     })
+    $("button[name=InsertItemID]").click(function () {
+        alert("新增");
+    })
     $("button[name=UpdateItemID]").click(function () {
         alert("修改：" + $(this).val());
     })
     $("button[name=DeleteItemID]").click(function () {
-        DeleteItemID(OnCheckboxOnSelectValue());
-    })
-    $("#DeleteItemID").click(function () {
         DeleteItemID(OnCheckboxOnSelectValue());
     })
     $('input:checkbox[name=checkboxItemID]').click(function () {
@@ -267,7 +268,6 @@ function bntLoading(btn) {
 function bntCloseLoading(btn) {
     $(btn).button('reset');
 }
-//序列化
 function GetFromJson(obj) {
     var m = [], idata;
     $.each(obj, function (i, field) {

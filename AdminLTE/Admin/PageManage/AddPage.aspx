@@ -31,9 +31,10 @@
   <![endif]-->
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
+    <link href="../../Script/js/cyfs.css" rel="stylesheet" />
 </head>
 <body>
-    <form id="form1" runat="server">
+    <form id="PageForm" runat="server">
         <section class="content" style="margin-top: -13px;">
             <div data-resple="iswhere" class="box box-solid">
                 <div class="box-header with-border">
@@ -61,7 +62,7 @@
                             <div id="ltlSum" class="pull-right"  style="height:24px;">
                             </div>
                             <table id="example" class="table table-bordered table-hover">
-                                <asp:Literal ID="ltlhead" runat="server" Text=""></asp:Literal> 
+                              <asp:Literal ID="ltlhead" runat="server" Text=""></asp:Literal> 
                             </table>
                         </div>
                         <!-- /.box-body -->
@@ -109,10 +110,10 @@
                 </div>
             </div>
         </div>
-        <asp:HiddenField ID="IsPlus" runat="server"  Value="1"/>
-        <asp:HiddenField ID="IsWhere" runat="server" Value="1"/>
+        <asp:HiddenField ID="IsPlus" runat="server"  Value="0"/>
+        <asp:HiddenField ID="IsWhere" runat="server" Value="0"/>
         <asp:HiddenField ID="IsChoice" runat="server" Value="0"/>
-        <asp:HiddenField ID="ColumnsJson" runat="server" Value="[{&quot;data&quot;: &quot;GUID&quot;},{&quot;data&quot;: &quot;Title&quot;},{&quot;data&quot;: &quot;FileName&quot;},{&quot;data&quot;: &quot;ItemID&quot;, render: function (data, type, row) { return &quot;<button name='UpdateItemID' type = 'button' class='btn btn-warning  btn-xs' value='&quot; + data + &quot;'>修　改</button>&amp;nbsp;<button name = 'DeleteItemID' type = 'button' class='btn btn-danger  btn-xs' value='&quot; + data + &quot;'>删　除</button>&amp;nbsp;&quot;}}]"/>
+        <asp:HiddenField ID="ColumnsJson" runat="server" Value=""/>
     </form>
     <!-- jQuery 3 -->
     <script src="../../Script/AdminLTE-2.4.2/bower_components/jquery/dist/jquery.min.js"></script>
@@ -127,9 +128,8 @@
     <script src="../../Script/AdminLTE-2.4.2/bower_components/fastclick/lib/fastclick.js"></script>
     <!-- AdminLTE App -->
     <script src="../../Script/AdminLTE-2.4.2/dist/js/adminlte.min.js"></script>
-    <script src="../../Script/js/cyfs.js"></script>
-    <link href="../../Script/js/cyfs.css" rel="stylesheet" />
     <script src="../../Script/layer-v3.1.0/layer/layer.js"></script>
+    <script src="../../Script/js/cyfs.js"></script>
     <script>
         //layer 弹层
         var Index;
@@ -137,14 +137,13 @@
             var showHtml = $("#LayerOpenHtml").html();
             //页面层
             Index = layer.open({
-                id: value,
                 type: 1,
                 title: title,
                 skin: 'layui-layer-rim', //加上边框
                 area: ['620px', '450px'], //宽高
                 content: showHtml,
                 success: function () {
-                    if (value != undefined) {
+                    if (value != undefined && value != null && value != "") {
                         var param = {};
                         param.Gettype = 'GetDataView';
                         param.ChoiceValue = value;
@@ -172,7 +171,7 @@
                     }
                 }
             });
-        }     
+        }    
         //保存事件
         function BntSaveFromData() {
             var FromValues = $(".layui-layer #LayerOpenHtmlFrom").find(fromchildren).serializeArray();
@@ -210,7 +209,17 @@
         }
         //获取数据后，重写一些方法
         function GetDataSuccess() {
+            if (jQuery.isFunction(PageLoad)) {
+                PageLoad();
+            }
+        }
+        //CustomCodeStart
+        function PageLoad() {
             setTimeout(function () {
+                $("button[name=InsertItemID]").unbind("click");
+                $("button[name=InsertItemID]").click(function () {
+                    LayerOpenHtml('新增页面', $(this).val());
+                })
                 $("button[name=UpdateItemID]").unbind("click");
                 $("button[name=UpdateItemID]").click(function () {
                     LayerOpenHtml('修改页面', $(this).val());
@@ -221,6 +230,7 @@
                 })
             }, 50);
         }
+        //CustomCodeEnd
     </script>
 </body>
 </html>

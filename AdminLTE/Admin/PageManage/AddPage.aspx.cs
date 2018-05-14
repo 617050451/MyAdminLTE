@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
+using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml;
@@ -36,16 +37,17 @@ namespace AdminLTE.Admin.Temp
                     {
                         var ChoiceValue = Request.QueryString["ChoiceValue"];
                         var FromValues = Server.UrlDecode(Request.QueryString["FromValues"]);
-                        Model.t_Tables ModelData = (FromValues == null ? null : JsonHelper.DeserializeJsonToObject<Model.t_Tables>(FromValues));//表单数据
+                        ObjectData ModelData = new ObjectData(tableModel.TableModel.TableName);
+                        ModelData.SetValues(FromValues);//表单数据
                         var RowNum = true;
                         var CodeJson = "";
                         if (ChoiceValue != null && ChoiceValue != "")//修改
                         {
-                            //RowNum = tableModel.UpdateModel(ModelData, ChoiceValue);
+                            RowNum = tableModel.UpdateModel(ModelData, ChoiceValue);
                         }
                         else//添加
                         {
-                            //RowNum = tableModel.InsertModel(ModelData);
+                            RowNum = tableModel.InsertModel(ModelData);
                         }
                         if (RowNum)
                             CodeJson = "[{\"code\":100}]";
@@ -72,13 +74,13 @@ namespace AdminLTE.Admin.Temp
                 }
                 else
                 {
+                    IsPlus.Value = tableModel.TableModel.IsPlus.ToString();
+                    IsWhere.Value = tableModel.TableModel.IsWhere.ToString();
+                    IsChoice.Value = tableModel.TableModel.IsChoice.ToString();
                     ltlhead.Text = tableModel.GetTableHtml();
                     ltlbnt.Text = tableModel.SetBntHtml();
                     ltlStrWhere.Text = tableModel.SetStrWhereHtml();
                     ColumnsJson.Value = tableModel.ColumnsJson;
-                    IsPlus.Value = tableModel.TableModel.Plus.ToString();
-                    IsWhere.Value = tableModel.TableModel.Strwhere.ToString();
-                    IsChoice.Value = tableModel.TableModel.Choice.ToString();
                 }
             }
         }

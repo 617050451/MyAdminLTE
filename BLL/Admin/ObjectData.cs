@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 namespace BLL
 {
      /// <summary>
@@ -13,9 +12,10 @@ namespace BLL
     /// </summary>
     public class ObjectData
     {
-        public ObjectData()
+        public string  TableName { get; set; }
+        public ObjectData(string tableName)
         {
-            
+            TableName = tableName;
         }
 
         //采用排序的Dictionary的好处是方便对数据包进行签名，不用再签名之前再做一次排序
@@ -30,7 +30,15 @@ namespace BLL
         {
             m_values[key] = value;
         }
-
+        /**
+       * 设置数据值
+       * @param key 字段名
+        * @param value 字段值
+       */
+        public void SetValues(string json)
+        {
+            m_values =JsonHelper.DeserializeJsonToObject<SortedDictionary<string, object>>(json);
+        }
         /**
         * 根据字段名获取某个字段的值
         * @param key 字段名

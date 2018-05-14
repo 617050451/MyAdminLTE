@@ -13,8 +13,8 @@ namespace BLL
     public class t_TablesClass
     {
         public Model.t_Tables TableModel = new Model.t_Tables();
-        public string ColumnsJson = string.Empty;
         public string OneFileName = string.Empty;
+        public string ColumnsJson = string.Empty;
         public string GUIDValue = string.Empty;
         public t_TablesClass(string GUID)
         {
@@ -99,7 +99,7 @@ namespace BLL
             return sql + ";";
         }
         //返回一个list<MODEL>
-        public static List<Object> SelectModel(string sql)
+        public static List<Object> SelectModel(string sql,string tableName)
         {
             List<Object> Listobjectdata = new List<Object>();
             DataSet ds = DAL.SQLDBHelpercs.ExecuteReader(sql, null);
@@ -108,7 +108,7 @@ namespace BLL
                 DataTable dt = ds.Tables[0];
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
-                    ObjectData objectdata = new ObjectData();
+                    ObjectData objectdata = new ObjectData(tableName);
                     for (int j = 0; j < dt.Columns.Count; j++)
                     {
                         objectdata.SetValue(dt.Columns[j].ColumnName, dt.Rows[i][j].ToString());
@@ -170,18 +170,18 @@ namespace BLL
             StringBuilder sb = new StringBuilder();
             StringBuilder sbjson = new StringBuilder();
             string BntHtml = string.Empty;
-            if (TableModel.Update == 1)
+            if (TableModel.IsChoice == 1)
             {
                 BntHtml += "<button name = 'UpdateItemID' type = 'button' class='btn btn-warning  btn-xs' value='\" + data + \"'>修　改</button>&nbsp;";
             }
             sb.Append("<thead><tr>");
-            if (TableModel.Choice == 1)
+            if (TableModel.IsChoice == 1)
             {
                 string html = "<input type=\"checkbox\" id=\"selectAll\" class=\"table-checkable\" >";
                 sb.Append("<th style=\"width:13px;\">" + html + "</th>");
                 sbjson.Append("{\"data\": \"ItemID\", render: function (data, type, row) { return \"<input  name='checkboxItemID' type='checkbox' class='table-checkable'  value='\" + data + \"'/>\"}},");
             }
-            else if (TableModel.Delete == 1)
+            else if (TableModel.IsDelete == 1)
             {
                 BntHtml += "<button name = 'DeleteItemID' type = 'button' class='btn btn-danger  btn-xs' value='\" + data + \"'>删　除</button>&nbsp;";
             }
@@ -210,7 +210,7 @@ namespace BLL
         {
             DataTable dt = GetTableFieldInfo(GUIDValue);
             string strHtml = "";
-            if (TableModel.Strwhere == 1)
+            if (TableModel.IsWhere == 1)
             {
                 if (dt != null && dt.Rows.Count > 0)
                 {
@@ -261,17 +261,17 @@ namespace BLL
         public string SetBntHtml()
         {
             string bntHtml = "";
-            if (TableModel.Delete == 1 && TableModel.Choice == 1)
-                bntHtml += "<button id=\"DeleteItemID\" tableValue=\"\" type=\"button\" class=\"btn btn-danger btn-xs\">删　除</button>&nbsp;";
-            if (TableModel.Insert == 1)
-                bntHtml += "<button type=\"button\" class=\"btn btn-success btn-xs\">新　增</button>&nbsp;";
+            if (TableModel.IsDelete == 1 && TableModel.IsChoice == 1)
+                bntHtml += "<button name=\"DeleteItemID\" type=\"button\" class=\"btn btn-danger btn-xs\">删　除</button>&nbsp;";
+            if (TableModel.IsInsert == 1)
+                bntHtml += "<button name=\"InsertItemID\" type=\"button\" class=\"btn btn-success btn-xs\">新　增</button>&nbsp;";
             return bntHtml;
         }
         //设置Sum显示
         public string SetSumHtml(string Strwhere)
         {
             string[] color = { "success", "primary", "info", "warning", "danger", "default" };
-            string result = string.Empty;
+            string result = ",\"sumHtml\":\"";
             string[] list = TableModel.CountData.Split('|');
             string sql = " select {0} from " + TableModel.TableName + (Strwhere == "" ? "" : " where " + Strwhere);
             for (int i = 0; i < list.Length; i++)
@@ -304,7 +304,6 @@ namespace BLL
                     sb.Append("{\"total\":" + tableSum.Rows[0]["COUNTS"].ToString() + ",\"page\":1,\"limit\":" + PageSize + ",\"data\":");
                     string datatablejson = JsonHelper.DataTableToJsonWithJsonNet(tableJson);
                     sb.Append(datatablejson);
-                    sb.Append(",\"sumHtml\":\"");
                     sb.Append(SetSumHtml(strwhere));
                     sb.Append("\"}");
                     return sb.ToString().Replace("\n", "");
@@ -329,7 +328,7 @@ namespace BLL
             else
                 return "";
         }
-        //获取单行单咧数据
+        //获取单行单数据
         public string GetDataViewSQL(string sql)
         {
             DataTable tableJson = DAL.SQLDBHelpercs.ExecuteReaderTable(sql, null);
@@ -341,26 +340,26 @@ namespace BLL
         //新增数据
         public  bool InsertModel(ObjectData model)
         {
+            var obj = model.GetValues();
             StringBuilder commandText = new StringBuilder(" insert into ");
-            Type type = model.GetType();
-            string tableName = type.Name;//表名称
-            PropertyInfo[] pros = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);//所有字段名称
+            string tableName = model.TableName;//表名称
+            var pros = model.GetValues().Keys;//所有字段名称
             StringBuilder fieldStr = new StringBuilder();//拼接需要插入数据库的字段
             StringBuilder paramStr = new StringBuilder();//拼接每个字段对应的参数
             List<SqlParameter> paramlist = new List<SqlParameter>();
-            for (int i = 0; i < pros.Length; i++)
+            foreach (var item in pros)
             {
-                string fieldName = pros[i].Name;
+                string fieldName = item;
                 if (!fieldName.ToUpper().Equals(OneFileName == null ? "" : OneFileName.ToUpper()))
                 {
+                    var fieldValue = model.GetValue(fieldName);
                     if (model.IsSet(fieldName))//是否赋值了
                     {
                         //非自动增长字段才加入SQL语句
                         fieldStr.Append("[" + fieldName + "],");
                         paramStr.Append("@" + fieldName + ",");
-                        object val = type.GetProperty(fieldName).GetValue(model, null);
-                        if (val == null) val = DBNull.Value;//如果该值为空的话,则将其转化为数据库的NULL
-                        paramlist.Add(new SqlParameter(fieldName, val));//给每个参数赋值
+                        if (fieldValue == null) fieldValue = DBNull.Value;//如果该值为空的话,则将其转化为数据库的NULL
+                        paramlist.Add(new SqlParameter(fieldName, fieldValue));//给每个参数赋值
                     }
                 }
             }
@@ -374,26 +373,26 @@ namespace BLL
             return DAL.SQLDBHelpercs.ExecuteNonQuery(commandText.ToString(), param, "sql");
         }
         //修改
-        public  bool UpdateModel(ObjectData model, string IdentityValue)
+        public bool UpdateModel(ObjectData model, string IdentityValue)
         {
+            var obj = model.GetValues();
             StringBuilder commandText = new StringBuilder(" update ");
-            Type type = model.GetType();
-            string tableName = type.Name;//表名称
-            PropertyInfo[] pros = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);//所有字段名称
+            string tableName = model.TableName;//表名称
+            var pros = model.GetValues().Keys;//所有字段名称
             StringBuilder fieldStr = new StringBuilder();//拼接需要插入数据库的字段
             List<SqlParameter> paramlist = new List<SqlParameter>();
-            for (int i = 0; i < pros.Length; i++)
+            foreach (var item in pros)
             {
-                string fieldName = pros[i].Name;
+                string fieldName = item;
                 if (!fieldName.ToUpper().Equals(OneFileName == null ? "" : OneFileName.ToUpper()))
                 {
                     if (model.IsSet(fieldName))//是否赋值了
                     {
+                        var fieldValue = model.GetValue(fieldName);
                         //非自动增长字段才加入SQL语句
                         fieldStr.Append("[" + fieldName + "]=@" + fieldName + ",");
-                        object val = type.GetProperty(fieldName).GetValue(model, null);
-                        if (val == null) val = DBNull.Value;//如果该值为空的话,则将其转化为数据库的NULL
-                        paramlist.Add(new SqlParameter(fieldName, val));//给每个参数赋值
+                        if (fieldValue == null) fieldValue = DBNull.Value;//如果该值为空的话,则将其转化为数据库的NULL
+                        paramlist.Add(new SqlParameter(fieldName, fieldValue));//给每个参数赋值
                     }
                 }
             }

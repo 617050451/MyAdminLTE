@@ -134,27 +134,6 @@ namespace BLL
             commandText.Append(" ) ");//拼接成完整的字符串
             return DAL.SQLDBHelpercs.ExecuteNonQueryInt(commandText.ToString(), param, "sql");
         }
-        //返回一个list<MODEL>
-        public static List<Object> SelectModel(string top, string strWhere, string orderby)
-        {
-            List<Object> Listobjectdata = new List<Object>();
-            string sql = "select * from ChenYTest.dbo.t_ConfigCon";
-            DataSet ds = DAL.SQLDBHelpercs.ExecuteReader(sql, null);
-            if (ds != null && ds.Tables.Count > 0)
-            {
-                DataTable dt = ds.Tables[0];
-                for (int i = 0; i < dt.Rows.Count; i++)
-                {
-                    ObjectData objectdata = new ObjectData();
-                    for (int j = 0; j < dt.Columns.Count; j++)
-                    {
-                        objectdata.SetValue(dt.Columns[j].ColumnName, dt.Rows[i][j].ToString());
-                    }
-                    Listobjectdata.Add(objectdata);
-                }
-            }
-            return Listobjectdata;
-        }
         //返回DataTable
         public static DataTable GetDataTable(string strSql)
         {

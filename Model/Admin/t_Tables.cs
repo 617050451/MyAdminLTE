@@ -94,74 +94,89 @@ namespace Model
                 IsDicMyProperty.Add(nameof(Note), true);
             }
         }
-        /// <summary>
-        /// choice
-        /// </summary>		
-
-        private int ChoiceValue;
-        public int Choice
-        {
-            get { return ChoiceValue; }
-            set
-            {
-                ChoiceValue = value;
-                IsDicMyProperty.Add(nameof(Choice), true);
-            }
-        }
+      
         /// <summary>
         /// insert
         /// </summary>		
 
-        private int InsertValue;
-        public int Insert
+        private int IsInsertValue;
+        public int IsInsert
         {
-            get { return InsertValue; }
+            get { return IsInsertValue; }
             set
             {
-                InsertValue = value;
-                IsDicMyProperty.Add(nameof(Insert), true);
+                IsInsertValue = value;
+                IsDicMyProperty.Add(nameof(IsInsert), true);
             }
         }
         /// <summary>
         /// update
         /// </summary>		
 
-        private int UpdateValue;
-        public int Update
+        private int IsUpdateValue;
+        public int IsUpdate
         {
-            get { return UpdateValue; }
+            get { return IsUpdateValue; }
             set
             {
-                UpdateValue = value;
-                IsDicMyProperty.Add(nameof(Update), true);
+                IsUpdateValue = value;
+                IsDicMyProperty.Add(nameof(IsUpdate), true);
             }
         }
         /// <summary>
         /// delete
         /// </summary>		
 
-        private int DeleteValue;
-        public int Delete
+        private int IsDeleteValue;
+        public int IsDelete
         {
-            get { return DeleteValue; }
+            get { return IsDeleteValue; }
             set
             {
-                DeleteValue = value;
-                IsDicMyProperty.Add(nameof(Delete), true);
+                IsDeleteValue = value;
+                IsDicMyProperty.Add(nameof(IsDelete), true);
+            }
+        }
+        /// <summary>
+        /// Plus
+        /// </summary>		
+
+        private int IsPlusValue;
+        public int IsPlus
+        {
+            get { return IsPlusValue; }
+            set
+            {
+                IsPlusValue = value;
+                IsDicMyProperty.Add(nameof(IsPlus), true);
             }
         }
         /// <summary>
         /// strwhere
         /// </summary>		
 
-        private int StrwhereValue;
-        public int Strwhere
+        private int IsWhereValue;
+        public int IsWhere
         {
-            get { return StrwhereValue; }
+            get { return IsWhereValue; }
             set
             {
-                StrwhereValue = value;
-                IsDicMyProperty.Add(nameof(Strwhere), true);
+                IsWhereValue = value;
+                IsDicMyProperty.Add(nameof(IsWhere), true);
+            }
+        }
+        /// <summary>
+        /// choice
+        /// </summary>		
+
+        private int IsChoiceValue;
+        public int IsChoice
+        {
+            get { return IsChoiceValue; }
+            set
+            {
+                IsChoiceValue = value;
+                IsDicMyProperty.Add(nameof(IsChoice), true);
             }
         }
         /// <summary>
@@ -176,20 +191,6 @@ namespace Model
             {
                 CountDataValue = value;
                 IsDicMyProperty.Add(nameof(CountData), true);
-            }
-        }
-        /// <summary>
-        /// Plus
-        /// </summary>		
-
-        private int PlusValue;
-        public int Plus
-        {
-            get { return PlusValue; }
-            set
-            {
-                PlusValue = value;
-                IsDicMyProperty.Add(nameof(Plus), true);
             }
         }
         public bool IsFieldAssign(string Fieldname)
