@@ -11,10 +11,11 @@ namespace AdminLTE.Admin.Temp
 {
     public partial class SetList : System.Web.UI.Page
     {
-        public static DataTable tableInfo;
-
+        public  BLL.t_TablesClass tableModel;
         protected void Page_Load(object sender, EventArgs e)
         {
+            string tableGuid = Request["tableguid"];
+            tableModel = new BLL.t_TablesClass(tableGuid);
             if (!IsPostBack)
             {
                 string GetType = Request.Form["gettype"];
@@ -22,12 +23,11 @@ namespace AdminLTE.Admin.Temp
                 {
                     if (GetType == "SetData")
                     {
-                        string TableGuid = Request.Form["tableguid"];
                         var PageData = Request.Form["values"];
                         var TableInfo = Request.Form["tableInfo"];
                         DataTable dt = BLL.JsonHelper.DeserializeJsonToObject<DataTable>(PageData);
                         DataTable tableInfodt = BLL.JsonHelper.DeserializeJsonToObject<DataTable>(TableInfo);
-                        if (BLL.BaseClass.SaveUpdateList(dt,tableInfodt,TableGuid))
+                        if (BLL.BaseClass.SaveUpdateList(dt,tableInfodt, tableGuid))
                         {
                             Response.Write("True");
                             Response.End();
@@ -35,10 +35,9 @@ namespace AdminLTE.Admin.Temp
                     }
                     else if (GetType == "SetTableData")
                     {
-                        string TableGuid = Request.Form["tableguid"];
                         var SetTableInfo = Request.Form["settableinfo"];
                         DataTable SetTableInfodt = BLL.JsonHelper.DeserializeJsonToObject<DataTable>(SetTableInfo);
-                        if (BLL.BaseClass.SaveUpdateList(null, SetTableInfodt, TableGuid))
+                        if (BLL.BaseClass.SaveUpdateList(null, SetTableInfodt, tableGuid))
                         {
                             Response.Write("True");
                             Response.End();
@@ -47,10 +46,8 @@ namespace AdminLTE.Admin.Temp
                 }
                 else
                 {
-                    string tableGuid = Request.QueryString["tableguid"];
                     if (tableGuid != null)
                     {
-                        tableInfo = BLL.BaseClass.GetTableInfo(tableGuid);
                         ltlTable.Text = getSetListHtml(tableGuid);
                     }
                 }
@@ -58,9 +55,7 @@ namespace AdminLTE.Admin.Temp
         }
         string getSetListHtml(string tableGuid)
         {
-            //string sql = string.Format(@"select * from [t_TableField]  where TableGUID ='{0}' ORDER BY [FieldOrder]", tableGuid);
-            string sql = string.Format(@"select * from [t_TableField]  ORDER BY [FieldOrder]");
-            DataTable dt = BLL.BaseClass.GetDataTable(sql);
+            DataTable dt = tableModel.GetTableFieldInfo();
             StringBuilder sb = new StringBuilder();
             if (BLL.BaseClass.estimate(dt))
             {

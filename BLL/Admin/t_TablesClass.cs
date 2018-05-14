@@ -13,6 +13,7 @@ namespace BLL
     public class t_TablesClass
     {
         public Model.t_Tables TableModel = new Model.t_Tables();
+        public static DataTable TableFieldInfo = null;
         public string OneFileName = string.Empty;
         public string ColumnsJson = string.Empty;
         public string GUIDValue = string.Empty;
@@ -20,19 +21,25 @@ namespace BLL
         {
             GUIDValue = GUID;
             TableModel = DataTableToModel<Model.t_Tables>(string.Format("select * from [t_Tables] WHERE [GUID] ='{0}'", GUIDValue))[0];
-            OneFileName = GetTopOneFileName(TableModel.TableName);
+            OneFileName = GetTopOneFileName();
+            SetTableFieldInfo();
         }
         //获取表的第一个字段名
-        public string GetTopOneFileName(string TableName)
+        public string GetTopOneFileName()
         {
-            string sql = string.Format("Select  top(1)Name FROM SysColumns Where id=Object_Id('{0}')", TableName);
+            string sql = string.Format("Select  top(1)Name FROM SysColumns Where id=Object_Id('{0}')", TableModel.TableName);
             return DAL.SQLDBHelpercs.ExecuteReader(sql);
         }
         //获取TableFiel信息
-        public DataTable GetTableFieldInfo(string GUIDValue)
+        public void SetTableFieldInfo()
         {
             string sql = string.Format("select  * from [t_TableField] WHERE [TableGUID] ='{0}' order by FieldOrder ", GUIDValue);
-            return GetDataTable(sql);
+            TableFieldInfo = GetDataTable(sql);
+        }
+        //获取TableFiel信息
+        public DataTable GetTableFieldInfo()
+        {
+            return TableFieldInfo;
         }
         //获取高级查询
         public string SetStrWhere(DataTable dt)
@@ -99,7 +106,7 @@ namespace BLL
             return sql + ";";
         }
         //返回一个list<MODEL>
-        public static List<Object> SelectModel(string sql,string tableName)
+        public  List<Object> SelectModel(string sql)
         {
             List<Object> Listobjectdata = new List<Object>();
             DataSet ds = DAL.SQLDBHelpercs.ExecuteReader(sql, null);
@@ -108,7 +115,7 @@ namespace BLL
                 DataTable dt = ds.Tables[0];
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
-                    ObjectData objectdata = new ObjectData(tableName);
+                    ObjectData objectdata = new ObjectData(TableModel.TableName);
                     for (int j = 0; j < dt.Columns.Count; j++)
                     {
                         objectdata.SetValue(dt.Columns[j].ColumnName, dt.Rows[i][j].ToString());
@@ -166,7 +173,7 @@ namespace BLL
         //设置表格
         public string GetTableHtml()
         {
-            DataTable dt = GetTableFieldInfo(GUIDValue);
+            DataTable dt = GetTableFieldInfo();
             StringBuilder sb = new StringBuilder();
             StringBuilder sbjson = new StringBuilder();
             string BntHtml = string.Empty;
@@ -208,7 +215,7 @@ namespace BLL
         //设置高级查询
         public string SetStrWhereHtml()
         {
-            DataTable dt = GetTableFieldInfo(GUIDValue);
+            DataTable dt = GetTableFieldInfo();
             string strHtml = "";
             if (TableModel.IsWhere == 1)
             {

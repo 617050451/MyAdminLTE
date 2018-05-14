@@ -1,18 +1,16 @@
 ﻿
 var tableguid = getQueryString("tableguid");
-$(document).ready(function () {
-    setTimeout(getJsonData("GetDateList"), 50);
-    //Date picker
-});
 //获取数据
 var table;
 var fromchildren = "input, textarea";
 var PageConfig = {};
-PageConfig.IsPlus = $("#IsPlus").val();
-PageConfig.IsWhere = $("#IsWhere").val();
-PageConfig.IsChoice = $("#IsChoice").val();
-PageConfig.Columns = eval("(" + $("#ColumnsJson").val() + ")");
+PageConfig.IsPlus = 0;
+PageConfig.IsWhere = 0;
+PageConfig.IsChoice = 0;
+PageConfig.Columns = [];
 function getJsonData(type) {
+    if (PageConfig.Columns == undefined || PageConfig.Columns.length == 0)
+        return false;
     if (type == 'select') {
         table.fnClearTable(false);  //清空数据.fnClearTable();//清空数据
         table.fnDestroy(); //还原初始化了的datatable  
@@ -82,16 +80,18 @@ function getJsonData(type) {
             });
         }
     });
+    SetHtml();
 }
-//加载数据
-if (PageConfig.IsPlus == 1) {
-    $("div[data-resple='iswhere']").addClass("collapsed-box");
-    $("i[data-resple='isplus']").addClass("fa fa-plus");
-} else {
-    $("i[data-resple='isplus']").addClass("fa fa-minus");
+function SetHtml() {
+    if (PageConfig.IsPlus == 1) {
+        $("div[data-resple='iswhere']").addClass("collapsed-box");
+        $("i[data-resple='isplus']").addClass("fa fa-plus");
+    } else {
+        $("i[data-resple='isplus']").addClass("fa fa-minus");
+    }
+    if (PageConfig.IsWhere == 0)
+        $("div[data-resple='iswhere']").addClass("hidden");
 }
-if (PageConfig.IsWhere == 0)
-    $("div[data-resple='iswhere']").addClass("hidden");
 //获取url参数
 function getQueryString(key) {
     var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");

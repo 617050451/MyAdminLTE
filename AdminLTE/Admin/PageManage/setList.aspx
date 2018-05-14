@@ -43,43 +43,43 @@
                                 <h4 style="margin: 0px;">
                                     <button type="button" title="数据设置" class="btn btn-warning" onclick="showTableInfoHtml()">数据设置</button>
                                     <button type="button" title="显示设置" class="btn btn-warning" onclick="showTableInfoHtmlSum()">显示设置</button>
-                                    &nbsp;<span class="label label-success"><%=tableInfo.Rows[0]["title"].ToString() %></span>
-                                    <span class="label label-success"><%=tableInfo.Rows[0]["FileName"].ToString() %></span>
-                                    <span class="label label-success"><%=tableInfo.Rows[0]["TableName"].ToString() %></span></h4>
+                                    &nbsp;<span class="label label-success"><%=tableModel.TableModel.IsChoice %></span>
+                                    <span class="label label-success"><%=tableModel.TableModel.FileName %></span>
+                                    <span class="label label-success"><%=tableModel.TableModel.TableName %></span></h4>
                             </td>
                             <td>
-                                <select name="choice" class="form-control select2 select2-hidden-accessible">
-                                    <option <%=tableInfo.Rows[0]["choice"].ToString()=="1"?"selected='selected'":"" %> value="1">有选择</option>
-                                    <option <%=tableInfo.Rows[0]["choice"].ToString()=="0"?"selected='selected'":"" %> value="0">无选择</option>
+                                <select name="IsChoice" class="form-control select2 select2-hidden-accessible">
+                                    <option <%=tableModel.TableModel.IsChoice==1?"selected='selected'":"" %> value="1">有选择</option>
+                                    <option <%=tableModel.TableModel.IsChoice==0?"selected='selected'":"" %> value="0">无选择</option>
                                 </select>
                             </td>
                             <td>
-                                <select name="insert" class="form-control select2 select2-hidden-accessible">
-                                    <option <%=tableInfo.Rows[0]["insert"].ToString()=="1"?"selected='selected'":"" %> value="1">有添加</option>
-                                    <option <%=tableInfo.Rows[0]["insert"].ToString()=="0"?"selected='selected'":"" %> value="0">无添加</option>
+                                <select name="IsInsert" class="form-control select2 select2-hidden-accessible">
+                                    <option <%=tableModel.TableModel.IsInsert==1?"selected='selected'":"" %> value="1">有添加</option>
+                                    <option <%=tableModel.TableModel.IsInsert==0?"selected='selected'":"" %> value="0">无添加</option>
                                 </select>
                             </td>
                             <td>
-                                <select name="update" class="form-control select2 select2-hidden-accessible">
-                                    <option <%=tableInfo.Rows[0]["update"].ToString()=="1"?"selected='selected'":"" %> value="1">有修改</option>
-                                    <option <%=tableInfo.Rows[0]["update"].ToString()=="0"?"selected='selected'":"" %>  value="0">无修改</option>
+                                <select name="IsUpdate" class="form-control select2 select2-hidden-accessible">
+                                    <option <%=tableModel.TableModel.IsUpdate==1?"selected='selected'":"" %> value="1">有修改</option>
+                                    <option <%=tableModel.TableModel.IsUpdate==0?"selected='selected'":"" %>  value="0">无修改</option>
                                 </select></td>
                             <td>
-                                <select name="delete" class="form-control select2 select2-hidden-accessible">
-                                    <option <%=tableInfo.Rows[0]["delete"].ToString()=="1"?"selected='selected'":"" %>  value="1">有删除</option>
-                                    <option <%=tableInfo.Rows[0]["delete"].ToString()=="0"?"selected='selected'":"" %>  value="0">无删除</option>
+                                <select name="IsDelete" class="form-control select2 select2-hidden-accessible">
+                                    <option <%=tableModel.TableModel.IsDelete==1?"selected='selected'":"" %>  value="1">有删除</option>
+                                    <option <%=tableModel.TableModel.IsDelete==1?"selected='selected'":"" %>  value="0">无删除</option>
                                 </select>
                             </td>
                             <td>
-                                <select name="strwhere" class="form-control select2 select2-hidden-accessible">
-                                    <option <%=tableInfo.Rows[0]["strwhere"].ToString()=="1"?"selected='selected'":"" %>  value="1">有查询</option>
-                                    <option <%=tableInfo.Rows[0]["strwhere"].ToString()=="0"?"selected='selected'":"" %>  value="0">无查询</option>
+                                <select name="IsWhere" class="form-control select2 select2-hidden-accessible">
+                                    <option <%=tableModel.TableModel.IsWhere==1?"selected='selected'":"" %>  value="1">有查询</option>
+                                    <option <%=tableModel.TableModel.IsWhere==0?"selected='selected'":"" %>  value="0">无查询</option>
                                 </select>
                             </td>
                              <td>
-                                <select name="Plus" class="form-control select2 select2-hidden-accessible">
-                                    <option <%=tableInfo.Rows[0]["Plus"].ToString()=="1"?"selected='selected'":"" %>  value="1">折叠</option>
-                                    <option <%=tableInfo.Rows[0]["Plus"].ToString()=="0"?"selected='selected'":"" %>  value="0">展开</option>
+                                <select name="IsPlus" class="form-control select2 select2-hidden-accessible">
+                                    <option <%=tableModel.TableModel.IsPlus==1?"selected='selected'":"" %>  value="1">折叠</option>
+                                    <option <%=tableModel.TableModel.IsPlus==0?"selected='selected'":"" %>  value="0">展开</option>
                                 </select>
                             </td>
                             <td style="border: none;">
@@ -116,7 +116,7 @@
                             <div class="form-group">
                                 <label for="title" class="col-sm-3 control-label">标题：</label>
                                 <div class="col-sm-9">
-                                    <input type="text" name="title" class="form-control" placeholder="标题" value="<%=tableInfo.Rows[0]["title"].ToString() %>" />
+                                    <input type="text" name="Title" class="form-control" placeholder="标题" value="<%=tableModel.TableModel.Title %>" />
                                 </div>
                             </div>
                         </td>
@@ -126,7 +126,7 @@
                             <div class="form-group">
                                 <label for="FileName" class="col-sm-3 control-label">页面名称：</label>
                                 <div class="col-sm-9">
-                                    <input type="text" name="FileName" class="form-control" placeholder="页面名称" value="<%=tableInfo.Rows[0]["FileName"].ToString() %>" />
+                                    <input type="text" name="FileName" class="form-control" placeholder="页面名称" value="<%=tableModel.TableModel.FileName %>" />
                                 </div>
                             </div>
                         </td>
@@ -136,7 +136,7 @@
                             <div class="form-group">
                                 <label for="TableName" class="col-sm-3 control-label">SQL：</label>
                                 <div class="col-sm-9">
-                                    <textarea name="SQL" class="form-control" placeholder="数据" rows="3"><%=tableInfo.Rows[0]["SQL"].ToString()%></textarea>
+                                    <textarea name="SQL" class="form-control" placeholder="数据" rows="3"><%=tableModel.TableModel.SQL%></textarea>
                                 </div>
                             </div>
                         </td>
@@ -144,9 +144,9 @@
                     <tr>
                         <td>
                             <div class="form-group">
-                                <label for="TableName" class="col-sm-3 control-label">数据：</label>
+                                <label for="TableName" class="col-sm-3 control-label">操作表：</label>
                                 <div class="col-sm-9">
-                                    <textarea name="TableName" class="form-control" placeholder="数据" rows="3"><%=tableInfo.Rows[0]["TableName"].ToString()%></textarea>
+                                    <textarea name="TableName" class="form-control" placeholder="数据" rows="3"><%=tableModel.TableModel.TableName%></textarea>
                                 </div>
                             </div>
                         </td>
@@ -156,7 +156,7 @@
                             <div class="form-group">
                                 <label for="Note" class="col-sm-3 control-label">备注：</label>
                                 <div class="col-sm-9">
-                                    <textarea name="Note" class="form-control" placeholder="备注" rows="3"><%=tableInfo.Rows[0]["Note"].ToString()%></textarea>
+                                    <textarea name="Note" class="form-control" placeholder="备注" rows="3"><%=tableModel.TableModel.Note%></textarea>
                                 </div>
                             </div>
                         </td>
@@ -176,7 +176,7 @@
                             <div class="form-group">
                                 <label for="CountData" class="col-sm-3 control-label">聚合显示：</label>
                                 <div class="col-sm-9">
-                                    <textarea name="CountData" class="form-control" placeholder="备注" rows="3"><%=tableInfo.Rows[0]["CountData"].ToString()%></textarea>
+                                    <textarea name="CountData" class="form-control" placeholder="备注" rows="3"><%=tableModel.TableModel.CountData%></textarea>
                                 </div>
                             </div>
                         </td>
