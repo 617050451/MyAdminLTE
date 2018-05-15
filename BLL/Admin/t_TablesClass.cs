@@ -197,10 +197,8 @@ namespace BLL
                 if (dt.Rows[i]["FieldStatusID"].ToString() == "1")
                 {
                     sb.Append("<th>" + dt.Rows[i]["FieldValue"].ToString() + "</th>");
-                    string data = "";
-                    if (dt.Rows[i]["FieldData"].ToString() != "")
-                        data = ", render: function (data, type, row) { return  " + dt.Rows[i]["FieldData"].ToString() + " }";
-                    sbjson.Append("{\"data\": \"" + dt.Rows[i]["FieldKey"].ToString() + "\"" + data + "},");//,\"sClass\": \"text-center\"
+                    string data = SetFieldDataType(dt.Rows[i]["FieldDataType"].ToString(), dt.Rows[i]["FieldData"].ToString());
+                    sbjson.Append("{\"data\": \"" + dt.Rows[i]["FieldKey"].ToString() + "\"" + data + "},");
                 }
             }
             if (!string.IsNullOrEmpty(BntHtml))
@@ -211,6 +209,14 @@ namespace BLL
             sb.Append("</tr></thead>");
             ColumnsJson = "[" + sbjson.ToString().TrimEnd(',') + "]";
             return sb.ToString();
+        }
+        //解析转换显示
+        public string SetFieldDataType(string FieldDataType, string FieldData)
+        {
+            string data = string.Empty;
+            if (FieldDataType == "2")
+                data = ", render: function (data, type, row) { return  " + FieldData + " }";
+            return data;
         }
         //设置高级查询
         public string SetStrWhereHtml()

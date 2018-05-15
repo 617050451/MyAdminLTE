@@ -63,6 +63,7 @@ namespace AdminLTE.Admin.Temp
                 {
                     string FieldKey = dt.Rows[i]["FieldKey"].ToString();
                     string FieldValue = dt.Rows[i]["FieldValue"].ToString();
+                    string FieldDataType = dt.Rows[i]["FieldDataType"].ToString();
                     string FieldData = dt.Rows[i]["FieldData"].ToString();
                     string FieldStatusID = dt.Rows[i]["FieldStatusID"].ToString();
                     string FieldOrder = dt.Rows[i]["FieldOrder"].ToString();
@@ -71,7 +72,10 @@ namespace AdminLTE.Admin.Temp
                     sb.Append("<tr role=\"row\" class=\"odd\">");
                     sb.Append("<td>" + FieldKey + "<div class=\"input-group input-group-sm\"><input type=\"text\" name=\"FieldKey\" class=\"form-control hidden\" value='" + FieldKey + "'/></div></td>");
                     sb.Append("<td><div class=\"input-group input-group-sm\"><input type=\"text\" name=\"FieldValue\"  class=\"form-control\" value='" + FieldValue + "\'/></div></td>");
-                    sb.Append("<td><a class=\"text-primary\"  href=\"javascript:void(0)\" onclick=\"setFieldData(this)\">设置</a><input type=\"text\" name=\"FieldData\" class=\"form-control hidden\" value='" + FieldData + "'/></td>");
+                    sb.Append("<td class=\"form-inline\"><div class=\"input-group input-group-sm\"><select name=\"FieldDataType\" class=\"form-control select2 select2-hidden-accessible\" tabindex=\"-1\" aria-hidden=\"true\">");
+                    sb.Append("<option " + (FieldDataType == "1" ? "selected=\"selected\"" : "") + " value=\"1\">原始数据</option>");
+                    sb.Append("<option " + (FieldDataType == "2" ? "selected=\"selected\"" : "") + " value=\"0\">三元表达式转换</option>");
+                    sb.Append("</select></div><a class=\"text-primary\"  href=\"javascript:void(0)\" onclick=\"setFieldData(this)\">设置</a><input type=\"text\" name=\"FieldData\" class=\"form-control hidden\" value='" + FieldData + "'/></td>");
                     sb.Append("<td><div class=\"input-group input-group-sm\"><select name=\"FieldStatusID\" class=\"form-control select2 select2-hidden-accessible\" tabindex=\"-1\" aria-hidden=\"true\">");
                     sb.Append("<option " + (FieldStatusID == "1" ? "selected=\"selected\"" : "") + " value=\"1\">启用</option>");
                     sb.Append("<option " + (FieldStatusID == "0" ? "selected=\"selected\"" : "") + " value=\"0\">禁用</option>");
