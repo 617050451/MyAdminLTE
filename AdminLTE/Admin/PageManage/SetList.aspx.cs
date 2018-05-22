@@ -7,9 +7,9 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace AdminLTE.Admin.Temp
+namespace AdminLTE.Admin
 {
-    public partial class SetList : System.Web.UI.Page
+    public partial class SetList : BasePage
     {
         public  BLL.t_TablesClass tableModel;
         protected void Page_Load(object sender, EventArgs e)
@@ -74,8 +74,10 @@ namespace AdminLTE.Admin.Temp
                     sb.Append("<td><div class=\"input-group input-group-sm\"><input type=\"text\" name=\"FieldValue\"  class=\"form-control\" value='" + FieldValue + "\'/></div></td>");
                     sb.Append("<td class=\"form-inline\"><div class=\"input-group input-group-sm\"><select name=\"FieldDataType\" class=\"form-control select2 select2-hidden-accessible\" tabindex=\"-1\" aria-hidden=\"true\">");
                     sb.Append("<option " + (FieldDataType == "1" ? "selected=\"selected\"" : "") + " value=\"1\">原始数据</option>");
-                    sb.Append("<option " + (FieldDataType == "2" ? "selected=\"selected\"" : "") + " value=\"0\">三元表达式转换</option>");
-                    sb.Append("</select></div><a class=\"text-primary\"  href=\"javascript:void(0)\" onclick=\"setFieldData(this)\">设置</a><input type=\"text\" name=\"FieldData\" class=\"form-control hidden\" value='" + FieldData + "'/></td>");
+                    sb.Append("<option " + (FieldDataType == "2" ? "selected=\"selected\"" : "") + " value=\"2\">固定前台转换</option>");
+                    sb.Append("<option " + (FieldDataType == "3" ? "selected=\"selected\"" : "") + " value=\"3\">动态前台转换</option>");
+                    sb.Append("<option " + (FieldDataType == "4" ? "selected=\"selected\"" : "") + " value=\"4\">数据格式化</option>");
+                    sb.Append("</select></div><a class=\"text-primary "+ (FieldDataType=="1"? "hidden" : "") + "\" href=\"javascript:void(0)\" onclick=\"setFieldData(this)\">&nbsp;设置</a><input type=\"text\" name=\"FieldData\" class=\"form-control hidden\" value='" + FieldData + "'/></td>");
                     sb.Append("<td><div class=\"input-group input-group-sm\"><select name=\"FieldStatusID\" class=\"form-control select2 select2-hidden-accessible\" tabindex=\"-1\" aria-hidden=\"true\">");
                     sb.Append("<option " + (FieldStatusID == "1" ? "selected=\"selected\"" : "") + " value=\"1\">启用</option>");
                     sb.Append("<option " + (FieldStatusID == "0" ? "selected=\"selected\"" : "") + " value=\"0\">禁用</option>");
@@ -86,10 +88,7 @@ namespace AdminLTE.Admin.Temp
                     sb.Append("<option " + (SelectType == "2" ? "selected=\"selected\"" : "") + " value=\"2\">下拉查询</option>");
                     sb.Append("<option " + (SelectType == "3" ? "selected=\"selected\"" : "") + " value=\"3\">等于查询</option>");
                     sb.Append("</select></div>");
-                    if (SelectType == "0")
-                        sb.Append("&nbsp;<a class=\"text-primary hidden\"  href=\"javascript:void(0)\" onclick=\"setSelectData(this)\">设置</a>");
-                    else
-                        sb.Append("&nbsp;<a class=\"text-primary\"  href=\"javascript:void(0)\" onclick=\"setSelectData(this)\">设置</a>"); 
+                    sb.Append("&nbsp;<a class=\"text-primary " + (SelectType == "0" ? "hidden" : "") + "\"  href=\"javascript:void(0)\" onclick=\"setSelectData(this)\">&nbsp;设置</a>");
                     sb.Append("<input type=\"text\" class=\"form-control hidden\" name=\"SelectData\" value=\"" + SelectData + "\"/>");
                     sb.Append("</td>");
                     sb.Append("<td><div class=\"input-group input-group-sm\"><input type=\"text\"   class=\"form-control\"  name=\"FieldOrder\" value='" + FieldOrder + "'/></div></td>");

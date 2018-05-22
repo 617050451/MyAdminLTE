@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SetList.aspx.cs" Inherits="AdminLTE.Admin.Temp.SetList" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SetList.aspx.cs" Inherits="AdminLTE.Admin.SetList" validateRequest="false" %>
 
 <!DOCTYPE html>
 
@@ -43,7 +43,6 @@
                                 <h4 style="margin: 0px;">
                                     <button type="button" title="数据设置" class="btn btn-warning" onclick="showTableInfoHtml()">数据设置</button>
                                     <button type="button" title="显示设置" class="btn btn-warning" onclick="showTableInfoHtmlSum()">显示设置</button>
-                                    &nbsp;<span class="label label-success"><%=tableModel.TableModel.IsChoice %></span>
                                     <span class="label label-success"><%=tableModel.TableModel.FileName %></span>
                                     <span class="label label-success"><%=tableModel.TableModel.TableName %></span></h4>
                             </td>
@@ -85,7 +84,7 @@
                             <td style="border: none;">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-info">自动排序</button>  
-                                    <button type="button" class="btn btn-info" onclick="bntSaveClick()">保&nbsp;存</button>
+                                    <button type="button" class="btn btn-info" onclick="bntSaveClick(this)">保&nbsp;存</button>
                                 </div>
                             </td>
                         </tr>
@@ -213,10 +212,16 @@
                 else
                     $(this).parent().next("a").addClass("hidden");
 
-            })         
+            });
+            $("select[name = FieldDataType]").change(function () {
+                if ($(this).val() > 1)
+                    $(this).parent().next("a").removeClass("hidden")
+                else
+                    $(this).parent().next("a").addClass("hidden");
+            });
         })
-        function bntSaveClick() {
-            loadding('正在保存，请稍等...');
+        function bntSaveClick(obj) {
+            loadding('正在保存，请稍等...', obj);
             var values = $("#example").find("input,select").serializeArray();
             var tableInfo = $("#tableInfo").find("select").serializeArray();
             //封装请求参数
@@ -319,14 +324,15 @@
         function setSelectData(obj) {
             showData = $(obj).parent().find("[name=SelectData]");
             var values = $(showData).val();
-            var showHtml = "<div class=\"form-group text-center\">";
-            showHtml += "<textarea name=\"selectData\" class=\"form-control\" placeholder=\"查询条件\" rows=\"6\">" + values + "</textarea><button type=\"button\" class=\"btn btn-success\" onclick=\"parentFunSetSelectData()\">保存</button></div>";
+            var showHtml = "<div class=\"form-group text-center\" style=\"margin:5px;\">";
+            showHtml += "<p><span style=\"color: blue;\">支持SQL表达式</p>";
+            showHtml += "<textarea name=\"selectData\" class=\"form-control\" placeholder=\"查询条件\" rows=\"8\">" + values + "</textarea><button type=\"button\" style=\"margin-top:5px;\" class=\"btn btn-success btn-block\" onclick=\"parentFunSetSelectData()\">保存</button></div>";
             //页面层
             showIndex = layer.open({
                 type: 1,
                 title: '参数设置',
                 skin: 'layui-layer-rim', //加上边框
-                area: ['420px', '240px'], //宽高
+                area: ['540px', '310px'], //宽高
                 content: showHtml
             });
         }
@@ -338,20 +344,46 @@
         }
         function setFieldData(obj) {
             showData = $(obj).parent().find("[name=FieldData]");
+            var FieldDataTypeValue = $(obj).parent().find("[name=FieldDataType]").val();
             var values = $(showData).val();
-            var showHtml = "<div class=\"form-group text-center\">";
-            showHtml += "<textarea name=\"FieldData\" class=\"form-control\" placeholder=\"数据呈现\" rows=\"6\">" + values + "</textarea><button type=\"button\" class=\"btn btn-success\" onclick=\"parentFunSetSelectData1()\">保存</button></div>";
+            var showHtml = "<div class=\"form-group text-center\" >";
+            if (FieldDataTypeValue == "2") {
+                showHtml += "<p><span style=\"color: blue;\">固定前台转换(一般例子)：</span>data == 1?\"启用\":\"禁用\"　　data：</span>最终显示的值</p><p><span style=\"color: blue;\">特殊例子：</span><span>\"<标签>\" + data + \"<标签>\"　　也可以是JQ语句&nbsp;alert(data);</span><p/><p> <span style=\"color: blue;\">row：</span>当前行所有字段的对象（row.[字段] 字段名必须一致）（不执行二次转换）</p>";
+                showHtml += "<textarea name=\"FieldData\" class=\"form-control\" placeholder=\"数据呈现\" rows=\"10\">" + values + "</textarea>";
+            } else if (FieldDataTypeValue == "3") {
+                showHtml += "<p><span style=\"color: blue;\">动态前台转换(例子)：</span>select [字段] from [表名] where  [字段] =\"row.[列表所有的字段]\"</p><p> <span style=\"color: blue;\">&nbsp;row：</span>当前行所有字段的对象（row.[字段] 字段名必须一致）（异步请求转换）</p>";
+                showHtml += "<textarea name=\"FieldData\" class=\"form-control\" placeholder=\"数据呈现\" rows=\"11\">" + values + "</textarea>";
+            }
+            else if (FieldDataTypeValue == "4") {
+                showHtml += "<div class=\"form-group text-left\" >";
+                showHtml += "<label class=\"radio-inline\" style=\"margin-left: 10px;\"><input type=\"radio\" name=\"FieldData\"   value=\"yearM\" " + (values == "yearM" ? "checked" : "") + " >时间格式：2018-05</label>";
+                showHtml += "<label class=\"radio-inline\"><input type=\"radio\"   name=\"FieldData\"  value=\"yearMzw\" " + (values == "yearMzw" ? "checked" : "") + ">日期格式：2018年05月</label>";
+                showHtml += "<label class=\"radio-inline\"><input type=\"radio\"   name=\"FieldData\"  value=\"date\" " + (values == "date" ? "checked" : "") + ">日期格式：2018-05-22</label>";
+                showHtml += "<label class=\"radio-inline\"><input type=\"radio\"   name=\"FieldData\"  value=\"datezw\" " + (values == "datezw" ? "checked" : "") + ">日期格式：2018年05月22日</label>";
+                showHtml += "<label class=\"radio-inline\"><input type=\"radio\" name=\"FieldData\"    value=\"time1\" " + (values == "time" ? "checked" : "") + " >时间格式：2018-05-22 15:33</label>";
+                showHtml += "<label class=\"radio-inline\"><input type=\"radio\" name=\"FieldData\"    value=\"time1zw\" " + (values == "timezw" ? "checked" : "") + " >时间格式：2018年05月日 15时33分</label>";
+                showHtml += "<label class=\"radio-inline\"><input type=\"radio\" name=\"FieldData\"    value=\"time2\" " + (values == "time" ? "checked" : "") + " >时间格式：2018-05-22 15:33:36</label>";
+                showHtml += "<label class=\"radio-inline\"><input type=\"radio\" name=\"FieldData\"    value=\"time2zw\" " + (values == "timezw" ? "checked" : "") + " >时间格式：2018年05月日 15时33分36秒</label>";
+                showHtml += "</div>";
+            }
+            showHtml += "<button type=\"button\" class=\"btn btn-success btn-block\" style=\"margin-top:10px;\" onclick=\"parentFunSetSelectDataZh()\">保　存</button></div>";
             //页面层
             showIndex = layer.open({
                 type: 1,
                 title: '参数设置',
                 skin: 'layui-layer-rim', //加上边框
-                area: ['420px', '240px'], //宽高
+                area: ['720px', '420px'], //宽高
                 content: showHtml
             });
         }
-        function parentFunSetSelectData1() {
-            var values = $(".layui-layer textarea").val();
+        function parentFunSetSelectDataZh() {
+            var type = $(".layui-layer input[name=FieldData]").attr("type");
+            var values = "";
+            if (type == "radio")
+                values = $(".layui-layer input[name=FieldData]:checked").val();
+            else
+                values = $(".layui-layer input[name=FieldData]").val();
+            console.log(values);
             $(showData).val(values);
             layer.close(showIndex);
         }

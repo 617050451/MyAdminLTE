@@ -64,7 +64,7 @@
     <Content Include="Admin\HomePage\WelcomePage.aspx" />
     <Content Include="Admin\HomePage\Index.aspx" />
     <Content Include="Admin\HomePage\Login.aspx" />
-    <Content Include="Admin\PageManage\AddPage.aspx" />
+    <Content Include="Admin\PageManage\TempPage.aspx" />
     <Content Include="Admin\PageManage\SetList.aspx" />
     <Content Include="Admin\PageManage\SetPages.aspx" />
     <Content Include="Script\AdminLTE-2.4.2\bower_components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.css" />
@@ -6779,6 +6779,9 @@
     <Content Include="XML\AddPage.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Admin\PageManage\BasePage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Page\MeanList.aspx.cs">
       <DependentUpon>MeanList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -6814,12 +6817,12 @@
     <Compile Include="Admin\HomePage\Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Admin\PageManage\AddPage.aspx.cs">
-      <DependentUpon>AddPage.aspx</DependentUpon>
+    <Compile Include="Admin\PageManage\TempPage.aspx.cs">
+      <DependentUpon>TempPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Admin\PageManage\AddPage.aspx.designer.cs">
-      <DependentUpon>AddPage.aspx</DependentUpon>
+    <Compile Include="Admin\PageManage\TempPage.aspx.designer.cs">
+      <DependentUpon>TempPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\PageManage\SetList.aspx.cs">
       <DependentUpon>SetList.aspx</DependentUpon>

@@ -7,13 +7,12 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
-
 namespace BLL
 {
     public class t_TablesClass
     {
         public Model.t_Tables TableModel = new Model.t_Tables();
-        public static DataTable TableFieldInfo = null;
+        public DataTable TableFieldInfo = null;
         public string OneFileName = string.Empty;
         public string ColumnsJson = string.Empty;
         public string GUIDValue = string.Empty;
@@ -197,7 +196,7 @@ namespace BLL
                 if (dt.Rows[i]["FieldStatusID"].ToString() == "1")
                 {
                     sb.Append("<th>" + dt.Rows[i]["FieldValue"].ToString() + "</th>");
-                    string data = SetFieldDataType(dt.Rows[i]["FieldDataType"].ToString(), dt.Rows[i]["FieldData"].ToString());
+                    string data = SetFieldDataType(dt.Rows[i]["FieldDataType"].ToString(), dt.Rows[i]["FieldData"].ToString(), dt.Rows[i]["FieldKey"].ToString());
                     sbjson.Append("{\"data\": \"" + dt.Rows[i]["FieldKey"].ToString() + "\"" + data + "},");
                 }
             }
@@ -211,11 +210,36 @@ namespace BLL
             return sb.ToString();
         }
         //解析转换显示
-        public string SetFieldDataType(string FieldDataType, string FieldData)
+        public string SetFieldDataType(string FieldDataType, string FieldData, string FieldKey)
         {
             string data = string.Empty;
+            if (FieldDataType == "1")
+                data = ", render: function (data, type, row) { return  data }";
             if (FieldDataType == "2")
                 data = ", render: function (data, type, row) { return  " + FieldData + " }";
+            if (FieldDataType == "3")
+                data = ", render: function (data, type, row) { GetFieldKeyValue(row,'" + FieldKey + "',function (reData) { data=reData;}); return data;}";
+            if (FieldDataType == "4")
+            {
+                var obj = "data";
+                if (FieldData == "yearM")
+                    obj = " SetDateTime(data,\"yyyy-MM\");";
+                else if (FieldData == "yearMzw")
+                    obj = " SetDateTime(data,\"yyyy年MM月\");";
+                else if (FieldData == "date")
+                    obj = " SetDateTime(data,\"yyyy-MM-dd\");";
+                else if (FieldData == "datezw")
+                    obj = " SetDateTime(data,\"yyyy年MM月dd日 \");";
+                else if (FieldData == "time1")
+                    obj = " SetDateTime(data,\"yyyy-MM-dd HH:mm\"); ";
+                else if (FieldData == "time1zw")
+                    obj = " SetDateTime(data,\"yyyy年MM月dd HH时mm分\"); ";
+                else if (FieldData == "time2")
+                    obj = " SetDateTime(data,\"yyyy-MM-dd HH:mm:ss\"); ";
+                else if (FieldData == "time2zw")
+                    obj = " SetDateTime(data,\"yyyy年MM月dd HH时mm分ss秒\"); ";
+                data = ", render: function (data, type, row) {  return " + obj + " }";
+            }
             return data;
         }
         //设置高级查询
@@ -341,7 +365,7 @@ namespace BLL
             else
                 return "";
         }
-        //获取单行单数据
+        //获取单行单列数据
         public string GetDataViewSQL(string sql)
         {
             DataTable tableJson = DAL.SQLDBHelpercs.ExecuteReaderTable(sql, null);
@@ -349,6 +373,17 @@ namespace BLL
                 return tableJson.Rows[0][0].ToString();
             else
                 return "";
+        }
+        //获取显示转换数据
+        public string GetFieldKeyValue(Dictionary<string, string> data)
+        {
+            DataRow[] dr = TableFieldInfo.Select("FieldKey='" + data["FieldKey"] + "'");
+            var fieldata = dr[0]["FieldData"].ToString();
+            foreach (var item in data)
+            {
+                fieldata = fieldata.Replace("row." + item.Key, item.Value);
+            }
+            return GetDataViewSQL(fieldata.Replace("\"", "'"));
         }
         //新增数据
         public  bool InsertModel(ObjectData model)

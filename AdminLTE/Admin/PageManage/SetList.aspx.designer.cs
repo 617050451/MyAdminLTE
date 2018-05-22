@@ -7,7 +7,7 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace AdminLTE.Admin.Temp {
+namespace AdminLTE.Admin {
     
     
     public partial class SetList {

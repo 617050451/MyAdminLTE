@@ -100,21 +100,21 @@ function getQueryString(key) {
 }
 // 语言设置  
 var oLanguage = {
-            "sProcessing": "加载中...",
-            "sLengthMenu": "每页显示 _MENU_ 条记录",
-            "sZeroRecords": "抱歉， 没有找到",
-            "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
-            "sInfoEmpty": "",
-            "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
-            "sZeroRecords": "没有检索到数据",
-            "sSearch": "检索:",
-            "oPaginate": {
-                "sFirst": "首页",
-                "sPrevious": "前一页",
-                "sNext": "后一页",
-                "sLast": "尾页"
-            }
-        }
+    "sProcessing": "加载中...",
+    "sLengthMenu": "每页显示 _MENU_ 条记录",
+    "sZeroRecords": "抱歉， 没有找到",
+    "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+    "sInfoEmpty": "",
+    "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+    "sZeroRecords": "没有检索到数据",
+    "sSearch": "检索:",
+    "oPaginate": {
+        "sFirst": "首页",
+        "sPrevious": "前一页",
+        "sNext": "后一页",
+        "sLast": "尾页"
+    }
+}
 //取当前页面名称(带后缀名)
 function pageName() {
     var strUrl = location.href;
@@ -215,9 +215,12 @@ function DeleteItemID(ChoiceValue) {
     }
 }
 var loadIndex;
-function loadding(obj) {
-    loadIndex = layer.msg(obj, {
-        icon: 16, shade: 0.01, time: 0
+function loadding(txt, obj) {
+    $(obj).attr('disabled', true);
+    loadIndex = layer.msg(txt, {
+        icon: 16, shade: 0.01, time: 0, end: function () {
+            $(obj).attr('disabled', false);
+        }
     });
 }
 function loadClose(obj) {
@@ -279,3 +282,64 @@ function GetFromJson(obj) {
     // 按字符 idata 转换成 JSON 格式  
     return idata;
 }
+//转换请求
+function GetFieldKeyValue(Row, FieldKey,envent) {
+    var param = Row;
+    param.gettype = "GetFieldKeyValue";
+    param.FieldKey = FieldKey;
+    //ajax请求数据
+    $.ajax({
+        type: "GET",
+        url: pageName(),
+        cache: true,  //禁用缓存
+        data: param,  //传入组装的参数
+        dataType: "text",
+        async: false,
+        success: envent,
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            // 状态码
+            console.log(XMLHttpRequest.status);
+            // 状态
+            console.log(XMLHttpRequest.readyState);
+            // 错误信息   
+            console.log(textStatus);
+            layer.msg("系统繁忙，请稍等.....");
+        }
+    });
+}
+//时间格式化
+Date.prototype.Format = function (fmt) { //author: meizz   
+    var o = {
+        "M+": this.getMonth() + 1, //月份   
+        "d+": this.getDate(), //日   
+        "H+": this.getHours(), //小时   
+        "m+": this.getMinutes(), //分   
+        "s+": this.getSeconds(), //秒   
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度   
+        "S": this.getMilliseconds() //毫秒   
+    };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+}
+function SetDateTime(data, fmt) {
+    // 转换日期格式
+    var date = new Date(data.replace(/-/g, '/').replace('T', ' '));
+    return date.Format(fmt);
+}
+//选中行
+$(function () {
+    $("#example tr").click(function () {
+        $("#example tr").css("background-color", "");
+        $(this).css("background-color", "#eee");
+    })
+    $("#example tr").mouseover(function () {
+        $("#example tr").css("background-color", "");
+        $(this).css("background-color", "#eee");
+    });
+    $("#example tr").mouseout(function () {
+        $("#example tr").css("background-color", "");
+        $(this).css("background-color", "#eee");
+    });
+});

@@ -9,11 +9,11 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml;
 
-namespace AdminLTE.Admin.Temp
+namespace AdminLTE.Admin
 {
-    public partial class AddPage : System.Web.UI.Page
+    public partial class TempPage : BasePage
     {
-        BLL.t_TablesClass tableModel = new t_TablesClass("9D2512E9-6FF4-4E7E-BBB8-23DE83755D18");
+       public  BLL.t_TablesClass tableModel = new t_TablesClass("9D2512E9-6FF4-4E7E-BBB8-23DE83755D18");
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -67,6 +67,19 @@ namespace AdminLTE.Admin.Temp
                         var ChoiceValue = Request["ChoiceValue"];
                         if (!string.IsNullOrWhiteSpace(ChoiceValue))
                             Response.Write(tableModel.DeleteData(ChoiceValue));
+                        else
+                            Response.Write("False");
+                        Response.End();
+                    }
+                    else if (GetType == "GetFieldKeyValue")
+                    {
+                        Dictionary<string, string> data = new Dictionary<string, string> { };
+                        for (int i = 0; i < Request.QueryString.Count; i++)
+                        {
+                            data.Add(Request.QueryString.Keys[i].ToString(), Request.QueryString[i].ToString());
+                        }                  
+                        if (data.Count > 0)
+                            Response.Write(tableModel.GetFieldKeyValue(data));
                         else
                             Response.Write("False");
                         Response.End();
