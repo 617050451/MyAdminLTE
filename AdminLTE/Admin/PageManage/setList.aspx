@@ -43,6 +43,7 @@
                                 <h4 style="margin: 0px;">
                                     <button type="button" title="数据设置" class="btn btn-warning" onclick="showTableInfoHtml()">数据设置</button>
                                     <button type="button" title="显示设置" class="btn btn-warning" onclick="showTableInfoHtmlSum()">显示设置</button>
+                                    <asp:Button ID="Button1" runat="server" Text="Button"  OnClick="Button1_Click"/>
                                     <span class="label label-success"><%=tableModel.TableModel.FileName %></span>
                                     <span class="label label-success"><%=tableModel.TableModel.TableName %></span></h4>
                             </td>
@@ -175,7 +176,7 @@
                             <div class="form-group">
                                 <label for="CountData" class="col-sm-3 control-label">聚合显示：</label>
                                 <div class="col-sm-9">
-                                    <textarea name="CountData" class="form-control" placeholder="备注" rows="3"><%=tableModel.TableModel.CountData%></textarea>
+                                    <textarea  name="CountData" class="form-control" placeholder="备注" rows="3"><%=tableModel.TableModel.CountData%></textarea>
                                 </div>
                             </div>
                         </td>
@@ -382,8 +383,7 @@
             if (type == "radio")
                 values = $(".layui-layer input[name=FieldData]:checked").val();
             else
-                values = $(".layui-layer input[name=FieldData]").val();
-            console.log(values);
+                values = $(".layui-layer textarea[name=FieldData]").val();
             $(showData).val(values);
             layer.close(showIndex);
         }

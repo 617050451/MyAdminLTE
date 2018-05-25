@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace AdminLTE.Page
 {
-    public partial class MeanList : BasePage
+    public partial class TableList : BasePage
     {
-       public  BLL.t_TablesClass tableModel = new BLL.t_TablesClass("9D2512E9-6FF4-4E7E-BBB8-23DE83755D18");
+       public  BLL.t_TablesClass tableModel = new BLL.t_TablesClass("9D2512E9-6FF4-4E7E-BBB8-23DE83755D17");
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)

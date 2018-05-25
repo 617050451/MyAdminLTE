@@ -111,13 +111,10 @@ namespace BLL
                             if (row[colmenulevel].ToString() == "1")
                             {
                                 sb.Append("<li class=\"treeview\"><a href=\"javascript:void(0);\"><i class=\"fa fa-" + row["MeanClass"] + "\"></i><span>" + row[txtCol] + "</span><span class=\"pull-right-container\"> <span class=\"label label-primary pull-right\"></span></span></a>");
-
                             }
                             else
                             {
-
                                 sb.Append("<li class=\"treeview\"><a href=\"javascript:void(0);\"><i class=\"fa fa-" + row["MeanClass"] + "\"></i>" + row[txtCol] + "<span class=\"pull-right-container\"> <span class=\"label label-primary pull-right\"></span></span></a>");
-
                             }
                             sb.Append("<ul class=\"treeview-menu\">");
                             GetMeanJsonData(idCol, txtCol, rela, row[idCol], colmenulevel);
@@ -134,12 +131,11 @@ namespace BLL
                             if (row[colmenulevel].ToString() == "1")
                             {
                                 //顶级菜单，标题显示在span中，否则显示图标时，标题不能隐藏
-                                sb.Append("<li class=\"treeview \"><a href=\"javascript:void(0);\" moid=\"" + row[idCol] + "\" text=\"" + row[txtCol] + "\" isleaf=\"true\"" + " menu-controller=\"" + row["meanurl"] + "\"><i class=\"fa fa-" + row["MeanClass"] + "\"></i><span>" + row[txtCol] + "</span></a></li>");
-
+                                sb.Append("<li class=\"treeview \"><a href=\"javascript:void(0);\" menu-moid=\"" + row[idCol] + "\" menu-text=\"" + row[txtCol] + "\" isleaf=\"true\"" + " menu-controller=\"" + row["meanurl"] + "\"><i class=\"fa fa-" + row["MeanClass"] + "\"></i><span>" + row[txtCol] + "</span></a></li>");
                             }
                             else
                             {
-                                sb.Append("<li><a href=\"javascript:void(0);\" moid=\"" + row[idCol] + "\" text=\"" + row[txtCol] + "\" isleaf=\"true\"" + " menu-controller=\"" + row["meanurl"] + "\"><i class=\"fa fa-" + row["MeanClass"] + "\"></i>" + row[txtCol] + "</a></li>");
+                                sb.Append("<li><a href=\"javascript:void(0);\" menu-moid=\"" + row[idCol] + "\" menu-text=\"" + row[txtCol] + "\" isleaf=\"true\"" + " menu-controller=\"" + row["meanurl"] + "\"><i class=\"fa fa-" + row["MeanClass"] + "\"></i>" + row[txtCol] + "</a></li>");
                             }
                             result.Append(sb.ToString());
                             sb.Clear();

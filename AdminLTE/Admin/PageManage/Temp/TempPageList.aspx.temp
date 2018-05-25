@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="TempPage.aspx.cs" Inherits="AdminLTE.Admin.TempPage" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="{PageName}.aspx.cs" Inherits="AdminLTE.Page.{PageName}" %>
 
 <!DOCTYPE html>
 
@@ -126,84 +126,8 @@
             PageConfig.IsWhere = "<%=tableModel.TableModel.IsWhere.ToString()%>";
             PageConfig.IsChoice = "<%=tableModel.TableModel.IsChoice.ToString()%>";
             PageConfig.Columns = eval(<%=tableModel.ColumnsJson%>);
-            setTimeout(getJsonData("GetDateList"), 50);
+            setTimeout(getJsonData("GetDateList","/Page/{PageName}.aspx"), 50);
         })
-        //layer 弹层
-        var Index;
-        function LayerOpenHtml(title, value) {
-            var showHtml = $("#LayerOpenHtml").html();
-            //页面层
-            Index = layer.open({
-                type: 1,
-                title: title,
-                skin: 'layui-layer-rim', //加上边框
-                area: ['620px', '450px'], //宽高
-                content: showHtml,
-                success: function () {
-                    if (value != undefined && value != null && value != "") {
-                        var param = {};
-                        param.Gettype = 'GetDataView';
-                        param.ChoiceValue = value;
-                        $.ajax({
-                            type: "GET",
-                            url: pageName(),
-                            cache: false,  //禁用缓存
-                            data: param,  //传入组装的参数
-                            dataType: "json",
-                            async: false,
-                            success: function (result) {
-                                if (result != null && result != "") {
-                                    var json = result[0];
-                                    $.each(json, function (key, val) {
-                                        $(".layui-layer [name=" + key + "]").val(val);
-                                    });
-                                } else {
-                                    layer.msg("系统繁忙，请稍等.....");
-                                }
-                            },
-                            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                                layer.msg("系统繁忙，请稍等.....");
-                            }
-                        });
-                    }
-                }
-            });
-        }    
-        //保存事件
-        function BntSaveFromData() {
-            var FromValues = $(".layui-layer #LayerOpenHtmlFrom").find(fromchildren).serializeArray();
-            var param = {};
-            param.Gettype = 'SaveFromData';
-            param.ChoiceValue = $(".layui-layer-content").attr("ID");
-            param.FromValues = GetFromJson(FromValues);
-            //ajax请求数据
-            $.ajax({
-                type: "GET",
-                url: pageName(),
-                cache: false,  //禁用缓存
-                data: param,  //传入组装的参数
-                dataType: "json",
-                async: false,
-                success: function (result) {
-                    if (result != null && result[0].code == "100") {
-                        //setTimeout仅为测试延迟效果
-                        setTimeout(function () {
-                            layer.msg('保存成功', {
-                                icon: 1, time: 1500, end: function () {
-                                    layer.close(Index);
-                                    location.reload();
-                                }
-                            });
-                        }, 50);
-                    } else {
-                        layer.msg("系统繁忙，请稍等.....");
-                    }
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    layer.msg("系统繁忙，请稍等.....");
-                }
-            });
-        }
         //获取数据后，重写一些方法
         function GetDataSuccess() {
             if (jQuery.isFunction(PageLoad)) {
@@ -213,18 +137,7 @@
         //CustomCodeStart
         function PageLoad() {
             setTimeout(function () {
-                $("button[name=InsertItemID]").unbind("click");
-                $("button[name=InsertItemID]").click(function () {
-                    LayerOpenHtml('新增页面', $(this).val());
-                })
-                $("button[name=UpdateItemID]").unbind("click");
-                $("button[name=UpdateItemID]").click(function () {
-                    LayerOpenHtml('修改页面', $(this).val());
-                })
-                $("button[name=DeleteItemID]").unbind("click");
-                $("button[name=DeleteItemID]").click(function () {
-                    DeleteItemID($(this).val());
-                })
+                
             }, 50);
         }
         //CustomCodeEnd

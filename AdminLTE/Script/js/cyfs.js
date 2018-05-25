@@ -8,16 +8,22 @@ PageConfig.IsPlus = 0;
 PageConfig.IsWhere = 0;
 PageConfig.IsChoice = 0;
 PageConfig.Columns = [];
-function getJsonData(type) {
+function getJsonData(type, pageName) {
     if (PageConfig.Columns == undefined || PageConfig.Columns.length == 0)
         return false;
+    if (pageName == undefined || pageName == "")
+        pageName = GetPageName();
     if (type == 'select') {
         table.fnClearTable(false);  //清空数据.fnClearTable();//清空数据
         table.fnDestroy(); //还原初始化了的datatable  
     }
+    var aTargets = [];
+    aTargets[0] = PageConfig.IsChoice - 1;
+    if (PageConfig.Columns[PageConfig.Columns.length - 1].data == "ItemID")
+        aTargets[1] = PageConfig.Columns.length - 1;
     table = $('#example').dataTable({
         "dom": "t<'row'<'#id.col-xs-2 table-l'l><'#id.col-xs-3'i><'#id.col-xs-6 table-p'p>>r",
-        "aoColumnDefs": [{ "bSortable": false, "aTargets": [PageConfig.IsChoice - 1] }],
+        "aoColumnDefs": [{ "bSortable": false, "aTargets": aTargets }],
         "aaSorting": [[PageConfig.IsChoice, "asc"]],
         "lengthChange": true,
         "autoWidth": false,
@@ -45,7 +51,7 @@ function getJsonData(type) {
             //ajax请求数据
             $.ajax({
                 type: "GET",
-                url: pageName(),
+                url: pageName,
                 cache: false,  //禁用缓存
                 data: param,  //传入组装的参数
                 dataType: "json",
@@ -116,7 +122,7 @@ var oLanguage = {
     }
 }
 //取当前页面名称(带后缀名)
-function pageName() {
+function GetPageName() {
     var strUrl = location.href;
     var arrUrl = strUrl.split("/");
     var strPage = arrUrl[arrUrl.length - 1];
@@ -191,7 +197,7 @@ function DeleteItemID(ChoiceValue) {
             //ajax请求数据
             $.ajax({
                 type: "GET",
-                url: pageName(),
+                url: GetPageName(),
                 data: param,
                 cache: false,  //禁用缓存
                 dataType: "text",
@@ -245,7 +251,7 @@ function signinOnclick() {
     //ajax请求数据
     $.ajax({
         type: "GET",
-        url: pageName(),
+        url: GetPageName(),
         cache: false,  //禁用缓存
         data: param,  //传入组装的参数
         dataType: "text",
@@ -290,7 +296,7 @@ function GetFieldKeyValue(Row, FieldKey,envent) {
     //ajax请求数据
     $.ajax({
         type: "GET",
-        url: pageName(),
+        url: GetPageName(),
         cache: true,  //禁用缓存
         data: param,  //传入组装的参数
         dataType: "text",

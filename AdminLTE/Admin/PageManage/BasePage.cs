@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace AdminLTE.Admin
+namespace AdminLTE
 {
     public class BasePage : System.Web.UI.Page
     {
@@ -20,10 +20,6 @@ namespace AdminLTE.Admin
         {
             get
             {
-                return UserIDValue;
-            }
-            set
-            {
                 if (HttpContext.Current.Request.Cookies["UserID"] != null)
                 {
                     UserIDValue = int.Parse(HttpContext.Current.Request.Cookies["UserID"].Value);
@@ -32,7 +28,9 @@ namespace AdminLTE.Admin
                 {
                     UserIDValue = int.Parse(HttpContext.Current.Session["UserID"].ToString());
                 }
+                return UserIDValue;
             }
+            set => UserIDValue = value;
         }
     }
 }

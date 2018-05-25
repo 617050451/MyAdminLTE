@@ -1,9 +1,10 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="MeanList.aspx.cs" Inherits="AdminLTE.Admin.Aspx.MeanList" validateRequest="false" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="MeanList.aspx.cs" Inherits="AdminLTE.Page.MeanList" %>
+
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head runat="server">
-    <title>菜单管理</title>
+    <title><%=tableModel.TableModel.Title %></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
@@ -22,8 +23,6 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins
     folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/dist/css/skins/_all-skins.min.css" />
-    <link href="../../Script/AdminLTE-2.4.2/dist/css/bootstrapValidator.min.css" rel="stylesheet" />
-    <link href="../../Script/AdminLTE-2.4.2/dist/css/bootstrapValidator.css" rel="stylesheet" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -32,9 +31,10 @@
     <![endif]-->
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
+    <link href="../../Script/js/cyfs.css" rel="stylesheet" />
 </head>
 <body>
-    <form id="form1" runat="server">
+    <form id="PageForm">
         <section class="content" style="margin-top: -13px;">
             <div data-resple="iswhere" class="box box-solid">
                 <div class="box-header with-border">
@@ -46,9 +46,7 @@
                     </div>
                 </div>
                 <div class="box box-danger">
-                    <div class="box-body" id="SelectWhereFrom">
-                         <asp:Literal ID="ltlStrWhere" runat="server" Text=""></asp:Literal> 
-                    </div>
+                    <div class="box-body" id="SelectWhereFrom"><%=tableModel.SetStrWhereHtml() %></div>
                 </div>
                 <!-- /.box-body -->
             </div>
@@ -56,14 +54,10 @@
                 <div class="col-xs-12">
                     <div class="box box-primary">
                         <div class="box-body">	
-                            <div id="ltlbnts"  class="pull-left" style="height:24px;" >
-                                 <asp:Literal ID="ltlbnt" runat="server" Text=""></asp:Literal>
-                            </div>
+                            <div id="ltlbnts"  class="pull-left" style="height:24px;" ><%=tableModel.SetBntHtml() %></div>
                             <div id="ltlSum" class="pull-right"  style="height:24px;">
                             </div>
-                            <table id="example" class="table table-bordered table-hover">
-                                <asp:Literal ID="ltlhead" runat="server" Text=""></asp:Literal> 
-                            </table>
+                            <table id="example" class="table table-bordered table-hover"><%=tableModel.GetTableHtml() %></table>
                         </div>
                         <!-- /.box-body -->
                     </div>
@@ -73,10 +67,43 @@
             </div>
             <!-- /.row -->
         </section>
-        <asp:HiddenField ID="IsPlus" runat="server" />
-        <asp:HiddenField ID="IsWhere" runat="server" />
-        <asp:HiddenField ID="IsChoice" runat="server" />
-        <asp:HiddenField ID="ColumnsJson" runat="server" />
+        <div id="LayerOpenHtml" class="hidden">
+            <div id="LayerOpenHtmlFrom">
+                <div class="form-group" style="display: -webkit-box; margin-top: 10px;">
+                    <label for="Title" class="col-sm-2 control-label text-right" lay-verify="email" style="padding: 0px; line-height: 32px;">标题：</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="Title" class="form-control" placeholder="标题" value="" />
+                    </div>
+                </div>
+                <div class="form-group" style="display: -webkit-box;">
+                    <label for="FileName" class="col-sm-2 control-label text-right" style="padding: 0px; line-height: 32px;">页面名称：</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="FileName" class="form-control" placeholder="页面名称" value="" />
+                    </div>
+                </div>
+                <div class="form-group" style="display: -webkit-box; margin-top: 10px;">
+                    <label for="TableName" class="col-sm-2 control-label text-right" style="padding: 0px; line-height: 32px;">数据表：</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="TableName" class="form-control" placeholder="数据表" value="" />
+                    </div>
+                </div>
+                <div class="form-group" style="display: -webkit-box;">
+                    <label for="SQL" class="col-sm-2 control-label text-right" style="padding: 0px;">SQL：</label>
+                    <div class="col-sm-10">
+                        <textarea name="" class="form-control" placeholder="SQL" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="form-group" style="display: -webkit-box;">
+                    <label for="Note" class="col-sm-2 control-label text-right" style="padding: 0px;">备注：</label>
+                    <div class="col-sm-10">
+                        <textarea name="Note" class="form-control" placeholder="备注" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="form-group text-center">
+                    <button type="button" class="btn btn-success" onclick="BntSaveFromData()">保　存</button>
+                </div>
+            </div>
+        </div>
     </form>
     <!-- jQuery 3 -->
     <script src="../../Script/AdminLTE-2.4.2/bower_components/jquery/dist/jquery.min.js"></script>
@@ -91,17 +118,29 @@
     <script src="../../Script/AdminLTE-2.4.2/bower_components/fastclick/lib/fastclick.js"></script>
     <!-- AdminLTE App -->
     <script src="../../Script/AdminLTE-2.4.2/dist/js/adminlte.min.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="../../Script/AdminLTE-2.4.2/dist/js/demo.js"></script>
-    <!-- bootstrap datepicker -->
-    <script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
-    <script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.zh-CN.js"></script>
-    <!-- page script -->
-    <script src="../../Script/AdminLTE-2.4.2/dist/js/bootstrapValidator.min.js"></script>
-    <script src="../../Script/AdminLTE-2.4.2/dist/js/bootstrapValidator.js"></script>
     <script src="../../Script/layer-v3.1.0/layer/layer.js"></script>
-	<link href="../../Script/js/cyfs.css" rel="stylesheet" />
     <script src="../../Script/js/cyfs.js"></script>
+    <script>
+        $(function () {
+            PageConfig.IsPlus = "<%=tableModel.TableModel.IsPlus.ToString()%>";
+            PageConfig.IsWhere = "<%=tableModel.TableModel.IsWhere.ToString()%>";
+            PageConfig.IsChoice = "<%=tableModel.TableModel.IsChoice.ToString()%>";
+            PageConfig.Columns = eval(<%=tableModel.ColumnsJson%>);
+            setTimeout(getJsonData("GetDateList"), 50);
+        })
+        //获取数据后，重写一些方法
+        function GetDataSuccess() {
+            if (jQuery.isFunction(PageLoad)) {
+                PageLoad();
+            }
+        }
+        //CustomCodeStart
+        function PageLoad() {
+            setTimeout(function () {
+                
+            }, 50);
+        }
+        //CustomCodeEnd
+    </script>
 </body>
 </html>
-

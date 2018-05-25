@@ -40,11 +40,11 @@
                     <div class="box box-primary">
                         <div class="box-body">
                             <ul class="nav nav-tabs">
-                                <li class="active"><a href="javascript:void(0)" data-src="setList.aspx?tableguid=9D2512E9-6FF4-4E7E-BBB8-23DE83755D18">显示页面</a></li>
+                                <li class="active"><a href="javascript:void(0)" data-src="setList.aspx?tableguid=9D2512E9-6FF4-4E7E-BBB8-23DE83755D17">显示页面</a></li>
                                 <li><a href="javascript:void(0)" data-src="#">新增页面</a></li>
                                 <li><a href="javascript:void(0)" data-src="#">修改页面</a></li>
                             </ul>
-                            <iframe id="ifmSetPage" src="setList.aspx?tableguid=9D2512E9-6FF4-4E7E-BBB8-23DE83755D18" style="width:100%;height:auto;border:none;min-height:800px;"></iframe>
+                            <iframe id="ifmSetPage" src="setList.aspx?tableguid=9D2512E9-6FF4-4E7E-BBB8-23DE83755D17" style="width:100%;height:auto;border:none;min-height:800px;"></iframe>
                         </div>
                         <!-- /.box-body -->
                     </div>

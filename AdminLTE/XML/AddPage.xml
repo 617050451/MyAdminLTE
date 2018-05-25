@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Tables>
-  <TableInfo>
-    <SQL>select [GUID],[Title],[FileName] from [t_Tables]</SQL>
-    <TableName>[t_Tables]</TableName>
-    <IdentityName>GUID</IdentityName> 
-  </TableInfo>
-</Tables>
-

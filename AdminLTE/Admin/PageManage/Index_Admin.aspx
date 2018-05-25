@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Index.aspx.cs" Inherits="AdminLTE.Admin.index" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Index_Admin.aspx.cs" Inherits="AdminLTE.Admin.PageManage.Index_Admin" %>
 
 <!DOCTYPE html>
 
@@ -92,13 +92,27 @@
         <aside class="main-sidebar">
             <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
-                <ul class="sidebar-menu" data-widget="tree">
+                <ul class="sidebar-menu tree" data-widget="tree">
+                    <li class="header">页面管理</li>
+                    <li class="active treeview menu-open">
+                        <a href="#">
+                            <i class="fa fa-dashboard"></i><span>页面管理</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="active"><a href="javascript:void(0)" menu-moid="1001" menu-text="所有页面" menu-controller="/Page/TableList.aspx"><i class="fa fa-circle-o text-aqua"></i>所有页面</a></li>
+                            <li><a href="javascript:void(0)"  menu-moid="1002"  menu-text="编辑页面" menu-controller="SetPages.aspx" ><i class="fa fa-circle-o text-red"></i>编辑页面</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </section>
             <!-- /.sidebar -->
         </aside>
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
             <section class="content-header">
                 <div class="nav-tabs-custom">
                     <ul class="nav nav-tabs" id="tabnav">
@@ -128,18 +142,6 @@
                 <!-- Home tab content -->
                 <div class="tab-pane" id="control-sidebar-home-tab">
                     <h3 class="control-sidebar-heading">DMS</h3>
-                    <ul class="control-sidebar-menu">
-                        <li>
-                            <a href='https://dms-net.aliyun.com/?host=qds108295464.my3w.com&port=1433&dbType=SQLServer&userName=qds108295464' target="_blank">
-                                <i class="menu-icon fa fa-eyedropper bg-red"></i>
-                                <div class="menu-info">
-                                    <h4 class="control-sidebar-subheading">My DMS</h4>
-                                    <p>qds108295464.my3w.com</p>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
-                    <h3 class="control-sidebar-heading">后台</h3>
                     <ul class="control-sidebar-menu">
                         <li>
                             <a href='https://dms-net.aliyun.com/?host=qds108295464.my3w.com&port=1433&dbType=SQLServer&userName=qds108295464' target="_blank">
@@ -208,14 +210,14 @@
         });
         //加载菜单
         function menuInit() {
-            var meanhtml = '<%=strJson%>';
-            $(".sidebar-menu").append(meanhtml);
             //绑定菜单点击事件
             $(".sidebar-menu li ul li a").click(function () {
                 mainMenuClickFunc(this);
             })
+            ////默认点击第一个菜单
+            //$(".sidebar-menu li ul li a:first").click();
             //默认点击首页
-            loadwel(1000, "WelcomePage.aspx");
+            loadwel(1000, "WelcomePage_Admin.aspx");
         }
         //菜单点击之后，加载页面（切换效果）
         function mainMenuClickFunc(param) {
