@@ -33,7 +33,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
 </head>
 <body>
-    <form id="form1" runat="server">
+    <form id="FromPage">
         <section class="content" style="margin-top: -13px;">
             <div class="row">
                 <div class="col-xs-12">

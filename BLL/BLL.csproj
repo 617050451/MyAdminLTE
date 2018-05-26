@@ -49,7 +49,6 @@
     <Compile Include="Admin\ConnectionInfo.cs" />
     <Compile Include="Admin\JsonHelper.cs" />
     <Compile Include="Admin\t_TablesClass.cs" />
-    <Compile Include="Page\MeanListClass.cs" />
     <Compile Include="Admin\ObjectData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -68,6 +67,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Page\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

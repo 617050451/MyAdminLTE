@@ -5,11 +5,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title></title>
+    <title>测试</title>
 </head>
 <body>
-    <form id="form1" runat="server">
-        <section class="content" style="margin-top: -13px;">
+    <form id="PageFrom">
+        <section class="content" style="margin-top: 50px;">
             <div class="box box-solid">
                 <div class="box box-danger">
                     <div class="box-body" id="selectWhere">

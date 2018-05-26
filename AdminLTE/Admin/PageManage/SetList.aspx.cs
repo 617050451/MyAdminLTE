@@ -12,7 +12,7 @@ namespace AdminLTE.Admin
 {
     public partial class SetList : BasePage
     {
-        public  BLL.t_TablesClass tableModel;
+        public BLL.t_TablesClass tableModel;
         protected void Page_Load(object sender, EventArgs e)
         {
             string tableGuid = Request["tableguid"];
@@ -28,7 +28,7 @@ namespace AdminLTE.Admin
                         var TableInfo = Request.Form["tableInfo"];
                         DataTable dt = BLL.JsonHelper.DeserializeJsonToObject<DataTable>(PageData);
                         DataTable tableInfodt = BLL.JsonHelper.DeserializeJsonToObject<DataTable>(TableInfo);
-                        if (BLL.BaseClass.SaveUpdateList(dt,tableInfodt, tableGuid))
+                        if (BLL.BaseClass.SaveUpdateList(dt, tableInfodt, tableGuid))
                         {
                             Response.Write("True");
                             Response.End();
@@ -43,6 +43,10 @@ namespace AdminLTE.Admin
                             Response.Write("True");
                             Response.End();
                         };
+                    }
+                    else if (GetType == "SetOrder")
+                    {
+
                     }
                 }
                 else
@@ -78,7 +82,7 @@ namespace AdminLTE.Admin
                     sb.Append("<option " + (FieldDataType == "2" ? "selected=\"selected\"" : "") + " value=\"2\">固定前台转换</option>");
                     sb.Append("<option " + (FieldDataType == "3" ? "selected=\"selected\"" : "") + " value=\"3\">动态前台转换</option>");
                     sb.Append("<option " + (FieldDataType == "4" ? "selected=\"selected\"" : "") + " value=\"4\">数据格式化</option>");
-                    sb.Append("</select></div><a class=\"text-primary "+ (FieldDataType=="1"? "hidden" : "") + "\" href=\"javascript:void(0)\" onclick=\"setFieldData(this)\">&nbsp;设置</a><input type=\"text\" name=\"FieldData\" class=\"form-control hidden\" value='" + FieldData + "'/></td>");
+                    sb.Append("</select></div><a class=\"text-primary " + (FieldDataType == "1" ? "hidden" : "") + "\" href=\"javascript:void(0)\" onclick=\"setFieldData(this)\">&nbsp;设置</a><input type=\"text\" name=\"FieldData\" class=\"form-control hidden\" value='" + FieldData + "'/></td>");
                     sb.Append("<td><div class=\"input-group input-group-sm\"><select name=\"FieldStatusID\" class=\"form-control select2 select2-hidden-accessible\" tabindex=\"-1\" aria-hidden=\"true\">");
                     sb.Append("<option " + (FieldStatusID == "1" ? "selected=\"selected\"" : "") + " value=\"1\">启用</option>");
                     sb.Append("<option " + (FieldStatusID == "0" ? "selected=\"selected\"" : "") + " value=\"0\">禁用</option>");
@@ -97,8 +101,7 @@ namespace AdminLTE.Admin
             }
             return sb.ToString();
         }
-
-        protected void Button1_Click(object sender, EventArgs e)
+        void SaveHtml()
         {
             string PageName = "TableList";
             string TableGUID = "9D2512E9-6FF4-4E7E-BBB8-23DE83755D17";

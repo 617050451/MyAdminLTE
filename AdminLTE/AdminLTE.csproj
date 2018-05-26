@@ -6819,6 +6819,9 @@
     <Compile Include="Admin\HomePage\Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\PageManage\SetList.aspx.designer.cs">
+      <DependentUpon>SetList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\PageManage\TempPage.aspx.cs">
       <DependentUpon>TempPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -6827,15 +6830,9 @@
       <DependentUpon>SetList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Admin\PageManage\SetList.aspx.designer.cs">
-      <DependentUpon>SetList.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Admin\PageManage\SetPages.aspx.cs">
       <DependentUpon>SetPages.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\PageManage\SetPages.aspx.designer.cs">
-      <DependentUpon>SetPages.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\PageManage\WelcomePage_Admin.aspx.cs">
       <DependentUpon>WelcomePage_Admin.aspx</DependentUpon>

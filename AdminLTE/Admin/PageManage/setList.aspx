@@ -6,7 +6,7 @@
 <head runat="server">
     <title>显示页面编辑</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <!-- Tell the browser to be responsive to screen width -->
+    <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
     <!-- Bootstrap 3.3.7 -->
     <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/bootstrap/dist/css/bootstrap.min.css" />
@@ -26,14 +26,14 @@
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
 </head>
 <body>
-    <form id="form1" runat="server">
+    <form id="FromPage">
         <section class="content" style="margin-top: -13px;">
             <div class="row">
                 <table id="tableInfo" class="table" style="margin:0px;margin-top:-3px;border-left:1px solid #ddd;border-right:1px solid #ddd;">
@@ -43,7 +43,6 @@
                                 <h4 style="margin: 0px;">
                                     <button type="button" title="数据设置" class="btn btn-warning" onclick="showTableInfoHtml()">数据设置</button>
                                     <button type="button" title="显示设置" class="btn btn-warning" onclick="showTableInfoHtmlSum()">显示设置</button>
-                                    <asp:Button ID="Button1" runat="server" Text="Button"  OnClick="Button1_Click"/>
                                     <span class="label label-success"><%=tableModel.TableModel.FileName %></span>
                                     <span class="label label-success"><%=tableModel.TableModel.TableName %></span></h4>
                             </td>
@@ -82,10 +81,11 @@
                                     <option <%=tableModel.TableModel.IsPlus==0?"selected='selected'":"" %>  value="0">展开</option>
                                 </select>
                             </td>
-                            <td style="border: none;">
+                            <td style="width:240px;border: none;">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-info">自动排序</button>  
-                                    <button type="button" class="btn btn-info" onclick="bntSaveClick(this)">保&nbsp;存</button>
+                                    <button type="button" class="btn btn-info" onclick="bntOrderClick()">自动排序</button>  
+                                    <button type="button" class="btn btn-info">更多按钮</button>  
+                                    <button type="button" class="btn btn-success" onclick="bntSaveClick(this)">保&nbsp;存</button>
                                 </div>
                             </td>
                         </tr>
@@ -169,24 +169,11 @@
             </table>
         </div>
         <div id="setTableInfoSum" class="hidden">
-            <table class="table" style="border: 1px solid #ddd; text-align: right">
-                <tbody>
-                    <tr>
-                        <td>
-                            <div class="form-group">
-                                <label for="CountData" class="col-sm-3 control-label">聚合显示：</label>
-                                <div class="col-sm-9">
-                                    <textarea  name="CountData" class="form-control" placeholder="备注" rows="3"><%=tableModel.TableModel.CountData%></textarea>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr class="text-center">
-                        <td>
-                            <button type="button" class="btn btn-success" onclick="bntSaveTableInfoOnclick1()">保存</button></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="form-group text-center">
+                <p style="margin-top:3px;"><span style="color: blue;">聚合显示例子(一般例子)：</span>记录总条数：{count(guid)}（条）</p>
+                <textarea name="CountData" class="form-control" placeholder="聚合显示" rows="10"><%=tableModel.TableModel.CountData%></textarea>
+                <button type="button" class="btn btn-success btn-block" onclick="bntSaveTableInfoOnclickSum()" style="margin-top:5px;">保存</button>
+            </div>
         </div>
     </form>
      <!-- jQuery 3 -->
@@ -233,7 +220,7 @@
             param.tableInfo = JSON.stringify(tableInfo);   
             $.ajax({
                 type: "post",
-                url: pageName(),
+                url: GetPageName(),
                 cache: false,  //禁用缓存
                 data: param,  //传入组装的参数
                 dataType: "text",
@@ -273,7 +260,7 @@
                 }
             });
         }
-        function bntSaveTableInfoOnclick1() {
+        function bntSaveTableInfoOnclickSum() {
             loadding('正在保存，请稍等...');
             var settableinfo = $(".layui-layer-content").find("input,textarea").serializeArray();
             //封装请求参数
@@ -316,7 +303,7 @@
                 type: 1,
                 title: '参数设置',
                 skin: 'layui-layer-rim', //加上边框
-                area: ['620px', '370px'], //宽高
+                area: ['620px', '355px'], //宽高
                 content: showHtml
             });
         }
@@ -386,6 +373,26 @@
                 values = $(".layui-layer textarea[name=FieldData]").val();
             $(showData).val(values);
             layer.close(showIndex);
+        }
+        function bntOrderClick() {
+            var param = {};
+            param.gettype = "SetOrder";
+            $.ajax({
+                type: "post",
+                url: GetPageName(),
+                cache: false,  //禁用缓存
+                data: param,  //传入组装的参数
+                dataType: "text",
+                success: function (result) {
+                    if (result == "True") {
+                        layer.msg('操作成功！', {
+                            icon: 1, time: 1500, end: function () {
+                                location.reload();
+                            }
+                        });
+                    }
+                }
+            });
         }
     </script>
 </body>
