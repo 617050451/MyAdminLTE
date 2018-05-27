@@ -14,7 +14,6 @@ namespace AdminLTE
             //{
             //    Response.Redirect("https:www.baidu.com");
             //}
-        
         }
         private int UserIDValue;
         public int UserID
