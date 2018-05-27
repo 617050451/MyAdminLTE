@@ -42,15 +42,19 @@ namespace AdminLTE.Admin
                 if (ChoiceValue != null && ChoiceValue != "")//修改
                 {
                     RowNum = tableModel.UpdateModel(ModelData, ChoiceValue);
+                    if (RowNum)
+                        CodeJson = "[{\"code\":100}]";
+                    else
+                        CodeJson = "[{\"code\":105}]";
                 }
                 else//添加
                 {
-                    RowNum = tableModel.InsertModel(ModelData);
+                    var ItemID = tableModel.InsertModel(ModelData);
+                    if (string.IsNullOrWhiteSpace(ItemID))
+                        CodeJson = "[{\"code\":100}]";
+                    else
+                        CodeJson = "[{\"code\":105}]";
                 }
-                if (RowNum)
-                    CodeJson = "[{\"code\":100}]";
-                else
-                    CodeJson = "[{\"code\":105}]";
                 Response.Write(CodeJson);
                 Response.End();
             }

@@ -134,8 +134,10 @@
             var showHtml = $("#LayerOpenHtml").html();
             //页面层
             Index = layer.open({
+                id: value,
                 type: 1,
                 title: title,
+                value: value,
                 skin: 'layui-layer-rim', //加上边框
                 area: ['620px', '450px'], //宽高
                 content: showHtml,
@@ -146,7 +148,7 @@
                         param.ChoiceValue = value;
                         $.ajax({
                             type: "GET",
-                            url: pageName(),
+                            url: GetPageName(),
                             cache: false,  //禁用缓存
                             data: param,  //传入组装的参数
                             dataType: "json",

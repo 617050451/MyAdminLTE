@@ -67,43 +67,6 @@
             </div>
             <!-- /.row -->
         </section>
-        <div id="LayerOpenHtml" class="hidden">
-            <div id="LayerOpenHtmlFrom">
-                <div class="form-group" style="display: -webkit-box; margin-top: 10px;">
-                    <label for="Title" class="col-sm-2 control-label text-right" lay-verify="email" style="padding: 0px; line-height: 32px;">标题：</label>
-                    <div class="col-sm-10">
-                        <input type="text" name="Title" class="form-control" placeholder="标题" value="" />
-                    </div>
-                </div>
-                <div class="form-group" style="display: -webkit-box;">
-                    <label for="FileName" class="col-sm-2 control-label text-right" style="padding: 0px; line-height: 32px;">页面名称：</label>
-                    <div class="col-sm-10">
-                        <input type="text" name="FileName" class="form-control" placeholder="页面名称" value="" />
-                    </div>
-                </div>
-                <div class="form-group" style="display: -webkit-box; margin-top: 10px;">
-                    <label for="TableName" class="col-sm-2 control-label text-right" style="padding: 0px; line-height: 32px;">数据表：</label>
-                    <div class="col-sm-10">
-                        <input type="text" name="TableName" class="form-control" placeholder="数据表" value="" />
-                    </div>
-                </div>
-                <div class="form-group" style="display: -webkit-box;">
-                    <label for="SQL" class="col-sm-2 control-label text-right" style="padding: 0px;">SQL：</label>
-                    <div class="col-sm-10">
-                        <textarea name="" class="form-control" placeholder="SQL" rows="3"></textarea>
-                    </div>
-                </div>
-                <div class="form-group" style="display: -webkit-box;">
-                    <label for="Note" class="col-sm-2 control-label text-right" style="padding: 0px;">备注：</label>
-                    <div class="col-sm-10">
-                        <textarea name="Note" class="form-control" placeholder="备注" rows="3"></textarea>
-                    </div>
-                </div>
-                <div class="form-group text-center">
-                    <button type="button" class="btn btn-success" onclick="BntSaveFromData()">保　存</button>
-                </div>
-            </div>
-        </div>
     </form>
     <!-- jQuery 3 -->
     <script src="../../Script/AdminLTE-2.4.2/bower_components/jquery/dist/jquery.min.js"></script>

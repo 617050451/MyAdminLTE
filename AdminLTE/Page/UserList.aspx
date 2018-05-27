@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="{PageName}.aspx.cs" Inherits="AdminLTE.Page.{PageName}" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="UserList.aspx.cs" Inherits="AdminLTE.Page.UserList" %>
 
 <!DOCTYPE html>
 
@@ -89,7 +89,7 @@
             PageConfig.IsWhere = "<%=tableModel.TableModel.IsWhere.ToString()%>";
             PageConfig.IsChoice = "<%=tableModel.TableModel.IsChoice.ToString()%>";
             PageConfig.Columns = eval(<%=tableModel.ColumnsJson%>);
-            setTimeout(getJsonData("GetDateList","/Page/{PageName}.aspx"), 50);
+            setTimeout(getJsonData("GetDateList","/Page/UserList.aspx"), 50);
         })
         //获取数据后，重写一些方法
         function GetDataSuccess() {

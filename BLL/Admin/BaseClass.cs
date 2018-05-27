@@ -15,7 +15,74 @@ namespace BLL
             // TODO: Add constructor logic here
             //
         }
-
+        //获取单行单列数据
+        public static string GetDataViewSQL(string sql)
+        {
+            DataTable tableJson = DAL.SQLDBHelpercs.ExecuteReaderTable(sql, null);
+            if (tableJson != null && tableJson.Rows.Count > 0)
+                return tableJson.Rows[0][0].ToString();
+            else
+                return "";
+        }
+        //获取单行数据
+        public static DataRow GetDataRowViewSQL(string sql)
+        {
+            DataTable tableJson = DAL.SQLDBHelpercs.ExecuteReaderTable(sql, null);
+            if (tableJson != null && tableJson.Rows.Count > 0)
+                return tableJson.Rows[0];
+            else
+                return null;
+        }
+        //返回一个list<MODEL>
+        public static List<Object> SelectModel(string sql,string tablename)
+        {
+            List<Object> Listobjectdata = new List<Object>();
+            DataSet ds = DAL.SQLDBHelpercs.ExecuteReader(sql, null);
+            if (ds != null && ds.Tables.Count > 0)
+            {
+                DataTable dt = ds.Tables[0];
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    ObjectData objectdata = new ObjectData(tablename);
+                    for (int j = 0; j < dt.Columns.Count; j++)
+                    {
+                        objectdata.SetValue(dt.Columns[j].ColumnName, dt.Rows[i][j].ToString());
+                    }
+                    Listobjectdata.Add(objectdata);
+                }
+            }
+            return Listobjectdata;
+        }
+        //返回实体类对象
+        public static List<T> DataTableToModel<T>(string sql) where T : class, new()
+        {
+            List<T> itemlist = null;
+            DataSet ds = DAL.SQLDBHelpercs.ExecuteReader(sql, null);
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                DataTable source = ds.Tables[0];
+                itemlist = new List<T>();
+                T item = null;
+                Type targettype = typeof(T);
+                Type ptype = null;
+                Object value = null;
+                foreach (DataRow dr in source.Rows)
+                {
+                    item = new T();
+                    foreach (PropertyInfo pi in targettype.GetProperties())
+                    {
+                        if (pi.CanWrite && source.Columns.Contains(pi.Name))
+                        {
+                            ptype = Type.GetType(pi.PropertyType.FullName);
+                            value = Convert.ChangeType(dr[pi.Name], ptype);
+                            pi.SetValue(item, value, null);
+                        }
+                    }
+                    itemlist.Add(item);
+                }
+            }
+            return itemlist;
+        }
         //返回DataTable
         public static DataTable GetDataTable(string strSql)
         {
@@ -25,26 +92,11 @@ namespace BLL
             else
                 return null;
         }
+        //返回DataSet
         public static DataSet GetDataSet(string strSql)
         {
             DataSet ds = DAL.SQLDBHelpercs.ExecuteReader(strSql, null);
             return ds;
-        }
-      
-        //设置按钮
-        public static string SetBntHtml(DataTable dt)
-        {
-            string bntHtml = "";
-            if (estimate(dt))
-            {
-                if (dt.Rows[0]["insert"].ToString() == "1")
-                    bntHtml += "<button type=\"button\" class=\"btn btn-success btn-xs\">新　增</button>&nbsp;";
-                if (dt.Rows[0]["update"].ToString() == "1")
-                    bntHtml += "<button type=\"button\" class=\"btn btn-warning btn-xs\">修　改</button>&nbsp;";
-                if (dt.Rows[0]["delete"].ToString() == "1")
-                    bntHtml += "<button id=\"deleteGUID\" tableValue=\"\" type=\"button\" class=\"btn btn-danger btn-xs\">删　除</button>&nbsp;";
-            }
-            return bntHtml;
         }
         //判断dt
         public static bool estimate(DataTable dt)
@@ -59,52 +111,5 @@ namespace BLL
         {
             return "";
         }
-        //显示页面修改保存
-        public static bool SaveUpdateList(DataTable dt, DataTable tableInfo, string guid)
-        {
-            string FieldKey = "";
-            StringBuilder sbSQL = new StringBuilder();
-            string str = "";
-            if (estimate(dt))
-            {
-                for (int i = 0; i < dt.Rows.Count; i++)
-                {
-                    if (dt.Rows[i]["name"].ToString() == "FieldKey")
-                    {
-                        if (i > 0)
-                        {
-                            sbSQL.Append(str.TrimEnd(','));
-                            sbSQL.Append(string.Format(" where TableGUID ='{0}' and FieldKey = '{1}'; ", guid, FieldKey));
-                            str = "";
-                        }
-                        FieldKey = dt.Rows[i]["value"].ToString();
-                        sbSQL.Append(" update[t_TableField] set ");
-                    }
-                    else
-                    {
-                        str += string.Format("[{0}]='{1}',", dt.Rows[i]["name"].ToString(), dt.Rows[i]["value"].ToString());
-                    }
-                }
-                sbSQL.Append(string.Format(str.TrimEnd(',') + " where TableGUID ='{0}' and FieldKey = '{1}'; ", guid, FieldKey));
-                str = "";
-            }
-            if (estimate(tableInfo))
-            {
-                sbSQL.Append(" update t_Tables set ");
-                for (int j = 0; j < tableInfo.Rows.Count; j++)
-                {
-                    str += string.Format("[{0}]='{1}',", tableInfo.Rows[j]["name"].ToString(), tableInfo.Rows[j]["value"].ToString().Replace("'", "''"));
-                }
-                sbSQL.Append(string.Format(str.TrimEnd(',') + " where guid ='{0}' ; ", guid));
-            }
-            return DAL.SQLDBHelpercs.ExecuteNonQuery(sbSQL.ToString(), null, "sql");
-        }
-        //获取表的第一个字段名
-        public static string GetTopOneFileName(string TableName)
-        {
-            string sql = string.Format("Select  top(1)Name FROM SysColumns Where id=Object_Id('{0}')", TableName);
-            return DAL.SQLDBHelpercs.ExecuteReader(sql);
-        }
-        //
     }
 }

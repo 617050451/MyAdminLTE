@@ -28,7 +28,7 @@ namespace AdminLTE.Admin
                         var TableInfo = Request.Form["tableInfo"];
                         DataTable dt = BLL.JsonHelper.DeserializeJsonToObject<DataTable>(PageData);
                         DataTable tableInfodt = BLL.JsonHelper.DeserializeJsonToObject<DataTable>(TableInfo);
-                        if (BLL.BaseClass.SaveUpdateList(dt, tableInfodt, tableGuid))
+                        if (tableModel.SaveUpdateList(dt, tableInfodt))
                         {
                             Response.Write("True");
                             Response.End();
@@ -38,15 +38,16 @@ namespace AdminLTE.Admin
                     {
                         var SetTableInfo = Request.Form["settableinfo"];
                         DataTable SetTableInfodt = BLL.JsonHelper.DeserializeJsonToObject<DataTable>(SetTableInfo);
-                        if (BLL.BaseClass.SaveUpdateList(null, SetTableInfodt, tableGuid))
+                        if (tableModel.SaveUpdateList(null, SetTableInfodt))
                         {
                             Response.Write("True");
                             Response.End();
-                        };
+                        }
                     }
                     else if (GetType == "SetOrder")
                     {
-
+                        Response.Write(tableModel.SetOrder());
+                        Response.End();
                     }
                 }
                 else
@@ -60,7 +61,7 @@ namespace AdminLTE.Admin
         }
         string getSetListHtml(string tableGuid)
         {
-            DataTable dt = tableModel.GetTableFieldInfo();
+            DataTable dt = tableModel.TableFieldInfo;
             StringBuilder sb = new StringBuilder();
             if (BLL.BaseClass.estimate(dt))
             {
@@ -100,39 +101,6 @@ namespace AdminLTE.Admin
                 }
             }
             return sb.ToString();
-        }
-        void SaveHtml()
-        {
-            string PageName = "TableList";
-            string TableGUID = "9D2512E9-6FF4-4E7E-BBB8-23DE83755D17";
-            System.IO.StreamReader h_hovertreeSr = new System.IO.StreamReader(System.Web.HttpContext.Current.Request.MapPath("Temp\\TempPageList.aspx.temp"));
-            string h_hovertreeTemplate = h_hovertreeSr.ReadToEnd();
-            //当前网站根目录物理路径  
-            System.IO.DirectoryInfo h_dir = new System.IO.DirectoryInfo(System.Web.HttpContext.Current.Request.PhysicalApplicationPath);
-            //HoverTreeWeb项目根目录下主页文件  aspx
-            string h_path = string.Format(h_dir.Parent.FullName + "\\AdminLTE\\Page\\{0}.aspx", PageName);
-            if (!File.Exists(h_path))
-            {
-                System.IO.FileStream fs = new System.IO.FileStream(h_path, System.IO.FileMode.Create, System.IO.FileAccess.Write);//创建写入文件             
-                System.IO.StreamWriter h_sw = new System.IO.StreamWriter(fs, Encoding.UTF8);
-                h_sw.Write(h_hovertreeTemplate.Replace("{TableGUID}", TableGUID).Replace("{PageName}", PageName));
-                h_sw.Close();
-                fs.Close();
-            }
-            h_hovertreeSr = new System.IO.StreamReader(System.Web.HttpContext.Current.Request.MapPath("Temp\\TempPageList.aspx.cs.temp"));
-            h_hovertreeTemplate = h_hovertreeSr.ReadToEnd();
-            //HoverTreeWeb项目根目录下主页文件  aspx.cs
-            h_path = string.Format(h_dir.Parent.FullName + "\\AdminLTE\\Page\\{0}.aspx.cs", PageName);
-            if (!File.Exists(h_path))
-            {
-                System.IO.FileStream fs = new System.IO.FileStream(h_path, System.IO.FileMode.Create, System.IO.FileAccess.Write);//创建写入文件             
-                System.IO.StreamWriter h_sw = new System.IO.StreamWriter(fs, Encoding.UTF8);
-                h_sw.Write(h_hovertreeTemplate.Replace("{TableGUID}", TableGUID).Replace("{PageName}", PageName));
-                h_sw.Close();
-                fs.Close();
-            }
-            //end 
-            h_hovertreeSr.Close();
         }
     }
 }

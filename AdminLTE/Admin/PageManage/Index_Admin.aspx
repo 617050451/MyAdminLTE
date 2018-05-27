@@ -134,6 +134,7 @@
         </footer>
         <ul class="contextmenu" style="left: 710px; top: 124px; display: block;">
             <li data-i="refresh"><a href="javascript:void(0)" ><i class="fa fa-refresh"></i> 刷新</a></li>
+            <li data-i="close"><a href="javascript:void(0)"  ><i class="fa fa-refresh"></i> 复制</a></li>
             <li data-i="close"><a href="javascript:void(0)"  ><i class="fa fa-close"></i> 关闭</a></li>
         </ul>
         <!-- Control Sidebar -->

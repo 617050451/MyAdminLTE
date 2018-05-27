@@ -154,7 +154,7 @@ namespace BLL
         public DataSet GetMeanDataTable()
         {
             string sql = string.Format("SELECT * FROM  [t_Mean]");
-            return  DAL.SQLDBHelpercs.ExecuteReader(sql, null);
+            return DAL.SQLDBHelpercs.ExecuteReader(sql, null);
         }       
     }
 }

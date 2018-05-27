@@ -13,32 +13,27 @@ namespace BLL
     {
         public Model.t_Tables TableModel = new Model.t_Tables();
         public DataTable TableFieldInfo = null;
-        public string OneFileName = string.Empty;
+        public static string OneFileName = string.Empty;
         public string ColumnsJson = string.Empty;
         public string GUIDValue = string.Empty;
         public t_TablesClass(string GUID)
         {
             GUIDValue = GUID;
-            TableModel = DataTableToModel<Model.t_Tables>(string.Format("select * from [t_Tables] WHERE [GUID] ='{0}'", GUIDValue))[0];
+            TableModel = BaseClass.DataTableToModel<Model.t_Tables>(string.Format("select * from [t_Tables] WHERE [GUID] ='{0}'", GUIDValue))[0];
             OneFileName = GetTopOneFileName();
-            SetTableFieldInfo();
+            GetTableFieldInfo();
         }
         //获取表的第一个字段名
-        public string GetTopOneFileName()
+        public  string GetTopOneFileName()
         {
             string sql = string.Format("Select  top(1)Name FROM SysColumns Where id=Object_Id('{0}')", TableModel.TableName);
-            return DAL.SQLDBHelpercs.ExecuteReader(sql);
+            return DAL.SQLDBHelpercs.ExecuteReaderView(sql, null);
         }
         //获取TableFiel信息
-        public void SetTableFieldInfo()
+        public void GetTableFieldInfo()
         {
             string sql = string.Format("select  * from [t_TableField] WHERE [TableGUID] ='{0}' order by FieldOrder ", GUIDValue);
-            TableFieldInfo = GetDataTable(sql);
-        }
-        //获取TableFiel信息
-        public DataTable GetTableFieldInfo()
-        {
-            return TableFieldInfo;
+            TableFieldInfo = BaseClass.GetDataTable(sql);
         }
         //获取高级查询
         public string SetStrWhere(DataTable dt)
@@ -104,75 +99,10 @@ namespace BLL
             string sql = string.Format(@"SELECT " + OneFileName + " AS 'ItemID',* FROM (SELECT ROW_NUMBER() OVER(ORDER BY {0}) AS NewRowID,* FROM ({1}) AS NOPOSTNEWTABLE {2})NOPOTST WHERE NOPOTST.NewRowID >={3} AND NOPOTST.NewRowID <= {4}", SQLOrder, SQL, SQLWhere, minNum, maxNum);
             return sql + ";";
         }
-        //返回一个list<MODEL>
-        public  List<Object> SelectModel(string sql)
-        {
-            List<Object> Listobjectdata = new List<Object>();
-            DataSet ds = DAL.SQLDBHelpercs.ExecuteReader(sql, null);
-            if (ds != null && ds.Tables.Count > 0)
-            {
-                DataTable dt = ds.Tables[0];
-                for (int i = 0; i < dt.Rows.Count; i++)
-                {
-                    ObjectData objectdata = new ObjectData(TableModel.TableName);
-                    for (int j = 0; j < dt.Columns.Count; j++)
-                    {
-                        objectdata.SetValue(dt.Columns[j].ColumnName, dt.Rows[i][j].ToString());
-                    }
-                    Listobjectdata.Add(objectdata);
-                }
-            }
-            return Listobjectdata;
-        }
-        //返回DataTable
-        public static DataTable GetDataTable(string strSql)
-        {
-            DataSet ds = DAL.SQLDBHelpercs.ExecuteReader(strSql, null);
-            if (ds != null && ds.Tables.Count > 0)
-                return ds.Tables[0];
-            else
-                return null;
-        }
-        //返回DataSet
-        public static DataSet GetDataSet(string strSql)
-        {
-            DataSet ds = DAL.SQLDBHelpercs.ExecuteReader(strSql, null);
-            return ds;
-        }
-        //返回实体类对象
-        public static List<T> DataTableToModel<T>(string sql) where T : class, new()
-        {
-            List<T> itemlist = null;
-            DataSet ds = DAL.SQLDBHelpercs.ExecuteReader(sql, null);
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-            {
-                DataTable source = ds.Tables[0];
-                itemlist = new List<T>();
-                T item = null;
-                Type targettype = typeof(T);
-                Type ptype = null;
-                Object value = null;
-                foreach (DataRow dr in source.Rows)
-                {
-                    item = new T();
-                    foreach (PropertyInfo pi in targettype.GetProperties())
-                    {
-                        if (pi.CanWrite && source.Columns.Contains(pi.Name))
-                        {
-                            ptype = Type.GetType(pi.PropertyType.FullName);
-                            value = Convert.ChangeType(dr[pi.Name], ptype);
-                            pi.SetValue(item, value, null);
-                        }
-                    }
-                    itemlist.Add(item);
-                }
-            }
-            return itemlist;
-        }
         //设置表格
         public string GetTableHtml()
         {
-            DataTable dt = GetTableFieldInfo();
+            DataTable dt = TableFieldInfo;
             StringBuilder sb = new StringBuilder();
             StringBuilder sbjson = new StringBuilder();
             string BntHtml = string.Empty;
@@ -245,7 +175,7 @@ namespace BLL
         //设置高级查询
         public string SetStrWhereHtml()
         {
-            DataTable dt = GetTableFieldInfo();
+            DataTable dt = TableFieldInfo;
             string strHtml = "";
             if (TableModel.IsWhere == 1)
             {
@@ -268,7 +198,7 @@ namespace BLL
                                 strHtml += "<select name=\"" + dt.Rows[i]["FieldKey"].ToString() + "|" + dt.Rows[i]["SelectType"].ToString() + "\" class=\"form-control select2 select2-hidden-accessible\"  tabindex=\"-1\" aria-hidden=\"true\" >";
                                 strHtml += "<option selected = \"selected\" value = \"0\" >全部</option >";
                                 string tsql = dt.Rows[i]["SelectData"].ToString();
-                                DataTable tsqldt = GetDataTable(tsql);
+                                DataTable tsqldt = BaseClass.GetDataTable(tsql);
                                 if (tsqldt != null && tsqldt.Rows.Count > 0)
                                 {
                                     for (int j = 0; j < tsqldt.Rows.Count; j++)
@@ -318,7 +248,7 @@ namespace BLL
                 MatchCollection mc = reg.Matches(resul);
                 foreach (Match m in mc)
                 {
-                    resul = resul.Replace("{" + m.Value + "}", GetDataViewSQL(string.Format(sql, m.Value)));
+                    resul = resul.Replace("{" + m.Value + "}", BaseClass.GetDataViewSQL(string.Format(sql, m.Value)));
                 }
                 result += "<span class='label label-" + color[i] + "' style='font-size: small'>" + resul + "</span>&nbsp;";
             }
@@ -330,7 +260,7 @@ namespace BLL
             string strwhere = SetStrWhere(dt);
             string sumsqlStr = GetTSQL(TableModel.SQL, "COUNT(" + OneFileName + ") as COUNTS", strwhere, "", false);
             string sqlStr = PageBySQL(TableModel.SQL, TableModel.TableName, OneFileName, strwhere, order, PageIndex, PageSize);
-            DataSet ds = GetDataSet(sqlStr + sumsqlStr);
+            DataSet ds = BaseClass.GetDataSet(sqlStr + sumsqlStr);
             if (ds != null)
             {
                 DataTable tableJson = ds.Tables[0];
@@ -355,22 +285,13 @@ namespace BLL
                 return "{\"total\":" + 0 + ",\"page\":0,\"limit\":" + PageSize + ",\"data\":[]}";
             }
         }
-        //获取单条数据
-        public  string GetDataViewJson(string IdentityValue)
+        //获取表格单条数据
+        public string GetDataViewJson(string IdentityValue)
         {
             string sql = string.Format("select * from {0} where {1}='{2}'", TableModel.TableName, OneFileName, IdentityValue);
             DataTable tableJson = DAL.SQLDBHelpercs.ExecuteReaderTable(sql, null);
             if (tableJson != null && tableJson.Rows.Count > 0)
                 return JsonHelper.DataTableToJsonWithJsonNet(tableJson);
-            else
-                return "";
-        }
-        //获取单行单列数据
-        public string GetDataViewSQL(string sql)
-        {
-            DataTable tableJson = DAL.SQLDBHelpercs.ExecuteReaderTable(sql, null);
-            if (tableJson != null && tableJson.Rows.Count > 0)
-                return tableJson.Rows[0][0].ToString();
             else
                 return "";
         }
@@ -383,10 +304,10 @@ namespace BLL
             {
                 fieldata = fieldata.Replace("row." + item.Key, item.Value);
             }
-            return GetDataViewSQL(fieldata.Replace("\"", "'"));
+            return BaseClass.GetDataViewSQL(fieldata.Replace("\"", "'"));
         }
         //新增数据
-        public  bool InsertModel(ObjectData model)
+        public string InsertModel(ObjectData model)
         {
             var obj = model.GetValues();
             StringBuilder commandText = new StringBuilder(" insert into ");
@@ -398,7 +319,7 @@ namespace BLL
             foreach (var item in pros)
             {
                 string fieldName = item;
-                if (!fieldName.ToUpper().Equals(OneFileName == null ? "" : OneFileName.ToUpper()))
+                if (!fieldName.ToUpper().Equals(OneFileName.ToUpper()))
                 {
                     var fieldValue = model.GetValue(fieldName);
                     if (model.IsSet(fieldName))//是否赋值了
@@ -418,7 +339,48 @@ namespace BLL
             commandText.Append(" ) values ( ");
             commandText.Append(paramStr.ToString().TrimEnd(','));
             commandText.Append(" ) ");//拼接成完整的字符串
-            return DAL.SQLDBHelpercs.ExecuteNonQuery(commandText.ToString(), param, "sql");
+            commandText.Append(";select SCOPE_IDENTITY()");
+            return DAL.SQLDBHelpercs.ExecuteReaderView(commandText.ToString(), param);
+        }
+        //新增数据
+        public string InsertModel(ObjectData model, string ItemGuID)
+        {
+            var obj = model.GetValues();
+            StringBuilder commandText = new StringBuilder(" insert into ");
+            string tableName = model.TableName;//表名称
+            var pros = model.GetValues().Keys;//所有字段名称
+            StringBuilder fieldStr = new StringBuilder();//拼接需要插入数据库的字段
+            StringBuilder paramStr = new StringBuilder();//拼接每个字段对应的参数
+            List<SqlParameter> paramlist = new List<SqlParameter>();
+            foreach (var item in pros)
+            {
+                string fieldName = item;
+                if (!fieldName.ToUpper().Equals(OneFileName.ToUpper()))
+                {
+                    var fieldValue = model.GetValue(fieldName);
+                    if (model.IsSet(fieldName))//是否赋值了
+                    {
+                        //非自动增长字段才加入SQL语句
+                        fieldStr.Append("[" + fieldName + "],");
+                        paramStr.Append("@" + fieldName + ",");
+                        if (fieldValue == null) fieldValue = DBNull.Value;//如果该值为空的话,则将其转化为数据库的NULL
+                        paramlist.Add(new SqlParameter(fieldName, fieldValue));//给每个参数赋值
+                    }
+                }
+            }
+            //非自动增长字段才加入SQL语句
+            fieldStr.Append("[GUID]");
+            paramStr.Append("@GUID");
+            paramlist.Add(new SqlParameter("GUID", ItemGuID));//给每个参数赋值
+            SqlParameter[] param = paramlist.ToArray();
+            commandText.Append(tableName);
+            commandText.Append(" ( ");
+            commandText.Append(fieldStr.ToString().TrimEnd(','));
+            commandText.Append(" ) values ( ");
+            commandText.Append(paramStr.ToString().TrimEnd(','));
+            commandText.Append(" ) ");//拼接成完整的字符串
+            commandText.Append(";select '" + ItemGuID + "'");
+            return DAL.SQLDBHelpercs.ExecuteReaderView(commandText.ToString(), param);
         }
         //修改
         public bool UpdateModel(ObjectData model, string IdentityValue)
@@ -454,8 +416,96 @@ namespace BLL
         //删除
         public  bool DeleteData(string IdentityValue)
         {
-            string DelSql = string.Format("DELETE FROM [t_Tables] WHERE {0} IN({1})", OneFileName, IdentityValue);
+            string DelSql = string.Format("DELETE FROM {0} WHERE {1} IN({2})", TableModel.TableName, OneFileName, IdentityValue);
             return DAL.SQLDBHelpercs.ExecuteNonQuery(DelSql, null, "sql");
+        }
+        //判断dt
+        public static bool estimate(DataTable dt)
+        {
+            if (dt != null && dt.Rows.Count > 0)
+                return true;
+            else
+                return false;
+        }
+        //显示页面修改保存
+        public  bool SaveUpdateList(DataTable dt, DataTable tableInfo)
+        {
+            string FieldKey = "";
+            StringBuilder sbSQL = new StringBuilder();
+            string str = "";
+            if (estimate(dt))
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    if (dt.Rows[i]["name"].ToString() == "FieldKey")
+                    {
+                        if (i > 0)
+                        {
+                            sbSQL.Append(str.TrimEnd(','));
+                            sbSQL.Append(string.Format(" where TableGUID ='{0}' and FieldKey = '{1}'; ", GUIDValue, FieldKey));
+                            str = "";
+                        }
+                        FieldKey = dt.Rows[i]["value"].ToString();
+                        sbSQL.Append(" update[t_TableField] set ");
+                    }
+                    else
+                    {
+                        str += string.Format("[{0}]='{1}',", dt.Rows[i]["name"].ToString(), dt.Rows[i]["value"].ToString());
+                    }
+                }
+                sbSQL.Append(string.Format(str.TrimEnd(',') + " where TableGUID ='{0}' and FieldKey = '{1}'; ", GUIDValue, FieldKey));
+                str = "";
+            }
+            if (estimate(tableInfo))
+            {
+                sbSQL.Append(" update t_Tables set ");
+                for (int j = 0; j < tableInfo.Rows.Count; j++)
+                {
+                    str += string.Format("[{0}]='{1}',", tableInfo.Rows[j]["name"].ToString(), tableInfo.Rows[j]["value"].ToString().Replace("'", "''"));
+                }
+                sbSQL.Append(str.TrimEnd(',') + string.Format(" where guid ='{0}' ; ", GUIDValue));
+            }
+            return DAL.SQLDBHelpercs.ExecuteNonQuery(sbSQL.ToString(), null, "sql");
+        }
+        //自动排序
+        public bool SetOrder()
+        {
+            DataTable dt = BaseClass.GetDataTable(TableModel.SQL.ToUpper().Replace("SELECT", "SELECT TOP(1) "));
+            if (dt != null && dt.Columns.Count > 0)
+            {
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < dt.Columns.Count; i++)
+                {
+                    sb.Append("update  [t_TableField] set FieldOrder=" + (i + 1) + " where FieldKey='" + dt.Columns[i].ColumnName + "'; ");
+                }
+                return DAL.SQLDBHelpercs.ExecuteNonQuery(sb.ToString(), null, "sql");
+            }
+            else
+                return false;
+        }
+        //更新TableFieldInfo数据
+        public bool SetTableFieldInfo()
+        {
+            DataTable dt = BaseClass.GetDataTable(string.Format("SELECT FieldKey FROM  [t_TableField] WHERE TableGUID='{0}'", TableModel.GUID));
+            DataTable newdt = BaseClass.GetDataTable(TableModel.SQL.ToUpper().Replace("SELECT", "SELECT TOP(1) "));
+            if (newdt != null && newdt.Columns.Count > 0)
+            {
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < newdt.Columns.Count; i++)
+                {
+                    DataRow[] drs = dt.Select("FieldKey='" + newdt.Columns[i].ColumnName + "'");
+                    if (drs.Length == 0)
+                        sb.Append(string.Format(" INSERT INTO [t_TableField] (TableGUID,FieldKey,FieldValue,FieldOrder) VALUES('{0}','{1}','{2}','{3}');", TableModel.GUID, newdt.Columns[i].ColumnName, newdt.Columns[i].ColumnName, i + 1));
+                    else
+                        dt.Rows.Remove(drs[0]);                       
+                }
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    sb.Append(string.Format(" DELETE [t_TableField] WHERE TableGUID='{0}' AND FieldKey='{1}';", TableModel.GUID, dt.Rows[i]["FieldKey"].ToString()));
+                }
+                return DAL.SQLDBHelpercs.ExecuteNonQuery(sb.ToString(), null, "sql");
+            }
+            return true;
         }
     }
 }

@@ -11,9 +11,7 @@ namespace DAL
     public class SQLDBHelpercs
     {
         private static readonly string strCon = ConfigurationManager.ConnectionStrings["strCon"].ToString();
-
         private static SqlConnection conn;
-
         public static SqlConnection Conn
         {
             get
@@ -34,7 +32,6 @@ namespace DAL
                 return conn;
             }
         }
-
         public static DataSet ExecuteReader(string sql, SqlParameter[] paras)
         {
             try
@@ -44,7 +41,6 @@ namespace DAL
 
                 if (paras != null)
                 {
-                    comm.CommandType = CommandType.StoredProcedure;
                     comm.Parameters.AddRange(paras);
                 }
 
@@ -56,7 +52,33 @@ namespace DAL
 
                 return ds;
             }
-            catch (Exception e)
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+        public static DataSet ExecuteReader(string sql, SqlParameter[] paras,string type)
+        {
+            try
+            {
+
+                SqlCommand comm = new SqlCommand(sql, Conn);
+
+                if (paras != null)
+                {
+                    if (type != "sql") comm.CommandType = CommandType.StoredProcedure;
+                    comm.Parameters.AddRange(paras);
+                }
+
+                SqlDataAdapter da = new SqlDataAdapter(comm);
+
+                DataSet ds = new DataSet();
+
+                da.Fill(ds);
+
+                return ds;
+            }
+            catch (Exception)
             {
                 return null;
             }
@@ -70,7 +92,6 @@ namespace DAL
 
                 if (paras != null)
                 {
-                    comm.CommandType = CommandType.StoredProcedure;
                     comm.Parameters.AddRange(paras);
                 }
 
@@ -90,13 +111,76 @@ namespace DAL
                 return null;
             }
         }
-
-        public static string ExecuteReader(string sql)
+        public static DataTable ExecuteReaderTable(string sql, SqlParameter[] paras, string type)
         {
             try
             {
 
                 SqlCommand comm = new SqlCommand(sql, Conn);
+
+                if (paras != null)
+                {
+                    if (type != "sql") comm.CommandType = CommandType.StoredProcedure;
+                    comm.Parameters.AddRange(paras);
+                }
+
+                SqlDataAdapter da = new SqlDataAdapter(comm);
+
+                DataSet ds = new DataSet();
+
+                da.Fill(ds);
+
+                if (ds != null && ds.Tables.Count > 0)
+                    return ds.Tables[0];
+                else
+                    return null;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+        public static string ExecuteReaderView(string sql, SqlParameter[] paras)
+        {
+            try
+            {
+
+                SqlCommand comm = new SqlCommand(sql, Conn);
+
+                if (paras != null)
+                {
+                    comm.Parameters.AddRange(paras);
+                }
+
+                SqlDataAdapter da = new SqlDataAdapter(comm);
+
+                DataSet ds = new DataSet();
+
+                da.Fill(ds);
+
+                if (ds != null && ds.Tables.Count > 0)
+                    return ds.Tables[0].Rows[0][0].ToString();
+                else
+                    return "";
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+        public static string ExecuteReaderView(string sql, SqlParameter[] paras, string type)
+        {
+            try
+            {
+
+                SqlCommand comm = new SqlCommand(sql, Conn);
+
+                if (paras != null)
+                {
+                    comm.Parameters.AddRange(paras);
+                    if (type != "sql") comm.CommandType = CommandType.StoredProcedure;
+                }
+
                 SqlDataAdapter da = new SqlDataAdapter(comm);
 
                 DataSet ds = new DataSet();
@@ -113,7 +197,6 @@ namespace DAL
                 return null;
             }
         }
-
         public static bool ExecuteNonQuery(string sql, SqlParameter[] paras, string type)
         {
             try
@@ -126,7 +209,7 @@ namespace DAL
                 }
                 return comm.ExecuteNonQuery() > 0;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }

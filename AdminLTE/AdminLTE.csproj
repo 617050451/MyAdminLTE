@@ -70,6 +70,7 @@
     <Content Include="Admin\PageManage\WelcomePage_Admin.aspx" />
     <Content Include="Page\MeanList.aspx" />
     <Content Include="Page\TableList.aspx" />
+    <Content Include="Page\UserList.aspx" />
     <Content Include="Script\AdminLTE-2.4.2\bower_components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.css" />
     <Content Include="Script\AdminLTE-2.4.2\bower_components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.min.css" />
     <Content Include="Script\AdminLTE-2.4.2\bower_components\bootstrap-colorpicker\dist\img\bootstrap-colorpicker\alpha-horizontal.png" />
@@ -6847,6 +6848,10 @@
     </Compile>
     <Compile Include="Page\TableList.aspx.cs">
       <DependentUpon>TableList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Page\UserList.aspx.cs">
+      <DependentUpon>UserList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -36,12 +36,12 @@
 <body>
     <form id="PageForm">
         <section class="content" style="margin-top: -13px;">
-            <div data-resple="iswhere" class="box box-solid">
+            <div data-resple="iswhere" class="box box-solid collapsed-box hidden">
                 <div class="box-header with-border">
                     <h3 class="box-title">高级查询</h3>
                     <div class="box-tools">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                            <i data-resple="isplus" class=""></i>
+                            <i data-resple="isplus" class="fa fa-plus"></i>
                         </button>
                     </div>
                 </div>
@@ -90,7 +90,7 @@
                 <div class="form-group" style="display: -webkit-box;">
                     <label for="SQL" class="col-sm-2 control-label text-right" style="padding: 0px;">SQL：</label>
                     <div class="col-sm-10">
-                        <textarea name="" class="form-control" placeholder="SQL" rows="3"></textarea>
+                        <textarea name="SQL" class="form-control" placeholder="SQL" rows="3"></textarea>
                     </div>
                 </div>
                 <div class="form-group" style="display: -webkit-box;">
@@ -137,8 +137,92 @@
         //CustomCodeStart
         function PageLoad() {
             setTimeout(function () {
-                
+                $("button[name=InsertItemID]").unbind("click");
+                $("button[name=InsertItemID]").click(function () {
+                    LayerOpenHtml('新增页面', $(this).val());
+                });
+                $("button[name=UpdateItemID]").unbind("click");
+                $("button[name=UpdateItemID]").click(function () {
+                    LayerOpenHtml('修改页面', $(this).val());
+                });
             }, 50);
+        }
+        //layer 弹层
+        var Index;
+        function LayerOpenHtml(title, value) {
+            var showHtml = $("#LayerOpenHtml").html();
+            //页面层
+            Index = layer.open({
+                id: value,
+                type: 1,
+                title: title,
+                skin: 'layui-layer-rim', //加上边框
+                area: ['620px', '450px'], //宽高
+                content: showHtml,
+                success: function () {
+                    if (value != undefined && value != null && value != "") {
+                        var param = {};
+                        param.Gettype = 'GetDataView';
+                        param.ChoiceValue = value;
+                        $.ajax({
+                            type: "GET",
+                            url: GetPageName(),
+                            cache: false,  //禁用缓存
+                            data: param,  //传入组装的参数
+                            dataType: "json",
+                            async: false,
+                            success: function (result) {
+                                if (result != null && result != "") {
+                                    var json = result[0];
+                                    $.each(json, function (key, val) {
+                                        $(".layui-layer [name=" + key + "]").val(val);
+                                    });
+                                } else {
+                                    layer.msg("系统繁忙，请稍等.....");
+                                }
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                layer.msg("系统繁忙，请稍等.....");
+                            }
+                        });
+                    }
+                }
+            });
+        }
+        //保存事件
+        function BntSaveFromData() {
+            var FromValues = $(".layui-layer #LayerOpenHtmlFrom").find(fromchildren).serializeArray();
+            var param = {};
+            param.Gettype = 'SaveFromData';
+            param.ChoiceValue = $(".layui-layer-content").attr("ID");
+            param.FromValues = GetFromJson(FromValues);
+            //ajax请求数据
+            $.ajax({
+                type: "GET",
+                url: GetPageName(),
+                cache: false,  //禁用缓存
+                data: param,  //传入组装的参数
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    if (result != null && result[0].code == "100") {
+                        //setTimeout仅为测试延迟效果
+                        setTimeout(function () {
+                            layer.msg('保存成功', {
+                                icon: 1, time: 1500, end: function () {
+                                    layer.close(Index);
+                                    location.reload();
+                                }
+                            });
+                        }, 50);
+                    } else {
+                        layer.msg("系统繁忙，请稍等.....");
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    layer.msg("系统繁忙，请稍等.....");
+                }
+            });
         }
         //CustomCodeEnd
     </script>

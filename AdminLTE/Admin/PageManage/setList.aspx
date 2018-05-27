@@ -66,7 +66,7 @@
                             <td>
                                 <select name="IsDelete" class="form-control select2 select2-hidden-accessible">
                                     <option <%=tableModel.TableModel.IsDelete==1?"selected='selected'":"" %>  value="1">有删除</option>
-                                    <option <%=tableModel.TableModel.IsDelete==1?"selected='selected'":"" %>  value="0">无删除</option>
+                                    <option <%=tableModel.TableModel.IsDelete==0?"selected='selected'":"" %>  value="0">无删除</option>
                                 </select>
                             </td>
                             <td>
@@ -85,7 +85,7 @@
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-info" onclick="bntOrderClick()">自动排序</button>  
                                     <button type="button" class="btn btn-info">更多按钮</button>  
-                                    <button type="button" class="btn btn-success" onclick="bntSaveClick(this)">保&nbsp;存</button>
+                                    <button type="button" class="btn btn-info" onclick="bntSaveClick(this)">保&nbsp;存</button>
                                 </div>
                             </td>
                         </tr>
@@ -109,64 +109,29 @@
             </div>
         </section>
         <div id="setTableInfo" class="hidden">
-            <table class="table" style="border: 1px solid #ddd; text-align: right">
-                <tbody>
-                    <tr>
-                        <td>
-                            <div class="form-group">
-                                <label for="title" class="col-sm-3 control-label">标题：</label>
-                                <div class="col-sm-9">
-                                    <input type="text" name="Title" class="form-control" placeholder="标题" value="<%=tableModel.TableModel.Title %>" />
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="form-group">
-                                <label for="FileName" class="col-sm-3 control-label">页面名称：</label>
-                                <div class="col-sm-9">
-                                    <input type="text" name="FileName" class="form-control" placeholder="页面名称" value="<%=tableModel.TableModel.FileName %>" />
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                     <tr>
-                        <td>
-                            <div class="form-group">
-                                <label for="TableName" class="col-sm-3 control-label">SQL：</label>
-                                <div class="col-sm-9">
-                                    <textarea name="SQL" class="form-control" placeholder="数据" rows="3"><%=tableModel.TableModel.SQL%></textarea>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="form-group">
-                                <label for="TableName" class="col-sm-3 control-label">操作表：</label>
-                                <div class="col-sm-9">
-                                    <textarea name="TableName" class="form-control" placeholder="数据" rows="3"><%=tableModel.TableModel.TableName%></textarea>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="form-group">
-                                <label for="Note" class="col-sm-3 control-label">备注：</label>
-                                <div class="col-sm-9">
-                                    <textarea name="Note" class="form-control" placeholder="备注" rows="3"><%=tableModel.TableModel.Note%></textarea>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr class="text-center">
-                        <td>
-                            <button type="button" class="btn btn-success" onclick="bntSaveTableInfoOnclick()">保存</button></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="col-sm-12" style="margin-top:5px;">
+                <div class="form-group">
+                    <label for="title" class="control-label">标题</label>
+                    <input type="text" name="Title" class="form-control" placeholder="标题" value="<%=tableModel.TableModel.Title %>" />
+                </div>
+                <div class="form-group">
+                    <label for="FileName" class="control-label">页面名称</label>
+                    <input type="text" name="FileName" class="form-control" placeholder="页面名称" value="<%=tableModel.TableModel.FileName %>" />
+                </div>
+                <div class="form-group">
+                    <label for="TableName" class="control-label">SQL</label>
+                    <textarea name="SQL" class="form-control" placeholder="数据" rows="3"><%=tableModel.TableModel.SQL%></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="TableName" class="control-label">操作表</label>
+                    <textarea name="TableName" class="form-control" placeholder="数据" rows="1"><%=tableModel.TableModel.TableName%></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="Note" class="control-label">备注</label>
+                    <textarea name="Note" class="form-control" placeholder="备注" rows="3"><%=tableModel.TableModel.Note%></textarea>
+                </div>
+                <button type="button" class="btn btn-success btn-block" onclick="bntSaveTableInfoOnclick()">保存</button>
+            </div>
         </div>
         <div id="setTableInfoSum" class="hidden">
             <div class="form-group text-center">
@@ -245,7 +210,7 @@
             param.settableinfo = JSON.stringify(settableinfo);
             $.ajax({
                 type: "post",
-                url: pageName(),
+                url: GetPageName(),
                 cache: false,  //禁用缓存
                 data: param,  //传入组装的参数
                 dataType: "text",
@@ -265,12 +230,12 @@
             var settableinfo = $(".layui-layer-content").find("input,textarea").serializeArray();
             //封装请求参数
             var param = {};
-            param.gettype = "setTableData";
+            param.gettype = "SetTableData";
             param.tableguid = tableguid;
             param.settableinfo = JSON.stringify(settableinfo);
             $.ajax({
                 type: "post",
-                url: pageName(),
+                url: GetPageName(),
                 cache: false,  //禁用缓存
                 data: param,  //传入组装的参数
                 dataType: "text",
@@ -292,7 +257,7 @@
                 type: 1,
                 title: '参数设置',
                 skin: 'layui-layer-rim', //加上边框
-                area: ['780px', '540px'], //宽高
+                area: ['780px', '545px'], //宽高
                 content: showHtml
             });
         }
@@ -375,6 +340,7 @@
             layer.close(showIndex);
         }
         function bntOrderClick() {
+            loadding('正在处理，请稍等...');
             var param = {};
             param.gettype = "SetOrder";
             $.ajax({
@@ -384,6 +350,7 @@
                 data: param,  //传入组装的参数
                 dataType: "text",
                 success: function (result) {
+                    debugger;
                     if (result == "True") {
                         layer.msg('操作成功！', {
                             icon: 1, time: 1500, end: function () {

@@ -16,6 +16,8 @@ function getJsonData(type, pageName) {
     if (type == 'select') {
         table.fnClearTable(false);  //清空数据.fnClearTable();//清空数据
         table.fnDestroy(); //还原初始化了的datatable  
+    } else {
+        SetHtml();
     }
     var aTargets = [];
     aTargets[0] = PageConfig.IsChoice - 1;
@@ -86,17 +88,19 @@ function getJsonData(type, pageName) {
             });
         }
     });
-    SetHtml();
 }
 function SetHtml() {
     if (PageConfig.IsPlus == 1) {
         $("div[data-resple='iswhere']").addClass("collapsed-box");
         $("i[data-resple='isplus']").addClass("fa fa-plus");
     } else {
+        $("div[data-resple='iswhere']").removeClass("collapsed-box");
         $("i[data-resple='isplus']").addClass("fa fa-minus");
     }
     if (PageConfig.IsWhere == 0)
         $("div[data-resple='iswhere']").addClass("hidden");
+    else
+        $("div[data-resple='iswhere']").removeClass("hidden");
 }
 //获取url参数
 function getQueryString(key) {
@@ -210,7 +214,7 @@ function DeleteItemID(ChoiceValue) {
                         });
                     } else {
                         layer.msg('操作成功！', {
-                            icon: 1, end: function () {
+                            icon: 1, time:1500, end: function() {
                                 location.reload();
                             }
                         });

@@ -31,22 +31,22 @@ namespace Model
 
 
 
-            switch (fieldname)
-            {
-                case nameof(MyProperty): return isMyProperty;
-            }
+            //switch (fieldname)
+            //{
+            //    case nameof(MyProperty): return isMyProperty;
+            //}
 
 
-            var type = this.GetType();
-            var fields = type.GetFields(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+            //var type = this.GetType();
+            //var fields = type.GetFields(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
 
-            var f = fields.FirstOrDefault(x => x.Name == "is" + fieldname);
-            if (f != null)
-            {
-                return (bool)f.GetValue(this);
-            }
+            //var f = fields.FirstOrDefault(x => x.Name == "is" + fieldname);
+            //if (f != null)
+            //{
+            //    return (bool)f.GetValue(this);
+            //}
 
-            return false;
+            //return false;
         }
     }
 }
