@@ -38,13 +38,31 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="box box-primary">
+                        <div class="box-body" style="line-height:32px;">
+                            <label style="float:left;">选择页面：</label>
+                            <div class="col-xs-6">
+                                <select class="form-control" style="float:left;" onchange="SelectTable(this)" id="selecttable">
+                                    <%=OptionList %>
+                                </select>
+                            </div>
+                            <label style="float:left;">搜索：</label>
+                            <div class="col-xs-4" style="float:left;">
+                                <input type="text" class="form-control" placeholder="页面名称" oninput="OnInput (event)" onpropertychange="OnPropChanged (event)"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box box-primary">
                         <div class="box-body">
-                            <ul class="nav nav-tabs">
-                                <li class="active"><a href="javascript:void(0)" data-src="setList.aspx?tableguid=A42FD013-6E06-4967-AD1E-8B1F09343D2E">显示页面</a></li>
+                            <ul class="nav nav-tabs" id="selectnav">
+                                <li class="active"><a href="javascript:void(0)" data-src="">显示页面</a></li>
                                 <li><a href="javascript:void(0)" data-src="#">新增页面</a></li>
                                 <li><a href="javascript:void(0)" data-src="#">修改页面</a></li>
                             </ul>
-                            <iframe id="ifmSetPage" src="setList.aspx?tableguid=A42FD013-6E06-4967-AD1E-8B1F09343D2E" style="width:100%;height:auto;border:none;min-height:800px;"></iframe>
+                            <iframe id="ifmSetPage"  style="width:100%;height:auto;border:none;min-height:800px;"></iframe>
                         </div>
                         <!-- /.box-body -->
                     </div>
@@ -68,14 +86,45 @@
     <script src="../../Script/AdminLTE-2.4.2/bower_components/fastclick/lib/fastclick.js"></script>
     <!-- AdminLTE App -->
     <script src="../../Script/AdminLTE-2.4.2/dist/js/adminlte.min.js"></script>
+    <script src="../../Script/js/cyfs.js"></script>
     <script> 
+         var url = "setList.aspx";
         $(document).ready(function () {
+            var value = $("#selecttable").val();
+            $("#selectnav li a:eq(0)").attr("data-src", url + "?ItemGUID=" + value);
             $(".box-body ul li a").click(function () {
                 $(".box-body ul li").removeClass("active");
                 $(this).parent().addClass("active");
                 $("#ifmSetPage").prop("src", $(this).attr("data-src"));
             });
+            $(".box-body ul li a:eq(0)").click();
         });
+
+        function OnInput(event) {
+            var text = event.target.value;
+            if (text == "") {
+                $("#selecttable option").show();
+            } else {
+                $("#selecttable option").each(function () {
+                    var value = $(this).attr("page-title");
+                    var name = $(this).attr("page-name");
+                    if (value.isLike(text, 0) || name.isLike(text, 0)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            }
+            $("#selecttable").val("");
+        }
+        function OnPropChanged (event) {
+            if (event.propertyName.toLowerCase () == "value") {
+                alert ("The new content: " + event.srcElement.value);
+            }
+        }
+        function SelectTable(obj) {
+            $("#ifmSetPage").attr("src", url + "?ItemGUID=" + $(obj).val());
+        }
     </script>
 </body>
 </html>

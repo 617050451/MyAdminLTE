@@ -6820,9 +6820,6 @@
     <Compile Include="Admin\HomePage\Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Admin\PageManage\SetList.aspx.designer.cs">
-      <DependentUpon>SetList.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Admin\PageManage\TempPage.aspx.cs">
       <DependentUpon>TempPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

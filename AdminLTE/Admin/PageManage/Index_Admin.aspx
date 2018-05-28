@@ -249,6 +249,10 @@
             background-color: white;
             padding-top: 20px;
         }
+        #tabnav span:hover {
+            background-color:red;
+            color:#f4f4f4;
+        }
     </style>
     <script type="text/javascript">
         $(window).on('load', function () {
@@ -279,7 +283,7 @@
                 $("#tabnav li[menu-moid='" + moid + "']").addClass("active");
                 $(".content[menu-moid='" + moid + "']").show();
             } else {
-                $("#tabnav").append("<li class=\"active\" menu-controller=\"" + controller + "\" menu-moid=\"" + moid + "\"><a  href=\"javascript:setPage(" + moid + ")\" >" + text + "<i style=\"float:right;margin-top:-10px;margin-left:10px;margin-right:-15px;cursor:pointer;\" class=\"fa fa-fw fa-close\" onclick=\"CloseTabFun(" + moid + ")\"></i></a></li>");
+                $("#tabnav").append("<li class=\"active\" menu-controller=\"" + controller + "\" menu-moid=\"" + moid + "\"><a  href=\"javascript:setPage(" + moid + ")\" >" + text + "<span style=\"margin-left:7px;cursor:pointer;border-radius: 19px;padding-right:1px;padding-bottom:1px;\"><i class=\"fa fa-fw fa-close\" onclick=\"CloseTabFun(" + moid + ")\"></i><span></a></li>");
                 $(".content-header").parent().append("<section class=\"content\" menu-type=\"nav-tabs\" menu-moid=\"" + moid + "\" style=\"margin-top:-35px;\"><iframe src=\"" + controller + "\" ></iframe></section>");
                 contextmenuclick();              
             }

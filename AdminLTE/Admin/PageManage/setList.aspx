@@ -103,7 +103,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <asp:Literal ID="ltlTable" runat="server"></asp:Literal>
+                        <%=GetSetListHtml(ItemGUID) %>
                     </tbody>
                 </table>
             </div>

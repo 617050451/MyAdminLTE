@@ -34,7 +34,7 @@ namespace BLL
                 return null;
         }
         //返回一个list<MODEL>
-        public static List<Object> SelectModel(string sql,string tablename)
+        public static List<Object> SelectModel(string sql, string tablename)
         {
             List<Object> Listobjectdata = new List<Object>();
             DataSet ds = DAL.SQLDBHelpercs.ExecuteReader(sql, null);
@@ -110,6 +110,12 @@ namespace BLL
         public static string GetValueForKey(string key)
         {
             return "";
+        }
+        //获取全部表格数据
+        public static List<Model.t_Tables> GetAllTableModelList()
+        {
+            List<Model.t_Tables> DataTableModel = DataTableToModel<Model.t_Tables>("SELECT * FROM T_TABLES");
+            return DataTableModel;
         }
     }
 }

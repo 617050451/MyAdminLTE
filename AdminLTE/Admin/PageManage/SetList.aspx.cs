@@ -13,10 +13,11 @@ namespace AdminLTE.Admin
     public partial class SetList : BasePage
     {
         public BLL.t_TablesClass tableModel;
+        public string ItemGUID = string.Empty;
         protected void Page_Load(object sender, EventArgs e)
         {
-            string tableGuid = Request["tableguid"];
-            tableModel = new BLL.t_TablesClass(tableGuid);
+            ItemGUID = Request["ItemGUID"];
+            tableModel = new BLL.t_TablesClass(ItemGUID);
             if (!IsPostBack)
             {
                 string GetType = Request.Form["gettype"];
@@ -40,6 +41,8 @@ namespace AdminLTE.Admin
                         DataTable SetTableInfodt = BLL.JsonHelper.DeserializeJsonToObject<DataTable>(SetTableInfo);
                         if (tableModel.SaveUpdateList(null, SetTableInfodt))
                         {
+                            //更新TableFieldInfo信息
+                            tableModel.SetTableFieldInfo();
                             Response.Write("True");
                             Response.End();
                         }
@@ -50,16 +53,9 @@ namespace AdminLTE.Admin
                         Response.End();
                     }
                 }
-                else
-                {
-                    if (tableGuid != null)
-                    {
-                        ltlTable.Text = getSetListHtml(tableGuid);
-                    }
-                }
             }
         }
-        string getSetListHtml(string tableGuid)
+        public string GetSetListHtml(string ItemGUID)
         {
             DataTable dt = tableModel.TableFieldInfo;
             StringBuilder sb = new StringBuilder();
