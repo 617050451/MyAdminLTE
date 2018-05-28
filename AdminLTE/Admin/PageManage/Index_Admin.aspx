@@ -134,7 +134,7 @@
         </footer>
         <ul class="contextmenu" style="left: 710px; top: 124px; display: block;">
             <li data-i="refresh"><a href="javascript:void(0)" ><i class="fa fa-refresh"></i> 刷新</a></li>
-            <li data-i="close"><a href="javascript:void(0)"  ><i class="fa fa-refresh"></i> 复制</a></li>
+            <li data-i="copy"><a href="javascript:void(0)"  ><i class="fa fa-fw fa-share-square-o"></i> 复制</a></li>
             <li data-i="close"><a href="javascript:void(0)"  ><i class="fa fa-close"></i> 关闭</a></li>
         </ul>
         <!-- Control Sidebar -->
@@ -284,14 +284,12 @@
                 $(".content[menu-moid='" + moid + "']").show();
             } else {
                 $("#tabnav").append("<li class=\"active\" menu-controller=\"" + controller + "\" menu-moid=\"" + moid + "\"><a  href=\"javascript:setPage(" + moid + ")\" >" + text + "<span style=\"margin-left:7px;cursor:pointer;border-radius: 19px;padding-right:1px;padding-bottom:1px;\"><i class=\"fa fa-fw fa-close\" onclick=\"CloseTabFun(" + moid + ")\"></i><span></a></li>");
-                $(".content-header").parent().append("<section class=\"content\" menu-type=\"nav-tabs\" menu-moid=\"" + moid + "\" style=\"margin-top:-35px;\"><iframe src=\"" + controller + "\" ></iframe></section>");
-                contextmenuclick();              
+                $(".content-header").parent().append("<section class=\"content\" menu-type=\"nav-tabs\" menu-moid=\"" + moid + "\" style=\"margin-top:-35px;\"><iframe src=\"" + controller + "\" ></iframe></section>");            
             }
-            setiframeHeigth();
+            setPage(moid)
         }
         //page跳转
         function setPage(moid) {
-            setiframeHeigth();
             var index = $("#tabnav li[menu-moid='" + moid + "']").length;
             if (index > 0) {
                 $("#tabnav li").removeClass("active");
@@ -299,6 +297,8 @@
                 $(".content[menu-type='nav-tabs']").hide();
                 $(".content[menu-moid='" + moid + "']").show();
             }
+            setiframeHeigth();
+            contextmenuclick();
         }
         //关闭tab
         function CloseTabFun(moid) {
@@ -315,7 +315,6 @@
         //右键菜单
         var rgmoid = 1000;
         $(function () {
-            contextmenuclick();
             //Hide contextmenu:
             $(document).click(function () {
                 $(".contextmenu").hide();
@@ -328,6 +327,10 @@
                 }
                 else if (name == "close") {
                     CloseTabFun(rgmoid);
+                }
+                else if (name == "copy") {
+                    var title = $("#tabnav li[menu-moid='" + rgmoid + "'] a").text();
+                    TopPagePreview(title, controller, rgmoid + '_copy');
                 }
                 $(".contextmenu").hide();
             });
@@ -378,6 +381,17 @@
                 //Prevent browser default contextmenu.
                 return false;
             });
+        }
+        //添加预览页面
+        function TopPagePreview(title, controller, moid) {
+            var index = $("#tabnav li[menu-moid='" + moid + "']").length;
+            if (index == 0) {
+                $("#tabnav li").removeClass("active");
+                $(".content[menu-type='nav-tabs']").hide();
+                $("#tabnav").append("<li class=\"active\" menu-controller=\"" + controller + "\" menu-moid=\"" + moid + "\"><a  href=\"javascript:setPage('" + moid + "')\" >" + title + "<span style=\"margin-left:7px;cursor:pointer;border-radius: 19px;padding-right:1px;padding-bottom:1px;\"><i class=\"fa fa-fw fa-close\" onclick=\"CloseTabFun('" + moid + "')\"></i><span></a></li>");
+                $(".content-header").parent().append("<section class=\"content\" menu-type=\"nav-tabs\" menu-moid=\"" + moid + "\" style=\"margin-top:-35px;\"><iframe src=\"" + controller + "\" ></iframe></section>");
+            }
+            setPage(moid);
         }
     </script>
 </body>

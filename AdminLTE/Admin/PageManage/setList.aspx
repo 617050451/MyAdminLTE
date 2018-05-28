@@ -44,7 +44,10 @@
                                     <button type="button" title="数据设置" class="btn btn-warning" onclick="showTableInfoHtml()">数据设置</button>
                                     <button type="button" title="显示设置" class="btn btn-warning" onclick="showTableInfoHtmlSum()">显示设置</button>
                                     <span class="label label-success"><%=tableModel.TableModel.FileName %></span>
-                                    <span class="label label-success"><%=tableModel.TableModel.TableName %></span></h4>
+                                    <span class="label label-success"><%=tableModel.TableModel.TableName %></span>
+                                    <a href="javascript:PagePreview('<%=tableModel.TableModel.Title %>','/Page/<%=tableModel.TableModel.FileName %>.aspx','<%=tableModel.TableModel.GUID %>')">
+                                    <span class="label label-primary">页面预览</span></a>
+                                </h4>
                             </td>
                             <td>
                                 <select name="IsChoice" class="form-control select2 select2-hidden-accessible">
@@ -75,7 +78,7 @@
                                     <option <%=tableModel.TableModel.IsWhere==0?"selected='selected'":"" %>  value="0">无查询</option>
                                 </select>
                             </td>
-                             <td>
+                            <td>
                                 <select name="IsPlus" class="form-control select2 select2-hidden-accessible">
                                     <option <%=tableModel.TableModel.IsPlus==1?"selected='selected'":"" %>  value="1">折叠</option>
                                     <option <%=tableModel.TableModel.IsPlus==0?"selected='selected'":"" %>  value="0">展开</option>
@@ -360,6 +363,10 @@
                     }
                 }
             });
+        }
+        //页面预览
+        function PagePreview(title, url, moid) {
+            $(top.TopPagePreview(title, url, moid))
         }
     </script>
 </body>
