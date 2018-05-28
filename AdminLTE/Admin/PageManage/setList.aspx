@@ -87,7 +87,7 @@
                             <td style="width:240px;border: none;">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-info" onclick="bntOrderClick()">自动排序</button>  
-                                    <button type="button" class="btn btn-info">更多按钮</button>  
+                                    <button type="button" class="btn btn-info" onclick="showMoreButtonsHtml()">更多按钮</button>  
                                     <button type="button" class="btn btn-info" onclick="bntSaveClick(this)">保&nbsp;存</button>
                                 </div>
                             </td>
@@ -141,6 +141,58 @@
                 <p style="margin-top:3px;"><span style="color: blue;">聚合显示例子(一般例子)：</span>记录总条数：{count(guid)}（条）</p>
                 <textarea name="CountData" class="form-control" placeholder="聚合显示" rows="10"><%=tableModel.TableModel.CountData%></textarea>
                 <button type="button" class="btn btn-success btn-block" onclick="bntSaveTableInfoOnclickSum()" style="margin-top:5px;">保存</button>
+            </div>
+        </div>
+        <div id="MoreButtons" class="text-left hidden">
+            <div class="col-sm-12" style="margin-top: 5px;">
+                <div class="form-group" style="margin-bottom:5px;">
+                    <label for="BntName" class="control-label">按钮名称</label>
+                    <input type="text" name="BntName" class="form-control" placeholder="按钮名称" value="" />
+                </div>
+                <div class="form-group" style="margin-bottom:5px;">
+                    <label for="BntAction" class="control-label">执行动作</label>
+                    <select class="form-control" name="BntAction">
+                        <option value="1">弹层（页面）</option>
+                        <option value="2">新开（页面）</option>
+                        <option value="3">脚本</option>
+                        <option value="4">SQL</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin-bottom:5px;">
+                    <label for="ConfirmText" class="control-label">询问框内容</label>
+                    <input type="text" name="ConfirmText" class="form-control" placeholder="询问框内容" />
+                </div>
+                <div class="form-group" style="margin-bottom:5px;">
+                    <label for="BntActionContent" class="control-label">执行内容</label>
+                    <textarea name="BntActionContent" class="form-control" placeholder="执行内容" rows="3"></textarea>
+                </div>
+                <div class="form-group text-left" style="margin-bottom:5px;">
+                    <div  class="col-sm-6" >
+                        <label for="Widths" class="control-label">弹层宽度</label>
+                        <input type="text" name="Widths" class="form-control" placeholder="弹层宽度" />
+                    </div>
+                    <div  class="col-sm-6" >
+                        <label for="Heigths" class="control-label">弹层高度</label>
+                        <input type="text" name="Heigths" class="form-control" placeholder="弹层高度" />
+                    </div>
+                </div>
+                <div class="form-group" style="margin-bottom:5px;"> 
+                    <label for="BntActionCondition" class="control-label" style="margin-top:5px;">执行条件</label>    
+                    <select class="form-control">
+                        <option value="1">执行</option>
+                        <option value="2">动态（前台判断）</option>
+                        <option value="3">动态（后台判断）</option>
+                    </select>                
+                    <textarea name="BntActionCondition" class="form-control" placeholder="执行条件" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="BntIsEnable" class="control-label">是否启用</label>
+                     <select class="form-control" name="BntIsEnable">
+                        <option value="1">启用</option>
+                        <option value="0">禁用</option>
+                    </select>
+                </div>
+                <button type="button" class="btn btn-success btn-block" onclick="bntSaveTableInfoOnclick()">保存</button>
             </div>
         </div>
     </form>
@@ -253,6 +305,17 @@
                 }
             });
         }
+        function showMoreButtonsHtml() {
+            var showHtml = $("#MoreButtons").html();
+            //页面层
+            layer.open({
+                type: 1,
+                title: '参数设置',
+                skin: 'layui-layer-rim', //加上边框
+                area: ['900px', '675px'], //宽高
+                content: showHtml
+            });
+        }
         function showTableInfoHtml() {
             var showHtml = $("#setTableInfo").html();
             //页面层
@@ -307,7 +370,7 @@
                 showHtml += "<p><span style=\"color: blue;\">固定前台转换(一般例子)：</span>data == 1?\"启用\":\"禁用\"　　data：</span>最终显示的值</p><p><span style=\"color: blue;\">特殊例子：</span><span>\"<标签>\" + data + \"<标签>\"　　也可以是JQ语句&nbsp;alert(data);</span><p/><p> <span style=\"color: blue;\">row：</span>当前行所有字段的对象（row.[字段] 字段名必须一致）（不执行二次转换）</p>";
                 showHtml += "<textarea name=\"FieldData\" class=\"form-control\" placeholder=\"数据呈现\" rows=\"10\">" + values + "</textarea>";
             } else if (FieldDataTypeValue == "3") {
-                showHtml += "<p><span style=\"color: blue;\">动态前台转换(例子)：</span>select [字段] from [表名] where  [字段] =\"row.[列表所有的字段]\"</p><p> <span style=\"color: blue;\">&nbsp;row：</span>当前行所有字段的对象（row.[字段] 字段名必须一致）（异步请求转换）</p>";
+                showHtml += "<p><span style=\"color: blue;\">动态前台转换(例子)：</span>select [字段] from [表名] where  [字段] =\"row.[列表所有的字段]\"</p><p> <span style=\"color: blue;\">&nbsp;row：</span>当前行所有字段的对象（row.[字段] 字段名必须一致）（异步请求转换）单引号统一使用双引号</p>";
                 showHtml += "<textarea name=\"FieldData\" class=\"form-control\" placeholder=\"数据呈现\" rows=\"11\">" + values + "</textarea>";
             }
             else if (FieldDataTypeValue == "4") {

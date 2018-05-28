@@ -69,6 +69,7 @@
     <Content Include="Admin\PageManage\SetPages.aspx" />
     <Content Include="Admin\PageManage\WelcomePage_Admin.aspx" />
     <Content Include="Page\MeanList.aspx" />
+    <Content Include="Page\MoreButtonList.aspx" />
     <Content Include="Page\TableList.aspx" />
     <Content Include="Page\UserList.aspx" />
     <Content Include="Script\AdminLTE-2.4.2\bower_components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.css" />
@@ -6841,6 +6842,10 @@
     </Compile>
     <Compile Include="Page\MeanList.aspx.cs">
       <DependentUpon>MeanList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Page\MoreButtonList.aspx.cs">
+      <DependentUpon>MoreButtonList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Page\TableList.aspx.cs">

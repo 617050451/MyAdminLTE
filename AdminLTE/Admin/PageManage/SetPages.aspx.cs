@@ -23,7 +23,7 @@ namespace AdminLTE.Admin.Temp
             StringBuilder sb = new StringBuilder();
             foreach (var item in data)
             {
-                sb.Append("<option value=\"" + item.GUID + "\" page-title=\"" + item.Title + "\" page-name=\"" + item.FileName + "\">页面标题：[ " + item.Title + " ]　页面名称：[ " + item.FileName + " ]" + (item.Note == "" ? "" : "　说明：[ " + item.Note + " ]") + "</option>");
+                sb.Append("<option value=\"" + item.GUID + "\" page-title=\"" + item.Title + "\" page-name=\"" + item.FileName + "\">[ " + item.Title + " ]　[ " + item.FileName + " ]" + (item.Note == "" ? "" : "（" + item.Note + "）") + "</option>");
             }
             OptionList = sb.ToString();
         }
