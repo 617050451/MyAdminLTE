@@ -57,7 +57,7 @@
                             <div id="ltlbnts"  class="pull-left" style="height:24px;" ><%=tableModel.SetBntHtml() %></div>
                             <div id="ltlSum" class="pull-right"  style="height:24px;">
                             </div>
-                            <table id="example" class="table table-bordered table-hover"><%=tableModel.GetTableHtml() %></table>
+                            <table id="example" class="table table-bordered table-hover table-striped"><%=tableModel.GetTableHtml() %></table>
                         </div>
                         <!-- /.box-body -->
                     </div>

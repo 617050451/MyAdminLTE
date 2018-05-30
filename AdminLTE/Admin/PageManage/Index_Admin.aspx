@@ -319,6 +319,7 @@
             $(document).click(function () {
                 $(".contextmenu").hide();
             });
+            $(".contextmenu li").unbind("click");
             $(".contextmenu li").click(function () {
                 var name = $(this).attr("data-i");
                 var controller = $("#tabnav li[menu-moid='" + rgmoid + "']").attr("menu-controller");
@@ -337,6 +338,7 @@
         })
         function contextmenuclick() {
             $(".contextmenu").hide();
+            $("#tabnav li").unbind("contextmenu");
             $("#tabnav li").contextmenu(function (e) {
                 rgmoid = $(this).attr("menu-moid");
                 setPage(rgmoid);

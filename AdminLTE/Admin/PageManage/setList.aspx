@@ -374,15 +374,23 @@
                 showHtml += "<textarea name=\"FieldData\" class=\"form-control\" placeholder=\"数据呈现\" rows=\"11\">" + values + "</textarea>";
             }
             else if (FieldDataTypeValue == "4") {
-                showHtml += "<div class=\"form-group text-left\" >";
-                showHtml += "<label class=\"radio-inline\" style=\"margin-left: 10px;\"><input type=\"radio\" name=\"FieldData\"   value=\"yearM\" " + (values == "yearM" ? "checked" : "") + " >时间格式：2018-05</label>";
-                showHtml += "<label class=\"radio-inline\"><input type=\"radio\"   name=\"FieldData\"  value=\"yearMzw\" " + (values == "yearMzw" ? "checked" : "") + ">日期格式：2018年05月</label>";
-                showHtml += "<label class=\"radio-inline\"><input type=\"radio\"   name=\"FieldData\"  value=\"date\" " + (values == "date" ? "checked" : "") + ">日期格式：2018-05-22</label>";
-                showHtml += "<label class=\"radio-inline\"><input type=\"radio\"   name=\"FieldData\"  value=\"datezw\" " + (values == "datezw" ? "checked" : "") + ">日期格式：2018年05月22日</label>";
-                showHtml += "<label class=\"radio-inline\"><input type=\"radio\" name=\"FieldData\"    value=\"time1\" " + (values == "time" ? "checked" : "") + " >时间格式：2018-05-22 15:33</label>";
-                showHtml += "<label class=\"radio-inline\"><input type=\"radio\" name=\"FieldData\"    value=\"time1zw\" " + (values == "timezw" ? "checked" : "") + " >时间格式：2018年05月日 15时33分</label>";
-                showHtml += "<label class=\"radio-inline\"><input type=\"radio\" name=\"FieldData\"    value=\"time2\" " + (values == "time" ? "checked" : "") + " >时间格式：2018-05-22 15:33:36</label>";
-                showHtml += "<label class=\"radio-inline\"><input type=\"radio\" name=\"FieldData\"    value=\"time2zw\" " + (values == "timezw" ? "checked" : "") + " >时间格式：2018年05月日 15时33分36秒</label>";
+                showHtml += "<div class=\"form-group text-left\">";
+                showHtml += "<table class=\"table table-bordered table-hover\">";
+                showHtml += "<tr>";
+                showHtml += "<td><label class=\"radio-inline\"><input type=\"radio\" name=\"FieldData\"   value=\"yearM\" " + (values == "yearM" ? "checked" : "") + " >时间格式：2018-05</label></td>";
+                showHtml += "<td><label class=\"radio-inline\"><input type=\"radio\"   name=\"FieldData\"  value=\"yearMzw\" " + (values == "yearMzw" ? "checked" : "") + ">日期格式：2018年05月</label></td>";
+                showHtml += "</tr><tr>";
+                showHtml += "<td><label class=\"radio-inline\"><input type=\"radio\"   name=\"FieldData\"  value=\"date\" " + (values == "date" ? "checked" : "") + ">日期格式：2018-05-22</label></td>";
+                showHtml += "<td><label class=\"radio-inline\"><input type=\"radio\"   name=\"FieldData\"  value=\"datezw\" " + (values == "datezw" ? "checked" : "") + ">日期格式：2018年05月22日</label></td>";
+                showHtml += "</tr><tr>";
+                showHtml += "<td><label class=\"radio-inline\"><input type=\"radio\" name=\"FieldData\"    value=\"time1\" " + (values == "time" ? "checked" : "") + " >时间格式：2018-05-22 15:33</label></td>";
+                showHtml += "<td><label class=\"radio-inline\"><input type=\"radio\" name=\"FieldData\"    value=\"time1zw\" " + (values == "timezw" ? "checked" : "") + " >时间格式：2018年05月日 15时33分</label></td>";
+                showHtml += "</tr><tr>";
+                showHtml += "<td><label class=\"radio-inline\"><input type=\"radio\" name=\"FieldData\"    value=\"time2\" " + (values == "time" ? "checked" : "") + " >时间格式：2018-05-22 15:33:36</label></td>";
+                showHtml += "<td><label class=\"radio-inline\"><input type=\"radio\" name=\"FieldData\"    value=\"time2zw\" " + (values == "timezw" ? "checked" : "") + " >时间格式：2018年05月日 15时33分36秒</label></td>";
+                showHtml += "</tr><tr>";
+                showHtml += "<td><label class=\"radio-inline\"><input type=\"radio\" name=\"FieldData\"    value=\"img\" " + (values == "img" ? "checked" : "") + " >图片组</label></td>";
+                showHtml += "</tr></table>";
                 showHtml += "</div>";
             }
             showHtml += "<button type=\"button\" class=\"btn btn-success btn-block\" style=\"margin-top:10px;\" onclick=\"parentFunSetSelectDataZh()\">保　存</button></div>";

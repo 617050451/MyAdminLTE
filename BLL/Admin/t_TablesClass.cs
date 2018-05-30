@@ -99,6 +99,12 @@ namespace BLL
             string sql = string.Format(@"SELECT " + OneFileName + " AS 'ItemID',* FROM (SELECT ROW_NUMBER() OVER(ORDER BY {0}) AS NewRowID,* FROM ({1}) AS NOPOSTNEWTABLE {2})NOPOTST WHERE NOPOTST.NewRowID >={3} AND NOPOTST.NewRowID <= {4}", SQLOrder, SQL, SQLWhere, minNum, maxNum);
             return sql + ";";
         }
+        //获取更多按钮数据
+        public DataTable GetMoreButtonsInfo()
+        {
+            string sql = string.Format("select * from t_MoreButtons where BntIsEnable=1 and TableGUID='{0}'", TableModel.GUID);
+            return BaseClass.GetDataTable(sql);
+        }
         //设置表格
         public string GetTableHtml()
         {
@@ -106,10 +112,16 @@ namespace BLL
             StringBuilder sb = new StringBuilder();
             StringBuilder sbjson = new StringBuilder();
             string BntHtml = string.Empty;
-            if (TableModel.IsChoice == 1)
+            DataTable MoreBntDt = GetMoreButtonsInfo();
+            if (MoreBntDt != null && MoreBntDt.Rows.Count > 0)
             {
-                BntHtml += "<button name = 'UpdateItemID' type = 'button' class='btn btn-warning  btn-xs' value='\" + data + \"'>修　改</button>&nbsp;";
+                foreach (DataRow row in MoreBntDt.Rows)
+                {
+                    BntHtml += "<button name = 'MoreBntItemID' onclick='MoreBntClick(\" + row + \",\" + data + \")' style='margin:2px;' bnt-action='" + row["BntAction"] + "' bnt-confirmtext='" + row["ConfirmText"] + "' bnt-actioncontent='" + row["BntAction"] != "4" ? row["BntActionContent"] : "" + "' type = 'button' class='btn btn-primary  btn-xs' value='\" + data + \"'>" + row["BntName"] + "</button>";
+                }
             }
+            if (TableModel.IsChoice == 1)
+                BntHtml += "<button name = 'UpdateItemID' style='margin:2px;' type = 'button' class='btn btn-warning  btn-xs' value='\" + data + \"'>修　改</button>";
             sb.Append("<thead><tr>");
             if (TableModel.IsChoice == 1)
             {
@@ -118,9 +130,7 @@ namespace BLL
                 sbjson.Append("{\"data\": \"ItemID\", render: function (data, type, row) { return \"<input  name='checkboxItemID' type='checkbox' class='table-checkable'  value='\" + data + \"'/>\"}},");
             }
             else if (TableModel.IsDelete == 1)
-            {
-                BntHtml += "<button name = 'DeleteItemID' type = 'button' class='btn btn-danger  btn-xs' value='\" + data + \"'>删　除</button>&nbsp;";
-            }
+                BntHtml += "<button name = 'DeleteItemID'  type = 'button' class='btn btn-danger  btn-xs' value='\" + data + \"'>删　除</button>&nbsp;";
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 if (dt.Rows[i]["FieldStatusID"].ToString() == "1")
@@ -168,7 +178,10 @@ namespace BLL
                     obj = " SetDateTime(data,\"yyyy-MM-dd HH:mm:ss\"); ";
                 else if (FieldData == "time2zw")
                     obj = " SetDateTime(data,\"yyyy年MM月dd HH时mm分ss秒\"); ";
-                data = ", render: function (data, type, row) {  return " + obj + " }";
+                else if (FieldData == "img")
+                    data = ", render: function (data, type, row) {  SetImgUrl(row,data,function (reData) { data=reData;}); return data; }";
+                else
+                    data = ", render: function (data, type, row) {  return " + obj + " }";
             }
             return data;
         }

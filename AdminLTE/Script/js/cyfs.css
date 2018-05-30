@@ -7,6 +7,9 @@ td {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+td:last-child {
+    white-space: normal;
+}
 
 tr:hover td {
     height: auto;
@@ -35,6 +38,6 @@ tr:hover td {
 }
 #example button {
     border-radius:3px;
-        width: 60px;
+    width: 60px;
     height: 27px;
 }

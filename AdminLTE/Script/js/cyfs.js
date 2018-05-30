@@ -390,3 +390,36 @@ $(function () {
         $(this).css("background-color", "#eee");
     });
 });
+//设置图片
+function SetImgUrl(row, data, endfun) {
+    var srcArr = new Array();
+    srcArr = data.split(',');
+    var redata = "";
+    for (var i = 0; i < srcArr.length; i++) {
+        redata += "<img width='40' src='" + srcArr[i] + "' onclick=\"ShowImgUrl('" + data + "')\" />";
+    }
+    endfun(redata);
+}
+//显示图片
+function ShowImgUrl(src) {
+    var srcArr = new Array(); 
+    srcArr = src.split(',');
+    var srcjson = new Array(); 
+    for (var i = 0; i < srcArr.length; i++) {
+        srcjson.push({ "src": srcArr[i] });
+    }
+    var json = {
+        "title": "", //相册标题
+        "id": 123, //相册id
+        "start": 0, //初始显示的图片序号，默认0
+        "data": srcjson
+    }
+    layer.photos({
+        photos: json //格式见API文档手册页
+        , anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机
+    });
+}
+//更多按钮事件
+function MoreBntClick(row, data) {
+    $(this).attr("bnt-action")
+}
