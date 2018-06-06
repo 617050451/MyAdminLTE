@@ -5,6 +5,8 @@ using System.Text;
 using System.Reflection;
 using System.Data.SqlClient;
 using System.Data;
+using System.Text.RegularExpressions;
+
 namespace BLL
 {
     public class BaseClass
@@ -107,9 +109,15 @@ namespace BLL
                 return false;
         }
         //读取变量
-        public static string GetValueForKey(string key)
+        public static string GetValueForKey(string sql)
         {
-            return "";
+            System.Text.RegularExpressions.Regex reg = new Regex("(?<=sg\\().*?(?=\\))", RegexOptions.IgnoreCase);
+            MatchCollection mc = reg.Matches(sql);
+            foreach (Match m in mc)
+            {
+                sql = sql.Replace("sg(" + m.Value + ")", "'" + m.Value + "'");
+            }
+            return sql;
         }
         //获取全部表格数据
         public static List<Model.t_Tables> GetAllTableModelList()

@@ -214,11 +214,13 @@ namespace BLL
                                 DataTable objdata = JsonHelper.DeserializeJsonToObject<DataTable>(data);
                                 if (objdata != null && objdata.Rows.Count > 0)
                                 {
-                                    if (objdata.Columns.Contains("sql"))
+
+                                    for (int j = 0; j < objdata.Rows.Count; j++)
                                     {
-                                        for (int j = 0; j < objdata.Rows.Count; j++)
+                                        if (objdata.Rows[j][0].ToString().ToUpper() == "SQL")
                                         {
-                                            DataTable tsqldt = BaseClass.GetDataTable(objdata.Rows[1].ToString());
+                                            var sqldata = objdata.Rows[j][1].ToString();
+                                            DataTable tsqldt = BaseClass.GetDataTable(BaseClass.GetValueForKey(sqldata));
                                             if (tsqldt != null && tsqldt.Rows.Count > 0)
                                             {
                                                 for (int m = 0; m < tsqldt.Rows.Count; m++)
@@ -226,11 +228,8 @@ namespace BLL
                                                     strHtml += "<option value = \"" + tsqldt.Rows[m][1].ToString() + "\" >" + tsqldt.Rows[m][0].ToString() + "</option >";
                                                 }
                                             }
-                                        }                                      
-                                    }
-                                    else
-                                    {
-                                        for (int j = 0; j < objdata.Rows.Count; j++)
+                                        }
+                                        else
                                         {
                                             strHtml += "<option value = \"" + objdata.Rows[j][1].ToString() + "\" >" + objdata.Rows[j][0].ToString() + "</option >";
                                         }
@@ -334,7 +333,7 @@ namespace BLL
             {
                 fieldata = fieldata.Replace("row." + item.Key, item.Value);
             }
-            return BaseClass.GetDataViewSQL(fieldata.Replace("\"", "'"));
+            return BaseClass.GetDataViewSQL(BaseClass.GetValueForKey(fieldata));
         }
         //新增数据
         public string InsertModel(ObjectData model)

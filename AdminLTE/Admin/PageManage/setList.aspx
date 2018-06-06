@@ -138,8 +138,45 @@
         </div>
         <div id="setTableInfoSum" class="hidden">
             <div class="form-group text-center">
-                <p style="margin-top:3px;"><span style="color: blue;">聚合显示例子(一般例子)：</span>记录总条数：{count(guid)}（条）</p>
-                <textarea name="CountData" class="form-control" placeholder="聚合显示" rows="10"><%=tableModel.TableModel.CountData%></textarea>
+                <p style="margin-top:3px;"><span style="color: blue;">聚合显示例子(一般例子)：</span>记录总条数：{count(guid)}（条）多个用|分割</p>
+                <div class="form-group text-left">
+                <table class="table table-bordered table-hover">
+                    <tr>
+                        <td>
+                            <label class="radio-inline"></label>
+                        </td>
+                        <td>
+                            <label class="radio-inline"></label>
+                        </td>
+                         <td>
+                            <label class="radio-inline"></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="radio-inline"></label>
+                        </td>
+                        <td>
+                            <label class="radio-inline"></label>
+                        </td>
+                         <td>
+                            <label class="radio-inline"></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="radio-inline"></label>
+                        </td>
+                        <td>
+                            <label class="radio-inline"></label>
+                        </td>
+                         <td>
+                            <label class="radio-inline"></label>
+                        </td>
+                    </tr>
+                </table>
+                </div>
+                <textarea name="CountData" class="form-control" placeholder="聚合显示" rows="3"><%=tableModel.TableModel.CountData%></textarea>
                 <button type="button" class="btn btn-success btn-block" onclick="bntSaveTableInfoOnclickSum()" style="margin-top:5px;">保存</button>
             </div>
         </div>
@@ -310,7 +347,7 @@
             //页面层
             layer.open({
                 type: 1,
-                title: '参数设置',
+                title: '更多按钮',
                 skin: 'layui-layer-rim', //加上边框
                 area: ['900px', '675px'], //宽高
                 content: showHtml
@@ -321,9 +358,9 @@
             //页面层
             layer.open({
                 type: 1,
-                title: '参数设置',
+                title: '数据设置',
                 skin: 'layui-layer-rim', //加上边框
-                area: ['780px', '545px'], //宽高
+                area: ['780px', '550px'], //宽高
                 content: showHtml
             });
         }
@@ -332,9 +369,9 @@
             //页面层
             layer.open({
                 type: 1,
-                title: '参数设置',
+                title: '显示设置',
                 skin: 'layui-layer-rim', //加上边框
-                area: ['620px', '355px'], //宽高
+                area: ['680px', '350px'], //宽高
                 content: showHtml
             });
         }
@@ -344,15 +381,16 @@
             showData = $(obj).parent().find("[name=SelectData]");
             var values = $(showData).val();
             var showHtml = "<div class=\"form-group text-center\" style=\"margin:5px;\">";
-            showHtml += "<p><span style=\"color: blue;\">JSON数据：[{\"key\":\"启用\",value:\"1\"},{\"key\":\"不启用\",value:\"0\"}]</span></p> "; 
-            showHtml += "<p><span style=\"color: blue;\">SQL表达式：[{\"key\":\"SQL\",value:\"select '1', '启用'\"}]</span></p> ";
-            showHtml += "<textarea name=\"selectData\" class=\"form-control\" placeholder=\"查询条件\" rows=\"7\">" + values + "</textarea><button type=\"button\" style=\"margin-top:5px;\" class=\"btn btn-success btn-block\" onclick=\"parentFunSetSelectData()\">保存</button></div>";
+            showHtml += "<p><span style=\"color: blue;\">JSON数据：[{\"key\":\"启用\",\"value\":\"1\"},{\"key\":\"不启用\",value:\"0\"}]</span></p> "; 
+            showHtml += "<p><span style=\"color: blue;\">SQL表达式：[{\"key\":\"SQL\",\"value\":\"select sg(启用),1\"}]</span></p>";
+             showHtml += "<p><span style=\"color: blue;\">单引号属于特殊字符，sg(启用)='启用'</span> <span style=\"color: red;\"> 必须是JSON数据格式</p>";
+            showHtml += "<textarea name=\"selectData\" class=\"form-control\" placeholder=\"查询条件\" rows=\"6\">" + values + "</textarea><button type=\"button\" style=\"margin-top:5px;\" class=\"btn btn-success btn-block\" onclick=\"parentFunSetSelectData()\">保存</button></div>";
             //页面层
             showIndex = layer.open({
                 type: 1,
                 title: '参数设置',
                 skin: 'layui-layer-rim', //加上边框
-                area: ['540px', '320px'], //宽高
+                area: ['540px', '328px'], //宽高
                 content: showHtml
             });
         }
@@ -371,7 +409,7 @@
                 showHtml += "<p><span style=\"color: blue;\">固定前台转换(一般例子)：</span>data == 1?\"启用\":\"禁用\"　　data：</span>最终显示的值</p><p><span style=\"color: blue;\">特殊例子：</span><span>\"<标签>\" + data + \"<标签>\"　　也可以是JQ语句&nbsp;alert(data);</span><p/><p> <span style=\"color: blue;\">row：</span>当前行所有字段的对象（row.[字段] 字段名必须一致）（不执行二次转换）</p>";
                 showHtml += "<textarea name=\"FieldData\" class=\"form-control\" placeholder=\"数据呈现\" rows=\"10\">" + values + "</textarea>";
             } else if (FieldDataTypeValue == "3") {
-                showHtml += "<p><span style=\"color: blue;\">动态前台转换(例子)：</span>select [字段] from [表名] where  [字段] =\"row.[列表所有的字段]\"</p><p> <span style=\"color: blue;\">&nbsp;row：</span>当前行所有字段的对象（row.[字段] 字段名必须一致）（异步请求转换）单引号统一使用双引号</p>";
+                showHtml += "<p><span style=\"color: blue;\">动态前台转换(例子)：</span>select [字段] from [表名] where  [字段] =sg(row.[列表所有的字段])</p><p> <span style=\"color: blue;\">&nbsp;row：</span>当前行所有字段的对象（row.[字段] 字段名必须一致）（异步请求转换）单引号统一使用sg(值)</p>";
                 showHtml += "<textarea name=\"FieldData\" class=\"form-control\" placeholder=\"数据呈现\" rows=\"11\">" + values + "</textarea>";
             }
             else if (FieldDataTypeValue == "4") {

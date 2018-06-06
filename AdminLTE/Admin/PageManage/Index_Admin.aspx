@@ -132,7 +132,7 @@
             </div>
             <strong>Wedding Day &copy; 2016/04/17</strong>
         </footer>
-        <ul class="contextmenu" style="left: 710px; top: 124px; display: block;">
+        <ul class="contextmenu" style="left: 710px; top: 124px; display: none;">
             <li data-i="refresh"><a href="javascript:void(0)" ><i class="fa fa-refresh"></i> 刷新当前</a></li>
             <li data-i="copy"><a href="javascript:void(0)"  ><i class="fa fa-share-square-o"></i> 复制当前</a></li>
             <li data-i="close"><a href="javascript:void(0)"  ><i class="fa fa-close"></i> 关闭当前</a></li>
