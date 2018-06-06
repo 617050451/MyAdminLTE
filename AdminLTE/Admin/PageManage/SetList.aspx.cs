@@ -90,8 +90,8 @@ namespace AdminLTE.Admin
                     sb.Append("<option " + (SelectType == "2" ? "selected=\"selected\"" : "") + " value=\"2\">下拉查询</option>");
                     sb.Append("<option " + (SelectType == "3" ? "selected=\"selected\"" : "") + " value=\"3\">等于查询</option>");
                     sb.Append("</select></div>");
-                    sb.Append("&nbsp;<a class=\"text-primary " + (SelectType == "0" ? "hidden" : "") + "\"  href=\"javascript:void(0)\" onclick=\"setSelectData(this)\">&nbsp;设置</a>");
-                    sb.Append("<input type=\"text\" class=\"form-control hidden\" name=\"SelectData\" value=\"" + SelectData + "\"/>");
+                    sb.Append("&nbsp;<a class=\"text-primary " + (SelectType == "2" ? "" : "hidden") + "\"  href=\"javascript:void(0)\" onclick=\"setSelectData(this)\">&nbsp;设置</a>");
+                    sb.Append("<input type=\"text\" class=\"form-control hidden\" name=\"SelectData\" value='" + SelectData + "'/>");
                     sb.Append("</td>");
                     sb.Append("<td><div class=\"input-group input-group-sm\"><input type=\"text\"   class=\"form-control\"  name=\"FieldOrder\" value='" + FieldOrder + "'/></div></td>");
                 }

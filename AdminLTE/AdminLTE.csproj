@@ -59,6 +59,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Admin\PageManage\HtmlPage1.html" />
     <Content Include="Admin\PageManage\Index_Admin.aspx" />
     <Content Include="Admin\DMS\DMS.aspx" />
     <Content Include="Admin\HomePage\WelcomePage.aspx" />

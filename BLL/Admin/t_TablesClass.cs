@@ -54,7 +54,7 @@ namespace BLL
                                 strWhere += (strWhere != "" ? " and " : "") + name + " like '%" + dt.Rows[i]["value"].ToString() + "%'";
                                 break;
                             case "2":
-                                if (dt.Rows[i]["value"].ToString() != "0")
+                                if (dt.Rows[i]["value"].ToString() != "00")
                                     strWhere += (strWhere != "" ? " and " : "") + name + " = '" + dt.Rows[i]["value"].ToString() + "'";
                                 break;
                             case "3":
@@ -115,22 +115,22 @@ namespace BLL
             DataTable MoreBntDt = GetMoreButtonsInfo();
             if (MoreBntDt != null && MoreBntDt.Rows.Count > 0)
             {
-                foreach (DataRow row in MoreBntDt.Rows)
+                foreach (DataRow row in MoreBntDt.Rows)//onclick='MoreBntClick(\" + JSON.stringify(row) + \",this)'
                 {
-                    BntHtml += "<button name = 'MoreBntItemID' onclick='MoreBntClick(\" + row + \",\" + data + \")' style='margin:2px;' bnt-action='" + row["BntAction"] + "' bnt-confirmtext='" + row["ConfirmText"] + "' bnt-actioncontent='" + row["BntAction"] != "4" ? row["BntActionContent"] : "" + "' type = 'button' class='btn btn-primary  btn-xs' value='\" + data + \"'>" + row["BntName"] + "</button>";
+                    BntHtml += "<button bnt-click='MoreBntClick'   style='margin:2px;' bnt-action='" + row["BntAction"] + "' bnt-confirmtext='" + row["ConfirmText"] + "' bnt-actioncontent='" + (row["BntAction"].ToString() != "4" ? row["BntActionContent"].ToString() : "") + "' type = 'button' class='btn btn-primary  btn-xs' value='\" + data + \"'>" + row["BntName"] + "</button>";
                 }
             }
             if (TableModel.IsChoice == 1)
-                BntHtml += "<button name = 'UpdateItemID' style='margin:2px;' type = 'button' class='btn btn-warning  btn-xs' value='\" + data + \"'>修　改</button>";
+                BntHtml += "<button name='UpdateItemID' bnt-click = 'UpdateItemID' style='margin:2px;' type = 'button' class='btn btn-warning  btn-xs' value='\" + data + \"'>修　改</button>";
             sb.Append("<thead><tr>");
             if (TableModel.IsChoice == 1)
             {
-                string html = "<input type=\"checkbox\" id=\"selectAll\" class=\"table-checkable\" >";
+                string html = "<input bnt-click='SelectAll' name='SelectAll' type=\"checkbox\"   class=\"table-checkable\" >";
                 sb.Append("<th style=\"width:13px;\">" + html + "</th>");
-                sbjson.Append("{\"data\": \"ItemID\", render: function (data, type, row) { return \"<input  name='checkboxItemID' type='checkbox' class='table-checkable'  value='\" + data + \"'/>\"}},");
+                sbjson.Append("{\"data\": \"ItemID\", render: function (data, type, row) { return \"<input  bnt-click='CheckBoxItemID' name='CheckBoxItemID' type='checkbox' class='table-checkable'  value='\" + data + \"'/>\"}},");
             }
             else if (TableModel.IsDelete == 1)
-                BntHtml += "<button name = 'DeleteItemID'  type = 'button' class='btn btn-danger  btn-xs' value='\" + data + \"'>删　除</button>&nbsp;";
+                BntHtml += "<button  name = 'DeleteItemID' bnt-click = 'DeleteItemID'  type = 'button' class='btn btn-danger  btn-xs' value='\" + data + \"'>删　除</button>&nbsp;";
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 if (dt.Rows[i]["FieldStatusID"].ToString() == "1")
@@ -209,14 +209,31 @@ namespace BLL
                                 strHtml += "<div class=\"col-lg-2 col-xs-5 table-s\">";
                                 strHtml += "<label class=\"col-xs control-label table-label\">" + dt.Rows[i]["FieldValue"].ToString() + "<span class=\"text-danger\">（下拉查询）</span></label >";
                                 strHtml += "<select name=\"" + dt.Rows[i]["FieldKey"].ToString() + "|" + dt.Rows[i]["SelectType"].ToString() + "\" class=\"form-control select2 select2-hidden-accessible\"  tabindex=\"-1\" aria-hidden=\"true\" >";
-                                strHtml += "<option selected = \"selected\" value = \"0\" >全部</option >";
-                                string tsql = dt.Rows[i]["SelectData"].ToString();
-                                DataTable tsqldt = BaseClass.GetDataTable(tsql);
-                                if (tsqldt != null && tsqldt.Rows.Count > 0)
+                                strHtml += "<option selected = \"selected\" value = \"00\" >全部</option >";
+                                string data = dt.Rows[i]["SelectData"].ToString();
+                                DataTable objdata = JsonHelper.DeserializeJsonToObject<DataTable>(data);
+                                if (objdata != null && objdata.Rows.Count > 0)
                                 {
-                                    for (int j = 0; j < tsqldt.Rows.Count; j++)
+                                    if (objdata.Columns.Contains("sql"))
                                     {
-                                        strHtml += "<option value = \"" + tsqldt.Rows[j][1].ToString() + "\" >" + tsqldt.Rows[j][0].ToString() + "</option >";
+                                        for (int j = 0; j < objdata.Rows.Count; j++)
+                                        {
+                                            DataTable tsqldt = BaseClass.GetDataTable(objdata.Rows[1].ToString());
+                                            if (tsqldt != null && tsqldt.Rows.Count > 0)
+                                            {
+                                                for (int m = 0; m < tsqldt.Rows.Count; m++)
+                                                {
+                                                    strHtml += "<option value = \"" + tsqldt.Rows[m][1].ToString() + "\" >" + tsqldt.Rows[m][0].ToString() + "</option >";
+                                                }
+                                            }
+                                        }                                      
+                                    }
+                                    else
+                                    {
+                                        for (int j = 0; j < objdata.Rows.Count; j++)
+                                        {
+                                            strHtml += "<option value = \"" + objdata.Rows[j][1].ToString() + "\" >" + objdata.Rows[j][0].ToString() + "</option >";
+                                        }
                                     }
                                 }
                                 strHtml += "</select>";
@@ -232,7 +249,7 @@ namespace BLL
                                 break;
                         }
                     }
-                    strHtml += "<div class=\"col-sm-1 table-p\" style=\"margin-top:30px;\"><button type =\"button\" class=\"btn btn-danger pull-right btn-block btn-primary\" onclick=\"getJsonData('select')\">查询</button></div>";
+                    strHtml += "<div bnt-click=\"Select\" class=\"col-sm-1 table-p\" style=\"margin-top:30px;\"><button type =\"button\" class=\"btn btn-danger pull-right btn-block btn-primary\">查询</button></div>";
                 }
             }
             return strHtml;
@@ -241,10 +258,10 @@ namespace BLL
         public string SetBntHtml()
         {
             string bntHtml = "";
-            if (TableModel.IsDelete == 1 && TableModel.IsChoice == 1)
-                bntHtml += "<button name=\"DeleteItemID\" type=\"button\" class=\"btn btn-danger btn-xs\">删　除</button>&nbsp;";
+            if (TableModel.IsDelete == 1 && TableModel.IsChoice == 1)  
+                bntHtml += "<button name=\"DeleteItemID\" bnt-click type=\"button\" class=\"btn btn-danger btn-xs\">删　除</button>&nbsp;";
             if (TableModel.IsInsert == 1)
-                bntHtml += "<button name=\"InsertItemID\" type=\"button\" class=\"btn btn-success btn-xs\">新　增</button>&nbsp;";
+                bntHtml += "<button name=\"InsertItemID\"  bnt-click=\"InsertItemID\" type=\"button\" class=\"btn btn-success btn-xs\">新　增</button>&nbsp;";
             return bntHtml;
         }
         //设置Sum显示

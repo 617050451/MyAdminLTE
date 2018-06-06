@@ -126,7 +126,14 @@
             PageConfig.IsWhere = "<%=tableModel.TableModel.IsWhere.ToString()%>";
             PageConfig.IsChoice = "<%=tableModel.TableModel.IsChoice.ToString()%>";
             PageConfig.Columns = eval(<%=tableModel.ColumnsJson%>);
-            setTimeout(getJsonData("GetDateList","/Page/TableList.aspx"), 50);
+            setTimeout(getJsonData("GetDateList", "/Page/TableList.aspx", {
+                 InsertItemID: function (sender) {
+                   LayerOpenHtml('新增页面', $(this).val());
+                }
+                , UpdateItemID: function (sender) {
+                    LayerOpenHtml('修改页面', $(this).val());
+                }
+            }), 50);          
         })
         //获取数据后，重写一些方法
         function GetDataSuccess() {
@@ -136,16 +143,7 @@
         }
         //CustomCodeStart
         function PageLoad() {
-            setTimeout(function () {
-                $("button[name=InsertItemID]").unbind("click");
-                $("button[name=InsertItemID]").click(function () {
-                    LayerOpenHtml('新增页面', $(this).val());
-                });
-                $("button[name=UpdateItemID]").unbind("click");
-                $("button[name=UpdateItemID]").click(function () {
-                    LayerOpenHtml('修改页面', $(this).val());
-                });
-            }, 50);
+
         }
         //layer 弹层
         var Index;

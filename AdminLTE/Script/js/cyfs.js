@@ -1,14 +1,13 @@
 ﻿
+
 var tableguid = getQueryString("tableguid");
-//获取数据
-var table;
-var fromchildren = "input, textarea";
 var PageConfig = {};
 PageConfig.IsPlus = 0;
 PageConfig.IsWhere = 0;
 PageConfig.IsChoice = 0;
 PageConfig.Columns = [];
-function getJsonData(type, pageName) {
+PageConfig.Fromchildren = "input,textarea,select";
+function getJsonData(type, pageName, option) {
     if (PageConfig.Columns == undefined || PageConfig.Columns.length == 0)
         return false;
     if (pageName == undefined || pageName == "")
@@ -40,7 +39,7 @@ function getJsonData(type, pageName) {
         "columns": PageConfig.Columns,
         "oLanguage": oLanguage,
         ajax: function (data, callback, settings) {
-            var WhereValues = $('#SelectWhereFrom').find(fromchildren).serializeArray();
+            var WhereValues = $('#SelectWhereFrom').find(PageConfig.Fromchildren).serializeArray();
             //封装请求参数
             var param = {};
             param.gettype = "GetDataList";
@@ -72,8 +71,11 @@ function getJsonData(type, pageName) {
                             //此时的数据需确保正确无误，异常判断应在执行此回调前自行处理完毕
                             callback(returnData);
                             $("#ltlSum").html(result.sumHtml);
-                            GetDataAfter();
-                        }, 200);
+                            if (type != 'select') {
+                                GetDataAfter(result.data, option);                               
+                            }
+                            loadClose();
+                        }, 50);
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -133,26 +135,75 @@ function GetPageName() {
     return strPage;
 }
 //注册事件 全选，删除
-function GetDataAfter() {
-    $("#selectAll").click(function () {
-        if ($(this).prop("checked")) {
-            $("input[name='checkboxItemID']").prop("checked", 'true');//全选 
-        } else {
-            $("input[name='checkboxItemID']").prop("checked", '');//取消全选 
-        }
-        OnCheckboxOnSelectValue();
-    })
-    $("button[name=InsertItemID]").click(function () {
-        alert("新增");
-    })
-    $("button[name=UpdateItemID]").click(function () {
-        alert("修改：" + $(this).val());
-    })
-    $("button[name=DeleteItemID]").click(function () {
-        DeleteItemID(OnCheckboxOnSelectValue());
-    })
-    $('input:checkbox[name=checkboxItemID]').click(function () {
-        OnCheckboxOnClick();
+function GetDataAfter(redata, option) {
+    option = option || {}
+    //注册按钮事件
+    $(function () {
+        var data = redata
+            , $body = $('body')
+            , commend = {
+                find: function (arr, ev) {
+                    var array = new Array();
+                    for (var i = 0; i < arr.length; i++) {
+                        var item = arr[i];
+                        if (ev(item)) {
+                            array.push(item);
+                        }
+                    }
+                    return array;
+                }
+            }
+            , clickList = {
+                Select: option.Select || function (sender) {
+                    loadding('正在查询，请稍等...');
+                    getJsonData('select');
+                },
+                MoreBntClick: option.MoreBntClick || function (sender) {
+                    loadding('处理中，请稍等...');
+                    var ItemID = sender.val();
+                    var currdata = commend.find(data, function (s) { return s.ItemID === ItemID; });
+                    alert("更多按钮测试：" + ItemID);
+                }
+                , InsertItemID: option.InsertItemID || function (sender) {
+                    loadding('处理中，请稍等...');
+                    alert("新增");
+                }
+                , UpdateItemID: option.UpdateItemID || function (sender) {
+                    loadding('处理中，请稍等...');
+                    var ItemID = sender.val();
+                    var currdata = commend.find(data, function (s) { return s.ItemID === ItemID; });
+                    alert("修改：" + ItemID);
+                }
+                , DeleteItemID: option.DeleteItemID || function (sender) {
+                    loadding('处理中，请稍等...');
+                    var ItemID = sender.val();
+                    var currdata = commend.find(data, function (s) { return s.ItemID === ItemID; });
+                    DeleteItemID(OnCheckboxOnSelectValue());
+                }
+                , CheckBoxItemID: option.CheckBoxItemID || function (sender) {
+                    loadding('处理中，请稍等...');
+                    var ItemID = sender.val();
+                    var currdata = commend.find(data, function (s) { return s.ItemID === ItemID; });
+                    var values = OnCheckboxOnClick();
+                    console.log(values);
+                }, SelectAll: option.SelectAll || function (sender) {
+                    loadding('处理中，请稍等...');
+                    if ($(sender).prop("checked")) {
+                        $("input[name='CheckBoxItemID']").prop("checked", 'true');//全选 
+                    } else {
+                        $("input[name='CheckBoxItemID']").prop("checked", '');//取消全选 
+                    }
+                    var values = OnCheckboxOnSelectValue();
+                    console.log(values);
+                }, ShowImg: option.ShowImg || function (sender) {//放大显示图片集
+                    ShowImgUrl(sender);
+                }
+            };
+        $body.on('click', '*[bnt-click]', function () {
+            var othis = $(this)
+                , attrEvent = othis.attr('bnt-click');
+            clickList[attrEvent] && clickList[attrEvent].call(this, othis);
+        });
     })
     if (jQuery.isFunction(GetDataSuccess)) {
         GetDataSuccess();
@@ -161,12 +212,12 @@ function GetDataAfter() {
 //选中的值
 function OnCheckboxOnClick() {
     var guidValues = "";
-    var checkboxChecked = $('input:checkbox[name=checkboxItemID]:checked');
-    var checkbox = $('input:checkbox[name=checkboxItemID]');
+    var checkboxChecked = $('input:checkbox[name=CheckBoxItemID]:checked');
+    var checkbox = $('input:checkbox[name=CheckBoxItemID]');
     if (checkboxChecked.length == checkbox.length && checkboxChecked.length > 0) {
-        $("#selectAll").prop("checked", 'true');
+        $("input:checkbox[name=SelectAll]").prop("checked", 'true');
     } else {
-        $("#selectAll").prop("checked", '');
+        $("input:checkbox[name=SelectAll]").prop("checked", '');
     }
     $(checkboxChecked).each(function (i) {
         if (i > 0)
@@ -177,7 +228,7 @@ function OnCheckboxOnClick() {
 }
 function OnCheckboxOnSelectValue() {
     var guidValues = "";
-    var checkboxChecked = $('input:checkbox[name=checkboxItemID]:checked');
+    var checkboxChecked = $('input:checkbox[name=CheckBoxItemID]:checked');
     $(checkboxChecked).each(function (i) {
         if (i > 0)
             guidValues += ",";
@@ -214,7 +265,7 @@ function DeleteItemID(ChoiceValue) {
                         });
                     } else {
                         layer.msg('操作成功！', {
-                            icon: 1, time:1500, end: function() {
+                            icon: 1, time: 1500, end: function () {
                                 location.reload();
                             }
                         });
@@ -233,8 +284,8 @@ function loadding(txt, obj) {
         }
     });
 }
-function loadClose(obj) {
-    layer.close(obj);
+function loadClose() {
+    layer.close(loadIndex);
 }
 //登录事件
 function signinOnclick() {
@@ -293,7 +344,7 @@ function GetFromJson(obj) {
     return idata;
 }
 //转换请求
-function GetFieldKeyValue(Row, FieldKey,envent) {
+function GetFieldKeyValue(Row, FieldKey, envent) {
     var param = Row;
     param.gettype = "GetFieldKeyValue";
     param.FieldKey = FieldKey;
@@ -396,22 +447,20 @@ function SetImgUrl(row, data, endfun) {
     srcArr = data.split(',');
     var redata = "";
     for (var i = 0; i < srcArr.length; i++) {
-        redata += "<img width='40' src='" + srcArr[i] + "' onclick=\"ShowImgUrl('" + data + "')\" />";
+        redata += "<img width='40' bnt-click='ShowImg' img-group='" + row.ItemID + "' img-start='" + i + "'  src='" + srcArr[i] + "' \" />";
     }
     endfun(redata);
 }
 //显示图片
-function ShowImgUrl(src) {
-    var srcArr = new Array(); 
-    srcArr = src.split(',');
-    var srcjson = new Array(); 
-    for (var i = 0; i < srcArr.length; i++) {
-        srcjson.push({ "src": srcArr[i] });
-    }
+function ShowImgUrl(obj) {
+    var srcjson = new Array();
+    $("img[img-group='" + $(obj).attr("img-group") + "']").each(function () {
+        srcjson.push({ "src": $(this).attr("src") });
+    })
     var json = {
         "title": "", //相册标题
         "id": 123, //相册id
-        "start": 0, //初始显示的图片序号，默认0
+        "start": $(obj).attr("img-start"), //初始显示的图片序号，默认0
         "data": srcjson
     }
     layer.photos({
@@ -419,7 +468,4 @@ function ShowImgUrl(src) {
         , anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机
     });
 }
-//更多按钮事件
-function MoreBntClick(row, data) {
-    $(this).attr("bnt-action")
-}
+

@@ -214,11 +214,11 @@
     <script> 
         $(function () {
             $("select[name=SelectType]").change(function () {
-                if ($(this).val() > 0) {
+                if ($(this).val() == 2) {
                     $(this).parent().next("a").removeClass("hidden")
                 }
                 else
-                    $(this).parent().next("a").addClass("hidden");
+                   $(this).parent().next("a").addClass("hidden");
 
             });
             $("select[name = FieldDataType]").change(function () {
@@ -344,14 +344,15 @@
             showData = $(obj).parent().find("[name=SelectData]");
             var values = $(showData).val();
             var showHtml = "<div class=\"form-group text-center\" style=\"margin:5px;\">";
-            showHtml += "<p><span style=\"color: blue;\">支持SQL表达式</p>";
-            showHtml += "<textarea name=\"selectData\" class=\"form-control\" placeholder=\"查询条件\" rows=\"8\">" + values + "</textarea><button type=\"button\" style=\"margin-top:5px;\" class=\"btn btn-success btn-block\" onclick=\"parentFunSetSelectData()\">保存</button></div>";
+            showHtml += "<p><span style=\"color: blue;\">JSON数据：[{\"key\":\"启用\",value:\"1\"},{\"key\":\"不启用\",value:\"0\"}]</span></p> "; 
+            showHtml += "<p><span style=\"color: blue;\">SQL表达式：[{\"key\":\"SQL\",value:\"select '1', '启用'\"}]</span></p> ";
+            showHtml += "<textarea name=\"selectData\" class=\"form-control\" placeholder=\"查询条件\" rows=\"7\">" + values + "</textarea><button type=\"button\" style=\"margin-top:5px;\" class=\"btn btn-success btn-block\" onclick=\"parentFunSetSelectData()\">保存</button></div>";
             //页面层
             showIndex = layer.open({
                 type: 1,
                 title: '参数设置',
                 skin: 'layui-layer-rim', //加上边框
-                area: ['540px', '310px'], //宽高
+                area: ['540px', '320px'], //宽高
                 content: showHtml
             });
         }

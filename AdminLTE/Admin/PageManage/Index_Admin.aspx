@@ -133,9 +133,10 @@
             <strong>Wedding Day &copy; 2016/04/17</strong>
         </footer>
         <ul class="contextmenu" style="left: 710px; top: 124px; display: block;">
-            <li data-i="refresh"><a href="javascript:void(0)" ><i class="fa fa-refresh"></i> 刷新</a></li>
-            <li data-i="copy"><a href="javascript:void(0)"  ><i class="fa fa-fw fa-share-square-o"></i> 复制</a></li>
-            <li data-i="close"><a href="javascript:void(0)"  ><i class="fa fa-close"></i> 关闭</a></li>
+            <li data-i="refresh"><a href="javascript:void(0)" ><i class="fa fa-refresh"></i> 刷新当前</a></li>
+            <li data-i="copy"><a href="javascript:void(0)"  ><i class="fa fa-share-square-o"></i> 复制当前</a></li>
+            <li data-i="close"><a href="javascript:void(0)"  ><i class="fa fa-close"></i> 关闭当前</a></li>
+            <li data-i="closeall"><a href="javascript:void(0)"  ><i class="fa fa-close"></i> 关闭全部</a></li>
         </ul>
         <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">
@@ -230,7 +231,7 @@
         }
         .contextmenu li a {
             display: block;
-            padding: 10px;
+            padding: 5px 10px 5px 10px;
             color: #B0BEC5;
             text-decoration: none;
             transition: ease .2s;
@@ -307,6 +308,11 @@
             var lstmoid = $("#tabnav li:last").attr("menu-moid");
             setPage(lstmoid);
         }
+         //关闭tab
+        function CloseTabFunAll() {
+            $("#tabnav li").remove();
+            $(".content").remove();
+        }
         //设置iframe
         function setiframeHeigth() {
             var hl = $(".content-wrapper").height() - 70 + "px";
@@ -328,6 +334,9 @@
                 }
                 else if (name == "close") {
                     CloseTabFun(rgmoid);
+                }
+                    else if (name == "closeall") {
+                    CloseTabFunAll(rgmoid);
                 }
                 else if (name == "copy") {
                     var title = $("#tabnav li[menu-moid='" + rgmoid + "'] a").text();
@@ -380,6 +389,10 @@
                     "left": posLeft,
                     "top": posTop
                 }).show();
+                $(".contextmenu li").show();
+                if (rgmoid == 1000) {
+                    $(".contextmenu li:eq(1)").hide();
+                }
                 //Prevent browser default contextmenu.
                 return false;
             });
