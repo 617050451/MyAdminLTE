@@ -58,9 +58,9 @@
                     <div class="box box-primary">
                         <div class="box-body">
                             <ul class="nav nav-tabs" id="selectnav">
-                                <li class="active"><a href="javascript:void(0)" data-src="">显示页面</a></li>
-                                <li><a href="javascript:void(0)" data-src="#">新增页面</a></li>
-                                <li><a href="javascript:void(0)" data-src="#">修改页面</a></li>
+                                <li class="active"><a href="javascript:void(0)" data-src="SetList.aspx">显示页面</a></li>
+                                <li><a href="javascript:void(0)" data-src="SetInsert.aspx">新增页面</a></li>
+                                <li><a href="javascript:void(0)" data-src="SetUpdate.aspx">修改页面</a></li>
                             </ul>
                             <iframe id="ifmSetPage"  style="width:100%;height:auto;border:none;min-height:800px;"></iframe>
                         </div>
@@ -88,14 +88,12 @@
     <script src="../../Script/AdminLTE-2.4.2/dist/js/adminlte.min.js"></script>
     <script src="../../Script/js/cyfs.js"></script>
     <script> 
-         var url = "setList.aspx";
         $(document).ready(function () {
-            var value = $("#selecttable").val();
-            $("#selectnav li a:eq(0)").attr("data-src", url + "?ItemGUID=" + value);
             $(".box-body ul li a").click(function () {
                 $(".box-body ul li").removeClass("active");
                 $(this).parent().addClass("active");
-                $("#ifmSetPage").prop("src", $(this).attr("data-src"));
+                 var value = $("#selecttable").val();
+                $("#ifmSetPage").prop("src", $(this).attr("data-src")+"?ItemGUID=" + value);
             });
             $(".box-body ul li a:eq(0)").click();
         });
@@ -123,7 +121,7 @@
             }
         }
         function SelectTable(obj) {
-            $("#ifmSetPage").attr("src", url + "?ItemGUID=" + $(obj).val());
+          $(".box-body ul li a:eq(0)").click();
         }
     </script>
 </body>

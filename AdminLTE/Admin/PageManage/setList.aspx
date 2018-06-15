@@ -345,7 +345,7 @@
         function showMoreButtonsHtml() {
             var showHtml = $("#MoreButtons").html();
             //页面层
-            layer.open({
+            top.layer.open({
                 type: 1,
                 title: '更多按钮',
                 skin: 'layui-layer-rim', //加上边框
@@ -356,7 +356,7 @@
         function showTableInfoHtml() {
             var showHtml = $("#setTableInfo").html();
             //页面层
-            layer.open({
+            top.layer.open({
                 type: 1,
                 title: '数据设置',
                 skin: 'layui-layer-rim', //加上边框
@@ -367,7 +367,7 @@
         function showTableInfoHtmlSum() {
             var showHtml = $("#setTableInfoSum").html();
             //页面层
-            layer.open({
+            top.layer.open({
                 type: 1,
                 title: '显示设置',
                 skin: 'layui-layer-rim', //加上边框

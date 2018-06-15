@@ -211,6 +211,7 @@
     <%--<script src="../../Script/AdminLTE-2.4.2/dist/js/pages/dashboard.js"></script>--%>
     <!-- AdminLTE for demo purposes -->
     <script src="../../Script/AdminLTE-2.4.2/dist/js/demo.js"></script>
+    <script src="../../Script/layer-v3.1.0/layer/layer.js"></script>
     <style>
         .contextmenu {
             display: none;
