@@ -87,13 +87,24 @@
     <!-- AdminLTE App -->
     <script src="../../Script/AdminLTE-2.4.2/dist/js/adminlte.min.js"></script>
     <script src="../../Script/js/cyfs.js"></script>
-    <script> 
+    <script src="../../Script/layer-v3.1.0/layer/layer.js"></script>
+    <script>
+        var itemidguid = "";
         $(document).ready(function () {
             $(".box-body ul li a").click(function () {
                 $(".box-body ul li").removeClass("active");
                 $(this).parent().addClass("active");
-                 var value = $("#selecttable").val();
-                $("#ifmSetPage").prop("src", $(this).attr("data-src")+"?ItemGUID=" + value);
+                var itemid = $("#selecttable").val();
+                if (itemid == null || itemid.lenght < 10) {
+                    if (itemidguid == null || itemidguid.lenght < 10) {
+                        layer.msg('请选择页面', function () {
+                            return false;
+                        });
+                    }
+                } else {
+                    itemidguid = itemid;
+                }
+                $("#ifmSetPage").prop("src", $(this).attr("data-src") + "?ItemGUID=" + itemidguid);
             });
             $(".box-body ul li a:eq(0)").click();
         });
@@ -113,7 +124,8 @@
                     }
                 });
             }
-            $("#selecttable").val("");
+            var options = $("#selecttable option");
+            options.first().attr("selected", true);
         }
         function OnPropChanged (event) {
             if (event.propertyName.toLowerCase () == "value") {

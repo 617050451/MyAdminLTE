@@ -40,6 +40,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Gma.QrCodeNet.Encoding, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Gma.QrCodeNet.0.4.1.2\lib\net40\Gma.QrCodeNet.Encoding.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -59,7 +62,6 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Admin\PageManage\HtmlPage1.html" />
     <Content Include="Admin\PageManage\Index_Admin.aspx" />
     <Content Include="Admin\DMS\DMS.aspx" />
     <Content Include="Admin\HomePage\WelcomePage.aspx" />
@@ -7506,6 +7508,7 @@
     <Content Include="Script\AdminLTE-2.4.2\yarn.lock" />
     <Content Include="Admin\PageManage\Temp\TempPageList.aspx.temp" />
     <Content Include="Admin\PageManage\Temp\TempPageList.aspx.cs.temp" />
+    <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\cy.pubxml" />
     <Content Include="Script\layer-v3.1.0\文档\jquery下载.url" />
     <Content Include="Script\layer-v3.1.0\文档\layer官网.url" />

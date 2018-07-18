@@ -324,7 +324,7 @@
         $(function () {
             //Hide contextmenu:
             $(document).click(function () {
-                $(".contextmenu").hide();
+               $(".contextmenu").hide();
             });
             $(".contextmenu li").unbind("click");
             $(".contextmenu li").click(function () {

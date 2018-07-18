@@ -29,23 +29,25 @@ namespace AdminLTE.Admin
                         var TableInfo = Request.Form["tableInfo"];
                         DataTable dt = BLL.JsonHelper.DeserializeJsonToObject<DataTable>(PageData);
                         DataTable tableInfodt = BLL.JsonHelper.DeserializeJsonToObject<DataTable>(TableInfo);
-                        if (tableModel.SaveUpdateList(dt, tableInfodt))
-                        {
+                        if (tableModel.SaveUpdateTable("t_TableField", dt) && tableModel.SaveUpdateTableInfo(tableInfodt))
                             Response.Write("True");
-                            Response.End();
-                        }
+                        else
+                            Response.Write("False");
+                        Response.End();
                     }
                     else if (GetType == "SetTableData")
                     {
                         var SetTableInfo = Request.Form["settableinfo"];
                         DataTable SetTableInfodt = BLL.JsonHelper.DeserializeJsonToObject<DataTable>(SetTableInfo);
-                        if (tableModel.SaveUpdateList(null, SetTableInfodt))
+                        if (tableModel.SaveUpdateTableInfo(SetTableInfodt))
                         {
                             //更新TableFieldInfo信息
                             tableModel.SetTableFieldInfo();
                             Response.Write("True");
-                            Response.End();
                         }
+                        else
+                            Response.Write("False");
+                        Response.End();
                     }
                     else if (GetType == "SetOrder")
                     {

@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <!-- Tell the browser to be responsive to screen width -->
@@ -33,16 +33,23 @@
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
 </head>
-<form id="FromPage">
+<body>
+    <form id="FromPage">
         <section class="content" style="margin-top: -13px;">
             <div class="row">
-                <table id="tableInfo" class="table" style="margin:0px;margin-top:-3px;border-left:1px solid #ddd;border-right:1px solid #ddd;">
+                <table id="tableInfo" class="table" style="margin: 0px; margin-top: -3px; border-left: 1px solid #ddd; border-right: 1px solid #ddd;">
                     <tbody>
                         <tr>
+                            <td style="width: 160px; border: none; float: right;">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-info" onclick="bntOrderClick()">自动排序</button>
+                                    <button type="button" class="btn btn-info" onclick="bntSaveClick(this)">保&nbsp;存</button>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
-                <table id="example" class="table table-bordered table-hover" >
+                <table id="example" class="table table-bordered table-hover">
                     <thead>
                         <tr>
                             <th>字段称</th>
@@ -53,13 +60,13 @@
                         </tr>
                     </thead>
                     <tbody>
-
+                        <%=GetSetListHtml(ItemGUID) %>
                     </tbody>
                 </table>
             </div>
         </section>
     </form>
-     <!-- jQuery 3 -->
+    <!-- jQuery 3 -->
     <script src="../../Script/AdminLTE-2.4.2/bower_components/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap 3.3.7 -->
     <script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -74,3 +81,52 @@
     <script src="../../Script/AdminLTE-2.4.2/dist/js/adminlte.min.js"></script>
     <script src="../../Script/js/cyfs.js"></script>
     <script src="../../Script/layer-v3.1.0/layer/layer.js"></script>
+    <script>
+         function bntOrderClick() {
+            loadding('正在处理，请稍等...');
+            var param = {};
+            param.gettype = "SetOrder";
+            $.ajax({
+                type: "post",
+                url: GetPageName(),
+                cache: false,  //禁用缓存
+                data: param,  //传入组装的参数
+                dataType: "text",
+                success: function (result) {
+                    debugger;
+                    if (result == "True") {
+                        layer.msg('操作成功！', {
+                            icon: 1, time: 1500, end: function () {
+                                location.reload();
+                            }
+                        });
+                    }
+                }
+            });
+        }
+       function bntSaveClick(obj) {
+            loadding('正在保存，请稍等...', obj);
+            var values = $("#example").find("input,select").serializeArray();
+            //封装请求参数
+            var param = {};
+            param.gettype = "SetData";
+            param.values = JSON.stringify(values);   
+            $.ajax({
+                type: "post",
+                url: GetPageName(),
+                cache: false,  //禁用缓存
+                data: param,  //传入组装的参数
+                dataType: "text",
+                success: function (result) {
+                    if (result == "True") {
+                        layer.msg('操作成功！', {
+                            icon: 1, time: 1500, end: function () {
+                                location.reload();
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    </script>
+</body>

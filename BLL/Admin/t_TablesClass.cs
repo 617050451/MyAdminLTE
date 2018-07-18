@@ -13,6 +13,7 @@ namespace BLL
     {
         public Model.t_Tables TableModel = new Model.t_Tables();
         public DataTable TableFieldInfo = null;
+        public DataTable TableFieldInsertInfo = null;
         public static string OneFileName = string.Empty;
         public string ColumnsJson = string.Empty;
         public string GUIDValue = string.Empty;
@@ -22,6 +23,7 @@ namespace BLL
             TableModel = BaseClass.DataTableToModel<Model.t_Tables>(string.Format("select * from [t_Tables] WHERE [GUID] ='{0}'", GUIDValue))[0];
             OneFileName = GetTopOneFileName();
             GetTableFieldInfo();
+            GetTableFieldInsertInfo();
         }
         //获取表的第一个字段名
         public  string GetTopOneFileName()
@@ -34,6 +36,12 @@ namespace BLL
         {
             string sql = string.Format("select  * from [t_TableField] WHERE [TableGUID] ='{0}' order by FieldOrder ", GUIDValue);
             TableFieldInfo = BaseClass.GetDataTable(sql);
+        }
+        //获取TableFielInsert信息
+        public void GetTableFieldInsertInfo()
+        {
+            string sql = string.Format("select  * from [t_TableFieldInert] WHERE [TableGUID] ='{0}' order by FieldOrder ", GUIDValue);
+            TableFieldInsertInfo = BaseClass.GetDataTable(sql);
         }
         //获取高级查询
         public string SetStrWhere(DataTable dt)
@@ -457,16 +465,31 @@ namespace BLL
                 return false;
         }
         //显示页面修改保存
-        public  bool SaveUpdateList(DataTable dt, DataTable tableInfo)
+        public bool SaveUpdateTableInfo(DataTable TableInfo)
+        {
+            StringBuilder sbSQL = new StringBuilder();
+            string str = "";
+            if (estimate(TableInfo))
+            {
+                sbSQL.Append(" update t_Tables set ");
+                for (int j = 0; j < TableInfo.Rows.Count; j++)
+                {
+                    str += string.Format("[{0}]='{1}',", TableInfo.Rows[j]["name"].ToString(), TableInfo.Rows[j]["value"].ToString().Replace("'", "''"));
+                }
+                sbSQL.Append(str.TrimEnd(',') + string.Format(" where guid ='{0}' ; ", GUIDValue));
+            }
+            return DAL.SQLDBHelpercs.ExecuteNonQuery(sbSQL.ToString(), null, "sql");
+        }
+        public  bool SaveUpdateTable(string TableName, DataTable TableKeyInfo)
         {
             string FieldKey = "";
             StringBuilder sbSQL = new StringBuilder();
             string str = "";
-            if (estimate(dt))
+            if (estimate(TableKeyInfo))
             {
-                for (int i = 0; i < dt.Rows.Count; i++)
+                for (int i = 0; i < TableKeyInfo.Rows.Count; i++)
                 {
-                    if (dt.Rows[i]["name"].ToString() == "FieldKey")
+                    if (TableKeyInfo.Rows[i]["name"].ToString() == "FieldKey")
                     {
                         if (i > 0)
                         {
@@ -474,25 +497,15 @@ namespace BLL
                             sbSQL.Append(string.Format(" where TableGUID ='{0}' and FieldKey = '{1}'; ", GUIDValue, FieldKey));
                             str = "";
                         }
-                        FieldKey = dt.Rows[i]["value"].ToString();
-                        sbSQL.Append(" update[t_TableField] set ");
+                        FieldKey = TableKeyInfo.Rows[i]["value"].ToString();
+                        sbSQL.Append(" update "+ TableName + " set ");
                     }
                     else
                     {
-                        str += string.Format("[{0}]='{1}',", dt.Rows[i]["name"].ToString(), dt.Rows[i]["value"].ToString());
+                        str += string.Format("[{0}]='{1}',", TableKeyInfo.Rows[i]["name"].ToString(), TableKeyInfo.Rows[i]["value"].ToString());
                     }
                 }
                 sbSQL.Append(string.Format(str.TrimEnd(',') + " where TableGUID ='{0}' and FieldKey = '{1}'; ", GUIDValue, FieldKey));
-                str = "";
-            }
-            if (estimate(tableInfo))
-            {
-                sbSQL.Append(" update t_Tables set ");
-                for (int j = 0; j < tableInfo.Rows.Count; j++)
-                {
-                    str += string.Format("[{0}]='{1}',", tableInfo.Rows[j]["name"].ToString(), tableInfo.Rows[j]["value"].ToString().Replace("'", "''"));
-                }
-                sbSQL.Append(str.TrimEnd(',') + string.Format(" where guid ='{0}' ; ", GUIDValue));
             }
             return DAL.SQLDBHelpercs.ExecuteNonQuery(sbSQL.ToString(), null, "sql");
         }
@@ -512,13 +525,29 @@ namespace BLL
             else
                 return false;
         }
+        //自动排序
+        public bool SetInsertOrder()
+        {
+            DataTable dt = BaseClass.GetDataTable(TableModel.SQL.ToUpper().Replace("SELECT", "SELECT TOP(1) "));
+            if (dt != null && dt.Columns.Count > 0)
+            {
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < dt.Columns.Count; i++)
+                {
+                    sb.Append("update  [t_TableFieldInert] set FieldOrder=" + (i + 1) + " where FieldKey='" + dt.Columns[i].ColumnName + "'; ");
+                }
+                return DAL.SQLDBHelpercs.ExecuteNonQuery(sb.ToString(), null, "sql");
+            }
+            else
+                return false;
+        }
         //更新TableFieldInfo数据
         public bool SetTableFieldInfo()
         {
-            DataTable dt = BaseClass.GetDataTable(string.Format("SELECT FieldKey FROM  [t_TableField] WHERE TableGUID='{0}'", TableModel.GUID));
             DataTable newdt = BaseClass.GetDataTable(TableModel.SQL.ToUpper().Replace("SELECT", "SELECT TOP(1) "));
             if (newdt != null && newdt.Columns.Count > 0)
             {
+                DataTable dt = BaseClass.GetDataTable(string.Format("SELECT FieldKey FROM  [t_TableField] WHERE TableGUID='{0}'", TableModel.GUID));
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < newdt.Columns.Count; i++)
                 {
@@ -526,15 +555,37 @@ namespace BLL
                     if (drs.Length == 0)
                         sb.Append(string.Format(" INSERT INTO [t_TableField] (TableGUID,FieldKey,FieldValue,FieldOrder) VALUES('{0}','{1}','{2}','{3}');", TableModel.GUID, newdt.Columns[i].ColumnName, newdt.Columns[i].ColumnName, i + 1));
                     else
-                        dt.Rows.Remove(drs[0]);                       
+                        dt.Rows.Remove(drs[0]);
                 }
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
                     sb.Append(string.Format(" DELETE [t_TableField] WHERE TableGUID='{0}' AND FieldKey='{1}';", TableModel.GUID, dt.Rows[i]["FieldKey"].ToString()));
                 }
-                return DAL.SQLDBHelpercs.ExecuteNonQuery(sb.ToString(), null, "sql");
+                StringBuilder insertsb = new StringBuilder();
+                DataTable InsertDt = BaseClass.GetDataTable(string.Format("SELECT FieldKey FROM t_TableFieldInert WHERE TableGUID='{0}'", TableModel.GUID));
+                for (int i = 0; i < newdt.Columns.Count; i++)
+                {
+                    DataRow[] drs = InsertDt.Select("FieldKey='" + newdt.Columns[i].ColumnName + "'");
+                    if (drs.Length == 0)
+                        insertsb.Append(string.Format(" INSERT INTO [t_TableFieldInert] (TableGUID,FieldKey,FieldValue,FieldOrder) VALUES('{0}','{1}',(SELECT  TOP(1) FieldValue FROM  [t_TableField] WHERE FieldKey='{2}' AND TableGUID='{3}'),'{4}');", TableModel.GUID, newdt.Columns[i].ColumnName, newdt.Columns[i].ColumnName, TableModel.GUID, i + 1));
+                    else
+                        dt.Rows.Remove(drs[0]);
+                }
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    insertsb.Append(string.Format(" DELETE [t_TableFieldInert] WHERE TableGUID='{0}' AND FieldKey='{1}';", TableModel.GUID, dt.Rows[i]["FieldKey"].ToString()));
+                }
+                if (!string.IsNullOrWhiteSpace(sb.ToString()))
+                    DAL.SQLDBHelpercs.ExecuteNonQuery(sb.ToString(), null, "sql");
+                if (!string.IsNullOrWhiteSpace(insertsb.ToString()))
+                    DAL.SQLDBHelpercs.ExecuteNonQuery(insertsb.ToString(), null, "sql");
+                return true;
             }
-            return true;
+            else
+            {
+                return false;
+            }
+
         }
     }
 }

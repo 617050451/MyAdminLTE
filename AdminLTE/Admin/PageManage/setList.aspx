@@ -345,34 +345,37 @@
         function showMoreButtonsHtml() {
             var showHtml = $("#MoreButtons").html();
             //页面层
-            top.layer.open({
+            layer.open({
                 type: 1,
                 title: '更多按钮',
                 skin: 'layui-layer-rim', //加上边框
                 area: ['900px', '675px'], //宽高
-                content: showHtml
+                content: showHtml,
+                offset: ['45px']
             });
         }
         function showTableInfoHtml() {
             var showHtml = $("#setTableInfo").html();
             //页面层
-            top.layer.open({
+            layer.open({
                 type: 1,
                 title: '数据设置',
                 skin: 'layui-layer-rim', //加上边框
                 area: ['780px', '550px'], //宽高
-                content: showHtml
+                content: showHtml,
+                offset: ['45px']
             });
         }
         function showTableInfoHtmlSum() {
             var showHtml = $("#setTableInfoSum").html();
             //页面层
-            top.layer.open({
+            layer.open({
                 type: 1,
                 title: '显示设置',
                 skin: 'layui-layer-rim', //加上边框
                 area: ['680px', '350px'], //宽高
-                content: showHtml
+                content: showHtml,
+                offset: ['45px']
             });
         }
         var showData;
