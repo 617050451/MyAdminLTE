@@ -85,10 +85,10 @@
     <script src="../../Script/js/cyfs.js"></script>
     <script>
         $(function () {
-            PageConfig.IsPlus = "<%=tableModel.TableModel.IsPlus.ToString()%>";
-            PageConfig.IsWhere = "<%=tableModel.TableModel.IsWhere.ToString()%>";
-            PageConfig.IsChoice = "<%=tableModel.TableModel.IsChoice.ToString()%>";
-            PageConfig.Columns = eval(<%=tableModel.ColumnsJson%>);
+            PageConfig.IsPlus = "IsPlus";
+            PageConfig.IsWhere = "IsWhere";
+            PageConfig.IsChoice = "IsChoice";
+            PageConfig.Columns = eval(Columns);
             setTimeout(getJsonData("GetDateList","/Page/UserList.aspx"), 50);
         })
         //获取数据后，重写一些方法

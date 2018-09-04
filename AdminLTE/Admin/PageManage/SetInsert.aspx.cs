@@ -6,7 +6,6 @@ using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-
 namespace AdminLTE.Admin.PageManage
 {
     public partial class SetInsert : System.Web.UI.Page

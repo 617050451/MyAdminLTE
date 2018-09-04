@@ -62,6 +62,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Admin\PageManage\DesignPage.aspx" />
     <Content Include="Admin\PageManage\Index_Admin.aspx" />
     <Content Include="Admin\DMS\DMS.aspx" />
     <Content Include="Admin\HomePage\WelcomePage.aspx" />
@@ -6790,6 +6791,13 @@
   <ItemGroup>
     <Compile Include="Admin\PageManage\BasePage.cs">
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\PageManage\DesignPage.aspx.cs">
+      <DependentUpon>DesignPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\PageManage\DesignPage.aspx.designer.cs">
+      <DependentUpon>DesignPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\PageManage\Index_Admin.aspx.cs">
       <DependentUpon>Index_Admin.aspx</DependentUpon>
