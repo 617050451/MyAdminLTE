@@ -29,27 +29,29 @@
 <body>
     <form id="FromPage">
         <section class="content">
-           <div class="box box-info">
-            <div class="box-header with-border">
-              <h3 class="box-title">Latest Orders</h3>
-
-              <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-              </div>
+            <div class="box box-success" style="width: 20%">
+                <div class="box-header with-border">
+                    <h3 class="box-title">基础控件</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div id="external-events">
+                        <div class="external-event bg-green ui-draggable ui-draggable-handle" data-coltype="text" style="position: relative;">文本框</div>
+                        <div class="external-event bg-green ui-draggable ui-draggable-handle" style="position: relative;">Go home</div>
+                        <div class="external-event bg-green ui-draggable ui-draggable-handle" style="position: relative;">Do homework</div>
+                        <div class="external-event bg-green ui-draggable ui-draggable-handle" style="position: relative;">Work on UI design</div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
             </div>
-            <!-- /.box-header -->
-            <div class="box-body" style="">
-              <div class="table-responsive">
-              </div>
-              <!-- /.table-responsive -->
+            <div class="box box-info" style="width: 77%; min-height: 600px; height: 95%; position: absolute; top: 15px; right: 15px;">
             </div>
-            <!-- /.box-body -->
-          </div>
         </section>
     </form>
-     <!-- jQuery 3 -->
+    <!-- jQuery 3 -->
     <script src="../../Script/AdminLTE-2.4.2/bower_components/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap 3.3.7 -->
     <script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -62,8 +64,38 @@
     <script src="../../Script/AdminLTE-2.4.2/bower_components/fastclick/lib/fastclick.js"></script>
     <!-- AdminLTE App -->
     <script src="../../Script/AdminLTE-2.4.2/dist/js/adminlte.min.js"></script>
+    <!-- fullCalendar -->
+    <script src="../../Script/AdminLTE-2.4.2/bower_components/moment/moment.js"></script>
+    <script src="../../Script/AdminLTE-2.4.2/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
     <!-- LAYER -->
     <script src="../../Script/layer-v3.1.0/layer/layer.js"></script>
+    <script>        $(function () {
+            init_events($('#external-events div.external-event'));            function init_events(ele) {
+                ele.each(function () {
+                    var $othis = $(this);
+                    $othis.mousedown(function (e) {
+                        var coltype = $othis.data("coltype");
+                        var colName = $othis.text();
+                        $("#external-events").append('<div class="external-event bg-green ui-draggable ui-draggable-handle colmousemove" data-coltype="' + coltype + '" style="position: relative;">' + colName + '</div>');
+                        var $ithis = $("#external-events .colmousemove");
+                        var isMove = true;
+                        var div_x = $ithis.offset().left;
+                        var div_y = $ithis.offset().top;
+                        $ithis.css({ "left": div_x, "top": div_y, "z-index": 1070 });
+                        $(document).mousemove(function (e) {
+                            if (isMove) {
+                                var obj = $ithis;
+                                $ithis.css({ "left": e.pageX - div_x, "top": e.pageY - div_y });
+                            }
+                        }).mouseup(
+                            function () {
+                                isMove = false;
+                                $ithis.removeClass("colmousemove");
+                            });
+                    });
+                })
+            }
+        });    </script>
 </body>
 </html>
 
