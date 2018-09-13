@@ -74,7 +74,9 @@
     <Content Include="Admin\PageManage\SetList.aspx" />
     <Content Include="Admin\PageManage\SetPages.aspx" />
     <Content Include="Admin\PageManage\WelcomePage_Admin.aspx" />
+    <Content Include="DataXML\PageList.xml" />
     <Content Include="Page\MeanList.aspx" />
+    <Content Include="Page\PageList.html" />
     <Content Include="Page\MoreButtonList.aspx" />
     <Content Include="Page\TableList.aspx" />
     <Content Include="Page\UserList.aspx" />
@@ -6772,6 +6774,7 @@
     <Content Include="Script\img\IMG_40381.JPG" />
     <Content Include="Script\js\cyfs.css" />
     <Content Include="Script\js\cyfs.js" />
+    <Content Include="Script\js\DataPageHandle.js" />
     <Content Include="Script\js\jquery-3.1.1.min.js" />
     <Content Include="Script\layer-v3.1.0\layer\layer.js" />
     <Content Include="Script\layer-v3.1.0\layer\mobile\layer.js" />
@@ -6866,6 +6869,9 @@
     </Compile>
     <Compile Include="Admin\PageManage\WelcomePage_Admin.aspx.designer.cs">
       <DependentUpon>WelcomePage_Admin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Ajax\GetData.ashx.cs">
+      <DependentUpon>GetData.ashx</DependentUpon>
     </Compile>
     <Compile Include="Page\MeanList.aspx.cs">
       <DependentUpon>MeanList.aspx</DependentUpon>
@@ -7516,6 +7522,7 @@
     <Content Include="Script\AdminLTE-2.4.2\yarn.lock" />
     <Content Include="Admin\PageManage\Temp\TempPageList.aspx.temp" />
     <Content Include="Admin\PageManage\Temp\TempPageList.aspx.cs.temp" />
+    <Content Include="Ajax\GetData.ashx" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\cy.pubxml" />
     <Content Include="Script\layer-v3.1.0\文档\jquery下载.url" />
