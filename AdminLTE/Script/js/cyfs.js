@@ -368,22 +368,7 @@ function GetFieldKeyValue(Row, FieldKey, envent) {
         }
     });
 }
-//时间格式化
-Date.prototype.Format = function (fmt) { //author: meizz   
-    var o = {
-        "M+": this.getMonth() + 1, //月份   
-        "d+": this.getDate(), //日   
-        "H+": this.getHours(), //小时   
-        "m+": this.getMinutes(), //分   
-        "s+": this.getSeconds(), //秒   
-        "q+": Math.floor((this.getMonth() + 3) / 3), //季度   
-        "S": this.getMilliseconds() //毫秒   
-    };
-    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-    for (var k in o)
-        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-    return fmt;
-}
+
 ///为字符串添加模糊比较的方法
 String.prototype.isLike = function (exp/*类似于SQL中的模糊查询字符串*/, i/*是否区分大小写*/) {
     var str = this;
@@ -467,5 +452,21 @@ function ShowImgUrl(obj) {
         photos: json //格式见API文档手册页
         , anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机
     });
+}
+//时间格式化
+Date.prototype.Format = function (fmt) { //author: meizz   
+    var o = {
+        "M+": this.getMonth() + 1, //月份   
+        "d+": this.getDate(), //日   
+        "H+": this.getHours(), //小时   
+        "m+": this.getMinutes(), //分   
+        "s+": this.getSeconds(), //秒   
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度   
+        "S": this.getMilliseconds() //毫秒   
+    };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
 }
 

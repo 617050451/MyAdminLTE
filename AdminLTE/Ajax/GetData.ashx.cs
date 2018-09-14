@@ -23,10 +23,24 @@ namespace AdminLTE.Ajax
             switch (GetType)
             {
                 case "GetDataList":
-                    break;                     
+                    GetDataList(context);
+                    break;
                 default:
                     break;
             }
+        }
+        public BLL.t_TablesClass tableModel = new BLL.t_TablesClass("9D2512E9-6FF4-4E7E-BBB8-23DE83755D17");
+        public void GetDataList(HttpContext context)
+        {
+            int PageIndex = Convert.ToInt32(context.Request["page"]);
+            int PageSize = Convert.ToInt32(context.Request["limit"]);
+            int PageStart = Convert.ToInt32(context.Request["start"]);
+            string Order = context.Request["order"];
+            string OSrderDir = context.Request["orderDir"];
+            var WhereValues = context.Request["WhereValues"];
+            System.Data.DataTable dt = (WhereValues == null ? null : BLL.JsonHelper.DeserializeJsonToObject<System.Data.DataTable>(WhereValues));//条件数据
+            context.Response.Write(tableModel.GetDataListJson(dt, PageStart, PageIndex, PageSize, ""));
+            context.Response.End();
         }
         public bool IsReusable
         {
