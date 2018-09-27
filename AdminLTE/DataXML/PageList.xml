@@ -1,1 +1,16 @@
-﻿<?xml version="1.0" encoding="utf-8" ?> 
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TABLES ID="1" NAME="全部页面">
+    <SET>
+      <ISPLUS>0</ISPLUS>
+      <ISWHERE>1</ISWHERE>
+      <ISCHOICE>1</ISCHOICE>
+    </SET>
+    <COLUMNS>
+      <ITEMID type="checkbox"></ITEMID>
+      <TITLE type="text">标题</TITLE>
+      <SQL type="text">SQL</SQL>
+      <TABLENAME type="text">表名</TABLENAME>
+      <FILENAME type="text">页面名称</FILENAME>
+      <NOTE type="text">备注</NOTE>
+    </COLUMNS>
+</TABLES>

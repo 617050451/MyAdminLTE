@@ -89,22 +89,22 @@
     <script src="../../Script/js/cyfs.js"></script>
     <script src="../../Script/layer-v3.1.0/layer/layer.js"></script>
     <script>
-        var itemidguid = "";
+        var lastitemid = "";
         $(document).ready(function () {
             $(".box-body ul li a").click(function () {
                 $(".box-body ul li").removeClass("active");
                 $(this).parent().addClass("active");
                 var itemid = $("#selecttable").val();
-                if (itemid == null || itemid.lenght < 10) {
-                    if (itemidguid == null || itemidguid.lenght < 10) {
+                if (itemid == null || itemid == "") {
+                    if (lastitemid == null || lastitemid == "") {
                         layer.msg('请选择页面', function () {
                             return false;
                         });
                     }
                 } else {
-                    itemidguid = itemid;
+                    lastitemid = itemid;
                 }
-                $("#ifmSetPage").prop("src", $(this).attr("data-src") + "?ItemGUID=" + itemidguid);
+                $("#ifmSetPage").prop("src", $(this).attr("data-src") + "?ItemID=" + lastitemid);
             });
             $(".box-body ul li a:eq(0)").click();
         });

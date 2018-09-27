@@ -19,11 +19,11 @@ namespace AdminLTE.Admin.Temp
         }
         void BindData()
         {
-            var data = BLL.BaseClass.GetAllTableModelList();
+            var data = BLL.BaseClass.XmlSelectGetAllTableModelList();
             StringBuilder sb = new StringBuilder();
             foreach (var item in data)
             {
-                sb.Append("<option value=\"" + item.GUID + "\" page-title=\"" + item.Title + "\" page-name=\"" + item.FileName + "\">[ " + item.Title + " ]　[ " + item.FileName + " ]" + (item.Note == "" ? "" : "（" + item.Note + "）") + "</option>");
+                sb.Append("<option value=\"" + item.TableID + "\" page-title=\"" + item.Title + "\" page-name=\"" + item.FileName + "\">[ " + item.Title + " ]　[ " + item.FileName + " ]" + (item.Note == "" ? "" : "（" + item.Note + "）") + "</option>");
             }
             OptionList = sb.ToString();
         }

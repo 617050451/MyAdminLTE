@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TABLES>
+  <OPTION ID="1" TITLE="页面管理" FILENAME="PageList" NOTE="" ISPLUS="1" ISWHERE="1" ISCHOICE="1">
+    <COLUMNS>
+      <ID type="checkbox" orderby="1">编号</ID>
+      <TITLE type="text" orderby="2">标题</TITLE>
+      <SQL type="text" orderby="3">SQL</SQL>
+      <TABLENAME type="text" orderby="4">表名</TABLENAME>
+      <FILENAME type="text" orderby="5">页面名称</FILENAME>
+      <NOTE type="text" orderby="6">备注</NOTE>
+    </COLUMNS>
+  </OPTION>
+  <OPTION ID="2" TITLE="用户管理" FILENAME="UserList" NOTE="" ISPLUS="1" ISWHERE="1" ISCHOICE="1"></OPTION>
+  <OPTION ID="3" TITLE="菜单管理" FILENAME="MeanList" NOTE="" ISPLUS="1" ISWHERE="1" ISCHOICE="1"></OPTION>
+  <OPTION ID="4" TITLE="按钮管理" FILENAME="MoreButtonList" NOTE="" ISPLUS="1" ISWHERE="1" ISCHOICE="1"></OPTION>
+</TABLES>

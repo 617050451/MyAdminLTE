@@ -34,7 +34,7 @@
 </head>
 <body>
     <form id="FromPage">
-        <section class="content" style="margin-top: -13px;">
+<%--        <section class="content" style="margin-top: -13px;">
             <div class="row">
                 <table id="tableInfo" class="table" style="margin:0px;margin-top:-3px;border-left:1px solid #ddd;border-right:1px solid #ddd;">
                     <tbody>
@@ -43,9 +43,9 @@
                                 <h4 style="margin: 0px;">
                                     <button type="button" title="数据设置" class="btn btn-warning" onclick="showTableInfoHtml()">数据设置</button>
                                     <button type="button" title="显示设置" class="btn btn-warning" onclick="showTableInfoHtmlSum()">显示设置</button>
-                                    <span class="label label-success"><%=tableModel.TableModel.FileName %></span>
-                                    <span class="label label-success"><%=tableModel.TableModel.TableName %></span>
-                                    <a href="javascript:PagePreview('<%=tableModel.TableModel.Title %>','/Page/<%=tableModel.TableModel.FileName %>.aspx','<%=tableModel.TableModel.GUID %>')">
+                                    <span class="label label-success"><%=bTable.TableModel.FileName %></span>
+                                    <span class="label label-success"><%=bTable.TableModel.TableName %></span>
+                                    <a href="javascript:PagePreview('<%=bTable.TableModel.Title %>','/Page/<%=bTable.TableModel.FileName %>.aspx','<%=tableModel.TableModel.GUID %>')">
                                     <span class="label label-primary">页面预览</span></a>
                                 </h4>
                             </td>
@@ -231,7 +231,7 @@
                 </div>
                 <button type="button" class="btn btn-success btn-block" onclick="bntSaveTableInfoOnclick()">保存</button>
             </div>
-        </div>
+        </div>--%>
     </form>
      <!-- jQuery 3 -->
     <script src="../../Script/AdminLTE-2.4.2/bower_components/jquery/dist/jquery.min.js"></script>

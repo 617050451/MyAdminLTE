@@ -12,54 +12,55 @@ namespace AdminLTE.Admin
 {
     public partial class SetList : BasePage
     {
-        public BLL.t_TablesClass tableModel;
-        public string ItemGUID = string.Empty;
+        public BLL.B_Table bTable;
+        public int ItemID = 0;
         protected void Page_Load(object sender, EventArgs e)
         {
-            ItemGUID = Request["ItemGUID"];
-            tableModel = new BLL.t_TablesClass(ItemGUID);
+            ItemID = Convert.ToInt32(Request["ItemID"]);
+            bTable = new BLL.B_Table(ItemID);
+            //bt = new BLL.t_TablesClass(ItemID);
             if (!IsPostBack)
             {
-                string GetType = Request.Form["gettype"];
-                if (GetType != null)
-                {
-                    if (GetType == "SetData")
-                    {
-                        var PageData = Request.Form["values"];
-                        var TableInfo = Request.Form["tableInfo"];
-                        DataTable dt = BLL.JsonHelper.DeserializeJsonToObject<DataTable>(PageData);
-                        DataTable tableInfodt = BLL.JsonHelper.DeserializeJsonToObject<DataTable>(TableInfo);
-                        if (tableModel.SaveUpdateTable("t_TableField", dt) && tableModel.SaveUpdateTableInfo(tableInfodt))
-                            Response.Write("True");
-                        else
-                            Response.Write("False");
-                        Response.End();
-                    }
-                    else if (GetType == "SetTableData")
-                    {
-                        var SetTableInfo = Request.Form["settableinfo"];
-                        DataTable SetTableInfodt = BLL.JsonHelper.DeserializeJsonToObject<DataTable>(SetTableInfo);
-                        if (tableModel.SaveUpdateTableInfo(SetTableInfodt))
-                        {
-                            //更新TableFieldInfo信息
-                            tableModel.SetTableFieldInfo();
-                            Response.Write("True");
-                        }
-                        else
-                            Response.Write("False");
-                        Response.End();
-                    }
-                    else if (GetType == "SetOrder")
-                    {
-                        Response.Write(tableModel.SetOrder());
-                        Response.End();
-                    }
-                }
+                //string GetType = Request.Form["gettype"];
+                //if (GetType != null)
+                //{
+                //    if (GetType == "SetData")
+                //    {
+                //        var PageData = Request.Form["values"];
+                //        var TableInfo = Request.Form["tableInfo"];
+                //        DataTable dt = BLL.JsonHelper.DeserializeJsonToObject<DataTable>(PageData);
+                //        DataTable tableInfodt = BLL.JsonHelper.DeserializeJsonToObject<DataTable>(TableInfo);
+                //        if (tableModel.SaveUpdateTable("t_TableField", dt) && tableModel.SaveUpdateTableInfo(tableInfodt))
+                //            Response.Write("True");
+                //        else
+                //            Response.Write("False");
+                //        Response.End();
+                //    }
+                //    else if (GetType == "SetTableData")
+                //    {
+                //        var SetTableInfo = Request.Form["settableinfo"];
+                //        DataTable SetTableInfodt = BLL.JsonHelper.DeserializeJsonToObject<DataTable>(SetTableInfo);
+                //        if (tableModel.SaveUpdateTableInfo(SetTableInfodt))
+                //        {
+                //            //更新TableFieldInfo信息
+                //            tableModel.SetTableFieldInfo();
+                //            Response.Write("True");
+                //        }
+                //        else
+                //            Response.Write("False");
+                //        Response.End();
+                //    }
+                //    else if (GetType == "SetOrder")
+                //    {
+                //        Response.Write(tableModel.SetOrder());
+                //        Response.End();
+                //    }
+                //}
             }
         }
         public string GetSetListHtml(string ItemGUID)
         {
-            DataTable dt = tableModel.TableFieldInfo;
+            DataTable dt = null; /*tableModel.TableFieldInfo;*/
             StringBuilder sb = new StringBuilder();
             if (BLL.BaseClass.estimate(dt))
             {
