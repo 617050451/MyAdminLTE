@@ -1,16 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <TABLES>
-  <OPTION ID="1" TITLE="页面管理" FILENAME="PageList" NOTE="" ISPLUS="1" ISWHERE="1" ISCHOICE="1">
-    <COLUMNS>
-      <ID type="checkbox" orderby="1">编号</ID>
-      <TITLE type="text" orderby="2">标题</TITLE>
-      <SQL type="text" orderby="3">SQL</SQL>
-      <TABLENAME type="text" orderby="4">表名</TABLENAME>
-      <FILENAME type="text" orderby="5">页面名称</FILENAME>
-      <NOTE type="text" orderby="6">备注</NOTE>
-    </COLUMNS>
+  <OPTION TableID="1" Title="用户管理"  FileName="UserList" SQL="select * from [t_Users]" TableName="[t_Users]"  IsPlus="1" IsWhere="1" IsChoice="1" IsInsert="1"  IsUpdate="0" IsDelete="0" Note="">
+    <COLUMNS FieldKey="GuID" FieldText="GuID" FieldDataType="1" FieldData="" FieldStatusID="1"  SelectType="0" SelectData="" FieldOrder="1"></COLUMNS>
+    <COLUMNS FieldKey="No" FieldText="No" FieldDataType="1" FieldData="" FieldStatusID="1"  SelectType="0" SelectData="" FieldOrder="2"></COLUMNS>
+    <COLUMNS FieldKey="Account" FieldText="Account" FieldDataType="1" FieldData="" FieldStatusID="1"  SelectType="0" SelectData="" FieldOrder="3"></COLUMNS>
+    <COLUMNS FieldKey="Password" FieldText="Password" FieldDataType="1" FieldData="" FieldStatusID="1"  SelectType="0" SelectData="" FieldOrder="4"></COLUMNS>
+    <COLUMNS FieldKey="Name" FieldText="Name" FieldDataType="1" FieldData="" FieldStatusID="1"  SelectType="0" SelectData="" FieldOrder="5"></COLUMNS>
+    <COLUMNS FieldKey="Sex" FieldText="Sex" FieldDataType="1" FieldData="" FieldStatusID="1"  SelectType="0" SelectData="" FieldOrder="6"></COLUMNS>
+    <COLUMNS FieldKey="Birthday" FieldText="Birthday" FieldDataType="1" FieldData="" FieldStatusID="1"  SelectType="0" SelectData="" FieldOrder="7"></COLUMNS>
+    <COLUMNS FieldKey="Telephone" FieldText="Telephone" FieldDataType="1" FieldData="" FieldStatusID="1"  SelectType="0" SelectData="" FieldOrder="8"></COLUMNS>
+    <COLUMNS FieldKey="Address" FieldText="Address" FieldDataType="1" FieldData="" FieldStatusID="1"  SelectType="0" SelectData="" FieldOrder="9"></COLUMNS>
+    <COLUMNS FieldKey="StatusID" FieldText="StatusID" FieldDataType="1" FieldData="" FieldStatusID="1"  SelectType="0" SelectData="" FieldOrder="10"></COLUMNS>
+    <COLUMNS FieldKey="CreatorID" FieldText="CreatorID" FieldDataType="1" FieldData="" FieldStatusID="1"  SelectType="0" SelectData="" FieldOrder="11"></COLUMNS>
+    <COLUMNS FieldKey="CreaterDateTime" FieldText="CreaterDateTime" FieldDataType="1" FieldData="" FieldStatusID="1"  SelectType="0" SelectData="" FieldOrder="12"></COLUMNS>  
   </OPTION>
-  <OPTION ID="2" TITLE="用户管理" FILENAME="UserList" NOTE="" ISPLUS="1" ISWHERE="1" ISCHOICE="1"></OPTION>
-  <OPTION ID="3" TITLE="菜单管理" FILENAME="MeanList" NOTE="" ISPLUS="1" ISWHERE="1" ISCHOICE="1"></OPTION>
-  <OPTION ID="4" TITLE="按钮管理" FILENAME="MoreButtonList" NOTE="" ISPLUS="1" ISWHERE="1" ISCHOICE="1"></OPTION>
 </TABLES>

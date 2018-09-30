@@ -14,11 +14,19 @@ namespace BLL
             bItemID = ItemID;
         }
         /// <summary>
+        /// 获取表格实体
+        /// </summary>
+        /// <returns></returns>
+        public Model.M_Table GetTableModel()
+        {
+            return BaseClass.XmlSelectGetTableModel(bItemID);
+        }
+        /// <summary>
         /// 查询字段信息
         /// </summary>
-        public void GetTableFieldInfo()
+        public List<Model.M_TableField> GetTableFieldModel()
         {
-
+            return BaseClass.XmlSelectGetAllTableFieldInfo(bItemID);
         }
     }
 }

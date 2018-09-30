@@ -182,7 +182,6 @@ namespace Model
         /// <summary>
         /// CountData
         /// </summary>		
-
         private string CountDataValue;
         public string CountData
         {

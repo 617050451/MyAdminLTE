@@ -34,7 +34,7 @@
 </head>
 <body>
     <form id="FromPage">
-<%--        <section class="content" style="margin-top: -13px;">
+        <section class="content" style="margin-top: -13px;">
             <div class="row">
                 <table id="tableInfo" class="table" style="margin:0px;margin-top:-3px;border-left:1px solid #ddd;border-right:1px solid #ddd;">
                     <tbody>
@@ -43,45 +43,45 @@
                                 <h4 style="margin: 0px;">
                                     <button type="button" title="数据设置" class="btn btn-warning" onclick="showTableInfoHtml()">数据设置</button>
                                     <button type="button" title="显示设置" class="btn btn-warning" onclick="showTableInfoHtmlSum()">显示设置</button>
-                                    <span class="label label-success"><%=bTable.TableModel.FileName %></span>
-                                    <span class="label label-success"><%=bTable.TableModel.TableName %></span>
-                                    <a href="javascript:PagePreview('<%=bTable.TableModel.Title %>','/Page/<%=bTable.TableModel.FileName %>.aspx','<%=tableModel.TableModel.GUID %>')">
+                                    <a href="javasrcpt:void(0)"><span class="label label-success" onclick="showTableInfoHtml()" ><%=TableModel.Title %></span></a>
+                                    <span class="label label-success"><%=TableModel.FileName %></span>
+                                    <a href="javascript:PagePreview('<%=TableModel.Title %>','/Page/<%=TableModel.FileName %>.aspx','<%=TableModel.TableID %>')">
                                     <span class="label label-primary">页面预览</span></a>
                                 </h4>
                             </td>
                             <td>
                                 <select name="IsChoice" class="form-control select2 select2-hidden-accessible">
-                                    <option <%=tableModel.TableModel.IsChoice==1?"selected='selected'":"" %> value="1">有选择</option>
-                                    <option <%=tableModel.TableModel.IsChoice==0?"selected='selected'":"" %> value="0">无选择</option>
+                                    <option <%=TableModel.IsChoice==1?"selected='selected'":"" %> value="1">有选择</option>
+                                    <option <%=TableModel.IsChoice==0?"selected='selected'":"" %> value="0">无选择</option>
                                 </select>
                             </td>
                             <td>
                                 <select name="IsInsert" class="form-control select2 select2-hidden-accessible">
-                                    <option <%=tableModel.TableModel.IsInsert==1?"selected='selected'":"" %> value="1">有添加</option>
-                                    <option <%=tableModel.TableModel.IsInsert==0?"selected='selected'":"" %> value="0">无添加</option>
+                                    <option <%=TableModel.IsInsert==1?"selected='selected'":"" %> value="1">有添加</option>
+                                    <option <%=TableModel.IsInsert==0?"selected='selected'":"" %> value="0">无添加</option>
                                 </select>
                             </td>
                             <td>
                                 <select name="IsUpdate" class="form-control select2 select2-hidden-accessible">
-                                    <option <%=tableModel.TableModel.IsUpdate==1?"selected='selected'":"" %> value="1">有修改</option>
-                                    <option <%=tableModel.TableModel.IsUpdate==0?"selected='selected'":"" %>  value="0">无修改</option>
+                                    <option <%=TableModel.IsUpdate==1?"selected='selected'":"" %> value="1">有修改</option>
+                                    <option <%=TableModel.IsUpdate==0?"selected='selected'":"" %>  value="0">无修改</option>
                                 </select></td>
                             <td>
                                 <select name="IsDelete" class="form-control select2 select2-hidden-accessible">
-                                    <option <%=tableModel.TableModel.IsDelete==1?"selected='selected'":"" %>  value="1">有删除</option>
-                                    <option <%=tableModel.TableModel.IsDelete==0?"selected='selected'":"" %>  value="0">无删除</option>
+                                    <option <%=TableModel.IsDelete==1?"selected='selected'":"" %>  value="1">有删除</option>
+                                    <option <%=TableModel.IsDelete==0?"selected='selected'":"" %>  value="0">无删除</option>
                                 </select>
                             </td>
                             <td>
                                 <select name="IsWhere" class="form-control select2 select2-hidden-accessible">
-                                    <option <%=tableModel.TableModel.IsWhere==1?"selected='selected'":"" %>  value="1">有查询</option>
-                                    <option <%=tableModel.TableModel.IsWhere==0?"selected='selected'":"" %>  value="0">无查询</option>
+                                    <option <%=TableModel.IsWhere==1?"selected='selected'":"" %>  value="1">有查询</option>
+                                    <option <%=TableModel.IsWhere==0?"selected='selected'":"" %>  value="0">无查询</option>
                                 </select>
                             </td>
                             <td>
                                 <select name="IsPlus" class="form-control select2 select2-hidden-accessible">
-                                    <option <%=tableModel.TableModel.IsPlus==1?"selected='selected'":"" %>  value="1">折叠</option>
-                                    <option <%=tableModel.TableModel.IsPlus==0?"selected='selected'":"" %>  value="0">展开</option>
+                                    <option <%=TableModel.IsPlus==1?"selected='selected'":"" %>  value="1">折叠</option>
+                                    <option <%=TableModel.IsPlus==0?"selected='selected'":"" %>  value="0">展开</option>
                                 </select>
                             </td>
                             <td style="width:240px;border: none;">
@@ -106,7 +106,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <%=GetSetListHtml(ItemGUID) %>
+                        <%=GetSetListHtml(TableFielModelList) %>
                     </tbody>
                 </table>
             </div>
@@ -115,23 +115,23 @@
             <div class="col-sm-12" style="margin-top:5px;">
                 <div class="form-group">
                     <label for="title" class="control-label">标题</label>
-                    <input type="text" name="Title" class="form-control" placeholder="标题" value="<%=tableModel.TableModel.Title %>" />
+                    <input type="text" name="Title" class="form-control" placeholder="标题" value="<%=TableModel.Title %>" />
                 </div>
                 <div class="form-group">
                     <label for="FileName" class="control-label">页面名称</label>
-                    <input type="text" name="FileName" class="form-control" placeholder="页面名称" value="<%=tableModel.TableModel.FileName %>" />
+                    <input type="text" name="FileName" class="form-control" placeholder="页面名称" value="<%=TableModel.FileName %>" />
                 </div>
                 <div class="form-group">
                     <label for="TableName" class="control-label">SQL</label>
-                    <textarea name="SQL" class="form-control" placeholder="数据" rows="3"><%=tableModel.TableModel.SQL%></textarea>
+                    <textarea name="SQL" class="form-control" placeholder="数据" rows="3"><%=TableModel.SQL%></textarea>
                 </div>
                 <div class="form-group">
                     <label for="TableName" class="control-label">操作表</label>
-                    <textarea name="TableName" class="form-control" placeholder="数据" rows="1"><%=tableModel.TableModel.TableName%></textarea>
+                    <textarea name="TableName" class="form-control" placeholder="数据" rows="1"><%=TableModel.TableName%></textarea>
                 </div>
                 <div class="form-group">
                     <label for="Note" class="control-label">备注</label>
-                    <textarea name="Note" class="form-control" placeholder="备注" rows="3"><%=tableModel.TableModel.Note%></textarea>
+                    <textarea name="Note" class="form-control" placeholder="备注" rows="3"><%=TableModel.Note%></textarea>
                 </div>
                 <button type="button" class="btn btn-success btn-block" onclick="bntSaveTableInfoOnclick()">保存</button>
             </div>
@@ -176,7 +176,7 @@
                     </tr>
                 </table>
                 </div>
-                <textarea name="CountData" class="form-control" placeholder="聚合显示" rows="3"><%=tableModel.TableModel.CountData%></textarea>
+                <textarea name="CountData" class="form-control" placeholder="聚合显示" rows="3"><%=TableModel.CountData%></textarea>
                 <button type="button" class="btn btn-success btn-block" onclick="bntSaveTableInfoOnclickSum()" style="margin-top:5px;">保存</button>
             </div>
         </div>
@@ -231,7 +231,7 @@
                 </div>
                 <button type="button" class="btn btn-success btn-block" onclick="bntSaveTableInfoOnclick()">保存</button>
             </div>
-        </div>--%>
+        </div>
     </form>
      <!-- jQuery 3 -->
     <script src="../../Script/AdminLTE-2.4.2/bower_components/jquery/dist/jquery.min.js"></script>
