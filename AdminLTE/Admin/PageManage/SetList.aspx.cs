@@ -30,18 +30,18 @@ namespace AdminLTE.Admin
                 string GetType = Request.Form["gettype"];
                 if (GetType != null)
                 {
-                    //if (GetType == "SetData")
-                    //{
-                    //    var PageData = Request.Form["values"];
-                    //    var TableInfo = Request.Form["tableInfo"];
-                    //    DataTable dt = BLL.JsonHelper.DeserializeJsonToObject<DataTable>(PageData);
-                    //    DataTable tableInfodt = BLL.JsonHelper.DeserializeJsonToObject<DataTable>(TableInfo);
-                    //    if (tableModel.SaveUpdateTable("t_TableField", dt) && tableModel.SaveUpdateTableInfo(tableInfodt))
-                    //        Response.Write("True");
-                    //    else
-                    //        Response.Write("False");
-                    //    Response.End();
-                    //}
+                    if (GetType == "SetData")
+                    {
+                        var PageData = Request.Form["values"];
+                        var TableInfo = Request.Form["tableInfo"];
+                        DataTable TableInfoDt = BLL.JsonHelper.DeserializeJsonToObject<DataTable>(TableInfo);
+                        DataTable TableFileInfoDt = BLL.JsonHelper.DeserializeJsonToObject<DataTable>(PageData);
+                        if (TableBll.UpdateTableModel(TableInfoDt) && TableBll.UpdateTableFieldModel(TableFileInfoDt))
+                            Response.Write("True");
+                        else
+                            Response.Write("False");
+                        Response.End();
+                    }
                     //else if (GetType == "SetTableData")
                     //{
                     //    var SetTableInfo = Request.Form["settableinfo"];
@@ -64,12 +64,12 @@ namespace AdminLTE.Admin
                 }
             }
         }
-        public string GetSetListHtml(List<Model.M_TableField>  TableFielModelList)
+        public string GetSetListHtml(List<Model.M_TableField> TableFielModelList)
         {
             StringBuilder sb = new StringBuilder();
             foreach (var item in TableFielModelList)
             {
-                sb.Append(BLL.BaseClass.XmlSelectGetAllTableFieldXml(item));
+                sb.Append(BLL.BaseClass.XmlSelectAllTableFieldXml(item));
             }
             return sb.ToString();
         }

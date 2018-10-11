@@ -1,17 +1,31 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <TABLES>
-  <OPTION TableID="1" Title="用户管理"  FileName="UserList" SQL="select * from [t_Users]" TableName="[t_Users]"  IsPlus="1" IsWhere="1" IsChoice="1" IsInsert="1"  IsUpdate="0" IsDelete="0" Note="">
-    <COLUMNS FieldKey="GuID" FieldText="GuID" FieldDataType="1" FieldData="" FieldStatusID="1"  SelectType="0" SelectData="" FieldOrder="1"></COLUMNS>
-    <COLUMNS FieldKey="No" FieldText="No" FieldDataType="1" FieldData="" FieldStatusID="1"  SelectType="0" SelectData="" FieldOrder="2"></COLUMNS>
-    <COLUMNS FieldKey="Account" FieldText="Account" FieldDataType="1" FieldData="" FieldStatusID="1"  SelectType="0" SelectData="" FieldOrder="3"></COLUMNS>
-    <COLUMNS FieldKey="Password" FieldText="Password" FieldDataType="1" FieldData="" FieldStatusID="1"  SelectType="0" SelectData="" FieldOrder="4"></COLUMNS>
-    <COLUMNS FieldKey="Name" FieldText="Name" FieldDataType="1" FieldData="" FieldStatusID="1"  SelectType="0" SelectData="" FieldOrder="5"></COLUMNS>
-    <COLUMNS FieldKey="Sex" FieldText="Sex" FieldDataType="1" FieldData="" FieldStatusID="1"  SelectType="0" SelectData="" FieldOrder="6"></COLUMNS>
-    <COLUMNS FieldKey="Birthday" FieldText="Birthday" FieldDataType="1" FieldData="" FieldStatusID="1"  SelectType="0" SelectData="" FieldOrder="7"></COLUMNS>
-    <COLUMNS FieldKey="Telephone" FieldText="Telephone" FieldDataType="1" FieldData="" FieldStatusID="1"  SelectType="0" SelectData="" FieldOrder="8"></COLUMNS>
-    <COLUMNS FieldKey="Address" FieldText="Address" FieldDataType="1" FieldData="" FieldStatusID="1"  SelectType="0" SelectData="" FieldOrder="9"></COLUMNS>
-    <COLUMNS FieldKey="StatusID" FieldText="StatusID" FieldDataType="1" FieldData="" FieldStatusID="1"  SelectType="0" SelectData="" FieldOrder="10"></COLUMNS>
-    <COLUMNS FieldKey="CreatorID" FieldText="CreatorID" FieldDataType="1" FieldData="" FieldStatusID="1"  SelectType="0" SelectData="" FieldOrder="11"></COLUMNS>
-    <COLUMNS FieldKey="CreaterDateTime" FieldText="CreaterDateTime" FieldDataType="1" FieldData="" FieldStatusID="1"  SelectType="0" SelectData="" FieldOrder="12"></COLUMNS>  
+  <OPTION TableID="1" Title="用户管理" FileName="UserList" SQL="select * from [t_Users]" TableName="[t_Users]" IsPlus="1" IsWhere="1" IsChoice="1" IsInsert="1" IsUpdate="1" IsDelete="0" Note="" ColunmName="1">
+    <COLUMNS>
+      <GuID FieldKey="GuID" FieldText="GuID1" FieldDataType="1" FieldData="" FieldStatusID="0" SelectType="0" SelectData="" FieldOrder="1">
+      </GuID>
+      <No FieldKey="No" FieldText="No" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="2">
+      </No>
+      <Account FieldKey="Account" FieldText="Account" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="3">
+      </Account>
+      <Password FieldKey="Password" FieldText="Password" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="4">
+      </Password>
+      <Name FieldKey="Name" FieldText="Name" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="5">
+      </Name>
+      <Sex FieldKey="Sex" FieldText="Sex" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="6">
+      </Sex>
+      <Birthday FieldKey="Birthday" FieldText="Birthday" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="7">
+      </Birthday>
+      <Telephone FieldKey="Telephone" FieldText="Telephone" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="8">
+      </Telephone>
+      <Address FieldKey="Address" FieldText="Address" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="9">
+      </Address>
+      <StatusID FieldKey="StatusID" FieldText="StatusID" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="10">
+      </StatusID>
+      <CreatorID FieldKey="CreatorID" FieldText="CreatorID" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="11">
+      </CreatorID>
+      <CreaterDateTime FieldKey="CreaterDateTime" FieldText="CreaterDateTime" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="12">
+      </CreaterDateTime>
+    </COLUMNS>
   </OPTION>
 </TABLES>

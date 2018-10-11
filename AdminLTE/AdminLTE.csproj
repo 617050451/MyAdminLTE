@@ -74,9 +74,6 @@
     <Content Include="Admin\PageManage\SetList.aspx" />
     <Content Include="Admin\PageManage\SetPages.aspx" />
     <Content Include="Admin\PageManage\WelcomePage_Admin.aspx" />
-    <Content Include="DataXML\PageList.xml">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="DataXML\Table.xml">
       <SubType>Designer</SubType>
     </Content>

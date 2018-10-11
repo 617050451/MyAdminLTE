@@ -19,7 +19,7 @@ namespace AdminLTE.Admin.Temp
         }
         void BindData()
         {
-            var data = BLL.BaseClass.XmlSelectGetAllTableModelList();
+            var data = BLL.BaseClass.XmlSelectAllTableModelList();
             StringBuilder sb = new StringBuilder();
             foreach (var item in data)
             {

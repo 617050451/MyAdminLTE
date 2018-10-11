@@ -22,7 +22,7 @@ namespace BLL
         /// 获取全部页面数据
         /// </summary>
         /// <returns></returns>
-        public static List<Model.M_Table> XmlSelectGetAllTableModelList()
+        public static List<Model.M_Table> XmlSelectAllTableModelList()
         {
             List<Model.M_Table> ListModel = new List<Model.M_Table>();
             string xmlPath = System.AppDomain.CurrentDomain.BaseDirectory + "\\DataXML\\Table.xml";
@@ -66,7 +66,7 @@ namespace BLL
         /// 查询页面数据
         /// </summary>
         /// <returns></returns>
-        public static Model.M_Table XmlSelectGetTableModel(int ItemID)
+        public static Model.M_Table XmlSelectTableModel(int ItemID)
         {
             Model.M_Table mt = new Model.M_Table();
             string xmlPath = System.AppDomain.CurrentDomain.BaseDirectory + "\\DataXML\\Table.xml";
@@ -89,7 +89,7 @@ namespace BLL
                     var IsUpdate = xn.Attributes["IsUpdate"].Value;
                     var IsDelete = xn.Attributes["IsDelete"].Value;
                     var SQL = xn.Attributes["SQL"].Value;
-                    var TableName = xn.Attributes["SQL"].Value;
+                    var TableName = xn.Attributes["TableName"].Value;
                     var Note = xn.Attributes["Note"].Value;
                     mt.TableID = Convert.ToInt32(TableID);
                     mt.Title = Title;
@@ -113,7 +113,7 @@ namespace BLL
         /// </summary>
         /// <param name="ItemID">页面数据ID</param>
         /// <returns></returns>
-        public static List<Model.M_TableField> XmlSelectGetAllTableFieldInfo(int ItemID)
+        public static List<Model.M_TableField> XmlSelectAllTableFieldInfo(int ItemID)
         {
             List<Model.M_TableField> ListModel = new List<Model.M_TableField>();
             string xmlPath = System.AppDomain.CurrentDomain.BaseDirectory + "\\DataXML\\Table.xml";
@@ -125,8 +125,8 @@ namespace BLL
             {
                 if (xn.Attributes["TableID"].Value == ItemID.ToString())
                 {
-                    XmlNodeList XmlColumnsNode = xn.SelectNodes("COLUMNS");
-                    foreach (XmlNode xcn in XmlColumnsNode)
+                    XmlNode XmlColumnsNode = xn.SelectSingleNode("COLUMNS");
+                    foreach (XmlNode xcn in XmlColumnsNode.ChildNodes)
                     {
                         Model.M_TableField mf = new Model.M_TableField();
                         string FieldKey = xcn.Attributes["FieldKey"].Value;
@@ -145,31 +145,114 @@ namespace BLL
                         mf.FieldStatusID = Convert.ToInt32(FieldStatusID);
                         mf.SelectType = Convert.ToInt32(SelectType);
                         mf.SelectData = SelectData;
-                        mf.FieldOrder = ItemID;
+                        mf.FieldOrder = Convert.ToInt32(FieldOrder);
                         ListModel.Add(mf);
                     }
                     break;
                 }
             }
-            return ListModel;
+            IEnumerable<Model.M_TableField> query = from items in ListModel orderby items.FieldOrder select items;
+            return query.ToList<Model.M_TableField>();
         }
         /// <summary>
         /// 获取页面字段Html
         /// </summary>
         /// <param name="mf">页面字段信息实体</param>
         /// <returns></returns>
-        public static string XmlSelectGetAllTableFieldXml(Model.M_TableField mf)
+        public static string XmlSelectAllTableFieldXml(Model.M_TableField mf)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("<tr role=\"row\" class=\"odd\">");
             sb.Append("<td>" + mf.FieldKey + "<div class=\"input-group input-group-sm\"><input type=\"text\" name=\"FieldKey\" class=\"form-control hidden\" value='" + mf.FieldKey + "'/></div></td>");
-            sb.Append("<td><div class=\"input-group input-group-sm\"><input type=\"text\" name=\"FieldValue\"  class=\"form-control\" value='" + mf.FieldText + "\'/></div></td>");
+            sb.Append("<td><div class=\"input-group input-group-sm\"><input type=\"text\" name=\"FieldText\"  class=\"form-control\" value='" + mf.FieldText + "\'/></div></td>");
             sb.Append("<td class=\"form-inline\">" + GetFieldDataTypeHtml(mf.FieldDataType, mf.FieldData) + "</td>");//
             sb.Append("<td>" + GetFieldStatusIDHtml(mf.FieldStatusID) + "</td>");
             sb.Append("<td class=\"form-inline\">" + GetSelectTypeHtml(mf.SelectType, mf.SelectData) + "</div>");
             sb.Append("<td><div class=\"input-group input-group-sm\"><input type=\"text\"   class=\"form-control\"  name=\"FieldOrder\" value='" + mf.FieldOrder + "'/></div></td>");
             return sb.ToString();
         }
+        /// <summary>
+        /// 修改xml表格信息
+        /// </summary>
+        /// <param name="ItemID">页面数据ID</param>
+        /// <param name="dataTable">表格数据</param>
+        /// <returns></returns>
+        public static bool XmlUpdateTableModel(int ItemID, DataTable dataTable)
+        {
+            try
+            {
+                var returnData = false;
+                string xmlPath = System.AppDomain.CurrentDomain.BaseDirectory + "\\DataXML\\Table.xml";
+                XmlDocument xml = new XmlDocument();
+                xml.Load(xmlPath);//读取文件
+                XmlElement root = xml.DocumentElement;//获取根节点
+                XmlNodeList rootChil = root.ChildNodes;//获取子节点
+                foreach (XmlNode xn in rootChil)
+                {
+                    if (xn.Attributes["TableID"].Value == ItemID.ToString())
+                    {
+                        for (int i = 0; i < dataTable.Rows.Count; i++)
+                        {
+                            var ColunmName = dataTable.Rows[i][0].ToString();
+                            var ColunmValue = dataTable.Rows[i][1].ToString();
+                            xn.Attributes[ColunmName].Value = ColunmValue;
+                        }
+                        xml.Save(xmlPath);
+                        returnData = true;
+                        break;
+                    }
+                }
+                return returnData;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 修改xml表格字段信息
+        /// </summary>
+        /// <param name="ItemID">页面数据ID</param>
+        /// <param name="dataTable">表格字段数据</param>
+        /// <returns></returns>
+        public static bool XmlUpdateTableFielModel(int ItemID, DataTable dataTable)
+        {
+            try
+            {
+                var returnData = false;
+                string xmlPath = System.AppDomain.CurrentDomain.BaseDirectory + "\\DataXML\\Table.xml";
+                XmlDocument xml = new XmlDocument();
+                xml.Load(xmlPath);//读取文件
+                XmlElement root = xml.DocumentElement;//获取根节点
+                XmlNodeList rootChil = root.ChildNodes;//获取子节点
+                foreach (XmlNode xn in rootChil)
+                {
+                    if (xn.Attributes["TableID"].Value == ItemID.ToString())
+                    {
+                        XmlNode XmlColumnsNode = xn.SelectSingleNode("COLUMNS");
+                        XmlNode xmlNodeFieldKey = XmlColumnsNode.SelectSingleNode(dataTable.Rows[0][1].ToString());
+                        for (int i = 0; i < dataTable.Rows.Count; i++)
+                        {
+                            var ColunmName = dataTable.Rows[i][0].ToString();
+                            var ColunmValue = dataTable.Rows[i][1].ToString();
+                            if (ColunmName == "FieldKey")
+                                xmlNodeFieldKey = XmlColumnsNode.SelectSingleNode(ColunmValue);
+                            else
+                                xmlNodeFieldKey.Attributes[ColunmName].Value = ColunmValue;
+                        }
+                        xml.Save(xmlPath);
+                        returnData = true;
+                        break;
+                    }
+                }
+                return returnData;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
 
 
 
@@ -380,14 +463,6 @@ namespace BLL
             }
             return sql;
         }
-        //获取全部表格数据
-        public static List<Model.M_Table> GetAllTableModelList()
-        {
-           return XmlSelectGetAllTableModelList();
-            //List<Model.t_Tables> DataTableModel = DataTableToModel<Model.t_Tables>("SELECT * FROM T_TABLES");
-            //return DataTableModel;
-        }
-
         /// 创建
         /// </summary>
         public static void XmlCreate(string XmlName)

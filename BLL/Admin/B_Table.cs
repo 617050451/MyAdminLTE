@@ -19,14 +19,29 @@ namespace BLL
         /// <returns></returns>
         public Model.M_Table GetTableModel()
         {
-            return BaseClass.XmlSelectGetTableModel(bItemID);
+            return BaseClass.XmlSelectTableModel(bItemID);
         }
         /// <summary>
         /// 查询字段信息
         /// </summary>
         public List<Model.M_TableField> GetTableFieldModel()
         {
-            return BaseClass.XmlSelectGetAllTableFieldInfo(bItemID);
+            return BaseClass.XmlSelectAllTableFieldInfo(bItemID);
+        }
+        /// <summary>
+        /// 修改表格实体
+        /// </summary>
+        public bool UpdateTableModel(System.Data.DataTable dataTable)
+        {
+            return BaseClass.XmlUpdateTableModel(bItemID, dataTable);
+        }
+        /// <summary>
+        /// 修改字段信息
+        /// </summary>
+        public bool UpdateTableFieldModel(System.Data.DataTable dataTable)
+        {
+            return BaseClass.XmlUpdateTableFielModel(bItemID, dataTable);
         }
     }
 }
+
