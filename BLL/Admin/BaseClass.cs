@@ -252,6 +252,43 @@ namespace BLL
                 return false;
             }
         }
+        /// <summary>
+        /// 更新xml表格字段信息
+        /// </summary>
+        /// <param name="ItemID">页面数据ID</param>
+        /// <returns></returns>
+        public static bool XmlToUpdateTableFielModel(int ItemID)
+        {
+            try
+            {
+                var returnData = false;
+                string xmlPath = System.AppDomain.CurrentDomain.BaseDirectory + "\\DataXML\\Table.xml";
+                XmlDocument xml = new XmlDocument();
+                xml.Load(xmlPath);//读取文件
+                XmlElement root = xml.DocumentElement;//获取根节点
+                XmlNodeList rootChil = root.ChildNodes;//获取子节点
+                foreach (XmlNode xn in rootChil)
+                {
+                    if (xn.Attributes["TableID"].Value == ItemID.ToString())
+                    {
+                        XmlNode XmlColumnsNode = xn.SelectSingleNode("COLUMNS");
+
+                        foreach (XmlNode xcn in XmlColumnsNode.ChildNodes)
+                        {
+
+                        }
+                        xml.Save(xmlPath);
+                        returnData = true;
+                        break;
+                    }
+                }
+                return returnData;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
 
 
 

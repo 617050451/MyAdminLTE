@@ -42,20 +42,30 @@ namespace AdminLTE.Admin
                             Response.Write("False");
                         Response.End();
                     }
-                    //else if (GetType == "SetTableData")
-                    //{
-                    //    var SetTableInfo = Request.Form["settableinfo"];
-                    //    DataTable SetTableInfodt = BLL.JsonHelper.DeserializeJsonToObject<DataTable>(SetTableInfo);
-                    //    if (tableModel.SaveUpdateTableInfo(SetTableInfodt))
-                    //    {
-                    //        //更新TableFieldInfo信息
-                    //        tableModel.SetTableFieldInfo();
-                    //        Response.Write("True");
-                    //    }
-                    //    else
-                    //        Response.Write("False");
-                    //    Response.End();
-                    //}
+                    else if (GetType == "SetTableData")
+                    {
+                        var SetTableInfo = Request.Form["settableinfo"];
+                        DataTable SetTableInfodt = BLL.JsonHelper.DeserializeJsonToObject<DataTable>(SetTableInfo);
+                        if (TableBll.UpdateTableModel(SetTableInfodt))
+                        {
+                            //更新TableFieldInfo信息
+                            Response.Write("True");
+                        }
+                        else
+                            Response.Write("False");
+                        Response.End();
+                        //var SetTableInfo = Request.Form["settableinfo"];
+                        //DataTable SetTableInfodt = BLL.JsonHelper.DeserializeJsonToObject<DataTable>(SetTableInfo);
+                        //if (tableModel.SaveUpdateTableInfo(SetTableInfodt))
+                        //{
+                        //    //更新TableFieldInfo信息
+                        //    tableModel.SetTableFieldInfo();
+                        //    Response.Write("True");
+                        //}
+                        //else
+                        //    Response.Write("False");
+                        //Response.End();
+                    }
                     //else if (GetType == "SetOrder")
                     //{
                     //    Response.Write(tableModel.SetOrder());

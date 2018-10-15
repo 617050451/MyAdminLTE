@@ -41,8 +41,6 @@
                         <tr>
                             <td>
                                 <h4 style="margin: 0px;">
-<%--                                    <button type="button" title="数据设置" class="btn btn-warning" onclick="showTableInfoHtml()">数据设置</button>
-                                    <button type="button" title="显示设置" class="btn btn-warning" onclick="showTableInfoHtmlSum()">显示设置</button>--%>
                                     <a href="javasrcpt:void(0)"><span class="label label-warning" onclick="showTableInfoHtml()" ><%=TableModel.Title %></span></a>
                                     <span class="label label-success"><%=TableModel.FileName %></span>
                                     <a href="javascript:PagePreview('<%=TableModel.Title %>','/Page/<%=TableModel.FileName %>.aspx','<%=TableModel.TableID %>')">
@@ -317,6 +315,12 @@
                         layer.msg('操作成功！', {
                             icon: 1, time: 1500, end: function () {
                                 location.reload();
+                            }
+                        });
+                    }else {
+                        loadClose();
+                        layer.msg('操作失败！', {
+                            icon: 2, time: 1500, end: function () {
                             }
                         });
                     }

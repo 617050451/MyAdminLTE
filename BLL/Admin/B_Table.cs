@@ -42,6 +42,13 @@ namespace BLL
         {
             return BaseClass.XmlUpdateTableFielModel(bItemID, dataTable);
         }
+        /// <summary>
+        /// 跟新字段信息
+        /// </summary>
+        public bool ToUpdateTableFieldModel(System.Data.DataTable dataTable)
+        {
+            return BaseClass.XmlToUpdateTableFielModel(bItemID);
+        }
     }
 }
 
