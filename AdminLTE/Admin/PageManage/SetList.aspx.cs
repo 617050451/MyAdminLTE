@@ -49,6 +49,7 @@ namespace AdminLTE.Admin
                         if (TableBll.UpdateTableModel(SetTableInfodt))
                         {
                             //更新TableFieldInfo信息
+                            TableBll.ToUpdateTableFieldModel();
                             Response.Write("True");
                         }
                         else

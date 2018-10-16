@@ -30,7 +30,7 @@ namespace BLL
             xml.Load(xmlPath);//读取文件
             XmlElement root = xml.DocumentElement;//获取根节点
             StringBuilder sb = new StringBuilder();
-            XmlNodeList rootChil = root.ChildNodes;//获取子节点
+            XmlNodeList rootChil = root.SelectNodes("OPTION");//获取子节点
             foreach (XmlNode xn in rootChil)
             {
                 Model.M_Table mt = new Model.M_Table();
@@ -272,10 +272,46 @@ namespace BLL
                     if (xn.Attributes["TableID"].Value == ItemID.ToString())
                     {
                         XmlNode XmlColumnsNode = xn.SelectSingleNode("COLUMNS");
-
+                        var SQL = xn.Attributes["SQL"].Value;
+                        List<XmlElement> xmlAddList = new List<XmlElement>();
+                        DataTable ColumnsDT = GetDataTableColumns(SQL);
+                        for (int i = 0; i < ColumnsDT.Columns.Count; i++)
+                        {
+                            var IsExist = false;
+                            var ColunmName = ColumnsDT.Columns[i].ColumnName;
+                            foreach (XmlNode xcn in XmlColumnsNode.ChildNodes)
+                            {
+                                string FieldKey = xcn.Attributes["FieldKey"].Value;
+                                if (ColunmName.ToUpper() == FieldKey.ToUpper())
+                                {
+                                    IsExist = true;
+                                    break;
+                                }
+                            }
+                            if (!IsExist)
+                            {
+                                XmlElement xmlElemDeptChildId = xml.CreateElement(ColunmName);
+                                xmlElemDeptChildId.SetAttribute("FieldKey", ColunmName);
+                                xmlElemDeptChildId.SetAttribute("FieldText", ColunmName);
+                                xmlElemDeptChildId.SetAttribute("FieldDataType", "1");
+                                xmlElemDeptChildId.SetAttribute("FieldData", "");
+                                xmlElemDeptChildId.SetAttribute("FieldStatusID", "1");
+                                xmlElemDeptChildId.SetAttribute("SelectType", "0");
+                                xmlElemDeptChildId.SetAttribute("SelectData", "");
+                                xmlElemDeptChildId.SetAttribute("FieldOrder", (i + 1).ToString());
+                                xmlElemDeptChildId.InnerText = "";
+                                xmlAddList.Add(xmlElemDeptChildId);
+                            }
+                        }
+                        for (int i = 0; i < xmlAddList.Count; i++)
+                        {
+                            XmlColumnsNode.AppendChild(xmlAddList[i]);
+                        }
                         foreach (XmlNode xcn in XmlColumnsNode.ChildNodes)
                         {
-
+                            string FieldKey = xcn.Attributes["FieldKey"].Value;
+                            if (!ColumnsDT.Columns.Contains(FieldKey))
+                                XmlColumnsNode.RemoveChild(xcn);
                         }
                         xml.Save(xmlPath);
                         returnData = true;
@@ -289,7 +325,15 @@ namespace BLL
                 return false;
             }
         }
-
+        /// <summary>
+        /// 获取表格字段
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        public static DataTable GetDataTableColumns(string sql)
+        {
+            return BaseClass.GetDataTable("select * from (" + sql + ")as cyfstb where 1=2");
+        }
 
 
 

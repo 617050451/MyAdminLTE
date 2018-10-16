@@ -202,11 +202,11 @@
                     <textarea name="BntActionContent" class="form-control" placeholder="执行内容" rows="3"></textarea>
                 </div>
                 <div class="form-group text-left" style="margin-bottom:5px;">
-                    <div  class="col-sm-6" >
+                    <div  class="col-sm-6" style="padding:0px;">
                         <label for="Widths" class="control-label">弹层宽度</label>
                         <input type="text" name="Widths" class="form-control" placeholder="弹层宽度" />
                     </div>
-                    <div  class="col-sm-6" >
+                    <div  class="col-sm-6" style="padding:0px;">
                         <label for="Heigths" class="control-label">弹层高度</label>
                         <input type="text" name="Heigths" class="form-control" placeholder="弹层高度" />
                     </div>
