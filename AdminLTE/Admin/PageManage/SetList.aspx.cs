@@ -37,7 +37,10 @@ namespace AdminLTE.Admin
                         DataTable TableInfoDt = BLL.JsonHelper.DeserializeJsonToObject<DataTable>(TableInfo);
                         DataTable TableFileInfoDt = BLL.JsonHelper.DeserializeJsonToObject<DataTable>(PageData);
                         if (TableBll.UpdateTableModel(TableInfoDt) && TableBll.UpdateTableFieldModel(TableFileInfoDt))
+                        {
+                            TableBll.SavePageHtml(TableModel, TableFielModelList);
                             Response.Write("True");
+                        }                           
                         else
                             Response.Write("False");
                         Response.End();
@@ -55,23 +58,12 @@ namespace AdminLTE.Admin
                         else
                             Response.Write("False");
                         Response.End();
-                        //var SetTableInfo = Request.Form["settableinfo"];
-                        //DataTable SetTableInfodt = BLL.JsonHelper.DeserializeJsonToObject<DataTable>(SetTableInfo);
-                        //if (tableModel.SaveUpdateTableInfo(SetTableInfodt))
-                        //{
-                        //    //更新TableFieldInfo信息
-                        //    tableModel.SetTableFieldInfo();
-                        //    Response.Write("True");
-                        //}
-                        //else
-                        //    Response.Write("False");
-                        //Response.End();
                     }
-                    //else if (GetType == "SetOrder")
-                    //{
-                    //    Response.Write(tableModel.SetOrder());
-                    //    Response.End();
-                    //}
+                    else if (GetType == "SetOrder")
+                    {
+                        Response.Write(TableBll.SetOrder());
+                        Response.End();
+                    }
                 }
             }
         }

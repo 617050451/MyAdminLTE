@@ -7525,6 +7525,7 @@
     <Content Include="Admin\PageManage\Temp\TempPageList.aspx.temp" />
     <Content Include="Admin\PageManage\Temp\TempPageList.aspx.cs.temp" />
     <Content Include="Ajax\GetData.ashx" />
+    <Content Include="Admin\PageManage\Temp\List.html.temp" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\cy.pubxml" />
     <Content Include="Script\layer-v3.1.0\文档\jquery下载.url" />

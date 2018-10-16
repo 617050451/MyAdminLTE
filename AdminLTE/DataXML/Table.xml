@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TABLES>
-  <OPTION TableID="1" Title="用户管理" FileName="UserList" SQL="select [GUID],[No],[Account],[Password],[Name],[Sex],[Birthday],[Telephone],[Address],[StatusID],[CreatorID],[CreaterDateTime]  from [t_Users]" TableName="dbo.[t_Users]" IsPlus="0" IsWhere="0" IsChoice="1" IsInsert="0" IsUpdate="0" IsDelete="0" Note="备注" ColunmName="1">
+  <OPTION TableID="1" Title="用户管理" FileName="UserList" SQL="select [GUID],[No],[Account],[Password],[Name],[Sex],[Birthday],[Telephone],[Address],[StatusID],[CreatorID],[CreaterDateTime]  from [t_Users]" TableName="dbo.[t_Users]" IsPlus="0" IsWhere="1" IsChoice="1" IsInsert="0" IsUpdate="0" IsDelete="0" Note="备注" ColunmName="1">
     <COLUMNS>
-      <GuID FieldKey="GuID" FieldText="GuID" FieldDataType="1" FieldData="" FieldStatusID="0" SelectType="0" SelectData="" FieldOrder="1">
-      </GuID>
+      <GUID FieldKey="GUID" FieldText="GUID" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="1">
+      </GUID>
       <No FieldKey="No" FieldText="No" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="2">
       </No>
       <Account FieldKey="Account" FieldText="Account" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="3">

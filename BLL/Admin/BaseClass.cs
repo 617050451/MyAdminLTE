@@ -334,6 +334,41 @@ namespace BLL
         {
             return BaseClass.GetDataTable("select * from (" + sql + ")as cyfstb where 1=2");
         }
+        public static bool XmlToSetOrder(int ItemID)
+        {
+            try
+            {
+                var returnData = false;
+                string xmlPath = System.AppDomain.CurrentDomain.BaseDirectory + "\\DataXML\\Table.xml";
+                XmlDocument xml = new XmlDocument();
+                xml.Load(xmlPath);//读取文件
+                XmlElement root = xml.DocumentElement;//获取根节点
+                XmlNodeList rootChil = root.ChildNodes;//获取子节点
+                foreach (XmlNode xn in rootChil)
+                {
+                    if (xn.Attributes["TableID"].Value == ItemID.ToString())
+                    {
+                        XmlNode XmlColumnsNode = xn.SelectSingleNode("COLUMNS");
+                        var SQL = xn.Attributes["SQL"].Value;
+                        List<XmlElement> xmlAddList = new List<XmlElement>();
+                        DataTable ColumnsDT = GetDataTableColumns(SQL);
+                        for (int i = 0; i < ColumnsDT.Columns.Count; i++)
+                        {
+                            var ColunmName = ColumnsDT.Columns[i].ColumnName;
+                            XmlColumnsNode.SelectSingleNode(ColunmName).Attributes["FieldOrder"].Value = (i + 1).ToString();
+                        }
+                        xml.Save(xmlPath);
+                        returnData = true;
+                        break;
+                    }
+                }
+                return returnData;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
 
 
 
