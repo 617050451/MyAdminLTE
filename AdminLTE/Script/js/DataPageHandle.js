@@ -177,6 +177,7 @@ $(function () {
                         var ItemID = sender.val();
                         if (ItemID == "")
                         {
+                            ItemID = OnCheckboxOnSelectValue();
                             layer.msg("请选择需要操作的记录！");
                             loadClose();
                             return false;

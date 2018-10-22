@@ -104,9 +104,9 @@ namespace BLL
                 TableThead.Append(string.Format("<th aria-controls=\"example\" rowspan=\"1\" colspan=\"1\" aria-label=\"操作: \">{0}</th>", "操作"));
                 var BntHmtl = string.Empty;
                 if (TableModel.IsUpdate == 1)
-                    BntHmtl += "<button name='UpdateItemID' bnt-click = 'UpdateItemID' style='margin:2px;' type = 'button' class='btn btn-warning  btn-xs'>修　改</button>";
+                    BntHmtl += "<button name='UpdateItemID' bnt-click = 'UpdateItemID' style='margin:2px;' type = 'button' class='btn btn-warning  btn-xs' value='\"+ data+\"'>修　改</button>";
                 if (TableModel.IsDelete == 1)
-                    BntHmtl += "<button name='DeleteItemID' bnt-click='DeleteItemID' type='button' class='btn btn-danger btn-xs'>删　除</button>";
+                    BntHmtl += "<button name='DeleteItemID' bnt-click='DeleteItemID' type='button' class='btn btn-danger btn-xs' value='\"+ data+\"'>删　除</button>";
                 if (!string.IsNullOrWhiteSpace(BntHmtl))
                     Columns.Append("{\"data\": \"" + "ItemID" + "\", render: function (data, type, row) { return \"" + BntHmtl + "\"}},");
             }
@@ -161,7 +161,7 @@ namespace BLL
             var TableFielModelList = TableBll.GetTableFieldModel();
             var TableName = TableModel.TableName;
             StringBuilder sb = new StringBuilder();
-            sb.Append("SELECT " + TableModel.PrimaryKey + " as ItemID,");
+            sb.Append("SELECT " + TableModel.PrimaryKey + " as ItemID ");
             string SQLFieldKey = "";
             foreach (var item in TableFielModelList)
             {
