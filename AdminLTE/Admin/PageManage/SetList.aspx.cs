@@ -38,9 +38,9 @@ namespace AdminLTE.Admin
                         DataTable TableFileInfoDt = BLL.JsonHelper.DeserializeJsonToObject<DataTable>(PageData);
                         if (TableBll.UpdateTableModel(TableInfoDt) && TableBll.UpdateTableFieldModel(TableFileInfoDt))
                         {
-                            TableBll.SavePageHtml(TableModel, TableFielModelList);
+                            TableBll.SavePageHtml(ItemID);
                             Response.Write("True");
-                        }                           
+                        }                    
                         else
                             Response.Write("False");
                         Response.End();

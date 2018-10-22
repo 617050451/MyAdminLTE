@@ -1,31 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TABLES>
-  <OPTION TableID="1" Title="用户管理" FileName="UserList" SQL="select [GUID],[No],[Account],[Password],[Name],[Sex],[Birthday],[Telephone],[Address],[StatusID],[CreatorID],[CreaterDateTime]  from [t_Users]" TableName="dbo.[t_Users]" IsPlus="0" IsWhere="1" IsChoice="1" IsInsert="0" IsUpdate="0" IsDelete="0" Note="备注" ColunmName="1">
+  <OPTION TableID="1" Title="用户管理" FileName="UserList" SQL="select [GUID],[No],[Account],[Password],[Name],[ImgUrl],[Sex],[Birthday],[Telephone],[Address],[StatusID],[CreatorID],[CreaterDateTime]  from [t_Users]" TableName="dbo.[t_Users]" IsPlus="0" IsWhere="1" IsChoice="0" IsInsert="1" IsUpdate="1" IsDelete="1" Note="备注" ColunmName="1">
     <COLUMNS>
-      <GUID FieldKey="GUID" FieldText="GUID" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="1">
+      <GUID FieldKey="GUID" FieldText="GUID" FieldDataType="1" FieldData="" FieldStatusID="0" SelectType="0" SelectData="" FieldOrder="1">
       </GUID>
-      <No FieldKey="No" FieldText="No" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="2">
+      <No FieldKey="No" FieldText="编号" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="2">
       </No>
-      <Account FieldKey="Account" FieldText="Account" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="3">
+      <Account FieldKey="Account" FieldText="账号" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="3">
       </Account>
-      <Password FieldKey="Password" FieldText="Password" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="4">
+      <Password FieldKey="Password" FieldText="密码" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="4">
       </Password>
-      <Name FieldKey="Name" FieldText="Name" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="5">
+      <Name FieldKey="Name" FieldText="姓名" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="5">
       </Name>
-      <Sex FieldKey="Sex" FieldText="Sex" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="6">
+      <Sex FieldKey="Sex" FieldText="性别" FieldDataType="2" FieldData="data == 1?&quot;男&quot;:&quot;女&quot;" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="7">
       </Sex>
-      <Birthday FieldKey="Birthday" FieldText="Birthday" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="7">
+      <Birthday FieldKey="Birthday" FieldText="生日" FieldDataType="4" FieldData="datezw" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="8">
       </Birthday>
-      <Telephone FieldKey="Telephone" FieldText="Telephone" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="8">
+      <Telephone FieldKey="Telephone" FieldText="电话" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="9">
       </Telephone>
-      <Address FieldKey="Address" FieldText="Address" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="9">
+      <Address FieldKey="Address" FieldText="地址" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="10">
       </Address>
-      <StatusID FieldKey="StatusID" FieldText="StatusID" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="10">
+      <StatusID FieldKey="StatusID" FieldText="状态" FieldDataType="2" FieldData="data == 1?&quot;启用&quot;:&quot;禁用&quot;" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="11">
       </StatusID>
-      <CreatorID FieldKey="CreatorID" FieldText="CreatorID" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="11">
+      <CreatorID FieldKey="CreatorID" FieldText="录入人" FieldDataType="3" FieldData="SELECT name from dbo.[t_Users] where No = row.No" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="12">
       </CreatorID>
-      <CreaterDateTime FieldKey="CreaterDateTime" FieldText="CreaterDateTime" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="12">
+      <CreaterDateTime FieldKey="CreaterDateTime" FieldText="录入时间" FieldDataType="4" FieldData="time2" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="13">
       </CreaterDateTime>
+      <ImgUrl FieldKey="ImgUrl" FieldText="头像" FieldDataType="4" FieldData="img" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="6">
+      </ImgUrl>
     </COLUMNS>
   </OPTION>
 </TABLES>

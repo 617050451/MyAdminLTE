@@ -260,49 +260,6 @@ $(function () {
         });
         return guidValues;
     }
-    //设置图片
-    function SetImgUrl(row, data, endfun) {
-        var srcArr = new Array();
-        srcArr = data.split(',');
-        var redata = "";
-        for (var i = 0; i < srcArr.length; i++) {
-            redata += "<img width='40' bnt-click='ShowImg' img-group='" + row.ItemID + "' img-start='" + i + "'  src='" + srcArr[i] + "' \" />";
-        }
-        endfun(redata);
-    }
-    //显示图片
-    function ShowImgUrl(obj) {
-        var srcjson = new Array();
-        $("img[img-group='" + $(obj).attr("img-group") + "']").each(function () {
-            srcjson.push({ "src": $(this).attr("src") });
-        })
-        var json = {
-            "title": "", //相册标题
-            "id": 123, //相册id
-            "start": $(obj).attr("img-start"), //初始显示的图片序号，默认0
-            "data": srcjson
-        }
-        layer.photos({
-            photos: json //格式见API文档手册页
-            , anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机
-        });
-    }
-    //时间格式化
-    Date.prototype.Format = function (fmt) { //author: meizz   
-        var o = {
-            "M+": this.getMonth() + 1, //月份   
-            "d+": this.getDate(), //日   
-            "H+": this.getHours(), //小时   
-            "m+": this.getMinutes(), //分   
-            "s+": this.getSeconds(), //秒   
-            "q+": Math.floor((this.getMonth() + 3) / 3), //季度   
-            "S": this.getMilliseconds() //毫秒   
-        };
-        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-        for (var k in o)
-            if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-        return fmt;
-    }
 })
 var loadIndex = 0;
 function loadding(txt, obj) {
@@ -328,4 +285,77 @@ function GetPageName() {
     var arrUrl = strUrl.split("/");
     var strPage = arrUrl[arrUrl.length - 1];
     return strPage;
+}
+// 转换日期格式
+function SetDateTime(data, fmt) {
+    var date = new Date(data.replace(/-/g, '/').replace('T', ' '));
+    return date.Format(fmt);
+}
+//转换请求
+function GetFieldKeyValue(Row, FieldKey, envent) {
+    var param = Row;
+    param.gettype = "GetFieldKeyValue";
+    param.FieldKey = FieldKey;
+    //ajax请求数据
+    $.ajax({
+        type: "GET",
+        url: listconifg.url,
+        cache: true,  //禁用缓存
+        data: param,  //传入组装的参数
+        dataType: "text",
+        async: false,
+        success: envent,
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            // 状态码
+            console.log(XMLHttpRequest.status);
+            // 状态
+            console.log(XMLHttpRequest.readyState);
+            // 错误信息   
+            console.log(textStatus);
+            layer.msg("系统繁忙，请稍等.....");
+        }
+    });
+}
+//设置图片
+function SetImgUrl(row, data, endfun) {
+    var srcArr = new Array();
+    srcArr = data.split(',');
+    var redata = "";
+    for (var i = 0; i < srcArr.length; i++) {
+        redata += "<img width='20' bnt-click='ShowImg' img-group='" + row.ItemID + "' img-start='" + i + "'  src='" + srcArr[i] + "' \" />";
+    }
+    endfun(redata);
+}
+//显示图片
+function ShowImgUrl(obj) {
+    var srcjson = new Array();
+    $("img[img-group='" + $(obj).attr("img-group") + "']").each(function () {
+        srcjson.push({ "src": $(this).attr("src") });
+    })
+    var json = {
+        "title": "", //相册标题
+        "id": 123, //相册id
+        "start": $(obj).attr("img-start"), //初始显示的图片序号，默认0
+        "data": srcjson
+    }
+    layer.photos({
+        photos: json //格式见API文档手册页
+        , anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机
+    });
+}
+//时间格式化
+Date.prototype.Format = function (fmt) { //author: meizz   
+    var o = {
+        "M+": this.getMonth() + 1, //月份   
+        "d+": this.getDate(), //日   
+        "H+": this.getHours(), //小时   
+        "m+": this.getMinutes(), //分   
+        "s+": this.getSeconds(), //秒   
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度   
+        "S": this.getMilliseconds() //毫秒   
+    };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
 }

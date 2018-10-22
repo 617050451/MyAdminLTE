@@ -29,7 +29,7 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <!-- Google Font -->
+    <!-- Google Font /UplaodImg/my.jpg-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
 </head>
 <body>
@@ -419,10 +419,10 @@
             var values = $(showData).val();
             var showHtml = "<div class=\"form-group text-center\" >";
             if (FieldDataTypeValue == "2") {
-                showHtml += "<p><span style=\"color: blue;\">固定前台转换(一般例子)：</span>data == 1?\"启用\":\"禁用\"　　data：</span>最终显示的值</p><p><span style=\"color: blue;\">特殊例子：</span><span>\"<标签>\" + data + \"<标签>\"　　也可以是JQ语句&nbsp;alert(data);</span><p/><p> <span style=\"color: blue;\">row：</span>当前行所有字段的对象（row.[字段] 字段名必须一致）（不执行二次转换）</p>";
+                showHtml += "<p><span style=\"color: blue;\">固定转换(一般例子)：</span>data == 1?\"启用\":\"禁用\"　　data：</span>最终显示的值</p><p><span style=\"color: blue;\">特殊例子：</span><span>\"<标签>\" + data + \"<标签>\"　　也可以是JQ语句&nbsp;alert(data);</span><p/><p> <span style=\"color: blue;\">row：</span>当前行所有字段的对象（row.[字段] 字段名必须一致）（不执行二次转换）</p>";
                 showHtml += "<textarea name=\"FieldData\" class=\"form-control\" placeholder=\"数据呈现\" rows=\"10\">" + values + "</textarea>";
             } else if (FieldDataTypeValue == "3") {
-                showHtml += "<p><span style=\"color: blue;\">动态前台转换(例子)：</span>select [字段] from [表名] where  [字段] =sg(row.[列表所有的字段])</p><p> <span style=\"color: blue;\">&nbsp;row：</span>当前行所有字段的对象（row.[字段] 字段名必须一致）（异步请求转换）单引号统一使用sg(值)</p>";
+                showHtml += "<p><span style=\"color: blue;\">动态转换(例子)：</span>select [字段] from [表名] where  [字段] =sg(row.[列表所有的字段])</p><p> <span style=\"color: blue;\">&nbsp;row：</span>当前行所有字段的对象（row.[字段] 字段名必须一致）（异步请求转换）单引号统一使用sg(值)</p>";
                 showHtml += "<textarea name=\"FieldData\" class=\"form-control\" placeholder=\"数据呈现\" rows=\"11\">" + values + "</textarea>";
             }
             else if (FieldDataTypeValue == "4") {

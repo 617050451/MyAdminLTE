@@ -40,9 +40,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Gma.QrCodeNet.Encoding, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Gma.QrCodeNet.0.4.1.2\lib\net40\Gma.QrCodeNet.Encoding.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -82,6 +79,7 @@
     <Content Include="Page\MoreButtonList.aspx" />
     <Content Include="Page\TableList.aspx" />
     <Content Include="Page\UserList.aspx" />
+    <Content Include="Page\UserList.html" />
     <Content Include="Script\AdminLTE-2.4.2\bower_components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.css" />
     <Content Include="Script\AdminLTE-2.4.2\bower_components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.min.css" />
     <Content Include="Script\AdminLTE-2.4.2\bower_components\bootstrap-colorpicker\dist\img\bootstrap-colorpicker\alpha-horizontal.png" />
@@ -6789,6 +6787,7 @@
     <Content Include="Script\layer-v3.1.0\layer\theme\default\loading-2.gif" />
     <Content Include="Script\layer-v3.1.0\test.html" />
     <Content Include="Script\layer-v3.1.0\更新日志.txt" />
+    <Content Include="UplaodImg\my.jpg" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -7566,7 +7565,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:43560/</IISUrl>
+          <IISUrl>http://localhost:50482/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -370,34 +370,6 @@ namespace BLL
             }
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         /// <summary>
         /// 设置显示方式
         /// </summary>
@@ -410,9 +382,10 @@ namespace BLL
             sb.Append("<div class=\"input-group input-group-sm\">");
             sb.Append("<select name=\"FieldDataType\" class=\"form-control select2 select2-hidden-accessible\" tabindex=\"-1\" aria-hidden=\"true\">");
             sb.Append("<option " + (FieldDataType == 1 ? "selected=\"selected\"" : "") + " value=\"1\">原始数据</option>");
-            sb.Append("<option " + (FieldDataType == 2 ? "selected=\"selected\"" : "") + " value=\"2\">固定前台转换</option>");
-            sb.Append("<option " + (FieldDataType == 3 ? "selected=\"selected\"" : "") + " value=\"3\">动态前台转换</option>");
+            sb.Append("<option " + (FieldDataType == 2 ? "selected=\"selected\"" : "") + " value=\"2\">固定转换</option>");
+            sb.Append("<option " + (FieldDataType == 3 ? "selected=\"selected\"" : "") + " value=\"3\">动态转换</option>");
             sb.Append("<option " + (FieldDataType == 4 ? "selected=\"selected\"" : "") + " value=\"4\">数据格式化</option>");
+            sb.Append("<option " + (FieldDataType == 5 ? "selected=\"selected\"" : "") + " value=\"5\">前台自定义</option>");
             sb.Append("</select>");
             sb.Append("</div>");
             sb.Append("<a class=\"text-primary " + (FieldDataType == 1? "hidden" : "") + "\" href=\"javascript:void(0)\" onclick=\"setFieldData(this)\">&nbsp;设置</a><input type=\"text\" name=\"FieldData\" class=\"form-control hidden\" value='" + FieldData + "'/>");
@@ -451,8 +424,11 @@ namespace BLL
             sb.Append("<input type=\"text\" class=\"form-control hidden\" name=\"SelectData\" value='" + SelectData + "'/>");
             return sb.ToString();
         }
-
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <returns></returns>
 
 
 

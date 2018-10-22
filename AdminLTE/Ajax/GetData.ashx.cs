@@ -24,7 +24,7 @@ namespace AdminLTE.Ajax
             {
                 case "GetDataList":
                     GetDataList(context);
-                    break;
+                    break;                 
                 default:
                     break;
             }
@@ -39,7 +39,7 @@ namespace AdminLTE.Ajax
             string OSrderDir = context.Request["orderDir"];
             var WhereValues = context.Request["WhereValues"];
             System.Data.DataTable dt = (WhereValues == null ? null : BLL.JsonHelper.DeserializeJsonToObject<System.Data.DataTable>(WhereValues));//条件数据
-            context.Response.Write(TableBll.GetDataListJson(TableBll.GetTableModel(), PageStart, PageIndex, PageSize, ""));
+            context.Response.Write(TableBll.GetDataListJson(1, PageStart, PageIndex, PageSize, ""));
             context.Response.End();
         }
         public bool IsReusable

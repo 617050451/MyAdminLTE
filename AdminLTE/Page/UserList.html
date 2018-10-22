@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head runat="server">
-    <title>{Title}</title>
+    <title>用户管理</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
@@ -53,7 +53,7 @@
                     <div class="box box-primary">
                         <div class="box-body">
                             <div id="ltlbnts" class="pull-left" style="height:24px;">
-							    {TopBotton} 
+							    <button name="InsertItemID" bnt-click="InsertItemID" type="button" class="btn btn-success btn-xs">新　增</button> 
                             </div>
                             <div id="ltlSum" class="pull-right" style="height:24px;">
                                {CountHtml}
@@ -61,7 +61,7 @@
                             <table id="example" class="table table-bordered table-hover" style="margin-top:-13px;">
                                 <thead>
                                     <tr role="row" style="background-color: rgb(238, 238, 238);">
-									{TableThead}
+									<th aria-controls="example" rowspan="1" colspan="1" aria-label="编号: ">编号</th><th aria-controls="example" rowspan="1" colspan="1" aria-label="账号: ">账号</th><th aria-controls="example" rowspan="1" colspan="1" aria-label="密码: ">密码</th><th aria-controls="example" rowspan="1" colspan="1" aria-label="姓名: ">姓名</th><th aria-controls="example" rowspan="1" colspan="1" aria-label="头像: ">头像</th><th aria-controls="example" rowspan="1" colspan="1" aria-label="性别: ">性别</th><th aria-controls="example" rowspan="1" colspan="1" aria-label="生日: ">生日</th><th aria-controls="example" rowspan="1" colspan="1" aria-label="电话: ">电话</th><th aria-controls="example" rowspan="1" colspan="1" aria-label="地址: ">地址</th><th aria-controls="example" rowspan="1" colspan="1" aria-label="状态: ">状态</th><th aria-controls="example" rowspan="1" colspan="1" aria-label="录入人: ">录入人</th><th aria-controls="example" rowspan="1" colspan="1" aria-label="录入时间: ">录入时间</th><th aria-controls="example" rowspan="1" colspan="1" aria-label="操作: ">操作</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -93,14 +93,14 @@
     <script src="../Script/js/DataPageHandle.js"></script>
     <script>
         $(function () {
-            var columns = [{Columns}];
-            listconifg.isplus = {IsPlus};
-            listconifg.iswhere = {IsWhere};
-            listconifg.ischoice = {IsChoice};
+            var columns = [{"data": "No", render: function (data, type, row) { return  data }},{"data": "Account", render: function (data, type, row) { return  data }},{"data": "Password", render: function (data, type, row) { return  data }},{"data": "Name", render: function (data, type, row) { return  data }},{"data": "ImgUrl", render: function (data, type, row) {  SetImgUrl(row,data,function (reData) { data=reData;}); return data; }},{"data": "Sex", render: function (data, type, row) { return  data == 1?"男":"女" }},{"data": "Birthday", render: function (data, type, row) { return SetDateTime(data,"yyyy年MM月dd日 ");}},{"data": "Telephone", render: function (data, type, row) { return  data }},{"data": "Address", render: function (data, type, row) { return  data }},{"data": "StatusID", render: function (data, type, row) { return  data == 1?"启用":"禁用" }},{"data": "CreatorID", render: function (data, type, row) { return data;}},{"data": "CreaterDateTime", render: function (data, type, row) { return SetDateTime(data,"yyyy-MM-dd HH:mm:ss");}}];
+            listconifg.isplus = 0;
+            listconifg.iswhere = 1;
+            listconifg.ischoice = 0;
             listconifg.columns = columns;
             listconifg.getData();
         })
     </script>
-	<script>{BottomHtml}</script>
+	<script></script>
 </body>
 </html>
