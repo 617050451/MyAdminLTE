@@ -161,16 +161,16 @@ namespace BLL
             var TableFielModelList = TableBll.GetTableFieldModel();
             var TableName = TableModel.TableName;
             StringBuilder sb = new StringBuilder();
-            sb.Append("SELECT ");
+            sb.Append("SELECT " + TableModel.PrimaryKey + " as ItemID");
             string SQLFieldKey = "";
             foreach (var item in TableFielModelList)
             {
                 if (item.FieldDataType == 3)
                 {
-                    SQLFieldKey += "(" + item.FieldData.Replace("row.", "NewCyFsTable.") + ") as " + item.FieldKey + ",";
+                    SQLFieldKey += ",(" + item.FieldData.Replace("row.", "NewCyFsTable.") + ") as " + item.FieldKey;
                 }
                 else
-                    SQLFieldKey += item.FieldKey + ",";
+                    SQLFieldKey += "," + item.FieldKey;
             }
             sb.Append(SQLFieldKey.TrimEnd(',') + " FROM " + TableName + " AS NewCyFsTable ");
             return sb.ToString();

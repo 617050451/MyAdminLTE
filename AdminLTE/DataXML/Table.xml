@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TABLES>
-  <OPTION TableID="1" Title="用户管理" FileName="UserList" SQL="select [GUID],[No],[Account],[Password],[Name],[ImgUrl],[Sex],[Birthday],[Telephone],[Address],[StatusID],[CreatorID],[CreaterDateTime]  from [t_Users]" TableName="dbo.[t_Users]" IsPlus="0" IsWhere="1" IsChoice="0" IsInsert="1" IsUpdate="1" IsDelete="1" Note="备注" ColunmName="1">
+  <OPTION TableID="1" Title="用户管理" PrimaryKey="GUID" FileName="UserList" SQL="select [GUID],[No],[Account],[Password],[Name],[ImgUrl],[Sex],[Birthday],[Telephone],[Address],[StatusID],[CreatorID],[CreaterDateTime]  from [t_Users]" TableName="dbo.[t_Users]" IsPlus="0" IsWhere="1" IsChoice="0" IsInsert="1" IsUpdate="1" IsDelete="1" Note="备注" ColunmName="1">
     <COLUMNS>
       <GUID FieldKey="GUID" FieldText="GUID" FieldDataType="1" FieldData="" FieldStatusID="0" SelectType="0" SelectData="" FieldOrder="1">
       </GUID>

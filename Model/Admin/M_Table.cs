@@ -65,6 +65,16 @@ namespace Model
                 IsDicMyProperty.Add(nameof(TableName), true);
             }
         }
+        private string PrimaryKeyValue;
+        public string PrimaryKey
+        {
+            get { return PrimaryKeyValue; }
+            set
+            {
+                PrimaryKeyValue = value;
+                IsDicMyProperty.Add(nameof(PrimaryKey), true);
+            }
+        }
 
         /// <summary>
         /// FileName
