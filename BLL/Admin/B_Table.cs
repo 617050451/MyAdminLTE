@@ -88,9 +88,9 @@ namespace BLL
                 Columns.Append("{ \"data\": \"ItemID\", render: function (data, type, row) { return \"<input  bnt-click='CheckBoxItemID' name='CheckBoxItemID' type='checkbox' class='table-checkable'  value='\" + data + \"'/>\" } },");
             }
             if (TableModel.IsDelete == 1 && TableModel.IsChoice == 1)
-                TopButton.Append("<button name=\"DeleteItemID\" bnt-click=\"DeleteItemID\" type=\"button\" class=\"btn btn-danger btn-xs\">删　除</button>");
+                TopButton.Append("<button name='DeleteItemID' bnt-click='DeleteItemID' type='button' class='btn btn-danger btn-xs'>删　除</button>");
             if (TableModel.IsInsert == 1)
-                TopButton.Append("<button name=\"InsertItemID\" bnt-click=\"InsertItemID\" type=\"button\" class=\"btn btn-success btn-xs\">新　增</button>");
+                TopButton.Append("<button name='InsertItemID' bnt-click='InsertItemID' type='button' class='btn btn-success btn-xs'>新　增</button>");
             foreach (var item in TableFielModelList)
             {
                 if (item.FieldStatusID == 1)
@@ -100,7 +100,16 @@ namespace BLL
                 }
             }
             if (TableModel.IsUpdate == 1 || (TableModel.IsDelete == 1 && TableModel.IsChoice == 0))
+            {
                 TableThead.Append(string.Format("<th aria-controls=\"example\" rowspan=\"1\" colspan=\"1\" aria-label=\"操作: \">{0}</th>", "操作"));
+                var BntHmtl = string.Empty;
+                if (TableModel.IsUpdate == 1)
+                    BntHmtl += "<button name='UpdateItemID' bnt-click = 'UpdateItemID' style='margin:2px;' type = 'button' class='btn btn-warning  btn-xs'>修　改</button>";
+                if (TableModel.IsDelete == 1)
+                    BntHmtl += "<button name='DeleteItemID' bnt-click='DeleteItemID' type='button' class='btn btn-danger btn-xs'>删　除</button>";
+                if (!string.IsNullOrWhiteSpace(BntHmtl))
+                    Columns.Append("{\"data\": \"" + "ItemID" + "\", render: function (data, type, row) { return \"" + BntHmtl + "\"}},");
+            }
             h_hovertreeTemplate = h_hovertreeTemplate.Replace("{TableThead}", TableThead.ToString());
             h_hovertreeTemplate = h_hovertreeTemplate.Replace("{Columns}", Columns.ToString().TrimEnd(','));
             h_hovertreeTemplate = h_hovertreeTemplate.Replace("{TopBotton}", TopButton.ToString());
@@ -110,7 +119,6 @@ namespace BLL
             fs.Close();
             h_hovertreeSr.Close();
         }
-
         /// <summary>
         /// 获取表格数据Json
         /// </summary>
@@ -202,11 +210,7 @@ namespace BLL
             }
             return "{\"data\": \"" + FieldKey + "\"" + data + "},";
         }
-        //获取显示转换数据
-        public string GetFieldKeyValue(Dictionary<string, string> data)
-        {
-            return null;
-        }
+        
     }
 }
 
