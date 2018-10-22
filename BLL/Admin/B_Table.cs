@@ -161,7 +161,7 @@ namespace BLL
             var TableFielModelList = TableBll.GetTableFieldModel();
             var TableName = TableModel.TableName;
             StringBuilder sb = new StringBuilder();
-            sb.Append("SELECT " + TableModel.PrimaryKey + " as ItemID");
+            sb.Append("SELECT " + TableModel.PrimaryKey + " as ItemID,");
             string SQLFieldKey = "";
             foreach (var item in TableFielModelList)
             {
