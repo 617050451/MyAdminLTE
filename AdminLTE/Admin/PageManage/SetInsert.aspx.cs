@@ -43,7 +43,7 @@ namespace AdminLTE.Admin.PageManage
         {
             DataTable dt = tableModel.TableFieldInsertInfo;
             StringBuilder sb = new StringBuilder();
-            if (BLL.BaseClass.estimate(dt))
+            if (BLL.BaseClass.IsNullOrNotNull(dt))
             {
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {

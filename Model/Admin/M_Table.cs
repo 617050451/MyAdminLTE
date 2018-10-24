@@ -40,7 +40,6 @@ namespace Model
         /// <summary>
         /// SQL
         /// </summary>		
-
         private string SQLValue;
         public string SQL
         {
@@ -52,9 +51,21 @@ namespace Model
             }
         }
         /// <summary>
-        /// TableName
+        /// Predefined
         /// </summary>		
-
+        private string PredefinedSQLdValue;
+        public string PredefinedSQL
+        {
+            get { return PredefinedSQLdValue; }
+            set
+            {
+                PredefinedSQLdValue = value;
+                IsDicMyProperty.Add(nameof(PredefinedSQL), true);
+            }
+        }
+        /// <summary>
+        /// TableName 
+        /// </summary>		
         private string TableNameValue;
         public string TableName
         {
@@ -187,19 +198,6 @@ namespace Model
             {
                 IsChoiceValue = value;
                 IsDicMyProperty.Add(nameof(IsChoice), true);
-            }
-        }
-        /// <summary>
-        /// CountData
-        /// </summary>		
-        private string CountDataValue;
-        public string CountData
-        {
-            get { return CountDataValue; }
-            set
-            {
-                CountDataValue = value;
-                IsDicMyProperty.Add(nameof(CountData), true);
             }
         }
         public bool IsFieldAssign(string Fieldname)

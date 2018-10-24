@@ -58,6 +58,7 @@ $(function () {
                 "oLanguage": listconifg.oLanguage,
                 "where": listconifg.where,
                 ajax: function (data, callback, settings) {
+                    loadding('正在查询，请稍等...');
                     var where = $('#selectwherefrom').find(listconifg.fromchildren).serializeArray();
                     //封装请求参数
                     var param = {};
@@ -89,9 +90,11 @@ $(function () {
                                     //调用DataTables提供的callback方法，代表数据已封装完成并传回DataTables进行渲染
                                     //此时的数据需确保正确无误，异常判断应在执行此回调前自行处理完毕
                                     callback(returnData);
+                                    $("#ltlSum").html(result.sumHtml);
                                     GetDataAfter(result.data, option, funaggregate);
                                 }, 50);
                             }
+                            loadClose();
                         },
                         error: function (XMLHttpRequest, textStatus, errorThrown) {
                             // 状态码
@@ -144,11 +147,9 @@ $(function () {
                 }
                 , clickList = {
                     Select: funaggregate.Select || function (sender) {
-                        loadding('正在查询，请稍等...');
                         table.fnClearTable(false);  //清空数据.fnClearTable();//清空数据
                         table.fnDestroy(); //还原初始化了的datatable  
                         listconifg.getData(option);
-                        loadClose();
                     },
                     MoreBntClick: funaggregate.MoreBntClick || function (sender) {
                         var ItemID = sender.val();

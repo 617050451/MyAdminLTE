@@ -12,7 +12,7 @@ namespace BLL
         {
             string sql = string.Format("SELECT * FROM [t_Users] where userid='{0}' and UserPwd='{1}'", userid, userpwd);
             DataTable dt = BaseClass.GetDataTable(sql);
-            if (BaseClass.estimate(dt))
+            if (BaseClass.IsNullOrNotNull(dt))
             {
                 return dt.Rows[0]["GUID"].ToString();
             }
@@ -25,7 +25,7 @@ namespace BLL
         {
             string sql = string.Format("SELECT * FROM [t_Users] where guid='{0}'", userguid);
             DataTable dt = BaseClass.GetDataTable(sql);
-            if (BaseClass.estimate(dt))
+            if (BaseClass.IsNullOrNotNull(dt))
             {
                 return dt;
             }

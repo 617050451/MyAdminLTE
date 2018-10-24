@@ -89,6 +89,7 @@ namespace BLL
                     var IsUpdate = xn.Attributes["IsUpdate"].Value;
                     var IsDelete = xn.Attributes["IsDelete"].Value;
                     var SQL = xn.Attributes["SQL"].Value;
+                    var PredefinedSQL= xn.Attributes["PredefinedSQL"].Value;
                     var TableName = xn.Attributes["TableName"].Value;
                     var PrimaryKey = xn.Attributes["PrimaryKey"].Value;
                     var Note = xn.Attributes["Note"].Value;
@@ -96,6 +97,7 @@ namespace BLL
                     mt.Title = Title;
                     mt.FileName = FileName;
                     mt.SQL = SQL;
+                    mt.PredefinedSQL = PredefinedSQL;
                     mt.TableName = TableName;
                     mt.PrimaryKey = PrimaryKey;
                     mt.IsPlus = Convert.ToInt32(IsPlus);
@@ -523,7 +525,7 @@ namespace BLL
             return ds;
         }
         //判断dt
-        public static bool estimate(DataTable dt)
+        public static bool IsNullOrNotNull(DataTable dt)
         {
             if (dt != null && dt.Rows.Count > 0)
                 return true;

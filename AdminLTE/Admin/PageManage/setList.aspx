@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SetList.aspx.cs" Inherits="AdminLTE.Admin.SetList" validateRequest="false" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SetList.aspx.cs" Inherits="AdminLTE.Admin.SetList" ValidateRequest="false" %>
 
 <!DOCTYPE html>
 
@@ -36,13 +36,13 @@
     <form id="FromPage">
         <section class="content" style="margin-top: -13px;">
             <div class="row">
-                <table id="tableInfo" class="table" style="margin:0px;margin-top:-3px;border-left:1px solid #ddd;border-right:1px solid #ddd;">
+                <table id="tableInfo" class="table" style="margin: 0px; margin-top: -3px; border-left: 1px solid #ddd; border-right: 1px solid #ddd;">
                     <tbody>
                         <tr>
                             <td>
-                                <h4 style="margin: 0px;">
-                                    <a href="javasrcpt:void(0)"><span class="label label-warning" onclick="showTableInfoHtml()" ><%=TableModel.Title %></span></a>
-                                    <span class="label label-success"><%=TableModel.FileName %></span>
+                                <h4 style="margin: 5px;">
+                                    <a href="javasrcpt:void(0)"><span class="label label-warning" onclick="showTableInfoHtml()"><%=TableModel.Title %><%=TableModel.FileName %></span></a>
+                                    <a href="javasrcpt:void(0)"><span class="label label-primary" onclick="showTableInfoHtmlSum()">显示设置</span></a>
                                     <a href="javascript:PagePreview('<%=TableModel.Title %>','/Page/<%=TableModel.FileName %>.aspx','<%=TableModel.TableID %>')">
                                     <span class="label label-primary">页面预览</span></a>
                                 </h4>
@@ -62,37 +62,37 @@
                             <td>
                                 <select name="IsUpdate" class="form-control select2 select2-hidden-accessible">
                                     <option <%=TableModel.IsUpdate==1?"selected='selected'":"" %> value="1">有修改</option>
-                                    <option <%=TableModel.IsUpdate==0?"selected='selected'":"" %>  value="0">无修改</option>
+                                    <option <%=TableModel.IsUpdate==0?"selected='selected'":"" %> value="0">无修改</option>
                                 </select></td>
                             <td>
                                 <select name="IsDelete" class="form-control select2 select2-hidden-accessible">
-                                    <option <%=TableModel.IsDelete==1?"selected='selected'":"" %>  value="1">有删除</option>
-                                    <option <%=TableModel.IsDelete==0?"selected='selected'":"" %>  value="0">无删除</option>
+                                    <option <%=TableModel.IsDelete==1?"selected='selected'":"" %> value="1">有删除</option>
+                                    <option <%=TableModel.IsDelete==0?"selected='selected'":"" %> value="0">无删除</option>
                                 </select>
                             </td>
                             <td>
                                 <select name="IsWhere" class="form-control select2 select2-hidden-accessible">
-                                    <option <%=TableModel.IsWhere==1?"selected='selected'":"" %>  value="1">有查询</option>
-                                    <option <%=TableModel.IsWhere==0?"selected='selected'":"" %>  value="0">无查询</option>
+                                    <option <%=TableModel.IsWhere==1?"selected='selected'":"" %> value="1">有查询</option>
+                                    <option <%=TableModel.IsWhere==0?"selected='selected'":"" %> value="0">无查询</option>
                                 </select>
                             </td>
                             <td>
                                 <select name="IsPlus" class="form-control select2 select2-hidden-accessible">
-                                    <option <%=TableModel.IsPlus==1?"selected='selected'":"" %>  value="1">折叠</option>
-                                    <option <%=TableModel.IsPlus==0?"selected='selected'":"" %>  value="0">展开</option>
+                                    <option <%=TableModel.IsPlus==1?"selected='selected'":"" %> value="1">折叠</option>
+                                    <option <%=TableModel.IsPlus==0?"selected='selected'":"" %> value="0">展开</option>
                                 </select>
                             </td>
-                            <td style="width:240px;border: none;">
+                            <td style="width: 240px; border: none;">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-info" onclick="bntOrderClick()">自动排序</button>  
-                                    <button type="button" class="btn btn-info" onclick="showMoreButtonsHtml()">更多按钮</button>  
+                                    <button type="button" class="btn btn-info" onclick="bntOrderClick()">自动排序</button>
+                                    <button type="button" class="btn btn-info" onclick="showMoreButtonsHtml()">更多按钮</button>
                                     <button type="button" class="btn btn-info" onclick="bntSaveClick(this)">保&nbsp;存</button>
                                 </div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                <table id="example" class="table table-bordered table-hover" >
+                <table id="example" class="table table-bordered table-hover">
                     <thead>
                         <tr>
                             <th>字段称</th>
@@ -110,7 +110,7 @@
             </div>
         </section>
         <div id="setTableInfo" class="hidden">
-            <div class="col-sm-12" style="margin-top:5px;">
+            <div class="col-sm-12" style="margin-top: 5px;">
                 <div class="form-group">
                     <label for="title" class="control-label">标题</label>
                     <input type="text" name="Title" class="form-control" placeholder="标题" value="<%=TableModel.Title %>" />
@@ -135,56 +135,38 @@
             </div>
         </div>
         <div id="setTableInfoSum" class="hidden">
-            <div class="form-group text-center">
-                <p style="margin-top:3px;"><span style="color: blue;">聚合显示例子(一般例子)：</span>记录总条数：{count(guid)}（条）多个用|分割</p>
-                <div class="form-group text-left">
-                <table class="table table-bordered table-hover">
-                    <tr>
-                        <td>
-                            <label class="radio-inline"></label>
-                        </td>
-                        <td>
-                            <label class="radio-inline"></label>
-                        </td>
-                         <td>
-                            <label class="radio-inline"></label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="radio-inline"></label>
-                        </td>
-                        <td>
-                            <label class="radio-inline"></label>
-                        </td>
-                         <td>
-                            <label class="radio-inline"></label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="radio-inline"></label>
-                        </td>
-                        <td>
-                            <label class="radio-inline"></label>
-                        </td>
-                         <td>
-                            <label class="radio-inline"></label>
-                        </td>
-                    </tr>
-                </table>
+            <div class="text-center">
+                <p style="margin-top: 3px;"><span style="color: blue;">聚合显示例子(说明)</span></p>
+                <div class="text-left">
+                    <table class="table table-bordered table-hover">
+                        <tr>
+                            <td>
+                                <label class="radio-inline">JSON数据：[{"type":"COUNT","key":"GUID","title":"数据总条数："}]</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="radio-inline">SQL表达式：[{"type":"SQL","key":"select sg(1)","title":"数据总条数："}]</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="radio-inline">单引号属于特殊字符，sg(条件)='条件' 必须是JSON数据格式</label>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
-                <textarea name="CountData" class="form-control" placeholder="聚合显示" rows="3"><%=TableModel.CountData%></textarea>
-                <button type="button" class="btn btn-success btn-block" onclick="bntSaveTableInfoOnclickSum()" style="margin-top:5px;">保存</button>
+                <textarea name="PredefinedSQL" class="form-control" placeholder="聚合显示" rows="4"><%=TableModel.PredefinedSQL%></textarea>
+                <button type="button" class="btn btn-success btn-block" onclick="bntSaveTableInfoOnclickSum()" style="margin-top: 5px;">保存</button>
             </div>
         </div>
         <div id="MoreButtons" class="text-left hidden">
             <div class="col-sm-12" style="margin-top: 5px;">
-                <div class="form-group" style="margin-bottom:5px;">
+                <div class="form-group" style="margin-bottom: 5px;">
                     <label for="BntName" class="control-label">按钮名称</label>
                     <input type="text" name="BntName" class="form-control" placeholder="按钮名称" value="" />
                 </div>
-                <div class="form-group" style="margin-bottom:5px;">
+                <div class="form-group" style="margin-bottom: 5px;">
                     <label for="BntAction" class="control-label">执行动作</label>
                     <select class="form-control" name="BntAction">
                         <option value="1">弹层（页面）</option>
@@ -193,36 +175,36 @@
                         <option value="4">SQL</option>
                     </select>
                 </div>
-                <div class="form-group" style="margin-bottom:5px;">
+                <div class="form-group" style="margin-bottom: 5px;">
                     <label for="ConfirmText" class="control-label">询问框内容</label>
                     <input type="text" name="ConfirmText" class="form-control" placeholder="询问框内容" />
                 </div>
-                <div class="form-group" style="margin-bottom:5px;">
+                <div class="form-group" style="margin-bottom: 5px;">
                     <label for="BntActionContent" class="control-label">执行内容</label>
                     <textarea name="BntActionContent" class="form-control" placeholder="执行内容" rows="3"></textarea>
                 </div>
-                <div class="form-group text-left" style="margin-bottom:5px;">
-                    <div  class="col-sm-6" style="padding:0px;">
+                <div class="form-group text-left" style="margin-bottom: 5px;">
+                    <div class="col-sm-6" style="padding: 0px;">
                         <label for="Widths" class="control-label">弹层宽度</label>
                         <input type="text" name="Widths" class="form-control" placeholder="弹层宽度" />
                     </div>
-                    <div  class="col-sm-6" style="padding:0px;">
+                    <div class="col-sm-6" style="padding: 0px;">
                         <label for="Heigths" class="control-label">弹层高度</label>
                         <input type="text" name="Heigths" class="form-control" placeholder="弹层高度" />
                     </div>
                 </div>
-                <div class="form-group" style="margin-bottom:5px;"> 
-                    <label for="BntActionCondition" class="control-label" style="margin-top:5px;">执行条件</label>    
+                <div class="form-group" style="margin-bottom: 5px;">
+                    <label for="BntActionCondition" class="control-label" style="margin-top: 5px;">执行条件</label>
                     <select class="form-control">
                         <option value="1">执行</option>
                         <option value="2">动态（前台判断）</option>
                         <option value="3">动态（后台判断）</option>
-                    </select>                
+                    </select>
                     <textarea name="BntActionCondition" class="form-control" placeholder="执行条件" rows="3"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="BntIsEnable" class="control-label">是否启用</label>
-                     <select class="form-control" name="BntIsEnable">
+                    <select class="form-control" name="BntIsEnable">
                         <option value="1">启用</option>
                         <option value="0">禁用</option>
                     </select>
@@ -231,7 +213,7 @@
             </div>
         </div>
     </form>
-     <!-- jQuery 3 -->
+    <!-- jQuery 3 -->
     <script src="../../Script/AdminLTE-2.4.2/bower_components/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap 3.3.7 -->
     <script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -253,7 +235,7 @@
                     $(this).parent().next("a").removeClass("hidden")
                 }
                 else
-                   $(this).parent().next("a").addClass("hidden");
+                    $(this).parent().next("a").addClass("hidden");
 
             });
             $("select[name = FieldDataType]").change(function () {
@@ -272,7 +254,7 @@
             param.gettype = "SetData";
             param.values = JSON.stringify(values);
             param.tableid = <%=ItemID%>;
-            param.tableInfo = JSON.stringify(tableInfo);   
+            param.tableInfo = JSON.stringify(tableInfo);
             $.ajax({
                 type: "post",
                 url: GetPageName(),
@@ -317,7 +299,7 @@
                                 location.reload();
                             }
                         });
-                    }else {
+                    } else {
                         loadClose();
                         layer.msg('操作失败！', {
                             icon: 2, time: 1500, end: function () {
@@ -383,7 +365,7 @@
                 type: 1,
                 title: '显示设置',
                 skin: 'layui-layer-rim', //加上边框
-                area: ['680px', '350px'], //宽高
+                area: ['680px', '363px'], //宽高
                 content: showHtml,
                 offset: ['45px']
             });
@@ -394,9 +376,9 @@
             showData = $(obj).parent().find("[name=SelectData]");
             var values = $(showData).val();
             var showHtml = "<div class=\"form-group text-center\" style=\"margin:5px;\">";
-            showHtml += "<p><span style=\"color: blue;\">JSON数据：[{\"key\":\"启用\",\"value\":\"1\"},{\"key\":\"不启用\",value:\"0\"}]</span></p> "; 
+            showHtml += "<p><span style=\"color: blue;\">JSON数据：[{\"key\":\"启用\",\"value\":\"1\"},{\"key\":\"不启用\",value:\"0\"}]</span></p> ";
             showHtml += "<p><span style=\"color: blue;\">SQL表达式：[{\"key\":\"SQL\",\"value\":\"select sg(启用),1\"}]</span></p>";
-             showHtml += "<p><span style=\"color: blue;\">单引号属于特殊字符，sg(启用)='启用'</span> <span style=\"color: red;\"> 必须是JSON数据格式</p>";
+            showHtml += "<p><span style=\"color: blue;\">单引号属于特殊字符，sg(启用)='启用'</span> <span style=\"color: red;\"> 必须是JSON数据格式</p>";
             showHtml += "<textarea name=\"selectData\" class=\"form-control\" placeholder=\"查询条件\" rows=\"6\">" + values + "</textarea><button type=\"button\" style=\"margin-top:5px;\" class=\"btn btn-success btn-block\" onclick=\"parentFunSetSelectData()\">保存</button></div>";
             //页面层
             showIndex = layer.open({
@@ -407,8 +389,7 @@
                 content: showHtml
             });
         }
-        function parentFunSetSelectData()
-        {
+        function parentFunSetSelectData() {
             var values = $(".layui-layer textarea").val();
             $(showData).val(values);
             layer.close(showIndex);

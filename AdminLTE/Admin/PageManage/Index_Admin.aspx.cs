@@ -18,7 +18,7 @@ namespace AdminLTE.Admin.PageManage
             if (UserGUID != null && UserGUID.ToString() != "")
             {
                System.Data.DataTable dtUserInfo = BLL.AdminLogin.GetUserInfo(UserGUID.ToString());
-                if (BLL.BaseClass.estimate(dtUserInfo))
+                if (BLL.BaseClass.IsNullOrNotNull(dtUserInfo))
                 {
                     imgurl = dtUserInfo.Rows[0]["UserImg"].ToString();
                     username = dtUserInfo.Rows[0]["UserName"].ToString();
