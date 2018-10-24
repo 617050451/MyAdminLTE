@@ -157,23 +157,6 @@ namespace BLL
             return query.ToList<Model.M_TableField>();
         }
         /// <summary>
-        /// 获取页面字段Html
-        /// </summary>
-        /// <param name="mf">页面字段信息实体</param>
-        /// <returns></returns>
-        public static string XmlSelectAllTableFieldXml(Model.M_TableField mf)
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("<tr role=\"row\" class=\"odd\">");
-            sb.Append("<td>" + mf.FieldKey + "<div class=\"input-group input-group-sm\"><input type=\"text\" name=\"FieldKey\" class=\"form-control hidden\" value='" + mf.FieldKey + "'/></div></td>");
-            sb.Append("<td><div class=\"input-group input-group-sm\"><input type=\"text\" name=\"FieldText\"  class=\"form-control\" value='" + mf.FieldText + "\'/></div></td>");
-            sb.Append("<td class=\"form-inline\">" + GetFieldDataTypeHtml(mf.FieldDataType, mf.FieldData) + "</td>");//
-            sb.Append("<td>" + GetFieldStatusIDHtml(mf.FieldStatusID) + "</td>");
-            sb.Append("<td class=\"form-inline\">" + GetSelectTypeHtml(mf.SelectType, mf.SelectData) + "</div>");
-            sb.Append("<td><div class=\"input-group input-group-sm\"><input type=\"text\"   class=\"form-control\"  name=\"FieldOrder\" value='" + mf.FieldOrder + "'/></div></td>");
-            return sb.ToString();
-        }
-        /// <summary>
         /// 修改xml表格信息
         /// </summary>
         /// <param name="ItemID">页面数据ID</param>
@@ -277,6 +260,7 @@ namespace BLL
                         var SQL = xn.Attributes["SQL"].Value;
                         List<XmlElement> xmlAddList = new List<XmlElement>();
                         DataTable ColumnsDT = GetDataTableColumns(SQL);
+                        xn.Attributes["PrimaryKey"].Value = ColumnsDT.Columns[0].ColumnName;
                         for (int i = 0; i < ColumnsDT.Columns.Count; i++)
                         {
                             var IsExist = false;
@@ -328,14 +312,10 @@ namespace BLL
             }
         }
         /// <summary>
-        /// 获取表格字段
+        /// 自动排序
         /// </summary>
-        /// <param name="sql"></param>
+        /// <param name="ItemID"></param>
         /// <returns></returns>
-        public static DataTable GetDataTableColumns(string sql)
-        {
-            return BaseClass.GetDataTable("select * from (" + sql + ")as cyfstb where 1=2");
-        }
         public static bool XmlToSetOrder(int ItemID)
         {
             try
@@ -372,6 +352,25 @@ namespace BLL
             }
         }
 
+
+
+        /// <summary>
+        /// 获取页面字段Html
+        /// </summary>
+        /// <param name="mf">页面字段信息实体</param>
+        /// <returns></returns>
+        public static string SelectAllTableFieldHtml(Model.M_TableField mf)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<tr role=\"row\" class=\"odd\">");
+            sb.Append("<td>" + mf.FieldKey + "<div class=\"input-group input-group-sm\"><input type=\"text\" name=\"FieldKey\" class=\"form-control hidden\" value='" + mf.FieldKey + "'/></div></td>");
+            sb.Append("<td><div class=\"input-group input-group-sm\"><input type=\"text\" name=\"FieldText\"  class=\"form-control\" value='" + mf.FieldText + "\'/></div></td>");
+            sb.Append("<td class=\"form-inline\">" + GetFieldDataTypeHtml(mf.FieldDataType, mf.FieldData) + "</td>");//
+            sb.Append("<td>" + GetFieldStatusIDHtml(mf.FieldStatusID) + "</td>");
+            sb.Append("<td class=\"form-inline\">" + GetSelectTypeHtml(mf.SelectType, mf.SelectData) + "</div>");
+            sb.Append("<td><div class=\"input-group input-group-sm\"><input type=\"text\"   class=\"form-control\"  name=\"FieldOrder\" value='" + mf.FieldOrder + "'/></div></td>");
+            return sb.ToString();
+        }
         /// <summary>
         /// 设置显示方式
         /// </summary>
@@ -390,7 +389,7 @@ namespace BLL
             sb.Append("<option " + (FieldDataType == 5 ? "selected=\"selected\"" : "") + " value=\"5\">前台自定义</option>");
             sb.Append("</select>");
             sb.Append("</div>");
-            sb.Append("<a class=\"text-primary " + (FieldDataType == 1? "hidden" : "") + "\" href=\"javascript:void(0)\" onclick=\"setFieldData(this)\">&nbsp;设置</a><input type=\"text\" name=\"FieldData\" class=\"form-control hidden\" value='" + FieldData + "'/>");
+            sb.Append("<a class=\"text-primary " + (FieldDataType == 1 ? "hidden" : "") + "\" href=\"javascript:void(0)\" onclick=\"setFieldData(this)\">&nbsp;设置</a><input type=\"text\" name=\"FieldData\" class=\"form-control hidden\" value='" + FieldData + "'/>");
             return sb.ToString();
         }
         /// <summary>
@@ -421,40 +420,25 @@ namespace BLL
             sb.Append("<option " + (SelectType == 1 ? "selected=\"selected\"" : "") + " value=\"1\">模糊查询</option>");
             sb.Append("<option " + (SelectType == 2 ? "selected=\"selected\"" : "") + " value=\"2\">下拉查询</option>");
             sb.Append("<option " + (SelectType == 3 ? "selected=\"selected\"" : "") + " value=\"3\">等于查询</option>");
+            sb.Append("<option " + (SelectType == 4 ? "selected=\"selected\"" : "") + " value=\"4\">时间查询</option>");
+            sb.Append("<option " + (SelectType == 5 ? "selected=\"selected\"" : "") + " value=\"5\">高级查询</option>");
             sb.Append("</select></div>");
             sb.Append("&nbsp;<a class=\"text-primary " + (SelectType == 2 ? "" : "hidden") + "\"  href=\"javascript:void(0)\" onclick=\"setSelectData(this)\">&nbsp;设置</a>");
             sb.Append("<input type=\"text\" class=\"form-control hidden\" name=\"SelectData\" value='" + SelectData + "'/>");
             return sb.ToString();
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sql"></param>
-        /// <returns></returns>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        //获取表格字段
+        public static DataTable GetDataTableColumns(string sql)
+        {
+            return BaseClass.GetDataTable("select * from (" + sql + ")as cyfstb where 1=2");
+        }
+        public static bool ExecuteNonQuerySQL(string SQL)
+        {
+            return DAL.SQLDBHelpercs.ExecuteNonQuery(SQL);
+        }
         //获取单行单列数据
         public static string GetDataViewSQL(string sql)
         {
@@ -557,96 +541,5 @@ namespace BLL
             }
             return sql;
         }
-        /// 创建
-        /// </summary>
-        public static void XmlCreate(string XmlName)
-        {
-            string xmlPath = System.AppDomain.CurrentDomain.BaseDirectory + "\\DataXML\\" + XmlName + ".xml";
-            XmlDocument xml = new XmlDocument();
-            xml.Load(xmlPath);//读取文件
-            XmlElement root = xml.DocumentElement;//获取根节点
-                                                  //添加节点
-            XmlElement node = xml.CreateElement("Commodity");
-            ////节点属性 赋值
-            //var BarCode = context.Request["BarCode"];
-            //var Name = context.Request["Name"];
-            //var Price = context.Request["Price"];
-            //var Price1 = context.Request["Price1"];
-            //var Stock = context.Request["Stock"];
-            //var IsDelete = context.Request["IsDelete"];
-            //node.SetAttribute("ID", BarCode);
-            //XmlElement theElemBarCode = xml.CreateElement("BarCode");
-            //theElemBarCode.InnerText = BarCode;
-            //XmlElement theElemName = xml.CreateElement("Name");
-            //theElemName.InnerText = Name;
-            //XmlElement theElemPrice = xml.CreateElement("Price");
-            //theElemPrice.InnerText = Price;
-            //XmlElement theElemPrice1 = xml.CreateElement("Price1");
-            //theElemPrice1.InnerText = Price1;
-            //XmlElement theElemStock = xml.CreateElement("Stock");
-            //theElemStock.InnerText = Stock;
-            //XmlElement theElemIsDelete = xml.CreateElement("IsDelete");
-            //theElemIsDelete.InnerText = IsDelete;
-            ////
-            //node.AppendChild(theElemBarCode);
-            //node.AppendChild(theElemName);
-            //node.AppendChild(theElemPrice);
-            //node.AppendChild(theElemPrice1);
-            //node.AppendChild(theElemStock);
-            //node.AppendChild(theElemIsDelete);
-            //root.AppendChild(node);
-            ////
-            //xml.Save(xmlPath);//保存 xml文件
-        }
-        // <summary>
-        /// 查询
-        /// </summary>
-        /// <summary>
-        /// 删除
-        /// </summary>
-        public void XmlDel()
-        {
-            string xmlPath = System.AppDomain.CurrentDomain.BaseDirectory + "Document\\XMLFile1.xml";//文件路径
-            XmlDocument xml = new XmlDocument();
-            xml.Load(xmlPath);//读取文件
-            XmlElement root = xml.DocumentElement;//获取根节点
-            XmlNodeList rootChil = root.ChildNodes;//获取子节点
-
-            foreach (XmlNode xn in rootChil)
-            {
-                XmlElement xe = (XmlElement)xn;
-                if (xe.GetAttribute("id") == "student")//节点属性值条件比对
-                {
-                    xn.ParentNode.RemoveChild(xn);
-                    // xn.RemoveAll();  
-                }
-            }
-            xml.Save(xmlPath);
-            //xmltext = root.ToString();
-        }
-
-
-
-        /// <summary>
-        /// 修改
-        /// </summary>
-        public void XmlUpdate()
-        {
-            string xmlPath = System.AppDomain.CurrentDomain.BaseDirectory + "Document\\XMLFile1.xml";//文件路径
-            XmlDocument xml = new XmlDocument();
-            xml.Load(xmlPath);//读取文件
-            XmlElement root = xml.DocumentElement;//获取根节点
-            XmlNodeList rootChil = root.ChildNodes;//获取子节点
-            foreach (XmlNode xn in rootChil)
-            {
-                XmlElement xe = (XmlElement)xn;
-                if (xe.GetAttribute("id") == "student")//节点属性值条件比对
-                {
-                    xe.SetAttribute("id", "stu");
-                }
-            }
-            xml.Save(xmlPath);
-        }
-
     }
 }

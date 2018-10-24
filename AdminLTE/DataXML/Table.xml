@@ -1,9 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TABLES>
-  <OPTION TableID="1" Title="用户管理" PrimaryKey="GUID" FileName="UserList" SQL="select [GUID],[No],[Account],[Password],[Name],[ImgUrl],[Sex],[Birthday],[Telephone],[Address],[StatusID],[CreatorID],[CreaterDateTime]  from [t_Users]" TableName="dbo.[t_Users]" IsPlus="0" IsWhere="1" IsChoice="0" IsInsert="1" IsUpdate="1" IsDelete="1" Note="备注" ColunmName="1">
+  <OPTION TableID="1" Title="用户管理" PrimaryKey="GUID" FileName="UserList" SQL="select [GUID],[No],[Account],[Password],[Name],[ImgUrl],[Sex],[Birthday],[Telephone],[Address],[StatusID],[CreatorID],[CreaterDateTime]  from [t_Users]" TableName="dbo.[t_Users]" IsPlus="0" IsWhere="1" IsChoice="1" IsInsert="1" IsUpdate="1" IsDelete="1" Note="备注" ColunmName="1">
     <COLUMNS>
-      <GUID FieldKey="GUID" FieldText="GUID" FieldDataType="1" FieldData="" FieldStatusID="0" SelectType="0" SelectData="" FieldOrder="1">
-      </GUID>
       <No FieldKey="No" FieldText="编号" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="2">
       </No>
       <Account FieldKey="Account" FieldText="账号" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="3">
@@ -20,7 +18,7 @@
       </Telephone>
       <Address FieldKey="Address" FieldText="地址" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="10">
       </Address>
-      <StatusID FieldKey="StatusID" FieldText="状态" FieldDataType="2" FieldData="data == 1?&quot;启用&quot;:&quot;禁用&quot;" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="11">
+      <StatusID FieldKey="StatusID" FieldText="状态" FieldDataType="2" FieldData="data == 1?&quot;启用&quot;:&quot;禁用&quot;" FieldStatusID="1" SelectType="2" SelectData="[{&quot;key&quot;:&quot;启用&quot;,&quot;value&quot;:&quot;1&quot;},{&quot;key&quot;:&quot;不启用&quot;,value:&quot;0&quot;}]" FieldOrder="11">
       </StatusID>
       <CreatorID FieldKey="CreatorID" FieldText="录入人" FieldDataType="3" FieldData="SELECT name from dbo.[t_Users] where No = row.No" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="12">
       </CreatorID>
@@ -28,6 +26,8 @@
       </CreaterDateTime>
       <ImgUrl FieldKey="ImgUrl" FieldText="头像" FieldDataType="4" FieldData="img" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="6">
       </ImgUrl>
+      <GUID FieldKey="GUID" FieldText="GUID" FieldDataType="1" FieldData="" FieldStatusID="0" SelectType="0" SelectData="" FieldOrder="1">
+      </GUID>
     </COLUMNS>
   </OPTION>
 </TABLES>

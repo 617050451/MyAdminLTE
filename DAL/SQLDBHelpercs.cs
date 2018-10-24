@@ -197,6 +197,32 @@ namespace DAL
                 return null;
             }
         }
+        public static bool ExecuteNonQuery(string sql)
+        {
+            try
+            {
+                SqlCommand comm = new SqlCommand(sql, Conn);
+                return comm.ExecuteNonQuery() > 0;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public static bool ExecuteNonQuery(string sql, SqlParameter[] paras)
+        {
+            try
+            {
+                SqlCommand comm = new SqlCommand(sql, Conn);
+                if (paras != null)
+                    comm.Parameters.AddRange(paras);
+                return comm.ExecuteNonQuery() > 0;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
         public static bool ExecuteNonQuery(string sql, SqlParameter[] paras, string type)
         {
             try
@@ -212,6 +238,34 @@ namespace DAL
             catch (Exception)
             {
                 return false;
+            }
+        }
+        public static int ExecuteNonQueryInt(string sql)
+        {
+            try
+            {
+                SqlCommand comm = new SqlCommand(sql, Conn);
+                return comm.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+        public static int ExecuteNonQueryInt(string sql, SqlParameter[] paras)
+        {
+            try
+            {
+                SqlCommand comm = new SqlCommand(sql, Conn);
+                if (paras != null)
+                {
+                    comm.Parameters.AddRange(paras);
+                }
+                return comm.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+                return 0;
             }
         }
         public static int ExecuteNonQueryInt(string sql, SqlParameter[] paras, string type)

@@ -19,27 +19,55 @@ namespace AdminLTE.Ajax
 
         public void JudgeType(HttpContext context)
         {
-            var GetType = context.Request["GetType"];
-            switch (GetType)
+            var option = context.Request["option"];
+            if (!string.IsNullOrWhiteSpace(option) && Convert.ToInt32(option) > 0)
             {
-                case "GetDataList":
-                    GetDataList(context);
-                    break;                 
-                default:
-                    break;
+                var gettype = context.Request["gettype"];
+                switch (gettype)
+                {
+                    case "GetDataList":
+                        GetDataList(context, Convert.ToInt32(option));
+                        break;
+                    case "BntDeleteItemID":
+                        BntDeleteItemID(context, Convert.ToInt32(option));
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                context.Response.Write("{\"code\":405,\"msg\":\"缺少参数：option\"}");
+                context.Response.End();
             }
         }
-        public void GetDataList(HttpContext context)
+        /// <summary>
+        /// 查询
+        /// </summary>
+        /// <param name="context"></param>
+        public void GetDataList(HttpContext context,int option)
         {
-            BLL.B_Table TableBll = new BLL.B_Table(1);
+            BLL.B_Table TableBll = new BLL.B_Table(option);
             int PageIndex = Convert.ToInt32(context.Request["page"]);
             int PageSize = Convert.ToInt32(context.Request["limit"]);
             int PageStart = Convert.ToInt32(context.Request["start"]);
             string Order = context.Request["order"];
-            string OSrderDir = context.Request["orderDir"];
-            var WhereValues = context.Request["WhereValues"];
-            System.Data.DataTable dt = (WhereValues == null ? null : BLL.JsonHelper.DeserializeJsonToObject<System.Data.DataTable>(WhereValues));//条件数据
-            context.Response.Write(TableBll.GetDataListJson(1, PageStart, PageIndex, PageSize, ""));
+            var WhereValues = context.Request["where"];
+            context.Response.Write(TableBll.GetDataListJson(PageStart, PageIndex, PageSize, WhereValues, Order));
+            context.Response.End();
+        }
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="context"></param>
+        public void BntDeleteItemID(HttpContext context, int option)
+        {
+            var choicevalue = context.Request["choicevalue"];
+            BLL.B_Table TableBll = new BLL.B_Table(option);
+            if(TableBll.DeleteItemID(choicevalue))
+                context.Response.Write("{\"code\":1,\"msg\":\"删除成功!\"}");
+            else
+                context.Response.Write("{\"code\":500,\"msg\":\"删除失败!\"}");
             context.Response.End();
         }
         public bool IsReusable

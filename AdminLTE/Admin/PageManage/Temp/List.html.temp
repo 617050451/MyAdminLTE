@@ -98,7 +98,7 @@
             listconifg.iswhere = {IsWhere};
             listconifg.ischoice = {IsChoice};
             listconifg.columns = columns;
-            listconifg.getData();
+            listconifg.getData({TableID});
         })
     </script>
 	<script>{BottomHtml}</script>

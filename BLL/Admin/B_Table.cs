@@ -58,16 +58,17 @@ namespace BLL
         {
             return BaseClass.XmlToSetOrder(bItemID);
         }
+
+
         /// <summary>
         /// 生成文件
         /// </summary>
         /// <param name="PageName"></param>
         /// <param name="TableGUID"></param>
-        public void SavePageHtml(int ItemID)
+        public void SavePageHtml()
         {
-            BLL.B_Table TableBll = new BLL.B_Table(ItemID);
-            var TableModel = TableBll.GetTableModel();
-            var TableFielModelList = TableBll.GetTableFieldModel();
+            var TableModel = this.GetTableModel();
+            var TableFielModelList = this.GetTableFieldModel();
             System.IO.StreamReader h_hovertreeSr = new System.IO.StreamReader(System.Web.HttpContext.Current.Request.MapPath("\\Admin\\PageManage\\Temp\\List.html.temp"));
             string h_hovertreeTemplate = h_hovertreeSr.ReadToEnd();
             //当前网站根目录物理路径  
@@ -88,9 +89,9 @@ namespace BLL
                 Columns.Append("{ \"data\": \"ItemID\", render: function (data, type, row) { return \"<input  bnt-click='CheckBoxItemID' name='CheckBoxItemID' type='checkbox' class='table-checkable'  value='\" + data + \"'/>\" } },");
             }
             if (TableModel.IsDelete == 1 && TableModel.IsChoice == 1)
-                TopButton.Append("<button name='DeleteItemID' bnt-click='DeleteItemID' type='button' class='btn btn-danger btn-xs'>删　除</button>");
+                TopButton.Append("<button name='DeleteItemID' bnt-click='DeleteItemID' style='margin-right:2px;' type='button' class='btn btn-danger btn-xs'>删　除</button>");
             if (TableModel.IsInsert == 1)
-                TopButton.Append("<button name='InsertItemID' bnt-click='InsertItemID' type='button' class='btn btn-success btn-xs'>新　增</button>");
+                TopButton.Append("<button name='InsertItemID' bnt-click='InsertItemID' style='margin-right:2px;' type='button' class='btn btn-success btn-xs'>新　增</button>");
             foreach (var item in TableFielModelList)
             {
                 if (item.FieldStatusID == 1)
@@ -104,14 +105,16 @@ namespace BLL
                 TableThead.Append(string.Format("<th aria-controls=\"example\" rowspan=\"1\" colspan=\"1\" aria-label=\"操作: \">{0}</th>", "操作"));
                 var BntHmtl = string.Empty;
                 if (TableModel.IsUpdate == 1)
-                    BntHmtl += "<button name='UpdateItemID' bnt-click = 'UpdateItemID' style='margin:2px;' type = 'button' class='btn btn-warning  btn-xs' value='\"+ data+\"'>修　改</button>";
-                if (TableModel.IsDelete == 1)
-                    BntHmtl += "<button name='DeleteItemID' bnt-click='DeleteItemID' type='button' class='btn btn-danger btn-xs' value='\"+ data+\"'>删　除</button>";
+                    BntHmtl += "<button name='UpdateItemID' bnt-click = 'UpdateItemID'  type = 'button' class='btn btn-warning  btn-xs' value='\"+ data+\"'>修　改</button> ";
+                if (TableModel.IsDelete == 1 && TableModel.IsChoice == 0)
+                    BntHmtl += "<button name='DeleteItemID' bnt-click='DeleteItemID'  type='button' class='btn btn-danger btn-xs' value='\"+ data+\"'>删　除</button>";
                 if (!string.IsNullOrWhiteSpace(BntHmtl))
                     Columns.Append("{\"data\": \"" + "ItemID" + "\", render: function (data, type, row) { return \"" + BntHmtl + "\"}},");
             }
+            h_hovertreeTemplate = h_hovertreeTemplate.Replace("{TableID}", bItemID.ToString());
             h_hovertreeTemplate = h_hovertreeTemplate.Replace("{TableThead}", TableThead.ToString());
             h_hovertreeTemplate = h_hovertreeTemplate.Replace("{Columns}", Columns.ToString().TrimEnd(','));
+            h_hovertreeTemplate = h_hovertreeTemplate.Replace("{WhereHtml}", SetStrWhereHtml()); 
             h_hovertreeTemplate = h_hovertreeTemplate.Replace("{TopBotton}", TopButton.ToString());
             h_hovertreeTemplate = h_hovertreeTemplate.Replace("{BottomHtml}", "");
             h_sw.Write(h_hovertreeTemplate);
@@ -120,62 +123,12 @@ namespace BLL
             h_hovertreeSr.Close();
         }
         /// <summary>
-        /// 获取表格数据Json
+        /// 解析转换显示
         /// </summary>
-        /// <param name="dt"></param>
-        /// <param name="PageStart"></param>
-        /// <param name="PageIndex"></param>
-        /// <param name="PageSize"></param>
-        /// <param name="order"></param>
+        /// <param name="FieldDataType"></param>
+        /// <param name="FieldData"></param>
+        /// <param name="FieldKey"></param>
         /// <returns></returns>
-        public string GetDataListJson(int ItemID, int PageStart, int PageIndex, int PageSize, string order)
-        {
-            System.Data.DataSet ds = BaseClass.GetDataSet(SetFieldSQL(ItemID));
-            if (ds != null)
-            {
-                System.Data.DataTable tableJson = ds.Tables[0];
-                if (tableJson != null)
-                {
-                    StringBuilder sb = new StringBuilder();
-                    sb.Append("{\"total\":" + tableJson.Rows.Count + ",\"page\":1,\"limit\":" + PageSize + ",\"data\":");
-                    string datatablejson = JsonHelper.DataTableToJsonWithJsonNet(tableJson);
-                    sb.Append(datatablejson);
-                    sb.Append("}");
-                    return sb.ToString().Replace("\n", "");
-                }
-                else
-                {
-                    return "{\"total\":" + 0 + ",\"page\":0,\"limit\":" + PageSize + ",\"data\":[]}";
-                }
-            }
-            else
-            {
-                return "{\"total\":" + 0 + ",\"page\":0,\"limit\":" + PageSize + ",\"data\":[]}";
-            }
-        }
-        //配置转换显示SQL
-        public string SetFieldSQL(int ItemID)
-        {
-            BLL.B_Table TableBll = new BLL.B_Table(ItemID);
-            var TableModel = TableBll.GetTableModel();
-            var TableFielModelList = TableBll.GetTableFieldModel();
-            var TableName = TableModel.TableName;
-            StringBuilder sb = new StringBuilder();
-            sb.Append("SELECT " + TableModel.PrimaryKey + " as ItemID ");
-            string SQLFieldKey = "";
-            foreach (var item in TableFielModelList)
-            {
-                if (item.FieldDataType == 3)
-                {
-                    SQLFieldKey += ",(" + item.FieldData.Replace("row.", "NewCyFsTable.") + ") as " + item.FieldKey;
-                }
-                else
-                    SQLFieldKey += "," + item.FieldKey;
-            }
-            sb.Append(SQLFieldKey.TrimEnd(',') + " FROM " + TableName + " AS NewCyFsTable ");
-            return sb.ToString();
-        }
-        //解析转换显示
         public string SetFieldDataType(int FieldDataType, string FieldData, string FieldKey)
         {
             string data = string.Empty;
@@ -210,7 +163,212 @@ namespace BLL
             }
             return "{\"data\": \"" + FieldKey + "\"" + data + "},";
         }
-        
+        /// <summary>
+        /// 设置高级查询
+        /// </summary>
+        /// <returns></returns>
+        public string SetStrWhereHtml()
+        {
+            var TableModel = this.GetTableModel();
+            var TableFielModelList = this.GetTableFieldModel();
+            string strHtml = "";
+            if (TableModel.IsWhere == 1)
+            {
+                if (TableFielModelList != null && TableFielModelList.Count > 0)
+                {
+                    foreach (var item in TableFielModelList)
+                    {
+                        string type = item.SelectType.ToString();
+                        switch (type)
+                        {
+                            case "1":
+                                strHtml += "<div class=\"col-lg-2 col-xs-5 table-s\">";
+                                strHtml += "<label class=\"col-xs control-label table-label\">" + item.FieldText + "<span class=\"text-danger\">（模糊查询）</span></label >";
+                                strHtml += "<input type=\"text\" name=\"" + item.FieldKey + "\"  class=\"form-control\" placeholder=\"" + item.FieldText + "\" />";
+                                strHtml += "</div>";
+                                break;
+                            case "2":
+                                strHtml += "<div class=\"col-lg-2 col-xs-5 table-s\">";
+                                strHtml += "<label class=\"col-xs control-label table-label\">" + item.FieldText + "<span class=\"text-danger\">（下拉查询）</span></label >";
+                                strHtml += "<select name=\"" + item.FieldKey + "\" class=\"form-control select2 select2-hidden-accessible\"  aria-hidden=\"true\" >";
+                                strHtml += "<option selected = \"selected\" value = \"AllOption\" >全部</option >";
+                                string data = item.SelectData;
+                                System.Data.DataTable objdata = JsonHelper.DeserializeJsonToObject<System.Data.DataTable>(data);
+                                if (objdata != null && objdata.Rows.Count > 0)
+                                {
+                                    for (int j = 0; j < objdata.Rows.Count; j++)
+                                    {
+                                        if (objdata.Rows[j][0].ToString().ToUpper() == "SQL")
+                                        {
+                                            var sqldata = objdata.Rows[j][1].ToString();
+                                            System.Data.DataTable tsqldt = BaseClass.GetDataTable(BaseClass.GetValueForKey(sqldata));
+                                            if (tsqldt != null && tsqldt.Rows.Count > 0)
+                                            {
+                                                for (int m = 0; m < tsqldt.Rows.Count; m++)
+                                                {
+                                                    strHtml += "<option value = \"" + tsqldt.Rows[m][1].ToString() + "\" >" + tsqldt.Rows[m][0].ToString() + "</option >";
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            strHtml += "<option value = \"" + objdata.Rows[j][1].ToString() + "\" >" + objdata.Rows[j][0].ToString() + "</option >";
+                                        }
+                                    }
+                                }
+                                strHtml += "</select>";
+                                strHtml += "</div>";
+                                break;
+                            case "3":
+                                strHtml += "<div class=\"col-lg-2 col-xs-5 table-s\">";
+                                strHtml += "<label class=\"col-xs control-label table-label\">" + item.FieldText + "<span class=\"text-danger\">（等于查询）<span></label >";
+                                strHtml += "<input type=\"text\" name=\"" + item.FieldKey + "\" data-type=\"datepicker\"  class=\"form-control\" placeholder=\"" + item.FieldText + "\" />";
+                                strHtml += "</div>";
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    strHtml += "<div bnt-click=\"Select\" class=\"col-sm-1 table-p\" style=\"margin-top:30px;\"><button type =\"button\" class=\"btn btn-danger pull-right btn-block btn-primary\">查询</button></div>";
+                }
+            }
+            return strHtml;
+        }
+
+
+        /// <summary>
+        /// 获取表格数据Json
+        /// </summary>
+        /// <param name="PageStart"></param>
+        /// <param name="PageIndex"></param>
+        /// <param name="PageSize"></param>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        public string GetDataListJson(int PageStart, int PageIndex, int PageSize,string where ,string order)
+        {
+            System.Data.DataSet ds = BaseClass.GetDataSet(SetFieldSQL(where, order));
+            if (ds != null)
+            {
+                System.Data.DataTable tableJson = ds.Tables[0];
+                if (tableJson != null)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append("{\"total\":" + tableJson.Rows.Count + ",\"page\":1,\"limit\":" + PageSize + ",\"data\":");
+                    string datatablejson = JsonHelper.DataTableToJsonWithJsonNet(tableJson);
+                    sb.Append(datatablejson);
+                    sb.Append("}");
+                    return sb.ToString().Replace("\n", "");
+                }
+                else
+                {
+                    return "{\"total\":" + 0 + ",\"page\":0,\"limit\":" + PageSize + ",\"data\":[]}";
+                }
+            }
+            else
+            {
+                return "{\"total\":" + 0 + ",\"page\":0,\"limit\":" + PageSize + ",\"data\":[]}";
+            }
+        }
+        /// <summary>
+        /// 配置转换显示SQL
+        /// </summary>
+        /// <returns></returns>
+        public string SetFieldSQL(string where, string order)
+        {
+            var TableModel = this.GetTableModel();
+            var TableFielModelList = this.GetTableFieldModel();
+            var TableName = TableModel.TableName;
+            StringBuilder sb = new StringBuilder();
+            sb.Append("SELECT " + TableModel.PrimaryKey + " as ItemID ");
+            string SQLFieldKey = "";
+            foreach (var item in TableFielModelList)
+            {
+                if (item.FieldDataType == 3)
+                {
+                    SQLFieldKey += ",(" + item.FieldData.Replace("row.", "NewCyFsTable.") + ") as " + item.FieldKey;
+                }
+                else
+                    SQLFieldKey += "," + item.FieldKey;
+            }
+            sb.Append(SQLFieldKey.TrimEnd(',') + " FROM " + TableName + " AS NewCyFsTable ");
+            sb.Append(GetWhereSQL(where));
+            sb.Append(GetOrderBySQL(order));
+            return sb.ToString();
+        }
+        public string GetWhereSQL(string where)
+        {
+            var TableFielModelList = this.GetTableFieldModel();
+            StringBuilder sb = new StringBuilder();
+            System.Data.DataTable dt = (where == null ? null : BLL.JsonHelper.DeserializeJsonToObject<System.Data.DataTable>(where));//条件数据
+            if (BaseClass.estimate(dt))
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    var FieldKey = dt.Rows[i][0].ToString();
+                    var FieldValue = dt.Rows[i][1].ToString();
+                    if (!string.IsNullOrWhiteSpace(FieldValue) && FieldValue != "AllOption")
+                    {
+                        List<Model.M_TableField> listmf = TableFielModelList.Where(x => x.FieldKey == FieldKey).ToList();
+                        if (listmf != null && listmf.Count > 0)
+                        {
+                            var item = listmf[0];
+                            var gstype = " = ";
+                            var SelectType = item.SelectType;
+                            var SelectData = item.SelectData;
+                            if (SelectType == 1)
+                            {
+                                gstype = " LIKE ";
+                                FieldValue = "%" + FieldValue + "%";
+                            }
+                            if (SelectType == 2 || SelectType == 3)
+                                gstype = " = ";
+                            sb.Append(" NewCyFsTable." + FieldKey + gstype + FieldValue);
+                        }
+                    }
+                }
+            }
+            if (string.IsNullOrWhiteSpace(sb.ToString()))
+                return "";
+            else
+                return " WHERE " + sb.ToString();
+        }
+        public string GetOrderBySQL(string order)
+        {
+            var TableFielModelList = this.GetTableFieldModel();
+            StringBuilder sb = new StringBuilder();
+            System.Data.DataTable dt = (order == null ? null : BLL.JsonHelper.DeserializeJsonToObject<System.Data.DataTable>(order));//条件数据
+            if (BaseClass.estimate(dt))
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    var Index = Convert.ToInt32(dt.Rows[i][0].ToString());
+                    var FieldKey = TableFielModelList[Index].FieldKey;
+                    var FieldValue = dt.Rows[i][1].ToString();
+                    if (!string.IsNullOrWhiteSpace(FieldValue))
+                        sb.Append(" NewCyFsTable." + FieldKey + " " + FieldValue + ",");
+                }
+            }
+            if (string.IsNullOrWhiteSpace(sb.ToString()))
+                return "";
+            else
+                return " ORDER BY " + sb.ToString().TrimEnd(',');
+        }
+        /// <summary>
+        /// 删除数据
+        /// </summary>
+        /// <param name="ItemIDs"></param>
+        /// <returns></returns>
+        public bool DeleteItemID(string ItemIDs)
+        {
+            var TableModel = this.GetTableModel();
+            var TableName = TableModel.TableName;
+            var PrimaryKey = TableModel.PrimaryKey;
+            var ListItemID = ItemIDs.Split(',');
+            StringBuilder sql = new StringBuilder();
+            foreach (var item in ListItemID)
+                sql.Append(string.Format(" DELETE FROM " + TableName + " WHERE " + PrimaryKey + " = '{0}';", item));
+            return BaseClass.ExecuteNonQuerySQL(sql.ToString());
+        }
     }
 }
 

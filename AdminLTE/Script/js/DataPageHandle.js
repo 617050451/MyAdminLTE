@@ -22,8 +22,6 @@ $(function () {
         "ischoice": 0,
         "where": "",
         "dom": "t<'row'<'#id.col-xs-2 table-l'l><'#id.col-xs-3'i><'#id.col-xs-6 table-p'p>>r",
-        "aoColumnDefs": [{ "bSortable": false, "aTargets": [0] }],
-        "aaSorting": [[1,"asc"]],
         "lengthChange": true,
         "autoWidth": false,
         "aLengthMenu": [25, 50, 100, 200],
@@ -36,12 +34,16 @@ $(function () {
         "orderMulti": true,  //启用多列排序
         "columns": [],
         "oLanguage": oLanguage,
-        "url":"/Ajax/GetData.ashx",
-        "getData": function (option) {
+        "url": "/Ajax/GetData.ashx",
+        "fromchildren" : "input,textarea,select",
+        "getData": function (option, funaggregate) {
+            var aoColumnDefs = [0];
+            if (listconifg.columns[listconifg.columns.length - 1].data == "ItemID") 
+                aoColumnDefs.push(listconifg.columns.length - 1);
             table = $('#example').dataTable({
                 "dom": listconifg.dom,
-                "aoColumnDefs": listconifg.aoColumnDefs,
-                "aaSorting": listconifg.aaSorting,
+                "aoColumnDefs": [{ "bSortable": false, "aTargets": aoColumnDefs }],
+                "aaSorting": [[listconifg.ischoice, "asc"]],
                 "lengthChange": listconifg.lengthChange,
                 "autoWidth": listconifg.autoWidth,
                 "aLengthMenu": listconifg.aLengthMenu,
@@ -55,15 +57,17 @@ $(function () {
                 "columns": listconifg.columns,
                 "oLanguage": listconifg.oLanguage,
                 "where": listconifg.where,
-                ajax: function (data, callback, settings) {                    
+                ajax: function (data, callback, settings) {
+                    var where = $('#selectwherefrom').find(listconifg.fromchildren).serializeArray();
                     //封装请求参数
                     var param = {};
                     param.gettype = "GetDataList";
+                    param.option = option;
                     param.limit = data.length;//页面显示记录条数，在页面显示每页显示多少项的时候
                     param.start = data.start;//开始的记录序号
                     param.page = (data.start / data.length) + 1;//当前页码;
-                    param.where = data.where;
-                    param.order = data.order;
+                    param.where = JSON.stringify(where);
+                    param.order = JSON.stringify(data.order);
                     //ajax请求数据
                     $.ajax({
                         type: "GET",
@@ -85,7 +89,7 @@ $(function () {
                                     //调用DataTables提供的callback方法，代表数据已封装完成并传回DataTables进行渲染
                                     //此时的数据需确保正确无误，异常判断应在执行此回调前自行处理完毕
                                     callback(returnData);
-                                    GetDataAfter(result.data, option);
+                                    GetDataAfter(result.data, option, funaggregate);
                                 }, 50);
                             }
                         },
@@ -120,8 +124,8 @@ $(function () {
         }
     }
     //注册事件 全选，删除
-    function GetDataAfter(redata, option) {
-        option = option || {}
+    function GetDataAfter(redata, option, funaggregate) {
+        funaggregate = funaggregate || {}
         //注册按钮事件
         $(function () {
             var data = redata
@@ -139,12 +143,14 @@ $(function () {
                     }
                 }
                 , clickList = {
-                    Select: option.Select || function (sender) {
+                    Select: funaggregate.Select || function (sender) {
                         loadding('正在查询，请稍等...');
-                        getJsonData('select');
+                        table.fnClearTable(false);  //清空数据.fnClearTable();//清空数据
+                        table.fnDestroy(); //还原初始化了的datatable  
+                        listconifg.getData(option);
                         loadClose();
                     },
-                    MoreBntClick: option.MoreBntClick || function (sender) {
+                    MoreBntClick: funaggregate.MoreBntClick || function (sender) {
                         var ItemID = sender.val();
                         if (ItemID == "") {
                             layer.msg("请选择需要操作的记录！");
@@ -156,12 +162,12 @@ $(function () {
                         alert("更多按钮测试：" + ItemID);
                         loadClose();
                     }
-                    , InsertItemID: option.InsertItemID || function (sender) {
+                    , InsertItemID: funaggregate.InsertItemID || function (sender) {
                         loadding('处理中，请稍等...');
                         alert("新增");
                         loadClose();
                     }
-                    , UpdateItemID: option.UpdateItemID || function (sender) {
+                    , UpdateItemID: funaggregate.UpdateItemID || function (sender) {
                         var ItemID = sender.val();
                         if (ItemID == "") {
                             layer.msg("请选择需要操作的记录！");
@@ -173,28 +179,28 @@ $(function () {
                         alert("修改：" + ItemID);
                         loadClose();
                     }
-                    , DeleteItemID: option.DeleteItemID || function (sender) {
+                    , DeleteItemID: funaggregate.DeleteItemID || function (sender) {
                         var ItemID = sender.val();
-                        if (ItemID == "")
-                        {
+                        if (ItemID == "") {
                             ItemID = OnCheckboxOnSelectValue();
-                            layer.msg("请选择需要操作的记录！");
-                            loadClose();
-                            return false;
+                            if (ItemID == "") {
+                                layer.msg("请选择需要操作的记录！");
+                                loadClose();
+                                return false;
+                            }
                         }
                         loadding('处理中，请稍等...');
                         var currdata = commend.find(data, function (s) { return s.ItemID === ItemID; });
-                        DeleteItemID(OnCheckboxOnSelectValue());
-                        alert("删除：" + ItemID);
+                        DeleteItemID(option, ItemID);
                         loadClose();
                     }
-                    , CheckBoxItemID: option.CheckBoxItemID || function (sender) {
+                    , CheckBoxItemID: funaggregate.CheckBoxItemID || function (sender) {
                         loadding('处理中，请稍等...');
                         var ItemID = sender.val();
                         var currdata = commend.find(data, function (s) { return s.ItemID === ItemID; });
                         var values = OnCheckboxOnClick();
                         loadClose();
-                    }, SelectAll: option.SelectAll || function (sender) {
+                    }, SelectAll: funaggregate.SelectAll || function (sender) {
                         loadding('处理中，请稍等...');
                         if ($(sender).prop("checked")) {
                             $("input[name='CheckBoxItemID']").prop("checked", 'true');//全选 
@@ -203,13 +209,14 @@ $(function () {
                         }
                         var values = OnCheckboxOnSelectValue();
                         loadClose();
-                    }, ShowImg: option.ShowImg || function (sender) {//放大显示图片集
+                    }, ShowImg: funaggregate.ShowImg || function (sender) {//放大显示图片集
                         loadding('加载中，请稍等...');
                         ShowImgUrl(sender);
                         loadClose();
                     }
                 };
-            $body.on('click', '*[bnt-click]', function () {
+            $('body *[bnt-click]').unbind("click"); 
+            $('body *[bnt-click]').bind('click', function () {
                 var othis = $(this)
                     , attrEvent = othis.attr('bnt-click');
                 clickList[attrEvent] && clickList[attrEvent].call(this, othis);
@@ -261,6 +268,47 @@ $(function () {
         });
         return guidValues;
     }
+    //删除选中的数据
+    function DeleteItemID(option, ChoiceValue) {
+        if (ChoiceValue == "") {
+            layer.msg('请选择需要删除的数据！');
+        } else {
+            //询问框
+            layer.confirm('你确定要删除当前选择的数据？', {
+                title: '删除',
+                btn: ['确定', '取消'] //按钮
+            }, function () {
+                var param = {};
+                param.gettype = "BntDeleteItemID";
+                param.choicevalue = ChoiceValue;
+                param.option = option;
+                //ajax请求数据
+                $.ajax({
+                    type: "GET",
+                    url: listconifg.url,
+                    data: param,
+                    cache: false,  //禁用缓存
+                    dataType: "json",
+                    async: false,
+                    success: function (result) {
+                        if (result.code === 1) {
+                            layer.msg('操作成功！', {
+                                icon: 1, time: 1500, end: function () {
+                                    location.reload();
+                                }
+                            });
+                        } else {
+                            layer.msg(result.msg, {
+                                icon: 2, end: function () {
+                                    location.reload();
+                                }
+                            });
+                        }
+                    }
+                });
+            });
+        }
+    }
 })
 var loadIndex = 0;
 function loadding(txt, obj) {
@@ -289,8 +337,12 @@ function GetPageName() {
 }
 // 转换日期格式
 function SetDateTime(data, fmt) {
-    var date = new Date(data.replace(/-/g, '/').replace('T', ' '));
-    return date.Format(fmt);
+    if (data != null && data.length > 0) {
+        var date = new Date(data.replace(/-/g, '/').replace('T', ' '));
+        return date.Format(fmt);
+    } else {
+        return "";
+    }
 }
 //转换请求
 function GetFieldKeyValue(Row, FieldKey, envent) {
@@ -319,13 +371,16 @@ function GetFieldKeyValue(Row, FieldKey, envent) {
 }
 //设置图片
 function SetImgUrl(row, data, endfun) {
-    var srcArr = new Array();
-    srcArr = data.split(',');
-    var redata = "";
-    for (var i = 0; i < srcArr.length; i++) {
-        redata += "<img width='20' bnt-click='ShowImg' img-group='" + row.ItemID + "' img-start='" + i + "'  src='" + srcArr[i] + "' \" />";
+    if (data != null && data.length > 0) {
+        var srcArr = data.split(',');
+        var redata = "";
+        for (var i = 0; i < srcArr.length; i++) {
+            redata += "<img width='20' bnt-click='ShowImg' img-group='" + row.ItemID + "' img-start='" + i + "'  src='" + srcArr[i] + "' \" />";
+        }
+        endfun(redata);
+    } else {
+        endfun("");
     }
-    endfun(redata);
 }
 //显示图片
 function ShowImgUrl(obj) {

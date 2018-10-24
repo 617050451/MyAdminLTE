@@ -38,7 +38,7 @@ namespace AdminLTE.Admin
                         DataTable TableFileInfoDt = BLL.JsonHelper.DeserializeJsonToObject<DataTable>(PageData);
                         if (TableBll.UpdateTableModel(TableInfoDt) && TableBll.UpdateTableFieldModel(TableFileInfoDt))
                         {
-                            TableBll.SavePageHtml(ItemID);
+                            TableBll.SavePageHtml();
                             Response.Write("True");
                         }                    
                         else
@@ -72,7 +72,7 @@ namespace AdminLTE.Admin
             StringBuilder sb = new StringBuilder();
             foreach (var item in TableFielModelList)
             {
-                sb.Append(BLL.BaseClass.XmlSelectAllTableFieldXml(item));
+                sb.Append(BLL.BaseClass.SelectAllTableFieldHtml(item));
             }
             return sb.ToString();
         }
