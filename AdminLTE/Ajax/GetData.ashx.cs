@@ -83,9 +83,13 @@ namespace AdminLTE.Ajax
         /// <param name="option"></param>
         public void InsertData(HttpContext context, int option)
         {
-            var FromValues = context.Request["FromValues"];
+            var FromValues = context.Server.UrlDecode(context.Request.QueryString["FromValues"]);
             BLL.B_Table TableBll = new BLL.B_Table(option);
-            context.Response.Write(TableBll.InsertData(FromValues));
+            var NewID = TableBll.InsertTableData(FromValues);
+            if (!string.IsNullOrWhiteSpace(TableBll.InsertTableData(FromValues)))
+                context.Response.Write("{\"code\":1,\"msg\":\"保存成功!\",\"newitemid\":\"" + NewID + "\"}");
+            else
+                context.Response.Write("{\"code\":500,\"msg\":\"保存失败!\"}");
             context.Response.End();
         }
         /// <summary>
@@ -98,7 +102,7 @@ namespace AdminLTE.Ajax
             var ChoiceValue = context.Request["ChoiceValue"];
             var FromValues = context.Server.UrlDecode(context.Request.QueryString["FromValues"]);
             BLL.B_Table TableBll = new BLL.B_Table(option);
-            if (TableBll.UpdateData(FromValues, ChoiceValue))
+            if (TableBll.UpdateTableData(FromValues, ChoiceValue))
                 context.Response.Write("{\"code\":1,\"msg\":\"保存成功!\"}");
             else
                 context.Response.Write("{\"code\":500,\"msg\":\"保存失败!\"}");
@@ -112,7 +116,7 @@ namespace AdminLTE.Ajax
         {
             var choicevalue = context.Request["choicevalue"];
             BLL.B_Table TableBll = new BLL.B_Table(option);
-            if(TableBll.DeleteItemID(choicevalue))
+            if(TableBll.DeleteTableData(choicevalue))
                 context.Response.Write("{\"code\":1,\"msg\":\"删除成功!\"}");
             else
                 context.Response.Write("{\"code\":500,\"msg\":\"删除失败!\"}");

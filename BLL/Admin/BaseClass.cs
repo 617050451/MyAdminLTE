@@ -44,13 +44,19 @@ namespace BLL
                 var IsUpdate = xn.Attributes["IsUpdate"].Value;
                 var IsDelete = xn.Attributes["IsDelete"].Value;
                 var SQL = xn.Attributes["SQL"].Value;
-                var TableName = xn.Attributes["SQL"].Value;
+                var PredefinedSQL = xn.Attributes["PredefinedSQL"].Value;
+                var TableType = xn.Attributes["TableType"].Value;
+                var TableName = xn.Attributes["TableName"].Value;
+                var PrimaryKey = xn.Attributes["PrimaryKey"].Value;
                 var Note = xn.Attributes["Note"].Value;
                 mt.TableID = Convert.ToInt32(TableID);
                 mt.Title = Title;
                 mt.FileName = FileName;
                 mt.SQL = SQL;
+                mt.PredefinedSQL = PredefinedSQL;
                 mt.TableName = TableName;
+                mt.TableType = Convert.ToInt32(TableType); ;
+                mt.PrimaryKey = PrimaryKey;
                 mt.IsPlus = Convert.ToInt32(IsPlus);
                 mt.IsWhere = Convert.ToInt32(IsWhere);
                 mt.IsChoice = Convert.ToInt32(IsChoice);
@@ -111,29 +117,6 @@ namespace BLL
             return mt;
         }
         /// <summary>
-        /// 删除XML数据
-        /// </summary>
-        /// <param name="TableName"></param>
-        /// <param name="PrimaryKey"></param>
-        /// <param name="ItemIDs"></param>
-        /// <returns></returns>
-        public static bool XmlDeleteTableModel(string TableName, string PrimaryKey, string ItemIDs)
-        {
-            string xmlPath = System.AppDomain.CurrentDomain.BaseDirectory + "\\DataXML\\" + TableName;
-            XmlDocument xml = new XmlDocument();
-            xml.Load(xmlPath);//读取文件
-            XmlElement root = xml.DocumentElement;//获取根节点
-            StringBuilder sb = new StringBuilder();
-            var ListItemID = ItemIDs.Split(',');
-            foreach (var item in ListItemID)
-            {
-                XmlNode rootChilNode = root.SelectSingleNode("OPTION[@" + PrimaryKey + "=" + item + "]");//获取指定子节点  
-                root.RemoveChild(rootChilNode);
-            }
-            xml.Save(xmlPath);
-            return true;
-        }
-        /// <summary>
         /// 查询页面字段信息
         /// </summary>
         /// <param name="ItemID">页面数据ID</param>
@@ -149,27 +132,30 @@ namespace BLL
             if (rootChil != null)
             {
                 XmlNode XmlColumnsNode = rootChil.SelectSingleNode("COLUMNS");
-                foreach (XmlNode xcn in XmlColumnsNode.ChildNodes)
+                if (XmlColumnsNode != null)
                 {
-                    Model.M_TableField mf = new Model.M_TableField();
-                    string FieldKey = xcn.Attributes["FieldKey"].Value;
-                    string FieldText = xcn.Attributes["FieldText"].Value;
-                    string FieldDataType = xcn.Attributes["FieldDataType"].Value;
-                    string FieldData = xcn.Attributes["FieldData"].Value;
-                    string FieldStatusID = xcn.Attributes["FieldStatusID"].Value;
-                    string SelectType = xcn.Attributes["SelectType"].Value;
-                    string SelectData = xcn.Attributes["SelectData"].Value;
-                    string FieldOrder = xcn.Attributes["FieldOrder"].Value;
-                    mf.TableID = ItemID;
-                    mf.FieldKey = FieldKey;
-                    mf.FieldText = FieldText;
-                    mf.FieldDataType = Convert.ToInt32(FieldDataType);
-                    mf.FieldData = FieldData;
-                    mf.FieldStatusID = Convert.ToInt32(FieldStatusID);
-                    mf.SelectType = Convert.ToInt32(SelectType);
-                    mf.SelectData = SelectData;
-                    mf.FieldOrder = Convert.ToInt32(FieldOrder);
-                    ListModel.Add(mf);
+                    foreach (XmlNode xcn in XmlColumnsNode.ChildNodes)
+                    {
+                        Model.M_TableField mf = new Model.M_TableField();
+                        string FieldKey = xcn.Attributes["FieldKey"].Value;
+                        string FieldText = xcn.Attributes["FieldText"].Value;
+                        string FieldDataType = xcn.Attributes["FieldDataType"].Value;
+                        string FieldData = xcn.Attributes["FieldData"].Value;
+                        string FieldStatusID = xcn.Attributes["FieldStatusID"].Value;
+                        string SelectType = xcn.Attributes["SelectType"].Value;
+                        string SelectData = xcn.Attributes["SelectData"].Value;
+                        string FieldOrder = xcn.Attributes["FieldOrder"].Value;
+                        mf.TableID = ItemID;
+                        mf.FieldKey = FieldKey;
+                        mf.FieldText = FieldText;
+                        mf.FieldDataType = Convert.ToInt32(FieldDataType);
+                        mf.FieldData = FieldData;
+                        mf.FieldStatusID = Convert.ToInt32(FieldStatusID);
+                        mf.SelectType = Convert.ToInt32(SelectType);
+                        mf.SelectData = SelectData;
+                        mf.FieldOrder = Convert.ToInt32(FieldOrder);
+                        ListModel.Add(mf);
+                    }
                 }
             }
             IEnumerable<Model.M_TableField> query = from items in ListModel orderby items.FieldOrder select items;
@@ -185,7 +171,6 @@ namespace BLL
         {
             try
             {
-                var returnData = false;
                 string xmlPath = System.AppDomain.CurrentDomain.BaseDirectory + "\\DataXML\\Table.xml";
                 XmlDocument xml = new XmlDocument();
                 xml.Load(xmlPath);//读取文件
@@ -200,52 +185,8 @@ namespace BLL
                         rootChil.Attributes[ColunmName].Value = ColunmValue;
                     }
                     xml.Save(xmlPath);
-                    returnData = true;
                 }
-                return returnData;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-        /// <summary>
-        /// 修改xml表格信息
-        /// </summary>
-        /// <param name="ModelData"></param>
-        /// <param name="PrimaryKey"></param>
-        /// <param name="ItemID"></param>
-        /// <returns></returns>
-        public static bool XmlUpdateTableModel(BLL.ObjectData ModelData, string PrimaryKey, string ItemID)
-        {
-            try
-            {
-                var returnData = false;
-                string xmlPath = System.AppDomain.CurrentDomain.BaseDirectory + "\\DataXML\\" + ModelData.TableName;
-                XmlDocument xml = new XmlDocument();
-                xml.Load(xmlPath);//读取文件
-                XmlElement root = xml.DocumentElement;//获取根节点
-                XmlNode rootChil = root.SelectSingleNode("OPTION[@"+ PrimaryKey + "=" + ItemID + "]");//获取指定子节点  
-                if (rootChil != null)
-                {
-                    var pros = ModelData.GetValues().Keys;//所有字段名称
-                    StringBuilder fieldStr = new StringBuilder();//拼接需要插入数据库的字段
-                    List<SqlParameter> paramlist = new List<SqlParameter>();
-                    foreach (var fieldName in pros)
-                    {
-                        if (!fieldName.ToUpper().Equals(PrimaryKey == null ? "" : PrimaryKey.ToUpper()))
-                        {
-                            if (ModelData.IsSet(fieldName))//是否赋值了
-                            {
-                                var fieldValue = ModelData.GetValue(fieldName);
-                                rootChil.Attributes[fieldName].Value = fieldValue.ToString();
-                            }
-                        }
-                    }
-                    xml.Save(xmlPath);
-                    returnData = true;
-                }
-                return returnData;
+                return true;
             }
             catch (Exception)
             {
@@ -262,7 +203,6 @@ namespace BLL
         {
             try
             {
-                var returnData = false;
                 string xmlPath = System.AppDomain.CurrentDomain.BaseDirectory + "\\DataXML\\Table.xml";
                 XmlDocument xml = new XmlDocument();
                 xml.Load(xmlPath);//读取文件
@@ -282,9 +222,8 @@ namespace BLL
                             xmlNodeFieldKey.Attributes[ColunmName].Value = ColunmValue;
                     }
                     xml.Save(xmlPath);
-                    returnData = true;
                 }
-                return returnData;
+                return true;
             }
             catch (Exception)
             {
@@ -300,7 +239,6 @@ namespace BLL
         {
             try
             {
-                var returnData = false;
                 string xmlPath = System.AppDomain.CurrentDomain.BaseDirectory + "\\DataXML\\Table.xml";
                 XmlDocument xml = new XmlDocument();
                 xml.Load(xmlPath);//读取文件
@@ -352,9 +290,8 @@ namespace BLL
                             XmlColumnsNode.RemoveChild(xcn);
                     }
                     xml.Save(xmlPath);
-                    returnData = true;
                 }
-                return returnData;
+                return true;
             }
             catch (Exception)
             {
@@ -370,7 +307,6 @@ namespace BLL
         {
             try
             {
-                var returnData = false;
                 string xmlPath = System.AppDomain.CurrentDomain.BaseDirectory + "\\DataXML\\Table.xml";
                 XmlDocument xml = new XmlDocument();
                 xml.Load(xmlPath);//读取文件
@@ -388,9 +324,8 @@ namespace BLL
                         XmlColumnsNode.SelectSingleNode(ColunmName).Attributes["FieldOrder"].Value = (i + 1).ToString();
                     }
                     xml.Save(xmlPath);
-                    returnData = true;
                 }
-                return returnData;
+                return true;
             }
             catch (Exception)
             {
@@ -525,7 +460,131 @@ namespace BLL
             sb.Append("<input type=\"text\" class=\"form-control hidden\" name=\"SelectData\" value='" + SelectData + "'/>");
             return sb.ToString();
         }
-
+        /// <summary>
+        /// 删除XML数据
+        /// </summary>
+        /// <param name="TableName"></param>
+        /// <param name="PrimaryKey"></param>
+        /// <param name="ItemIDs"></param>
+        /// <returns></returns>
+        public static bool XmlDeleteTableModel(string TableName, string PrimaryKey, string ItemIDs)
+        {
+            string xmlPath = System.AppDomain.CurrentDomain.BaseDirectory + "\\DataXML\\" + TableName;
+            XmlDocument xml = new XmlDocument();
+            xml.Load(xmlPath);//读取文件
+            XmlElement root = xml.DocumentElement;//获取根节点
+            StringBuilder sb = new StringBuilder();
+            var ListItemID = ItemIDs.Split(',');
+            foreach (var item in ListItemID)
+            {
+                XmlNode rootChilNode = root.SelectSingleNode("OPTION[@" + PrimaryKey + "=" + item + "]");//获取指定子节点  
+                root.RemoveChild(rootChilNode);
+            }
+            xml.Save(xmlPath);
+            return true;
+        }
+        /// <summary>
+        /// 修改xml表格信息
+        /// </summary>
+        /// <param name="ModelData"></param>
+        /// <param name="PrimaryKey"></param>
+        /// <param name="ItemID"></param>
+        /// <returns></returns>
+        public static bool XmlUpdateTableModel(BLL.ObjectData ModelData, string PrimaryKey, string ItemID)
+        {
+            try
+            {
+                string xmlPath = System.AppDomain.CurrentDomain.BaseDirectory + "\\DataXML\\" + ModelData.TableName;
+                XmlDocument xml = new XmlDocument();
+                xml.Load(xmlPath);//读取文件
+                XmlElement root = xml.DocumentElement;//获取根节点
+                XmlNode rootChil = root.SelectSingleNode("OPTION[@" + PrimaryKey + "=" + ItemID + "]");//获取指定子节点  
+                if (rootChil != null)
+                {
+                    var pros = ModelData.GetValues().Keys;//所有字段名称
+                    List<SqlParameter> paramlist = new List<SqlParameter>();
+                    foreach (var fieldName in pros)
+                    {
+                        if (!fieldName.ToUpper().Equals(PrimaryKey == null ? "" : PrimaryKey.ToUpper()))
+                        {
+                            if (ModelData.IsSet(fieldName))//是否赋值了
+                            {
+                                var fieldValue = ModelData.GetValue(fieldName);
+                                rootChil.Attributes[fieldName].Value = fieldValue.ToString();
+                            }
+                        }
+                    }
+                    xml.Save(xmlPath);
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 新增xml表格信息
+        /// </summary>
+        /// <param name="ModelData"></param>
+        /// <returns></returns>
+        public static string XmlInsertTableModel(BLL.ObjectData ModelData, string PrimaryKey)
+        {
+            try
+            {
+                string xmlPath = System.AppDomain.CurrentDomain.BaseDirectory + "\\DataXML\\" + ModelData.TableName;
+                XmlDocument xml = new XmlDocument();
+                xml.Load(xmlPath);//读取文件
+                XmlElement root = xml.DocumentElement;//获取根节点
+                XmlElement xmlElemDeptChildId = xml.CreateElement("OPTION");
+                var pros = ModelData.GetValues().Keys;//所有字段名称
+                List<SqlParameter> paramlist = new List<SqlParameter>();
+                XmlNode XmlColumnsNode = root.SelectSingleNode("MAXID");
+                var MaxID = Convert.ToInt32(XmlColumnsNode.InnerText) + 1;
+                foreach (var fieldName in pros)
+                {
+                    if (!fieldName.ToUpper().Equals(PrimaryKey == null ? "" : PrimaryKey.ToUpper()))
+                    {
+                        if (ModelData.IsSet(fieldName))//是否赋值了
+                        {
+                            var fieldValue = ModelData.GetValue(fieldName);
+                            xmlElemDeptChildId.SetAttribute(fieldName, fieldValue.ToString());
+                        }
+                    }
+                    else
+                        xmlElemDeptChildId.SetAttribute(fieldName, MaxID.ToString());
+                }
+                if (ModelData.TableName == "Table.xml")
+                {
+                    xmlElemDeptChildId.SetAttribute("TableID", MaxID.ToString());
+                    xmlElemDeptChildId.SetAttribute("IsPlus", "0");
+                    xmlElemDeptChildId.SetAttribute("IsWhere", "0");
+                    xmlElemDeptChildId.SetAttribute("IsChoice", "0");
+                    xmlElemDeptChildId.SetAttribute("IsInsert", "0");
+                    xmlElemDeptChildId.SetAttribute("IsUpdate", "0");
+                    xmlElemDeptChildId.SetAttribute("IsDelete", "0");
+                    xmlElemDeptChildId.SetAttribute("PredefinedSQL", "");
+                    xmlElemDeptChildId.SetAttribute("PrimaryKey", "TableID");
+                }
+                xmlElemDeptChildId.InnerText = "";
+                if (ModelData.TableName == "Table.xml")
+                {
+                    XmlElement xmlCOLUMNSChildId = xml.CreateElement("COLUMNS");
+                    xmlCOLUMNSChildId.InnerText = "";
+                    xmlElemDeptChildId.AppendChild(xmlCOLUMNSChildId);
+                }
+                root.AppendChild(xmlElemDeptChildId);
+                xml.Save(xmlPath);
+                XmlColumnsNode.InnerText = MaxID.ToString();
+                if (ModelData.TableName == "Table.xml")
+                    XmlToUpdateTableFielModel(MaxID);
+                return MaxID.ToString();
+            }
+            catch (Exception)
+            {
+                return "";
+            }
+        }
 
 
         //获取表格字段
@@ -638,6 +697,89 @@ namespace BLL
                 sql = sql.Replace("sg(" + m.Value + ")", "'" + m.Value + "'");
             }
             return sql;
+        }
+        //新增数据
+        public static string InsertModel(ObjectData model, string PrimaryKey)
+        {
+            var obj = model.GetValues();
+            StringBuilder commandText = new StringBuilder(" insert into ");
+            string tableName = model.TableName;//表名称
+            var pros = model.GetValues().Keys;//所有字段名称
+            StringBuilder fieldStr = new StringBuilder();//拼接需要插入数据库的字段
+            StringBuilder paramStr = new StringBuilder();//拼接每个字段对应的参数
+            List<SqlParameter> paramlist = new List<SqlParameter>();
+            foreach (var item in pros)
+            {
+                string fieldName = item;
+                if (!fieldName.ToUpper().Equals(PrimaryKey.ToUpper()))
+                {
+                    var fieldValue = model.GetValue(fieldName);
+                    if (model.IsSet(fieldName))//是否赋值了
+                    {
+                        //非自动增长字段才加入SQL语句
+                        fieldStr.Append("[" + fieldName + "],");
+                        paramStr.Append("@" + fieldName + ",");
+                        if (fieldValue == null) fieldValue = DBNull.Value;//如果该值为空的话,则将其转化为数据库的NULL
+                        paramlist.Add(new SqlParameter(fieldName, fieldValue));//给每个参数赋值
+                    }
+                    else
+                    {
+                        fieldStr.Append("[" + fieldName + "],");
+                        paramStr.Append("@" + fieldName + ",");
+                        paramlist.Add(new SqlParameter(fieldName, "NEWID()"));//给每个参数赋值
+                    }
+
+                }
+            }
+            SqlParameter[] param = paramlist.ToArray();
+            commandText.Append(tableName);
+            commandText.Append(" ( ");
+            commandText.Append(fieldStr.ToString().TrimEnd(','));
+            commandText.Append(" ) values ( ");
+            commandText.Append(paramStr.ToString().TrimEnd(','));
+            commandText.Append(" ) ");//拼接成完整的字符串
+            commandText.Append(";select SCOPE_IDENTITY()");
+            return DAL.SQLDBHelpercs.ExecuteReaderView(commandText.ToString(), param);
+        }
+        //修改
+        public static bool UpdateModel(ObjectData model, string PrimaryKey, string ItemID)
+        {
+            var obj = model.GetValues();
+            StringBuilder commandText = new StringBuilder(" update ");
+            string tableName = model.TableName;//表名称
+            var pros = model.GetValues().Keys;//所有字段名称
+            StringBuilder fieldStr = new StringBuilder();//拼接需要插入数据库的字段
+            List<SqlParameter> paramlist = new List<SqlParameter>();
+            foreach (var item in pros)
+            {
+                string fieldName = item;
+                if (!fieldName.ToUpper().Equals(PrimaryKey == null ? "" : PrimaryKey.ToUpper()))
+                {
+                    if (model.IsSet(fieldName))//是否赋值了
+                    {
+                        var fieldValue = model.GetValue(fieldName);
+                        //非自动增长字段才加入SQL语句
+                        fieldStr.Append("[" + fieldName + "]=@" + fieldName + ",");
+                        if (fieldValue == null) fieldValue = DBNull.Value;//如果该值为空的话,则将其转化为数据库的NULL
+                        paramlist.Add(new SqlParameter(fieldName, fieldValue));//给每个参数赋值
+                    }
+                }
+            }
+            SqlParameter[] param = paramlist.ToArray();
+            commandText.Append(tableName);
+            commandText.Append(" set ");
+            commandText.Append(fieldStr.ToString().TrimEnd(','));
+            commandText.Append(" where " + PrimaryKey + "='" + ItemID + "'");//拼接成完整的字符串
+            return DAL.SQLDBHelpercs.ExecuteNonQuery(commandText.ToString(), param, "sql");
+        }
+        //删除
+        public static bool DeleteModel(string TableName, string PrimaryKey, string ItemIDs)
+        {
+            var ListItemID = ItemIDs.Split(',');
+            StringBuilder sql = new StringBuilder();
+            foreach (var item in ListItemID)
+                sql.Append(string.Format(" DELETE FROM " + TableName + " WHERE " + PrimaryKey + " = '{0}';", item));
+            return ExecuteNonQuerySQL(sql.ToString());
         }
     }
 }

@@ -350,7 +350,7 @@
                 type: 1,
                 title: '更多按钮',
                 skin: 'layui-layer-rim', //加上边框
-                area: ['900px', '675px'], //宽高
+                area: ['680px', '675px'], //宽高
                 content: showHtml,
                 offset: ['45px']
             });
@@ -362,7 +362,7 @@
                 type: 1,
                 title: '数据设置',
                 skin: 'layui-layer-rim', //加上边框
-                area: ['780px', '600px'], //宽高
+                area: ['680px', '600px'], //宽高
                 content: showHtml,
                 offset: ['45px']
             });

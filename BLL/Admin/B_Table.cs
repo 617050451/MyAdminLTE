@@ -473,39 +473,31 @@ namespace BLL
         /// 新增
         /// </summary>
         /// <returns></returns>
-        public bool InsertData(string FromValues)
+        public string InsertTableData(string FromValues)
         {
             var TableModel = this.GetTableModel();
             BLL.ObjectData ModelData = new BLL.ObjectData(TableModel.TableName);
             ModelData.SetValues(FromValues);//表单数据
             if (TableModel.TableType == 1)//表格数据
-            {              
-                return false;
-            }
+                return BaseClass.InsertModel(ModelData, TableModel.PrimaryKey);
             else if (TableModel.TableType == 2)//XML数据
-            {
-                return false;
-            }
+                return BaseClass.XmlInsertTableModel(ModelData, TableModel.PrimaryKey);
             else
-                return false;
+                return "";
         }
         /// <summary>
         /// 修改
         /// </summary>
         /// <returns></returns>
-        public bool UpdateData(string FromValues, string ItemID)
+        public bool UpdateTableData(string FromValues, string ItemID)
         {
             var TableModel = this.GetTableModel();
             BLL.ObjectData ModelData = new BLL.ObjectData(TableModel.TableName);
             ModelData.SetValues(FromValues);//表单数据
             if (TableModel.TableType == 1)//表格数据
-            {
-                return false;
-            }
+                return BaseClass.UpdateModel(ModelData, TableModel.PrimaryKey, ItemID);
             else if (TableModel.TableType == 2)//XML数据
-            {
                 return BaseClass.XmlUpdateTableModel(ModelData, TableModel.PrimaryKey, ItemID);
-            }
             else
                 return false;
         }
@@ -514,23 +506,13 @@ namespace BLL
         /// </summary>
         /// <param name="ItemIDs"></param>
         /// <returns></returns>
-        public bool DeleteItemID(string ItemIDs)
+        public bool DeleteTableData(string ItemIDs)
         {
             var TableModel = this.GetTableModel();
             if (TableModel.TableType == 1)
-            {
-                var TableName = TableModel.TableName;
-                var PrimaryKey = TableModel.PrimaryKey;
-                var ListItemID = ItemIDs.Split(',');
-                StringBuilder sql = new StringBuilder();
-                foreach (var item in ListItemID)
-                    sql.Append(string.Format(" DELETE FROM " + TableName + " WHERE " + PrimaryKey + " = '{0}';", item));
-                return BaseClass.ExecuteNonQuerySQL(sql.ToString());
-            }
+                return BaseClass.DeleteModel(TableModel.TableName, TableModel.PrimaryKey, ItemIDs);
             else
-            {
                 return BaseClass.XmlDeleteTableModel(TableModel.TableName, TableModel.PrimaryKey, ItemIDs);
-            }
         }
     }
 }
