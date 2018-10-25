@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TABLES>
-  <OPTION TableID="1" Title="页面管理" PrimaryKey="TableID" FileName="PageList" SQL="select '' as TableID,'' as Title,'' as FileName,'' as TableType,'' as TableName,'' as SQL,'' as Note" PredefinedSQL="" TableType="2" TableName="Table.xml" IsPlus="1" IsWhere="0" IsChoice="0" IsInsert="1" IsUpdate="1" IsDelete="1" Note="测试修改" ColunmName="1">
+  <OPTION TableID="1" Title="页面管理" PrimaryKey="TableID" FileName="PageList" SQL="select '' as TableID,'' as Title,'' as FileName,'' as TableType,'' as TableName,'' as SQL,'' as Note" PredefinedSQL="" TableType="2" TableName="Table.xml" IsPlus="1" IsWhere="0" IsChoice="0" IsInsert="1" IsUpdate="1" IsDelete="1" Note="" ColunmName="1">
     <COLUMNS>
       <TableID FieldKey="TableID" FieldText="编号" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="1">
       </TableID>
@@ -18,7 +18,7 @@
       </SQL>
     </COLUMNS>
   </OPTION>
-  <OPTION TableID="2" Title="用户管理" PrimaryKey="GUID" FileName="UserList" SQL="select [GUID],[No],[Account],[Password],[Name],[ImgUrl],[Sex],[Birthday],[Telephone],[Address],[StatusID],[CreatorID],[CreaterDateTime]  from  [t_Users]" PredefinedSQL="" TableType="1" TableName="dbo.[t_Users]" IsPlus="0" IsWhere="1" IsChoice="1" IsInsert="1" IsUpdate="1" IsDelete="1" Note="备注1" ColunmName="1">
+  <OPTION TableID="2" Title="用户管理" PrimaryKey="GUID" FileName="UserList" SQL="select [GUID],[No],[Account],[Password],[Name],[ImgUrl],[Sex],[Birthday],[Telephone],[Address],[StatusID],[CreatorID],[CreaterDateTime]  from  [t_Users]" PredefinedSQL="" TableType="1" TableName="dbo.[t_Users]" IsPlus="0" IsWhere="1" IsChoice="1" IsInsert="1" IsUpdate="1" IsDelete="1" Note="" ColunmName="1">
     <COLUMNS>
       <No FieldKey="No" FieldText="编号" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="2">
       </No>
