@@ -77,6 +77,7 @@
     <Content Include="Page\MeanList.aspx" />
     <Content Include="Page\PageList.html" />
     <Content Include="Page\MoreButtonList.aspx" />
+    <Content Include="Page\PageListAdmin.html" />
     <Content Include="Page\TableList.aspx" />
     <Content Include="Page\UserList.aspx" />
     <Content Include="Page\UserList.html" />

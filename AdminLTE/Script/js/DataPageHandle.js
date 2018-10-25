@@ -416,3 +416,15 @@ Date.prototype.Format = function (fmt) { //author: meizz
         if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 }
+//编码json数据
+function GetFromJson(obj) {
+    var m = [], idata;
+    $.each(obj, function (i, field) {
+        // 由于会出现"双引号字符会导致接下来的数据打包失败，故此对元素内容进行encodeURI编码  
+        // 后台PHP采用urldecode()函数还原数据  
+        m.push('"' + field.name + '":"' + encodeURI(field.value) + '"');
+    });
+    idata = '{' + m.join(',') + '}';
+    // 按字符 idata 转换成 JSON 格式  
+    return idata;
+}

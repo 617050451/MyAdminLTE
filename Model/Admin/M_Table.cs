@@ -64,6 +64,19 @@ namespace Model
             }
         }
         /// <summary>
+        /// TableType
+        /// </summary>		
+        private int TableTypeValue;
+        public int TableType
+        {
+            get { return TableTypeValue; }
+            set
+            {
+                TableTypeValue = value;
+                IsDicMyProperty.Add(nameof(TableType), true);
+            }
+        }
+        /// <summary>
         /// TableName 
         /// </summary>		
         private string TableNameValue;

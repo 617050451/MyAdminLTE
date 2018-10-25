@@ -115,8 +115,10 @@ namespace BLL
             h_hovertreeTemplate = h_hovertreeTemplate.Replace("{TableThead}", TableThead.ToString());
             h_hovertreeTemplate = h_hovertreeTemplate.Replace("{Columns}", Columns.ToString().TrimEnd(','));
             h_hovertreeTemplate = h_hovertreeTemplate.Replace("{WhereHtml}", SetStrWhereHtml());
+            h_hovertreeTemplate = h_hovertreeTemplate.Replace("{funaggregate}", "{}");
             h_hovertreeTemplate = h_hovertreeTemplate.Replace("{TopBotton}", TopButton.ToString());
-            h_hovertreeTemplate = h_hovertreeTemplate.Replace("{BottomHtml}", "");
+            h_hovertreeTemplate = h_hovertreeTemplate.Replace("{TopHead}", "");
+            h_hovertreeTemplate = h_hovertreeTemplate.Replace("{BottomScript}", "");           
             h_sw.Write(h_hovertreeTemplate);
             h_sw.Close();
             fs.Close();
@@ -279,41 +281,6 @@ namespace BLL
                 return "";
         }
         /// <summary>
-        /// 获取表格数据Json
-        /// </summary>
-        /// <param name="PageStart"></param>
-        /// <param name="PageIndex"></param>
-        /// <param name="PageSize"></param>
-        /// <param name="order"></param>
-        /// <returns></returns>
-        public string GetDataListJson(int PageStart, int PageIndex, int PageSize,string where ,string order)
-        {
-            System.Data.DataSet ds = BaseClass.GetDataSet(SetFieldSQL(where, order, PageIndex, PageSize) + SetCountSQL(where));
-            if (ds != null)
-            {
-                System.Data.DataTable tableJson = ds.Tables[0];
-                System.Data.DataTable tableCount = ds.Tables[1];
-                if (tableJson != null)
-                {
-                    StringBuilder sb = new StringBuilder();
-                    sb.Append("{\"total\":" + tableCount.Rows[0]["COUNTS"].ToString() + ",\"page\":1,\"limit\":" + PageSize + ",\"data\":");
-                    string datatablejson = JsonHelper.DataTableToJsonWithJsonNet(tableJson);
-                    sb.Append(datatablejson);
-                    sb.Append(SetSumHtml(tableCount));
-                    sb.Append("}");
-                    return sb.ToString().Replace("\n", "");
-                }
-                else
-                {
-                    return "{\"total\":" + 0 + ",\"page\":0,\"limit\":" + PageSize + ",\"data\":[]}";
-                }
-            }
-            else
-            {
-                return "{\"total\":" + 0 + ",\"page\":0,\"limit\":" + PageSize + ",\"data\":[]}";
-            }
-        }
-        /// <summary>
         /// 配置SQL
         /// </summary>
         /// <returns></returns>
@@ -415,6 +382,133 @@ namespace BLL
         }
 
 
+
+
+        /// <summary>
+        /// 获取表格数据Json
+        /// </summary>
+        /// <param name="PageStart"></param>
+        /// <param name="PageIndex"></param>
+        /// <param name="PageSize"></param>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        public string GetDataListJson(int PageStart, int PageIndex, int PageSize, string where, string order)
+        {
+            var TableModel = this.GetTableModel();
+            if (TableModel.TableType == 1)
+            {
+                System.Data.DataSet ds = BaseClass.GetDataSet(SetFieldSQL(where, order, PageIndex, PageSize) + SetCountSQL(where));
+                if (ds != null)
+                {
+                    System.Data.DataTable tableJson = ds.Tables[0];
+                    System.Data.DataTable tableCount = ds.Tables[1];
+                    if (tableJson != null)
+                    {
+                        StringBuilder sb = new StringBuilder();
+                        sb.Append("{\"total\":" + tableCount.Rows[0]["COUNTS"].ToString() + ",\"page\":1,\"limit\":" + PageSize + ",\"data\":");
+                        string datatablejson = JsonHelper.DataTableToJsonWithJsonNet(tableJson);
+                        sb.Append(datatablejson);
+                        sb.Append(SetSumHtml(tableCount));
+                        sb.Append("}");
+                        return sb.ToString().Replace("\n", "");
+                    }
+                    else
+                    {
+                        return "{\"total\":" + 0 + ",\"page\":0,\"limit\":" + PageSize + ",\"data\":[]}";
+                    }
+                }
+                else
+                {
+                    return "{\"total\":" + 0 + ",\"page\":0,\"limit\":" + PageSize + ",\"data\":[]}";
+                }
+            }
+            else if (TableModel.TableType == 2)
+            {
+                var TableFielModelList = this.GetTableFieldModel();
+                System.Data.DataTable dataTable = BaseClass.GetDataTableColumns(TableModel.SQL);
+                var tableJson = BaseClass.GetDataTableForXML(dataTable, TableModel.TableName);
+                StringBuilder sb = new StringBuilder();
+                sb.Append("{\"total\":" + tableJson.Rows.Count + ",\"page\":1,\"limit\":" + PageSize + ",\"data\":");
+                var datatablejson = JsonHelper.DataTableToJsonWithJsonNet(tableJson);
+                sb.Append(datatablejson);
+                sb.Append("}");
+                return sb.ToString().Replace("\n", "");
+            }
+            else
+            {
+                return "{\"total\":" + 0 + ",\"page\":0,\"limit\":" + PageSize + ",\"data\":[]}";
+            }
+        }
+        /// <summary>
+        /// 获取单行数据
+        /// </summary>
+        /// <param name="ItemID"></param>
+        /// <returns></returns>
+        public string GetDataView(string ItemID)
+        {
+            var TableModel = this.GetTableModel();
+            if (TableModel.TableType == 1)//表格数据
+            {
+                string sql = string.Format("SELECT TOP(1)* FROM ({0}) AS NewCyFsTable  WHERE NewCyFsTable.{1}='{2}'", TableModel.SQL, TableModel.PrimaryKey, ItemID);
+                System.Data.DataTable tableJson = DAL.SQLDBHelpercs.ExecuteReaderTable(sql, null);
+                if (tableJson != null && tableJson.Rows.Count > 0)
+                    return JsonHelper.DataTableToJsonWithJsonNet(tableJson);
+                else
+                    return "";
+            }
+            else if (TableModel.TableType == 2)//XML数据
+            {
+                var TableFielModelList = this.GetTableFieldModel();
+                System.Data.DataTable dataTable = BaseClass.GetDataTableColumns(TableModel.SQL);
+                var tableJson = BaseClass.GetDataViewForXML(dataTable, TableModel.TableName, ItemID);
+                if (tableJson != null && tableJson.Rows.Count > 0)
+                    return JsonHelper.DataTableToJsonWithJsonNet(tableJson);
+                else
+                    return "";
+            }
+            else
+                return "";
+        }
+        /// <summary>
+        /// 新增
+        /// </summary>
+        /// <returns></returns>
+        public bool InsertData(string FromValues)
+        {
+            var TableModel = this.GetTableModel();
+            BLL.ObjectData ModelData = new BLL.ObjectData(TableModel.TableName);
+            ModelData.SetValues(FromValues);//表单数据
+            if (TableModel.TableType == 1)//表格数据
+            {              
+                return false;
+            }
+            else if (TableModel.TableType == 2)//XML数据
+            {
+                return false;
+            }
+            else
+                return false;
+        }
+        /// <summary>
+        /// 修改
+        /// </summary>
+        /// <returns></returns>
+        public bool UpdateData(string FromValues, string ItemID)
+        {
+            var TableModel = this.GetTableModel();
+            BLL.ObjectData ModelData = new BLL.ObjectData(TableModel.TableName);
+            ModelData.SetValues(FromValues);//表单数据
+            if (TableModel.TableType == 1)//表格数据
+            {
+                return false;
+            }
+            else if (TableModel.TableType == 2)//XML数据
+            {
+                return BaseClass.XmlUpdateTableModel(ModelData, TableModel.PrimaryKey, ItemID);
+            }
+            else
+                return false;
+        }
         /// <summary>
         /// 删除数据
         /// </summary>
@@ -423,13 +517,20 @@ namespace BLL
         public bool DeleteItemID(string ItemIDs)
         {
             var TableModel = this.GetTableModel();
-            var TableName = TableModel.TableName;
-            var PrimaryKey = TableModel.PrimaryKey;
-            var ListItemID = ItemIDs.Split(',');
-            StringBuilder sql = new StringBuilder();
-            foreach (var item in ListItemID)
-                sql.Append(string.Format(" DELETE FROM " + TableName + " WHERE " + PrimaryKey + " = '{0}';", item));
-            return BaseClass.ExecuteNonQuerySQL(sql.ToString());
+            if (TableModel.TableType == 1)
+            {
+                var TableName = TableModel.TableName;
+                var PrimaryKey = TableModel.PrimaryKey;
+                var ListItemID = ItemIDs.Split(',');
+                StringBuilder sql = new StringBuilder();
+                foreach (var item in ListItemID)
+                    sql.Append(string.Format(" DELETE FROM " + TableName + " WHERE " + PrimaryKey + " = '{0}';", item));
+                return BaseClass.ExecuteNonQuerySQL(sql.ToString());
+            }
+            else
+            {
+                return BaseClass.XmlDeleteTableModel(TableModel.TableName, TableModel.PrimaryKey, ItemIDs);
+            }
         }
     }
 }

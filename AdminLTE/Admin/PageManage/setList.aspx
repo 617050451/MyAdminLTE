@@ -120,44 +120,53 @@
                     <input type="text" name="FileName" class="form-control" placeholder="页面名称" value="<%=TableModel.FileName %>" />
                 </div>
                 <div class="form-group">
-                    <label for="TableName" class="control-label">SQL</label>
-                    <textarea name="SQL" class="form-control" placeholder="数据" rows="3"><%=TableModel.SQL%></textarea>
+                    <label for="TableType" class="control-label">数据类型</label>
+                    <select class="form-control" name="TableType"> 
+                        <option <%=TableModel.TableType==1?"selected='selected'":"" %> value="1">数据库表</option>
+                        <option <%=TableModel.TableType==2?"selected='selected'":"" %> value="2">XML数据表</option>
+                    </select>
                 </div>
                 <div class="form-group">
-                    <label for="TableName" class="control-label">操作表</label>
-                    <textarea name="TableName" class="form-control" placeholder="数据" rows="1"><%=TableModel.TableName%></textarea>
+                    <label for="TableName" class="control-label">数据对象</label>
+                    <textarea name="TableName" class="form-control" placeholder="数据对象" rows="1"><%=TableModel.TableName%></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="SQL" class="control-label">数据集合</label>
+                    <textarea name="SQL" class="form-control" placeholder="SQL" rows="3"><%=TableModel.SQL%></textarea>
                 </div>
                 <div class="form-group">
                     <label for="Note" class="control-label">备注</label>
-                    <textarea name="Note" class="form-control" placeholder="备注" rows="3"><%=TableModel.Note%></textarea>
+                    <textarea name="Note" class="form-control" placeholder="备注" rows="2"><%=TableModel.Note%></textarea>
                 </div>
                 <button type="button" class="btn btn-success btn-block" onclick="bntSaveTableInfoOnclick()">保存</button>
             </div>
         </div>
         <div id="setTableInfoSum" class="hidden">
-            <div class="text-center">
-                <p style="margin-top: 3px;"><span style="color: blue;">聚合显示例子(说明)</span></p>
-                <div class="text-left">
-                    <table class="table table-bordered table-hover">
-                        <tr>
-                            <td>
-                                <label class="radio-inline">JSON数据：[{"type":"COUNT","key":"GUID","title":"数据总条数："}]</label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label class="radio-inline">SQL表达式：[{"type":"SQL","key":"select sg(1)","title":"数据总条数："}]</label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label class="radio-inline">单引号属于特殊字符，sg(条件)='条件' 必须是JSON数据格式</label>
-                            </td>
-                        </tr>
-                    </table>
+            <div class="col-sm-12" style="margin-top: 5px;">
+                <div class="text-center">
+                    <p style="margin-top: 3px;"><span style="color: blue;">聚合显示例子(说明)</span></p>
+                    <div class="text-left">
+                        <table class="table table-bordered table-hover">
+                            <tr>
+                                <td>
+                                    <label class="radio-inline">JSON数据：[{"type":"COUNT","key":"GUID","title":"数据总条数："}]</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label class="radio-inline">SQL表达式：[{"type":"SQL","key":"select sg(1)","title":"数据总条数："}]</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label class="radio-inline">单引号属于特殊字符，sg(条件)='条件' 必须是JSON数据格式</label>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <textarea name="PredefinedSQL" class="form-control" placeholder="聚合显示" rows="4"><%=TableModel.PredefinedSQL%></textarea>
+                    <button type="button" class="btn btn-success btn-block" onclick="bntSaveTableInfoOnclickSum()" style="margin-top: 5px;">保存</button>
                 </div>
-                <textarea name="PredefinedSQL" class="form-control" placeholder="聚合显示" rows="4"><%=TableModel.PredefinedSQL%></textarea>
-                <button type="button" class="btn btn-success btn-block" onclick="bntSaveTableInfoOnclickSum()" style="margin-top: 5px;">保存</button>
             </div>
         </div>
         <div id="MoreButtons" class="text-left hidden">
@@ -353,7 +362,7 @@
                 type: 1,
                 title: '数据设置',
                 skin: 'layui-layer-rim', //加上边框
-                area: ['780px', '550px'], //宽高
+                area: ['780px', '600px'], //宽高
                 content: showHtml,
                 offset: ['45px']
             });
@@ -365,7 +374,7 @@
                 type: 1,
                 title: '显示设置',
                 skin: 'layui-layer-rim', //加上边框
-                area: ['680px', '363px'], //宽高
+                area: ['680px', '368px'], //宽高
                 content: showHtml,
                 offset: ['45px']
             });

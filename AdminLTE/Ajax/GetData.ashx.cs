@@ -31,6 +31,16 @@ namespace AdminLTE.Ajax
                     case "BntDeleteItemID":
                         BntDeleteItemID(context, Convert.ToInt32(option));
                         break;
+                    case "GetDataView":
+                        GetDataView(context, Convert.ToInt32(option));
+                        break;
+                    case "SaveFromData":
+                        var ChoiceValue = context.Request["ChoiceValue"];
+                        if(string.IsNullOrWhiteSpace(ChoiceValue))
+                            InsertData(context, Convert.ToInt32(option));
+                       else
+                            UpdateData(context, Convert.ToInt32(option));
+                        break;
                     default:
                         break;
                 }
@@ -57,7 +67,45 @@ namespace AdminLTE.Ajax
             context.Response.End();
         }
         /// <summary>
-        /// 删除
+        /// 获取单行数据
+        /// </summary>
+        public void GetDataView(HttpContext context, int option)
+        {
+            var ChoiceValue = context.Request["ChoiceValue"];
+            BLL.B_Table TableBll = new BLL.B_Table(option);
+            context.Response.Write(TableBll.GetDataView(ChoiceValue));
+            context.Response.End();
+        }
+        /// <summary>
+        /// 新增
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="option"></param>
+        public void InsertData(HttpContext context, int option)
+        {
+            var FromValues = context.Request["FromValues"];
+            BLL.B_Table TableBll = new BLL.B_Table(option);
+            context.Response.Write(TableBll.InsertData(FromValues));
+            context.Response.End();
+        }
+        /// <summary>
+        /// 修改
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="option"></param>
+        public void UpdateData(HttpContext context, int option)
+        {
+            var ChoiceValue = context.Request["ChoiceValue"];
+            var FromValues = context.Server.UrlDecode(context.Request.QueryString["FromValues"]);
+            BLL.B_Table TableBll = new BLL.B_Table(option);
+            if (TableBll.UpdateData(FromValues, ChoiceValue))
+                context.Response.Write("{\"code\":1,\"msg\":\"保存成功!\"}");
+            else
+                context.Response.Write("{\"code\":500,\"msg\":\"保存失败!\"}");
+            context.Response.End();
+        }
+        /// <summary>
+        /// 删除 
         /// </summary>
         /// <param name="context"></param>
         public void BntDeleteItemID(HttpContext context, int option)

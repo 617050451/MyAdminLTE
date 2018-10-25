@@ -74,43 +74,64 @@ namespace BLL
             xml.Load(xmlPath);//读取文件
             XmlElement root = xml.DocumentElement;//获取根节点
             StringBuilder sb = new StringBuilder();
-            XmlNodeList rootChil = root.ChildNodes;//获取子节点
-            foreach (XmlNode xn in rootChil)
+            XmlNode xn = root.SelectSingleNode("OPTION[@TableID=" + ItemID + "]");//获取指定子节点  
+            if (xn != null)
             {
-                if (xn.Attributes["TableID"].Value == ItemID.ToString())
-                {
-                    var TableID = xn.Attributes["TableID"].Value;
-                    var Title = xn.Attributes["Title"].Value;
-                    var FileName = xn.Attributes["FileName"].Value;
-                    var IsPlus = xn.Attributes["IsPlus"].Value;
-                    var IsWhere = xn.Attributes["IsWhere"].Value;
-                    var IsChoice = xn.Attributes["IsChoice"].Value;
-                    var IsInsert = xn.Attributes["IsInsert"].Value;
-                    var IsUpdate = xn.Attributes["IsUpdate"].Value;
-                    var IsDelete = xn.Attributes["IsDelete"].Value;
-                    var SQL = xn.Attributes["SQL"].Value;
-                    var PredefinedSQL= xn.Attributes["PredefinedSQL"].Value;
-                    var TableName = xn.Attributes["TableName"].Value;
-                    var PrimaryKey = xn.Attributes["PrimaryKey"].Value;
-                    var Note = xn.Attributes["Note"].Value;
-                    mt.TableID = Convert.ToInt32(TableID);
-                    mt.Title = Title;
-                    mt.FileName = FileName;
-                    mt.SQL = SQL;
-                    mt.PredefinedSQL = PredefinedSQL;
-                    mt.TableName = TableName;
-                    mt.PrimaryKey = PrimaryKey;
-                    mt.IsPlus = Convert.ToInt32(IsPlus);
-                    mt.IsWhere = Convert.ToInt32(IsWhere);
-                    mt.IsChoice = Convert.ToInt32(IsChoice);
-                    mt.IsInsert = Convert.ToInt32(IsInsert);
-                    mt.IsUpdate = Convert.ToInt32(IsUpdate);
-                    mt.IsDelete = Convert.ToInt32(IsDelete);
-                    mt.Note = Note;
-                    break;
-                }
+                var TableID = xn.Attributes["TableID"].Value;
+                var Title = xn.Attributes["Title"].Value;
+                var FileName = xn.Attributes["FileName"].Value;
+                var IsPlus = xn.Attributes["IsPlus"].Value;
+                var IsWhere = xn.Attributes["IsWhere"].Value;
+                var IsChoice = xn.Attributes["IsChoice"].Value;
+                var IsInsert = xn.Attributes["IsInsert"].Value;
+                var IsUpdate = xn.Attributes["IsUpdate"].Value;
+                var IsDelete = xn.Attributes["IsDelete"].Value;
+                var SQL = xn.Attributes["SQL"].Value;
+                var PredefinedSQL = xn.Attributes["PredefinedSQL"].Value;
+                var TableType = xn.Attributes["TableType"].Value;
+                var TableName = xn.Attributes["TableName"].Value;
+                var PrimaryKey = xn.Attributes["PrimaryKey"].Value;
+                var Note = xn.Attributes["Note"].Value;
+                mt.TableID = Convert.ToInt32(TableID);
+                mt.Title = Title;
+                mt.FileName = FileName;
+                mt.SQL = SQL;
+                mt.PredefinedSQL = PredefinedSQL;
+                mt.TableName = TableName;
+                mt.TableType = Convert.ToInt32(TableType); ;
+                mt.PrimaryKey = PrimaryKey;
+                mt.IsPlus = Convert.ToInt32(IsPlus);
+                mt.IsWhere = Convert.ToInt32(IsWhere);
+                mt.IsChoice = Convert.ToInt32(IsChoice);
+                mt.IsInsert = Convert.ToInt32(IsInsert);
+                mt.IsUpdate = Convert.ToInt32(IsUpdate);
+                mt.IsDelete = Convert.ToInt32(IsDelete);
+                mt.Note = Note;
             }
             return mt;
+        }
+        /// <summary>
+        /// 删除XML数据
+        /// </summary>
+        /// <param name="TableName"></param>
+        /// <param name="PrimaryKey"></param>
+        /// <param name="ItemIDs"></param>
+        /// <returns></returns>
+        public static bool XmlDeleteTableModel(string TableName, string PrimaryKey, string ItemIDs)
+        {
+            string xmlPath = System.AppDomain.CurrentDomain.BaseDirectory + "\\DataXML\\" + TableName;
+            XmlDocument xml = new XmlDocument();
+            xml.Load(xmlPath);//读取文件
+            XmlElement root = xml.DocumentElement;//获取根节点
+            StringBuilder sb = new StringBuilder();
+            var ListItemID = ItemIDs.Split(',');
+            foreach (var item in ListItemID)
+            {
+                XmlNode rootChilNode = root.SelectSingleNode("OPTION[@" + PrimaryKey + "=" + item + "]");//获取指定子节点  
+                root.RemoveChild(rootChilNode);
+            }
+            xml.Save(xmlPath);
+            return true;
         }
         /// <summary>
         /// 查询页面字段信息
@@ -124,35 +145,31 @@ namespace BLL
             XmlDocument xml = new XmlDocument();
             xml.Load(xmlPath);//读取文件
             XmlElement root = xml.DocumentElement;//获取根节点
-            XmlNodeList rootChil = root.ChildNodes;//获取子节点
-            foreach (XmlNode xn in rootChil)
+            XmlNode rootChil = root.SelectSingleNode("OPTION[@TableID=" + ItemID + "]");//获取指定子节点  
+            if (rootChil != null)
             {
-                if (xn.Attributes["TableID"].Value == ItemID.ToString())
+                XmlNode XmlColumnsNode = rootChil.SelectSingleNode("COLUMNS");
+                foreach (XmlNode xcn in XmlColumnsNode.ChildNodes)
                 {
-                    XmlNode XmlColumnsNode = xn.SelectSingleNode("COLUMNS");
-                    foreach (XmlNode xcn in XmlColumnsNode.ChildNodes)
-                    {
-                        Model.M_TableField mf = new Model.M_TableField();
-                        string FieldKey = xcn.Attributes["FieldKey"].Value;
-                        string FieldText = xcn.Attributes["FieldText"].Value;
-                        string FieldDataType = xcn.Attributes["FieldDataType"].Value;
-                        string FieldData = xcn.Attributes["FieldData"].Value;
-                        string FieldStatusID = xcn.Attributes["FieldStatusID"].Value;
-                        string SelectType = xcn.Attributes["SelectType"].Value;
-                        string SelectData = xcn.Attributes["SelectData"].Value;
-                        string FieldOrder = xcn.Attributes["FieldOrder"].Value;
-                        mf.TableID = ItemID;
-                        mf.FieldKey = FieldKey;
-                        mf.FieldText = FieldText;
-                        mf.FieldDataType = Convert.ToInt32(FieldDataType);
-                        mf.FieldData = FieldData;
-                        mf.FieldStatusID = Convert.ToInt32(FieldStatusID);
-                        mf.SelectType = Convert.ToInt32(SelectType);
-                        mf.SelectData = SelectData;
-                        mf.FieldOrder = Convert.ToInt32(FieldOrder);
-                        ListModel.Add(mf);
-                    }
-                    break;
+                    Model.M_TableField mf = new Model.M_TableField();
+                    string FieldKey = xcn.Attributes["FieldKey"].Value;
+                    string FieldText = xcn.Attributes["FieldText"].Value;
+                    string FieldDataType = xcn.Attributes["FieldDataType"].Value;
+                    string FieldData = xcn.Attributes["FieldData"].Value;
+                    string FieldStatusID = xcn.Attributes["FieldStatusID"].Value;
+                    string SelectType = xcn.Attributes["SelectType"].Value;
+                    string SelectData = xcn.Attributes["SelectData"].Value;
+                    string FieldOrder = xcn.Attributes["FieldOrder"].Value;
+                    mf.TableID = ItemID;
+                    mf.FieldKey = FieldKey;
+                    mf.FieldText = FieldText;
+                    mf.FieldDataType = Convert.ToInt32(FieldDataType);
+                    mf.FieldData = FieldData;
+                    mf.FieldStatusID = Convert.ToInt32(FieldStatusID);
+                    mf.SelectType = Convert.ToInt32(SelectType);
+                    mf.SelectData = SelectData;
+                    mf.FieldOrder = Convert.ToInt32(FieldOrder);
+                    ListModel.Add(mf);
                 }
             }
             IEnumerable<Model.M_TableField> query = from items in ListModel orderby items.FieldOrder select items;
@@ -173,21 +190,60 @@ namespace BLL
                 XmlDocument xml = new XmlDocument();
                 xml.Load(xmlPath);//读取文件
                 XmlElement root = xml.DocumentElement;//获取根节点
-                XmlNodeList rootChil = root.ChildNodes;//获取子节点
-                foreach (XmlNode xn in rootChil)
+                XmlNode rootChil = root.SelectSingleNode("OPTION[@TableID=" + ItemID + "]");//获取指定子节点  
+                if (rootChil != null)
                 {
-                    if (xn.Attributes["TableID"].Value == ItemID.ToString())
+                    for (int i = 0; i < dataTable.Rows.Count; i++)
                     {
-                        for (int i = 0; i < dataTable.Rows.Count; i++)
-                        {
-                            var ColunmName = dataTable.Rows[i][0].ToString();
-                            var ColunmValue = dataTable.Rows[i][1].ToString();
-                            xn.Attributes[ColunmName].Value = ColunmValue;
-                        }
-                        xml.Save(xmlPath);
-                        returnData = true;
-                        break;
+                        var ColunmName = dataTable.Rows[i][0].ToString();
+                        var ColunmValue = dataTable.Rows[i][1].ToString();
+                        rootChil.Attributes[ColunmName].Value = ColunmValue;
                     }
+                    xml.Save(xmlPath);
+                    returnData = true;
+                }
+                return returnData;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 修改xml表格信息
+        /// </summary>
+        /// <param name="ModelData"></param>
+        /// <param name="PrimaryKey"></param>
+        /// <param name="ItemID"></param>
+        /// <returns></returns>
+        public static bool XmlUpdateTableModel(BLL.ObjectData ModelData, string PrimaryKey, string ItemID)
+        {
+            try
+            {
+                var returnData = false;
+                string xmlPath = System.AppDomain.CurrentDomain.BaseDirectory + "\\DataXML\\" + ModelData.TableName;
+                XmlDocument xml = new XmlDocument();
+                xml.Load(xmlPath);//读取文件
+                XmlElement root = xml.DocumentElement;//获取根节点
+                XmlNode rootChil = root.SelectSingleNode("OPTION[@"+ PrimaryKey + "=" + ItemID + "]");//获取指定子节点  
+                if (rootChil != null)
+                {
+                    var pros = ModelData.GetValues().Keys;//所有字段名称
+                    StringBuilder fieldStr = new StringBuilder();//拼接需要插入数据库的字段
+                    List<SqlParameter> paramlist = new List<SqlParameter>();
+                    foreach (var fieldName in pros)
+                    {
+                        if (!fieldName.ToUpper().Equals(PrimaryKey == null ? "" : PrimaryKey.ToUpper()))
+                        {
+                            if (ModelData.IsSet(fieldName))//是否赋值了
+                            {
+                                var fieldValue = ModelData.GetValue(fieldName);
+                                rootChil.Attributes[fieldName].Value = fieldValue.ToString();
+                            }
+                        }
+                    }
+                    xml.Save(xmlPath);
+                    returnData = true;
                 }
                 return returnData;
             }
@@ -211,26 +267,22 @@ namespace BLL
                 XmlDocument xml = new XmlDocument();
                 xml.Load(xmlPath);//读取文件
                 XmlElement root = xml.DocumentElement;//获取根节点
-                XmlNodeList rootChil = root.ChildNodes;//获取子节点
-                foreach (XmlNode xn in rootChil)
+                XmlNode rootChil = root.SelectSingleNode("OPTION[@TableID=" + ItemID + "]");//获取指定子节点  
+                if (rootChil != null)
                 {
-                    if (xn.Attributes["TableID"].Value == ItemID.ToString())
+                    XmlNode XmlColumnsNode = rootChil.SelectSingleNode("COLUMNS");
+                    XmlNode xmlNodeFieldKey = XmlColumnsNode.SelectSingleNode(dataTable.Rows[0][1].ToString());
+                    for (int i = 0; i < dataTable.Rows.Count; i++)
                     {
-                        XmlNode XmlColumnsNode = xn.SelectSingleNode("COLUMNS");
-                        XmlNode xmlNodeFieldKey = XmlColumnsNode.SelectSingleNode(dataTable.Rows[0][1].ToString());
-                        for (int i = 0; i < dataTable.Rows.Count; i++)
-                        {
-                            var ColunmName = dataTable.Rows[i][0].ToString();
-                            var ColunmValue = dataTable.Rows[i][1].ToString();
-                            if (ColunmName == "FieldKey")
-                                xmlNodeFieldKey = XmlColumnsNode.SelectSingleNode(ColunmValue);
-                            else
-                                xmlNodeFieldKey.Attributes[ColunmName].Value = ColunmValue;
-                        }
-                        xml.Save(xmlPath);
-                        returnData = true;
-                        break;
+                        var ColunmName = dataTable.Rows[i][0].ToString();
+                        var ColunmValue = dataTable.Rows[i][1].ToString();
+                        if (ColunmName == "FieldKey")
+                            xmlNodeFieldKey = XmlColumnsNode.SelectSingleNode(ColunmValue);
+                        else
+                            xmlNodeFieldKey.Attributes[ColunmName].Value = ColunmValue;
                     }
+                    xml.Save(xmlPath);
+                    returnData = true;
                 }
                 return returnData;
             }
@@ -253,58 +305,54 @@ namespace BLL
                 XmlDocument xml = new XmlDocument();
                 xml.Load(xmlPath);//读取文件
                 XmlElement root = xml.DocumentElement;//获取根节点
-                XmlNodeList rootChil = root.ChildNodes;//获取子节点
-                foreach (XmlNode xn in rootChil)
+                XmlNode rootChil = root.SelectSingleNode("OPTION[@TableID=" + ItemID + "]");//获取指定子节点  
+                if (rootChil != null)
                 {
-                    if (xn.Attributes["TableID"].Value == ItemID.ToString())
+                    XmlNode XmlColumnsNode = rootChil.SelectSingleNode("COLUMNS");
+                    var SQL = rootChil.Attributes["SQL"].Value;
+                    List<XmlElement> xmlAddList = new List<XmlElement>();
+                    DataTable ColumnsDT = GetDataTableColumns(SQL);
+                    rootChil.Attributes["PrimaryKey"].Value = ColumnsDT.Columns[0].ColumnName;
+                    for (int i = 0; i < ColumnsDT.Columns.Count; i++)
                     {
-                        XmlNode XmlColumnsNode = xn.SelectSingleNode("COLUMNS");
-                        var SQL = xn.Attributes["SQL"].Value;
-                        List<XmlElement> xmlAddList = new List<XmlElement>();
-                        DataTable ColumnsDT = GetDataTableColumns(SQL);
-                        xn.Attributes["PrimaryKey"].Value = ColumnsDT.Columns[0].ColumnName;
-                        for (int i = 0; i < ColumnsDT.Columns.Count; i++)
-                        {
-                            var IsExist = false;
-                            var ColunmName = ColumnsDT.Columns[i].ColumnName;
-                            foreach (XmlNode xcn in XmlColumnsNode.ChildNodes)
-                            {
-                                string FieldKey = xcn.Attributes["FieldKey"].Value;
-                                if (ColunmName.ToUpper() == FieldKey.ToUpper())
-                                {
-                                    IsExist = true;
-                                    break;
-                                }
-                            }
-                            if (!IsExist)
-                            {
-                                XmlElement xmlElemDeptChildId = xml.CreateElement(ColunmName);
-                                xmlElemDeptChildId.SetAttribute("FieldKey", ColunmName);
-                                xmlElemDeptChildId.SetAttribute("FieldText", ColunmName);
-                                xmlElemDeptChildId.SetAttribute("FieldDataType", "1");
-                                xmlElemDeptChildId.SetAttribute("FieldData", "");
-                                xmlElemDeptChildId.SetAttribute("FieldStatusID", "1");
-                                xmlElemDeptChildId.SetAttribute("SelectType", "0");
-                                xmlElemDeptChildId.SetAttribute("SelectData", "");
-                                xmlElemDeptChildId.SetAttribute("FieldOrder", (i + 1).ToString());
-                                xmlElemDeptChildId.InnerText = "";
-                                xmlAddList.Add(xmlElemDeptChildId);
-                            }
-                        }
-                        for (int i = 0; i < xmlAddList.Count; i++)
-                        {
-                            XmlColumnsNode.AppendChild(xmlAddList[i]);
-                        }
+                        var IsExist = false;
+                        var ColunmName = ColumnsDT.Columns[i].ColumnName;
                         foreach (XmlNode xcn in XmlColumnsNode.ChildNodes)
                         {
                             string FieldKey = xcn.Attributes["FieldKey"].Value;
-                            if (!ColumnsDT.Columns.Contains(FieldKey))
-                                XmlColumnsNode.RemoveChild(xcn);
+                            if (ColunmName.ToUpper() == FieldKey.ToUpper())
+                            {
+                                IsExist = true;
+                                break;
+                            }
                         }
-                        xml.Save(xmlPath);
-                        returnData = true;
-                        break;
+                        if (!IsExist)
+                        {
+                            XmlElement xmlElemDeptChildId = xml.CreateElement(ColunmName);
+                            xmlElemDeptChildId.SetAttribute("FieldKey", ColunmName);
+                            xmlElemDeptChildId.SetAttribute("FieldText", ColunmName);
+                            xmlElemDeptChildId.SetAttribute("FieldDataType", "1");
+                            xmlElemDeptChildId.SetAttribute("FieldData", "");
+                            xmlElemDeptChildId.SetAttribute("FieldStatusID", "1");
+                            xmlElemDeptChildId.SetAttribute("SelectType", "0");
+                            xmlElemDeptChildId.SetAttribute("SelectData", "");
+                            xmlElemDeptChildId.SetAttribute("FieldOrder", (i + 1).ToString());
+                            xmlElemDeptChildId.InnerText = "";
+                            xmlAddList.Add(xmlElemDeptChildId);
+                        }
                     }
+                    for (int i = 0; i < xmlAddList.Count; i++)
+                    {
+                        XmlColumnsNode.AppendChild(xmlAddList[i]);
+                    }
+                    foreach (XmlNode xcn in XmlColumnsNode.ChildNodes)
+                    {
+                        string FieldKey = xcn.Attributes["FieldKey"].Value;
+                        if (!ColumnsDT.Columns.Contains(FieldKey))
+                            XmlColumnsNode.RemoveChild(xcn);
+                    }
+                    xml.Save(xmlPath);
+                    returnData = true;
                 }
                 return returnData;
             }
@@ -327,24 +375,20 @@ namespace BLL
                 XmlDocument xml = new XmlDocument();
                 xml.Load(xmlPath);//读取文件
                 XmlElement root = xml.DocumentElement;//获取根节点
-                XmlNodeList rootChil = root.ChildNodes;//获取子节点
-                foreach (XmlNode xn in rootChil)
+                XmlNode rootChil = root.SelectSingleNode("OPTION[@TableID=" + ItemID + "]");//获取指定子节点  
+                if (rootChil != null)
                 {
-                    if (xn.Attributes["TableID"].Value == ItemID.ToString())
+                    XmlNode XmlColumnsNode = rootChil.SelectSingleNode("COLUMNS");
+                    var SQL = rootChil.Attributes["SQL"].Value;
+                    List<XmlElement> xmlAddList = new List<XmlElement>();
+                    DataTable ColumnsDT = GetDataTableColumns(SQL);
+                    for (int i = 0; i < ColumnsDT.Columns.Count; i++)
                     {
-                        XmlNode XmlColumnsNode = xn.SelectSingleNode("COLUMNS");
-                        var SQL = xn.Attributes["SQL"].Value;
-                        List<XmlElement> xmlAddList = new List<XmlElement>();
-                        DataTable ColumnsDT = GetDataTableColumns(SQL);
-                        for (int i = 0; i < ColumnsDT.Columns.Count; i++)
-                        {
-                            var ColunmName = ColumnsDT.Columns[i].ColumnName;
-                            XmlColumnsNode.SelectSingleNode(ColunmName).Attributes["FieldOrder"].Value = (i + 1).ToString();
-                        }
-                        xml.Save(xmlPath);
-                        returnData = true;
-                        break;
+                        var ColunmName = ColumnsDT.Columns[i].ColumnName;
+                        XmlColumnsNode.SelectSingleNode(ColunmName).Attributes["FieldOrder"].Value = (i + 1).ToString();
                     }
+                    xml.Save(xmlPath);
+                    returnData = true;
                 }
                 return returnData;
             }
@@ -353,9 +397,61 @@ namespace BLL
                 return false;
             }
         }
-
-
-
+        /// <summary>
+        /// 获取数据，数据来源xml文件
+        /// </summary>
+        /// <returns></returns>
+        public static DataTable GetDataTableForXML(DataTable TableColumns, string TableName)
+        {
+            TableColumns.Columns.Add(new DataColumn("ItemID", Type.GetType("System.String")));
+            string xmlPath = System.AppDomain.CurrentDomain.BaseDirectory + "\\DataXML\\" + TableName;
+            XmlDocument xml = new XmlDocument();
+            xml.Load(xmlPath);//读取文件
+            XmlElement root = xml.DocumentElement;//获取根节点
+            StringBuilder sb = new StringBuilder();
+            XmlNodeList rootChil = root.SelectNodes("OPTION");//获取子节点
+            foreach (XmlNode xn in rootChil)
+            {
+                DataRow dr = TableColumns.NewRow();
+                for (int i = 0; i < TableColumns.Columns.Count; i++)
+                {
+                    var ColumnName = TableColumns.Columns[i].ColumnName;
+                    var ColumnValue = "";
+                    if (ColumnName == "ItemID")
+                        ColumnValue = xn.Attributes[TableColumns.Columns[0].ColumnName].Value;
+                    else
+                        ColumnValue = xn.Attributes[ColumnName].Value;
+                    dr[ColumnName] = ColumnValue;
+                }
+                TableColumns.Rows.Add(dr);
+            }
+            return TableColumns;
+        }
+        /// <summary>
+        /// 获取单行数据，数据来源xml文件
+        /// </summary>
+        /// <returns></returns>
+        public static DataTable GetDataViewForXML(DataTable TableColumns, string TableName, string ItemID)
+        {
+            string xmlPath = System.AppDomain.CurrentDomain.BaseDirectory + "\\DataXML\\" + TableName;
+            XmlDocument xml = new XmlDocument();
+            xml.Load(xmlPath);//读取文件
+            XmlElement root = xml.DocumentElement;//获取根节点
+            StringBuilder sb = new StringBuilder();
+            XmlNode xn = root.SelectSingleNode("OPTION[@" + TableColumns.Columns[0].ColumnName + "=" + ItemID + "]");//获取指定子节点  
+            if (xn != null)
+            {
+                DataRow dr = TableColumns.NewRow();
+                for (int i = 0; i < TableColumns.Columns.Count; i++)
+                {
+                    var ColumnName = TableColumns.Columns[i].ColumnName;
+                    var ColumnValue = xn.Attributes[ColumnName].Value;
+                    dr[ColumnName] = ColumnValue;
+                }
+                TableColumns.Rows.Add(dr);
+            }
+            return TableColumns;
+        }
         /// <summary>
         /// 获取页面字段Html
         /// </summary>
