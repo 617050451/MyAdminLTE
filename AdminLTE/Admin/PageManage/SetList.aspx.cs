@@ -14,6 +14,7 @@ namespace AdminLTE.Admin
     {
         public int ItemID { get; set; }
         public Model.M_Table TableModel { get; set; }
+        public BLL.B_Table TableBll = null;
         public List<Model.M_TableField> TableFielModelList { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -22,7 +23,7 @@ namespace AdminLTE.Admin
                 //输入错误
             }
             ItemID = Convert.ToInt32(Request["ItemID"]);
-            BLL.B_Table TableBll = new BLL.B_Table(ItemID);
+            TableBll = new BLL.B_Table(ItemID);
             TableModel = TableBll.GetTableModel();
             TableFielModelList = TableBll.GetTableFieldModel();
             if (!IsPostBack)
@@ -40,7 +41,7 @@ namespace AdminLTE.Admin
                         {
                             TableBll.SavePageHtml();
                             Response.Write("True");
-                        }                    
+                        }
                         else
                             Response.Write("False");
                         Response.End();
@@ -62,6 +63,24 @@ namespace AdminLTE.Admin
                     else if (GetType == "SetOrder")
                     {
                         Response.Write(TableBll.SetOrder());
+                        Response.End();
+                    }
+                    else if (GetType == "SetFragmentCode")
+                    {
+                        var SetTableInfo = Request.Form["settableinfo"];
+                        DataTable SetTableInfodt = BLL.JsonHelper.DeserializeJsonToObject<DataTable>(SetTableInfo);
+                        if (SetTableInfodt != null && SetTableInfodt.Rows.Count > 0)
+                        {
+                            for (int i = 0; i < SetTableInfodt.Rows.Count; i++)
+                            {
+                                var KeyName = SetTableInfodt.Rows[i][0].ToString();
+                                var KeyValue = SetTableInfodt.Rows[i][1].ToString();
+                                TableBll.UpdateFragmentCodeModel(KeyName, KeyValue);
+                                TableBll.SavePageHtml();
+                            }
+                        }
+                        TableBll.SavePageHtml();
+                        Response.Write("True");
                         Response.End();
                     }
                 }

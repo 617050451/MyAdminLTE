@@ -35,10 +35,12 @@ $(function () {
         "columns": [],
         "oLanguage": oLanguage,
         "url": "/Ajax/GetData.ashx",
-        "fromchildren" : "input,textarea,select",
+        "fromchildren": "input,textarea,select",
         "getData": function (option, funaggregate) {
-            var aoColumnDefs = [0];
-            if (listconifg.columns[listconifg.columns.length - 1].data == "ItemID") 
+            var aoColumnDefs = [];
+            if (listconifg.ischoice == 1)
+                aoColumnDefs.push(0);
+            if (listconifg.columns[listconifg.columns.length - 1].data == "ItemID")
                 aoColumnDefs.push(listconifg.columns.length - 1);
             table = $('#example').dataTable({
                 "dom": listconifg.dom,
@@ -108,6 +110,8 @@ $(function () {
                     });
                 }
             });
+        },
+        "setTable": function () {
             //设置
             if (listconifg.isplus == 1) {
                 $("div[data-resple='iswhere']").addClass("collapsed-box");

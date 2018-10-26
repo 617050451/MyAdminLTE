@@ -30,6 +30,20 @@ namespace BLL
             return BaseClass.XmlSelectAllTableFieldInfo(bItemID);
         }
         /// <summary>
+        /// 查询片段代码
+        /// </summary>
+        public string GetFragmentCodeModel(string KeyName)
+        {
+            return BaseClass.XmlSelectTableKeyInnerText(bItemID, KeyName);
+        }
+        /// <summary>
+        /// 查询片段代码
+        /// </summary>
+        public bool UpdateFragmentCodeModel(string KeyName, string KeyValue)
+        {
+            return BaseClass.XmlUpdateTableKeyInnerText(bItemID, KeyName, KeyValue);
+        }
+        /// <summary>
         /// 修改表格实体
         /// </summary>
         public bool UpdateTableModel(System.Data.DataTable dataTable)
@@ -117,8 +131,9 @@ namespace BLL
             h_hovertreeTemplate = h_hovertreeTemplate.Replace("{WhereHtml}", SetStrWhereHtml());
             h_hovertreeTemplate = h_hovertreeTemplate.Replace("{funaggregate}", "{}");
             h_hovertreeTemplate = h_hovertreeTemplate.Replace("{TopBotton}", TopButton.ToString());
-            h_hovertreeTemplate = h_hovertreeTemplate.Replace("{TopHead}", "");
-            h_hovertreeTemplate = h_hovertreeTemplate.Replace("{BottomScript}", "");           
+            h_hovertreeTemplate = h_hovertreeTemplate.Replace("{TopHead}", GetFragmentCodeModel("TopHead"));
+            h_hovertreeTemplate = h_hovertreeTemplate.Replace("{BottomHtml}", GetFragmentCodeModel("BottomHtml"));
+            h_hovertreeTemplate = h_hovertreeTemplate.Replace("{BottomScript}", GetFragmentCodeModel("BottomScript"));           
             h_sw.Write(h_hovertreeTemplate);
             h_sw.Close();
             fs.Close();
@@ -260,7 +275,7 @@ namespace BLL
                         strHtml += string.Format(",('{0}'+ CONVERT(VARCHAR(20),{1}({2}))) AS ColumnName" + i.ToString(), Title, Type, Key);
                 }
             }
-            var WhereSQL = GetWhereSQL(where);
+            var WhereSQL = GetWhereSQL(where, 1);
             return " SELECT " + strHtml + " FROM " + TableModel.TableName + " AS NewCyFsTable " + WhereSQL;
         }
         //设置配置聚合显示HTML
@@ -304,8 +319,8 @@ namespace BLL
                     SQLFieldKey += "," + item.FieldKey;
             }
             sb.Append(SQLFieldKey.TrimEnd(',') + " FROM " + TableName + " AS NewCyFsTable ");
-            var WhereSQL = GetWhereSQL(where);
-            var OrderBySQL = GetOrderBySQL(order);
+            var WhereSQL = GetWhereSQL(where, 1);
+            var OrderBySQL = GetOrderBySQL(order, 1);
             sb.Append(WhereSQL);
             sb.Append(OrderBySQL);
             var NewPageSQL = string.Format(sb.ToString(), OrderBySQL);
@@ -317,10 +332,14 @@ namespace BLL
         /// </summary>
         /// <param name="where"></param>
         /// <returns></returns>
-        public string GetWhereSQL(string where)
+        public string GetWhereSQL(string where, int type)
         {
             var TableFielModelList = this.GetTableFieldModel();
             StringBuilder sb = new StringBuilder();
+            if (type == 1)
+                sb.Append(" WHERE 1=1 ");
+            else
+                sb.Append(" 1=1 ");
             System.Data.DataTable dt = (where == null || where == "" ? null : BLL.JsonHelper.DeserializeJsonToObject<System.Data.DataTable>(where));//条件数据
             if (BaseClass.IsNullOrNotNull(dt))
             {
@@ -342,24 +361,24 @@ namespace BLL
                                 gstype = " LIKE ";
                                 FieldValue = "%" + FieldValue + "%";
                             }
-                            if (SelectType == 2 || SelectType == 3)
+                            else if (SelectType == 2 || SelectType == 3)
                                 gstype = " = ";
-                            sb.Append(" NewCyFsTable." + FieldKey + gstype + FieldValue);
+                            if (type == 1)
+                                sb.Append(" AND NewCyFsTable." + FieldKey + gstype + "'" + FieldValue + "'");
+                            else
+                                sb.Append(" AND " + FieldKey + gstype + "'" + FieldValue + "'");
                         }
                     }
                 }
             }
-            if (string.IsNullOrWhiteSpace(sb.ToString()))
-                return "";
-            else
-                return " WHERE " + sb.ToString();
+            return sb.ToString();
         }
         /// <summary>
         /// 配置排序
         /// </summary>
         /// <param name="order"></param>
         /// <returns></returns>
-        public string GetOrderBySQL(string order)
+        public string GetOrderBySQL(string order, int type)
         {
             var TableFielModelList = this.GetTableFieldModel();
             StringBuilder sb = new StringBuilder();
@@ -372,13 +391,20 @@ namespace BLL
                     var FieldKey = TableFielModelList[Index].FieldKey;
                     var FieldValue = dt.Rows[i][1].ToString();
                     if (!string.IsNullOrWhiteSpace(FieldValue))
-                        sb.Append(" NewCyFsTable." + FieldKey + " " + FieldValue + ",");
+                    {
+                        if (type == 1)
+                            sb.Append(" NewCyFsTable." + FieldKey + " " + FieldValue + ",");
+                        else
+                            sb.Append(FieldKey + " " + FieldValue + ",");
+                    }
                 }
             }
             if (string.IsNullOrWhiteSpace(sb.ToString()))
                 return "";
-            else
+            else if (type == 1)
                 return " ORDER BY " + sb.ToString().TrimEnd(',');
+            else
+                return sb.ToString().TrimEnd(',');
         }
 
 
@@ -427,9 +453,17 @@ namespace BLL
                 var TableFielModelList = this.GetTableFieldModel();
                 System.Data.DataTable dataTable = BaseClass.GetDataTableColumns(TableModel.SQL);
                 var tableJson = BaseClass.GetDataTableForXML(dataTable, TableModel.TableName);
+                var WhereSQL = GetWhereSQL(where, 2);
+                var OrderBySQL = GetOrderBySQL(order, 2);
+                System.Data.DataRow[] queryRsesult = tableJson.Select(WhereSQL, OrderBySQL);
+                System.Data.DataTable dtCopy = tableJson.Clone();
+                int minNum = (Convert.ToInt32(PageIndex) - 1) * Convert.ToInt32(PageSize);
+                int maxNum = Convert.ToInt32(PageIndex) * Convert.ToInt32(PageSize);
+                for (int i = minNum; i < queryRsesult.Length && i < maxNum; i++)
+                    dtCopy.Rows.Add(queryRsesult[i].ItemArray);
                 StringBuilder sb = new StringBuilder();
                 sb.Append("{\"total\":" + tableJson.Rows.Count + ",\"page\":1,\"limit\":" + PageSize + ",\"data\":");
-                var datatablejson = JsonHelper.DataTableToJsonWithJsonNet(tableJson);
+                var datatablejson = JsonHelper.DataTableToJsonWithJsonNet(dtCopy);
                 sb.Append(datatablejson);
                 sb.Append("}");
                 return sb.ToString().Replace("\n", "");

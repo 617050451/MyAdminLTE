@@ -91,6 +91,7 @@
     <script src="../../Script/AdminLTE-2.4.2/dist/js/adminlte.min.js"></script>
     <script src="../../Script/layer-v3.1.0/layer/layer.js"></script>
     <script src="../Script/js/DataPageHandle.js"></script>
+	{BottomHtml}
     <script>
         $(function () {
 		    var funaggregate = {funaggregate};
@@ -100,6 +101,7 @@
             listconifg.iswhere = {IsWhere};
             listconifg.ischoice = {IsChoice};
             listconifg.columns = columns;
+			listconifg.setTable();
             listconifg.getData({TableID},funaggregate);
         })
     </script>

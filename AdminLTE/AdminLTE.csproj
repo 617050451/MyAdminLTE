@@ -74,12 +74,12 @@
     <Content Include="DataXML\Table.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Page\MeanList.aspx" />
+    <Content Include="Page\OldPage\MeanList.aspx" />
     <Content Include="Page\PageList.html" />
-    <Content Include="Page\MoreButtonList.aspx" />
-    <Content Include="Page\PageListAdmin.html" />
-    <Content Include="Page\TableList.aspx" />
-    <Content Include="Page\UserList.aspx" />
+    <Content Include="Page\OldPage\MoreButtonList.aspx" />
+    <Content Include="Page\OldPage\PageListAdmin.html" />
+    <Content Include="Page\OldPage\TableList.aspx" />
+    <Content Include="Page\OldPage\UserList.aspx" />
     <Content Include="Page\UserList.html" />
     <Content Include="Script\AdminLTE-2.4.2\bower_components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.css" />
     <Content Include="Script\AdminLTE-2.4.2\bower_components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.min.css" />
@@ -6875,19 +6875,19 @@
     <Compile Include="Ajax\GetData.ashx.cs">
       <DependentUpon>GetData.ashx</DependentUpon>
     </Compile>
-    <Compile Include="Page\MeanList.aspx.cs">
+    <Compile Include="Page\OldPage\MeanList.aspx.cs">
       <DependentUpon>MeanList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Page\MoreButtonList.aspx.cs">
+    <Compile Include="Page\OldPage\MoreButtonList.aspx.cs">
       <DependentUpon>MoreButtonList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Page\TableList.aspx.cs">
+    <Compile Include="Page\OldPage\TableList.aspx.cs">
       <DependentUpon>TableList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Page\UserList.aspx.cs">
+    <Compile Include="Page\OldPage\UserList.aspx.cs">
       <DependentUpon>UserList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>

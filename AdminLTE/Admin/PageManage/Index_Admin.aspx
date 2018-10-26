@@ -102,7 +102,7 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li class="active"><a href="javascript:void(0)" menu-moid="1001" menu-text="所有页面" menu-controller="/Page/TableList.aspx"><i class="fa fa-circle-o text-aqua"></i>所有页面</a></li>
+                            <li class="active"><a href="javascript:void(0)" menu-moid="1001" menu-text="所有页面" menu-controller="/Page/PageList.html"><i class="fa fa-circle-o text-aqua"></i>所有页面</a></li>
                             <li><a href="javascript:void(0)"  menu-moid="1002"  menu-text="编辑页面" menu-controller="SetPages.aspx" ><i class="fa fa-circle-o text-red"></i>编辑页面</a></li>
                         </ul>
                     </li>

@@ -117,6 +117,59 @@ namespace BLL
             return mt;
         }
         /// <summary>
+        /// 查询指定key的InnerText值
+        /// </summary>
+        /// <param name="ItemID"></param>
+        /// <param name="KeyName"></param>
+        /// <returns></returns>
+        public static string XmlSelectTableKeyInnerText(int ItemID,string KeyName)
+        {
+            string data = "";
+            string xmlPath = System.AppDomain.CurrentDomain.BaseDirectory + "\\DataXML\\Table.xml";
+            XmlDocument xml = new XmlDocument();
+            xml.Load(xmlPath);//读取文件
+            XmlElement root = xml.DocumentElement;//获取根节点
+            StringBuilder sb = new StringBuilder();
+            XmlNode xn = root.SelectSingleNode("OPTION[@TableID=" + ItemID + "]");//获取指定子节点  
+            if (xn != null)
+            {
+                XmlNode XmlColumnsNode = xn.SelectSingleNode(KeyName);
+                if (XmlColumnsNode != null)
+                    data = XmlColumnsNode.InnerText;
+            }
+            return data;
+        }
+        /// <summary>
+        /// 修改指定key的InnerText值
+        /// </summary>
+        /// <param name="ItemID"></param>
+        /// <param name="KeyName"></param>
+        /// <param name="KeyValue"></param>
+        /// <returns></returns>
+        public static bool XmlUpdateTableKeyInnerText(int ItemID, string KeyName, string KeyValue)
+        {
+            string xmlPath = System.AppDomain.CurrentDomain.BaseDirectory + "\\DataXML\\Table.xml";
+            XmlDocument xml = new XmlDocument();
+            xml.Load(xmlPath);//读取文件
+            XmlElement root = xml.DocumentElement;//获取根节点
+            StringBuilder sb = new StringBuilder();
+            XmlNode xn = root.SelectSingleNode("OPTION[@TableID=" + ItemID + "]");//获取指定子节点  
+            if (xn != null)
+            {
+                XmlNode XmlColumnsNode = xn.SelectSingleNode(KeyName);
+                if (XmlColumnsNode != null)
+                {
+                    XmlColumnsNode.InnerText = KeyValue;
+                    xml.Save(xmlPath);
+                    return true;
+                }
+                else
+                    return false;
+            }
+            else
+                return false;
+        }
+        /// <summary>
         /// 查询页面字段信息
         /// </summary>
         /// <param name="ItemID">页面数据ID</param>
@@ -572,6 +625,18 @@ namespace BLL
                     XmlElement xmlCOLUMNSChildId = xml.CreateElement("COLUMNS");
                     xmlCOLUMNSChildId.InnerText = "";
                     xmlElemDeptChildId.AppendChild(xmlCOLUMNSChildId);
+
+                    XmlElement xmlTopHeadChildId = xml.CreateElement("TopHead");
+                    xmlTopHeadChildId.InnerText = "";
+                    xmlElemDeptChildId.AppendChild(xmlTopHeadChildId);
+
+                    XmlElement xmlBottomHtmlChildId = xml.CreateElement("BottomHtml");
+                    xmlBottomHtmlChildId.InnerText = "";
+                    xmlElemDeptChildId.AppendChild(xmlBottomHtmlChildId);
+
+                    XmlElement xmlBottomScriptChildId = xml.CreateElement("BottomScript");
+                    xmlBottomScriptChildId.InnerText = "";
+                    xmlElemDeptChildId.AppendChild(xmlBottomScriptChildId);
                 }
                 root.AppendChild(xmlElemDeptChildId);
                 xml.Save(xmlPath);

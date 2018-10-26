@@ -43,7 +43,8 @@
                                 <h4 style="margin: 5px;">
                                     <a href="javasrcpt:void(0)"><span class="label label-warning" onclick="showTableInfoHtml()"><%=TableModel.Title %><%=TableModel.FileName %></span></a>
                                     <a href="javasrcpt:void(0)"><span class="label label-primary" onclick="showTableInfoHtmlSum()">显示设置</span></a>
-                                    <a href="javascript:PagePreview('<%=TableModel.Title %>','/Page/<%=TableModel.FileName %>.aspx','<%=TableModel.TableID %>')">
+                                    <a href="javasrcpt:void(0)"><span class="label label-primary" onclick="showFragmentCodeHtml()">片段代码</span></a>
+                                    <a href="javascript:PagePreview('<%=TableModel.Title %>','/Page/<%=TableModel.FileName %>.html','<%=TableModel.TableID %>')">
                                     <span class="label label-primary">页面预览</span></a>
                                 </h4>
                             </td>
@@ -169,6 +170,19 @@
                 </div>
             </div>
         </div>
+        <div id="FragmentCode" class="hidden">
+            <div class="col-sm-12" style="margin-top: 5px;">
+                <div class="text-center">
+                    <p style="margin-top: 3px;"><span style="color: blue;">顶部片段代码</span></p>
+                    <textarea name="TopHead" class="form-control" placeholder="顶部片段代码" rows="10"></textarea>
+                     <p style="margin-top: 3px;"><span style="color: blue;">底部片段HTML</span></p>
+                    <textarea name="BottomHtml" class="form-control" placeholder="底部片段HTML" rows="10"></textarea>
+                    <p style="margin-top: 3px;"><span style="color: blue;">底部片段代码</span></p>
+                    <textarea name="BottomScript" class="form-control" placeholder="底部片段代码" rows="10"></textarea>
+                    <button type="button" class="btn btn-success btn-block" onclick="bntSaveTableInfoFragmentCodeOnclick()" style="margin-top: 5px;">保存</button>
+                </div>
+            </div>
+        </div>        
         <div id="MoreButtons" class="text-left hidden">
             <div class="col-sm-12" style="margin-top: 5px;">
                 <div class="form-group" style="margin-bottom: 5px;">
@@ -237,6 +251,9 @@
     <script src="../../Script/AdminLTE-2.4.2/dist/js/adminlte.min.js"></script>
     <script src="../../Script/js/cyfs.js"></script>
     <script src="../../Script/layer-v3.1.0/layer/layer.js"></script>
+    <script id="TopHeadModel" type="text/html"><%=TableBll.GetFragmentCodeModel("TopHead")%></script>
+    <script id="BottomHtmlModel" type="text/html"><%=TableBll.GetFragmentCodeModel("BottomHtml")%></script>
+    <script id="BottomScriptModel" type="text/html"><%=TableBll.GetFragmentCodeModel("BottomScript")%></script>
     <script> 
         $(function () {
             $("select[name=SelectType]").change(function () {
@@ -262,8 +279,37 @@
             var param = {};
             param.gettype = "SetData";
             param.values = JSON.stringify(values);
-            param.tableid = <%=ItemID%>;
             param.tableInfo = JSON.stringify(tableInfo);
+            $.ajax({
+                type: "post",
+                url: GetPageName(),
+                cache: false,  //禁用缓存
+                data: param,  //传入组装的参数
+                dataType: "text",
+                success: function (result) {
+                    if (result == "True") {
+                        layer.msg('操作成功！', {
+                            icon: 1, time: 1500, end: function () {
+                                location.reload();
+                            }
+                        });
+                    } else {
+                        loadClose();
+                        layer.msg('操作失败！', {
+                            icon: 2, time: 1500, end: function () {
+                            }
+                        });
+                    }
+                }
+            });
+        }
+        function bntSaveTableInfoFragmentCodeOnclick() {
+            loadding('正在保存，请稍等...');
+            var settableinfo = $(".layui-layer-content").find("input,textarea").serializeArray();
+            //封装请求参数
+            var param = {};
+            param.gettype = "SetFragmentCode";
+            param.settableinfo = JSON.stringify(settableinfo);
             $.ajax({
                 type: "post",
                 url: GetPageName(),
@@ -293,7 +339,6 @@
             //封装请求参数
             var param = {};
             param.gettype = "SetTableData";
-            param.tableguid = tableguid;
             param.settableinfo = JSON.stringify(settableinfo);
             $.ajax({
                 type: "post",
@@ -324,7 +369,6 @@
             //封装请求参数
             var param = {};
             param.gettype = "SetTableData";
-            param.tableguid = tableguid;
             param.settableinfo = JSON.stringify(settableinfo);
             $.ajax({
                 type: "post",
@@ -353,6 +397,23 @@
                 area: ['680px', '675px'], //宽高
                 content: showHtml,
                 offset: ['45px']
+            });
+        }
+        function showFragmentCodeHtml() {
+            var showHtml = $("#FragmentCode").html();
+            //页面层
+            layer.open({
+                type: 1,
+                title: '更多按钮',
+                skin: 'layui-layer-rim', //加上边框
+                area: ['680px', '645px'], //宽高
+                content: showHtml,
+                offset: ['45px'],
+                success: function () {
+                    $(".layui-layer [name=TopHead]").text($("#TopHeadModel").html());
+                    $(".layui-layer [name=BottomHtml]").text($("#BottomHtmlModel").html());
+                     $(".layui-layer [name=BottomScript]").text($("#BottomScriptModel").html());
+                }
             });
         }
         function showTableInfoHtml() {

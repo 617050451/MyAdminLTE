@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TABLES>
   <MAXID>2</MAXID>
-  <OPTION TableID="1" Title="页面管理" PrimaryKey="TableID" FileName="PageList" SQL="select '' as TableID,'' as Title,'' as FileName,'' as TableType,'' as TableName,'' as SQL,'' as Note" PredefinedSQL="" TableType="2" TableName="Table.xml" IsPlus="1" IsWhere="0" IsChoice="0" IsInsert="1" IsUpdate="1" IsDelete="1" Note="" ColunmName="1">
+  <OPTION TableID="1" Title="页面管理" PrimaryKey="TableID" FileName="PageList" SQL="select '' as TableID,'' as Title,'' as FileName,'' as TableType,'' as TableName,'' as SQL,'' as Note" PredefinedSQL="[{&quot;type&quot;:&quot;COUNT&quot;,&quot;key&quot;:&quot;TableID&quot;,&quot;title&quot;:&quot;记录总条数：&quot;}]" TableType="2" TableName="Table.xml" IsPlus="1" IsWhere="1" IsChoice="0" IsInsert="1" IsUpdate="1" IsDelete="1" Note="" ColunmName="1">
     <COLUMNS>
       <TableID FieldKey="TableID" FieldText="编号" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="1">
       </TableID>
-      <Title FieldKey="Title" FieldText="页面标题" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="2">
+      <Title FieldKey="Title" FieldText="页面标题" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="1" SelectData="" FieldOrder="2">
       </Title>
       <FileName FieldKey="FileName" FieldText="页面文件名" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="3">
       </FileName>
@@ -18,6 +18,141 @@
       <SQL FieldKey="SQL" FieldText="数据集合" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="6">
       </SQL>
     </COLUMNS>
+    <TopHead>
+    </TopHead>
+    <BottomHtml>            &lt;script id="LayerOpenHtml" type="text/html"&gt;
+        &lt;div id="LayerOpenHtmlFrom"&gt;
+            &lt;div class="form-group" style="display: -webkit-box; margin-top: 10px;"&gt;
+                &lt;label for="Title" class="col-sm-2 control-label text-right" lay-verify="email" style="padding: 0px; line-height: 32px;"&gt;标题：&lt;/label&gt;
+                &lt;div class="col-sm-10"&gt;
+                    &lt;input type="text" name="Title" class="form-control" placeholder="标题" value="" /&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class="form-group" style="display: -webkit-box;"&gt;
+                &lt;label for="FileName" class="col-sm-2 control-label text-right" style="padding: 0px; line-height: 32px;"&gt;页面名称：&lt;/label&gt;
+                &lt;div class="col-sm-10"&gt;
+                    &lt;input type="text" name="FileName" class="form-control" placeholder="页面名称" value="" /&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class="form-group" style="display: -webkit-box;"&gt;
+                &lt;label for="TableType" class="col-sm-2 control-label text-right" style="padding: 0px; line-height: 32px;"&gt;数据类型：&lt;/label&gt;
+                &lt;div class="col-sm-10"&gt;
+                    &lt;select class="form-control" name="TableType"&gt;
+                        &lt;option value="1"&gt;数据库表&lt;/option&gt;
+                        &lt;option value="2"&gt;XML数据表&lt;/option&gt;
+                    &lt;/select&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class="form-group" style="display: -webkit-box; margin-top: 10px;"&gt;
+                &lt;label for="TableName" class="col-sm-2 control-label text-right" style="padding: 0px; line-height: 32px;"&gt;数据对象：&lt;/label&gt;
+                &lt;div class="col-sm-10"&gt;
+                    &lt;input type="text" name="TableName" class="form-control" placeholder="数据表" value="" /&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class="form-group" style="display: -webkit-box;"&gt;
+                &lt;label for="SQL" class="col-sm-2 control-label text-right" style="padding: 0px;"&gt;数据集合：&lt;/label&gt;
+                &lt;div class="col-sm-10"&gt;
+                    &lt;textarea name="SQL" class="form-control" placeholder="SQL" rows="3"&gt;&lt;/textarea&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class="form-group" style="display: -webkit-box;"&gt;
+                &lt;label for="Note" class="col-sm-2 control-label text-right" style="padding: 0px;"&gt;备注：&lt;/label&gt;
+                &lt;div class="col-sm-10"&gt;
+                    &lt;textarea name="Note" class="form-control" placeholder="备注" rows="2"&gt;&lt;/textarea&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class="text-center"&gt;
+                &lt;button type="button" class="btn btn-success"&gt; 保 　存 &lt;/button&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+&lt;/script&gt;</BottomHtml>
+    <BottomScript>
+        funaggregate.InsertItemID = function () {
+                LayerOpenHtml(1, '新增页面信息', '');
+            }
+            funaggregate.UpdateItemID = function () {
+                LayerOpenHtml(1, '修改页面信息', $(this).val());
+            }
+            //layer 弹层
+            var Index;
+            function LayerOpenHtml(option, title, value) {
+                var showHtml = $("#LayerOpenHtml").html();
+                //页面层
+                Index = layer.open({
+                    id: value,
+                    type: 1,
+                    title: title,
+                    skin: 'layui-layer-rim', //加上边框
+                    area: ['620px', '475px'], //宽高
+                    content: showHtml,
+                    success: function () {
+                        if (value != undefined &amp;&amp; value != null &amp;&amp; value != "") {
+                            var param = {};
+                            param.Gettype = 'GetDataView';
+                            param.Option = option;
+                            param.ChoiceValue = value;
+                            $.ajax({
+                                type: "GET",
+                                url: listconifg.url,
+                                cache: false,  //禁用缓存
+                                data: param,  //传入组装的参数
+                                dataType: "json",
+                                async: false,
+                                success: function (result) {
+                                    if (result.code != null &amp;&amp; result.code != "") {
+                                        layer.msg(result.msg);
+                                    } else {
+                                        var json = result[0];
+                                        $.each(json, function (key, val) {
+                                            $(".layui-layer [name=" + key + "]").val(val);
+                                        });
+                                    }
+                                },
+                                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                    layer.msg("系统繁忙，请稍等.....");
+                                }
+                            });
+                        }
+                        $(".layui-layer #LayerOpenHtmlFrom .btn-success").click(function () {
+                            BntSaveFromData(option);
+                        })
+                    }
+                });
+            }
+            //保存事件
+            function BntSaveFromData(option) {
+                var FromValues = $(".layui-layer #LayerOpenHtmlFrom").find(listconifg.fromchildren).serializeArray();
+                var param = {};
+                param.Gettype = 'SaveFromData';
+                param.Option = option;
+                param.ChoiceValue = $(".layui-layer-content").attr("ID");
+                param.FromValues = GetFromJson(FromValues);
+                //ajax请求数据
+                $.ajax({
+                    type: "GET",
+                    url: listconifg.url,
+                    cache: false,  //禁用缓存
+                    data: param,  //传入组装的参数
+                    dataType: "json",
+                    async: false,
+                    success: function (result) {
+                        if (result != null &amp;&amp; result.code == "1") {
+                            layer.msg('保存成功', {
+                                icon: 1, time: 1500, end: function () {
+                                    layer.closeAll();
+                                    location.reload();
+                                }
+                            });
+                        } else {
+                            layer.msg(result.msg);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        layer.msg("系统繁忙，请稍等.....");
+                    }
+                });
+            }
+    </BottomScript>
   </OPTION>
   <OPTION TableID="2" Title="用户管理" PrimaryKey="GUID" FileName="UserList" SQL="select [GUID],[No],[Account],[Password],[Name],[ImgUrl],[Sex],[Birthday],[Telephone],[Address],[StatusID],[CreatorID],[CreaterDateTime]  from  [t_Users]" PredefinedSQL="" TableType="1" TableName="dbo.[t_Users]" IsPlus="0" IsWhere="1" IsChoice="1" IsInsert="1" IsUpdate="1" IsDelete="1" Note="" ColunmName="1">
     <COLUMNS>
@@ -48,5 +183,11 @@
       <GUID FieldKey="GUID" FieldText="GUID" FieldDataType="1" FieldData="" FieldStatusID="0" SelectType="0" SelectData="" FieldOrder="1">
       </GUID>
     </COLUMNS>
+    <TopHead>
+    </TopHead>
+    <BottomHtml>
+    </BottomHtml>
+    <BottomScript>
+    </BottomScript>
   </OPTION>
 </TABLES>
