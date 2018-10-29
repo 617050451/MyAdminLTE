@@ -34,16 +34,16 @@
 <body>
     <form id="PageForm">
         <section class="content" style="margin-top: -13px;">
-            <div data-resple="iswhere" class="box box-solid hidden">
-                <div class="box-header with-border">
-                    <h3 class="box-title">高级查询</h3>
+            <div data-resple="iswhere" class="box box-solid hidden" style="margin-bottom: 5px;">
+                <div class="box-header with-border" style="padding:5px;">
+                    <h3 class="box-title" style="font-size:15px;">高级查询</h3>
                     <div class="box-tools">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse" style="margin-top:-5px;">
                             <i data-resple="isplus" class=""></i>
                         </button>
                     </div>
                 </div>
-                <div class="box box-danger">
+                <div class="box box-danger" style="margin-bottom: 5px;">
                     <div class="box-body" id="selectwherefrom">
                       {WhereHtml}
                     </div>
@@ -94,6 +94,10 @@
 	{BottomHtml}
     <script>
         $(function () {
+            $(document).bind("contextmenu click", function (e) {
+                top.$(".contextmenu").hide();
+                return false;
+            });
 		    var funaggregate = {funaggregate};
 			{BottomScript}
             var columns = [{Columns}];

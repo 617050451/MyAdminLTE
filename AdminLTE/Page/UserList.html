@@ -29,22 +29,23 @@
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
     <link href="../../Script/js/cyfs.css" rel="stylesheet" />
+	
 </head>
 <body>
     <form id="PageForm">
         <section class="content" style="margin-top: -13px;">
-            <div data-resple="iswhere" class="box box-solid hidden">
-                <div class="box-header with-border">
-                    <h3 class="box-title">高级查询</h3>
+            <div data-resple="iswhere" class="box box-solid hidden" style="margin-bottom: 5px;">
+                <div class="box-header with-border" style="padding:5px;">
+                    <h3 class="box-title" style="font-size:15px;">高级查询</h3>
                     <div class="box-tools">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse" style="margin-top:-5px;">
                             <i data-resple="isplus" class=""></i>
                         </button>
                     </div>
                 </div>
-                <div class="box box-danger">
+                <div class="box box-danger" style="margin-bottom: 5px;">
                     <div class="box-body" id="selectwherefrom">
-                      <div class="col-lg-2 col-xs-5 table-s"><label class="col-xs control-label table-label">状态<span class="text-danger">（下拉查询）</span></label ><select name="StatusID" class="form-control select2 select2-hidden-accessible"  aria-hidden="true" ><option selected = "selected" value = "AllOption" >全部</option ><option value = "1" >启用</option ><option value = "0" >不启用</option ></select></div><div bnt-click="Select" class="col-sm-1 table-p" style="margin-top:30px;"><button type ="button" class="btn btn-danger pull-right btn-block btn-primary">查询</button></div>
+                      
                     </div>
                 </div>
             </div>
@@ -56,7 +57,6 @@
 							    <button name='DeleteItemID' bnt-click='DeleteItemID' style='margin-right:2px;' type='button' class='btn btn-danger btn-xs'>删　除</button><button name='InsertItemID' bnt-click='InsertItemID' style='margin-right:2px;' type='button' class='btn btn-success btn-xs'>新　增</button> 
                             </div>
                             <div id="ltlSum" class="pull-right" style="height:24px;">
-                               {CountHtml}
                             </div>
                             <table id="example" class="table table-bordered table-hover" style="margin-top:-13px;">
                                 <thead>
@@ -91,16 +91,23 @@
     <script src="../../Script/AdminLTE-2.4.2/dist/js/adminlte.min.js"></script>
     <script src="../../Script/layer-v3.1.0/layer/layer.js"></script>
     <script src="../Script/js/DataPageHandle.js"></script>
+	
     <script>
         $(function () {
+            $(document).bind("contextmenu click", function (e) {
+                top.$(".contextmenu").hide();
+                return false;
+            });
+		    var funaggregate = {};
+			
             var columns = [{ "data": "ItemID", render: function (data, type, row) { return "<input  bnt-click='CheckBoxItemID' name='CheckBoxItemID' type='checkbox' class='table-checkable'  value='" + data + "'/>" } },{"data": "No", render: function (data, type, row) { return  data }},{"data": "Account", render: function (data, type, row) { return  data }},{"data": "Password", render: function (data, type, row) { return  data }},{"data": "Name", render: function (data, type, row) { return  data }},{"data": "ImgUrl", render: function (data, type, row) {  SetImgUrl(row,data,function (reData) { data=reData;}); return data; }},{"data": "Sex", render: function (data, type, row) { return  data == 1?"男":"女" }},{"data": "Birthday", render: function (data, type, row) { return SetDateTime(data,"yyyy年MM月dd日 ");}},{"data": "Telephone", render: function (data, type, row) { return  data }},{"data": "Address", render: function (data, type, row) { return  data }},{"data": "StatusID", render: function (data, type, row) { return  data == 1?"启用":"禁用" }},{"data": "CreatorID", render: function (data, type, row) { return data;}},{"data": "CreaterDateTime", render: function (data, type, row) { return SetDateTime(data,"yyyy-MM-dd HH:mm:ss");}},{"data": "ItemID", render: function (data, type, row) { return "<button name='UpdateItemID' bnt-click = 'UpdateItemID'  type = 'button' class='btn btn-warning  btn-xs' value='"+ data+"'>修　改</button> "}}];
             listconifg.isplus = 0;
-            listconifg.iswhere = 1;
+            listconifg.iswhere = 0;
             listconifg.ischoice = 1;
             listconifg.columns = columns;
-            listconifg.getData(1);
+			listconifg.setTable();
+            listconifg.getData(2,funaggregate);
         })
     </script>
-	<script></script>
 </body>
 </html>

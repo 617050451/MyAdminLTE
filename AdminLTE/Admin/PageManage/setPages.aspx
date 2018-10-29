@@ -90,6 +90,14 @@
     <script src="../../Script/layer-v3.1.0/layer/layer.js"></script>
     <script>
         var lastitemid = "";
+        $("body").bind("click", function () {
+            top.$(".contextmenu").hide();
+            return false;
+        });
+        $(document).bind("contextmenu", function (e) {
+            top.$(".contextmenu").hide();
+            return false;
+        }); 
         $(document).ready(function () {
             $(".box-body ul li a").click(function () {
                 $(".box-body ul li").removeClass("active");

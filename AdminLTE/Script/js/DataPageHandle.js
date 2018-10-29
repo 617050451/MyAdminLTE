@@ -280,7 +280,7 @@ $(function () {
         } else {
             //询问框
             layer.confirm('你确定要删除当前选择的数据？', {
-                title: '删除',
+                title: '温馨提示',
                 btn: ['确定', '取消'] //按钮
             }, function () {
                 var param = {};

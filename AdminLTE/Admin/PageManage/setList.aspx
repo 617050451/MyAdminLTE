@@ -256,6 +256,10 @@
     <script id="BottomScriptModel" type="text/html"><%=TableBll.GetFragmentCodeModel("BottomScript")%></script>
     <script> 
         $(function () {
+             $(document).bind("contextmenu", function (e) {
+                top.$(".contextmenu").hide();
+                return false;
+            }); 
             $("select[name=SelectType]").change(function () {
                 if ($(this).val() == 2) {
                     $(this).parent().next("a").removeClass("hidden")

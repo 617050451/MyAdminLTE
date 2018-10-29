@@ -102,8 +102,9 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li class="active"><a href="javascript:void(0)" menu-moid="1001" menu-text="所有页面" menu-controller="/Page/PageList.html"><i class="fa fa-circle-o text-aqua"></i>所有页面</a></li>
-                            <li><a href="javascript:void(0)"  menu-moid="1002"  menu-text="编辑页面" menu-controller="SetPages.aspx" ><i class="fa fa-circle-o text-red"></i>编辑页面</a></li>
+                            <li class="active"><a menu-moid="1001" href="javascript:void(0)" menu-text="所有页面" menu-controller="/Page/PageList.html">
+                                <i class="fa fa-circle-o text"></i>所有页面</a></li>
+                            <li><a href="javascript:void(0)"  menu-moid="1002"  menu-text="编辑页面" menu-controller="SetPages.aspx" ><i class="fa fa-circle-o text"></i>编辑页面</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -113,7 +114,7 @@
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper" style="margin-top:-5px;">
             <!-- Content Header (Page header) -->
-            <section class="content-header">
+            <section class="content-header" style="padding:1px;padding-top:6px;">
                 <div class="nav-tabs-custom">
                     <ul class="nav nav-tabs" id="tabnav">
                         <li class="active" menu-moid="1000"><a href="javascript:setPage(1000)">首页</a></li>
@@ -121,7 +122,7 @@
                 </div>
                 <!-- /.box-body -->
             </section>
-            <section class="content" menu-type="nav-tabs" menu-moid="1000" style="margin-top:-35px;display:none;">
+            <section class="content" menu-type="nav-tabs" menu-moid="1000" style="margin-top:-35px;display:none;padding:0px;padding-left:0px;padding-right:0px;">
                 <iframe src="WelcomePage_Admin.aspx" ></iframe>
             </section>
         </div>
@@ -267,6 +268,11 @@
             $(".sidebar-menu li ul li a").click(function () {
                 mainMenuClickFunc(this);
             })
+            $(".main-sidebar .treeview").click(function () {
+                $(".main-sidebar .treeview").removeClass("active");
+                $(".main-sidebar .treeview").removeClass("menu-open");
+                $(this).addClass("active");
+            })
             setPage(rgmoid);
             ////默认点击第一个菜单
             //$(".sidebar-menu li ul li a:first").click();
@@ -278,22 +284,29 @@
                 text = $(param).attr("menu-text");
                 controller = $(param).attr("menu-controller");
             }
-            $("#tabnav li").removeClass("active");
             $(".content[menu-type='nav-tabs']").hide();
             var index = $("#tabnav li[menu-moid='" + moid + "']").length;
+            var color = $(".logo").css("backgroundColor");
             if (index > 0) {
                 $("#tabnav li[menu-moid='" + moid + "']").addClass("active");
                 $(".content[menu-moid='" + moid + "']").show();
             } else {
                 $("#tabnav").append("<li class=\"active\" menu-controller=\"" + controller + "\" menu-moid=\"" + moid + "\"><a  href=\"javascript:setPage(" + moid + ")\" >" + text + "<span style=\"margin-left:7px;cursor:pointer;border-radius: 19px;padding-right:1px;padding-bottom:1px;\"><i class=\"fa fa-fw fa-close\" onclick=\"CloseTabFun(" + moid + ")\"></i><span></a></li>");
-                $(".content-header").parent().append("<section class=\"content\" menu-type=\"nav-tabs\" menu-moid=\"" + moid + "\" style=\"margin-top:-35px;\"><iframe src=\"" + controller + "\" ></iframe></section>");            
+                $(".content-header").parent().append("<section class=\"content\" menu-type=\"nav-tabs\" menu-moid=\"" + moid + "\" style=\"margin-top:-35px;padding:0px;padding-left:0px;padding-right:0px;\"><iframe src=\"" + controller + "\" ></iframe></section>");
             }
-            setPage(moid)
+            setPage(moid, param)
         }
         //page跳转
-        function setPage(moid) {
+        function setPage(moid, obj) {
             var index = $("#tabnav li[menu-moid='" + moid + "']").length;
             if (index > 0) {
+                var color = $(".logo").css("backgroundColor");
+                $("#tabnav li").css("border-top-color", "");
+                $("#tabnav li[menu-moid='" + moid + "']").css("border-top-color", color);
+                $(".sidebar-menu .treeview-menu i").css("color", "");
+                $(obj).find("i").css("color", color);
+                $(".treeview-menu li").removeClass("active");
+                $(obj).parent("li").addClass("active");
                 $("#tabnav li").removeClass("active");
                 $("#tabnav li[menu-moid='" + moid + "']").addClass("active");
                 $(".content[menu-type='nav-tabs']").hide();
@@ -316,7 +329,7 @@
         }
         //设置iframe
         function setiframeHeigth() {
-            var hl = $(".content-wrapper").height() - 70 + "px";
+            var hl = $(".content-wrapper").height() - 57 + "px";
             $(".content").find("iframe").css("height", hl);
         }
         //右键菜单
@@ -405,7 +418,7 @@
                 $("#tabnav li").removeClass("active");
                 $(".content[menu-type='nav-tabs']").hide();
                 $("#tabnav").append("<li class=\"active\" menu-controller=\"" + controller + "\" menu-moid=\"" + moid + "\"><a  href=\"javascript:setPage('" + moid + "')\" >" + title + "<span style=\"margin-left:7px;cursor:pointer;border-radius: 19px;padding-right:1px;padding-bottom:1px;\"><i class=\"fa fa-fw fa-close\" onclick=\"CloseTabFun('" + moid + "')\"></i><span></a></li>");
-                $(".content-header").parent().append("<section class=\"content\" menu-type=\"nav-tabs\" menu-moid=\"" + moid + "\" style=\"margin-top:-35px;\"><iframe src=\"" + controller + "\" ></iframe></section>");
+                $(".content-header").parent().append("<section class=\"content\" menu-type=\"nav-tabs\" menu-moid=\"" + moid + "\" style=\"margin-top:-35px;padding:0px;padding-left:0px;padding-right:0px;\"><iframe src=\"" + controller + "\" ></iframe></section>");
             }
             setPage(moid);
         }
