@@ -72,8 +72,6 @@ namespace BLL
         {
             return BaseClass.XmlToSetOrder(bItemID);
         }
-
-
         /// <summary>
         /// 生成文件
         /// </summary>
@@ -199,13 +197,13 @@ namespace BLL
                         switch (type)
                         {
                             case "1":
-                                strHtml += "<div class=\"col-lg-2 col-xs-5 table-s\">";
+                                strHtml += "<div class=\"col-lg-2\">";
                                 strHtml += "<label class=\"col-xs control-label table-label\">" + item.FieldText + "<span class=\"text-danger\">（模糊查询）</span></label >";
                                 strHtml += "<input type=\"text\" name=\"" + item.FieldKey + "\"  class=\"form-control\" placeholder=\"" + item.FieldText + "\" />";
                                 strHtml += "</div>";
                                 break;
                             case "2":
-                                strHtml += "<div class=\"col-lg-2 col-xs-5 table-s\">";
+                                strHtml += "<div class=\"col-lg-2\">";
                                 strHtml += "<label class=\"col-xs control-label table-label\">" + item.FieldText + "<span class=\"text-danger\">（下拉查询）</span></label >";
                                 strHtml += "<select name=\"" + item.FieldKey + "\" class=\"form-control select2 select2-hidden-accessible\"  aria-hidden=\"true\" >";
                                 strHtml += "<option selected = \"selected\" value = \"AllOption\" >全部</option >";
@@ -237,10 +235,46 @@ namespace BLL
                                 strHtml += "</div>";
                                 break;
                             case "3":
-                                strHtml += "<div class=\"col-lg-2 col-xs-5 table-s\">";
+                                strHtml += "<div class=\"col-lg-2\">";
                                 strHtml += "<label class=\"col-xs control-label table-label\">" + item.FieldText + "<span class=\"text-danger\">（等于查询）<span></label >";
                                 strHtml += "<input type=\"text\" name=\"" + item.FieldKey + "\" data-type=\"datepicker\"  class=\"form-control\" placeholder=\"" + item.FieldText + "\" />";
                                 strHtml += "</div>";
+                                break;
+                            case "4":
+                                var value = item.SelectData;
+                                var datatype = "datepicker";
+                                var minView = "day";
+                                var format = "yyyy-mm-dd";
+                                if (value == "yearM" || value == "date")
+                                {
+                                    datatype = "datepicker";
+                                    if (value == "yearM")
+                                    {
+                                        minView = "3";
+                                        format = "yyyy-mm";
+                                    }
+                                    else if (value == "date")
+                                    {
+                                        minView = "2";
+                                        format = "yyyy-mm-dd";
+                                    }
+                                }
+                                else if (value == "time1" || value == "time2")
+                                {
+                                    datatype = "datetimepicker";
+                                    minView = "0";
+                                    if (value == "time1")
+                                        format = "yyyy-mm-dd hh:ii";
+                                    else if (value == "time2")
+                                        format = "yyyy-mm-dd hh:ii:ss";
+                                }
+                                strHtml += "<div class=\"col-lg-3\">";
+                                strHtml += "<label class=\"col-xs control-label table-label\" style=\"width:100%;\">" + item.FieldText + "<span class=\"text-danger\">（时间查询）<span></label >";
+                                strHtml += "<input type=\"text\" style=\"width:44%;display: inline;\" name=\"" + item.FieldKey + "[Start]\" data-type=\"" + datatype + "\"  class=\"form-control\" placeholder=\"起始时间\" id=\"" + item.FieldKey + "_Start\" />";
+                                strHtml += "　至　<input type=\"text\" style=\"width:44%;display: inline;\" name=\"" + item.FieldKey + "[End]\" data-type=\"" + datatype + "\"  class=\"form-control\" placeholder=\"截止时间\" id=\"" + item.FieldKey + "_End\" />";
+                                strHtml += "</div>";
+                                strHtml += "<script src=\"../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js\"></script>";
+                                strHtml += "<script>$('#" + item.FieldKey + "_Start').datetimepicker({format: '" + format + "',autoclose : true,minView: '"+ minView + "',todayBtn: true,minuteStep: 1});$('#" + item.FieldKey + "_End').datetimepicker({format: '" + format + "',autoclose : true,minView: '"+ minView + "',todayBtn: true,minuteStep: 1})</script>";
                                 break;
                             default:
                                 break;
@@ -336,10 +370,10 @@ namespace BLL
         {
             var TableFielModelList = this.GetTableFieldModel();
             StringBuilder sb = new StringBuilder();
-            if (type == 1)
+            if (type == 1)//数据表
                 sb.Append(" WHERE 1=1 ");
             else
-                sb.Append(" 1=1 ");
+                sb.Append(" 1=1 ");//XML数据表
             System.Data.DataTable dt = (where == null || where == "" ? null : BLL.JsonHelper.DeserializeJsonToObject<System.Data.DataTable>(where));//条件数据
             if (BaseClass.IsNullOrNotNull(dt))
             {

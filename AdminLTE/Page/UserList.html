@@ -15,20 +15,16 @@
     <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css" />
     <!-- Theme style -->
     <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/dist/css/AdminLTE.min.css" />
-    <!-- bootstrap datepicker -->
-    <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" />
+    <!-- bootstrap datetimepicker -->
+	<link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" />
     <!-- AdminLTE Skins. Choose a skin from the css/skins
     folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/dist/css/skins/_all-skins.min.css" />
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
     <link href="../../Script/js/cyfs.css" rel="stylesheet" />
+	<!-- jQuery 3 -->
+    <script src="../../Script/AdminLTE-2.4.2/bower_components/jquery/dist/jquery.min.js"></script>
 	
 </head>
 <body>
@@ -45,7 +41,7 @@
                 </div>
                 <div class="box box-danger" style="margin-bottom: 5px;">
                     <div class="box-body" id="selectwherefrom">
-                      
+                      <div class="col-lg-2"><label class="col-xs control-label table-label">姓名<span class="text-danger">（模糊查询）</span></label ><input type="text" name="Name"  class="form-control" placeholder="姓名" /></div><div class="col-lg-2"><label class="col-xs control-label table-label">状态<span class="text-danger">（下拉查询）</span></label ><select name="StatusID" class="form-control select2 select2-hidden-accessible"  aria-hidden="true" ><option selected = "selected" value = "AllOption" >全部</option ><option value = "1" >启用</option ><option value = "0" >不启用</option ></select></div><div class="col-lg-3"><label class="col-xs control-label table-label" style="width:100%;">录入时间<span class="text-danger">（时间查询）<span></label ><input type="text" style="width:44%;display: inline;" name="CreaterDateTime[Start]" data-type="datetimepicker"  class="form-control" placeholder="起始时间" id="CreaterDateTime_Start" />　至　<input type="text" style="width:44%;display: inline;" name="CreaterDateTime[End]" data-type="datetimepicker"  class="form-control" placeholder="截止时间" id="CreaterDateTime_End" /></div><script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script><script>$('#CreaterDateTime_Start').datetimepicker({format: 'yyyy-mm-dd hh:ii:ss',autoclose : true,minView: '0',todayBtn: true,minuteStep: 1});$('#CreaterDateTime_End').datetimepicker({format: 'yyyy-mm-dd hh:ii:ss',autoclose : true,minView: '0',todayBtn: true,minuteStep: 1})</script><div bnt-click="Select" class="col-sm-1 table-p" style="margin-top:30px;"><button type ="button" class="btn btn-danger pull-right btn-block btn-primary">查询</button></div>
                     </div>
                 </div>
             </div>
@@ -76,8 +72,6 @@
             <!-- /.row -->
         </section>
     </form>
-    <!-- jQuery 3 -->
-    <script src="../../Script/AdminLTE-2.4.2/bower_components/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap 3.3.7 -->
     <script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- DataTables -->
@@ -102,7 +96,7 @@
 			
             var columns = [{ "data": "ItemID", render: function (data, type, row) { return "<input  bnt-click='CheckBoxItemID' name='CheckBoxItemID' type='checkbox' class='table-checkable'  value='" + data + "'/>" } },{"data": "No", render: function (data, type, row) { return  data }},{"data": "Account", render: function (data, type, row) { return  data }},{"data": "Password", render: function (data, type, row) { return  data }},{"data": "Name", render: function (data, type, row) { return  data }},{"data": "ImgUrl", render: function (data, type, row) {  SetImgUrl(row,data,function (reData) { data=reData;}); return data; }},{"data": "Sex", render: function (data, type, row) { return  data == 1?"男":"女" }},{"data": "Birthday", render: function (data, type, row) { return SetDateTime(data,"yyyy年MM月dd日 ");}},{"data": "Telephone", render: function (data, type, row) { return  data }},{"data": "Address", render: function (data, type, row) { return  data }},{"data": "StatusID", render: function (data, type, row) { return  data == 1?"启用":"禁用" }},{"data": "CreatorID", render: function (data, type, row) { return data;}},{"data": "CreaterDateTime", render: function (data, type, row) { return SetDateTime(data,"yyyy-MM-dd HH:mm:ss");}},{"data": "ItemID", render: function (data, type, row) { return "<button name='UpdateItemID' bnt-click = 'UpdateItemID'  type = 'button' class='btn btn-warning  btn-xs' value='"+ data+"'>修　改</button> "}}];
             listconifg.isplus = 0;
-            listconifg.iswhere = 0;
+            listconifg.iswhere = 1;
             listconifg.ischoice = 1;
             listconifg.columns = columns;
 			listconifg.setTable();

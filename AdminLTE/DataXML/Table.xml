@@ -154,7 +154,7 @@
             }
     </BottomScript>
   </OPTION>
-  <OPTION TableID="2" Title="用户管理" PrimaryKey="GUID" FileName="UserList" SQL="select [GUID],[No],[Account],[Password],[Name],[ImgUrl],[Sex],[Birthday],[Telephone],[Address],[StatusID],[CreatorID],[CreaterDateTime]  from  [t_Users]" PredefinedSQL="" TableType="1" TableName="dbo.[t_Users]" IsPlus="0" IsWhere="0" IsChoice="1" IsInsert="1" IsUpdate="1" IsDelete="1" Note="" ColunmName="1">
+  <OPTION TableID="2" Title="用户管理" PrimaryKey="GUID" FileName="UserList" SQL="select [GUID],[No],[Account],[Password],[Name],[ImgUrl],[Sex],[Birthday],[Telephone],[Address],[StatusID],[CreatorID],[CreaterDateTime]  from  [t_Users]" PredefinedSQL="[{&quot;type&quot;:&quot;COUNT&quot;,&quot;key&quot;:&quot;GUID&quot;,&quot;title&quot;:&quot;数据总条数：&quot;}]" TableType="1" TableName="dbo.[t_Users]" IsPlus="0" IsWhere="1" IsChoice="1" IsInsert="1" IsUpdate="1" IsDelete="1" Note="" ColunmName="1">
     <COLUMNS>
       <No FieldKey="No" FieldText="编号" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="2">
       </No>
@@ -176,7 +176,7 @@
       </StatusID>
       <CreatorID FieldKey="CreatorID" FieldText="录入人" FieldDataType="3" FieldData="SELECT name from dbo.[t_Users] where No = row.No" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="12">
       </CreatorID>
-      <CreaterDateTime FieldKey="CreaterDateTime" FieldText="录入时间" FieldDataType="4" FieldData="time2" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="13">
+      <CreaterDateTime FieldKey="CreaterDateTime" FieldText="录入时间" FieldDataType="4" FieldData="time2" FieldStatusID="1" SelectType="4" SelectData="time2" FieldOrder="13">
       </CreaterDateTime>
       <ImgUrl FieldKey="ImgUrl" FieldText="头像" FieldDataType="4" FieldData="img" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="6">
       </ImgUrl>

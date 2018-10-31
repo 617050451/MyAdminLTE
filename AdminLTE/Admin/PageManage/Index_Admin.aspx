@@ -122,7 +122,7 @@
                 </div>
                 <!-- /.box-body -->
             </section>
-            <section class="content" menu-type="nav-tabs" menu-moid="1000" style="margin-top:-35px;display:none;padding:0px;padding-left:0px;padding-right:0px;">
+            <section class="content" menu-type="nav-tabs" menu-moid="1000" style="margin-top:-35px;display:none;padding:1px;">
                 <iframe src="WelcomePage_Admin.aspx" ></iframe>
             </section>
         </div>

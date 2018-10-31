@@ -261,7 +261,7 @@
                 return false;
             }); 
             $("select[name=SelectType]").change(function () {
-                if ($(this).val() == 2) {
+                if ($(this).val() == 2 || $(this).val() == 4) {
                     $(this).parent().next("a").removeClass("hidden")
                 }
                 else
@@ -446,14 +446,28 @@
         }
         var showData;
         var showIndex = 0;
-        function setSelectData(obj) {
+        function setSelectData(obj, type) {
             showData = $(obj).parent().find("[name=SelectData]");
             var values = $(showData).val();
             var showHtml = "<div class=\"form-group text-center\" style=\"margin:5px;\">";
-            showHtml += "<p><span style=\"color: blue;\">JSON数据：[{\"key\":\"启用\",\"value\":\"1\"},{\"key\":\"不启用\",value:\"0\"}]</span></p> ";
-            showHtml += "<p><span style=\"color: blue;\">SQL表达式：[{\"key\":\"SQL\",\"value\":\"select sg(启用),1\"}]</span></p>";
-            showHtml += "<p><span style=\"color: blue;\">单引号属于特殊字符，sg(启用)='启用'</span> <span style=\"color: red;\"> 必须是JSON数据格式</p>";
-            showHtml += "<textarea name=\"selectData\" class=\"form-control\" placeholder=\"查询条件\" rows=\"6\">" + values + "</textarea><button type=\"button\" style=\"margin-top:5px;\" class=\"btn btn-success btn-block\" onclick=\"parentFunSetSelectData()\">保存</button></div>";
+            if (type == 2) {
+                showHtml += "<p><span style=\"color: blue;\">JSON数据：[{\"key\":\"启用\",\"value\":\"1\"},{\"key\":\"不启用\",value:\"0\"}]</span></p> ";
+                showHtml += "<p><span style=\"color: blue;\">SQL表达式：[{\"key\":\"SQL\",\"value\":\"select sg(启用),1\"}]</span></p>";
+                showHtml += "<p><span style=\"color: blue;\">单引号属于特殊字符，sg(启用)='启用'</span> <span style=\"color: red;\"> 必须是JSON数据格式</p>";
+            }
+            else if (type == 4) {
+                showHtml += "<div class=\"form-group text-left\">";
+                showHtml += "<table class=\"table table-bordered table-hover\">";
+                showHtml += "<tr>";
+                showHtml += "<td><label class=\"radio-inline\"><input type=\"radio\" name=\"FieldData\"   value=\"yearM\" " + (values == "yearM" ? "checked" : "") + " >时间格式：2018-05</label></td>";
+                showHtml += "<td><label class=\"radio-inline\"><input type=\"radio\"   name=\"FieldData\"  value=\"date\" " + (values == "date" ? "checked" : "") + ">日期格式：2018-05-22</label></td>";
+                showHtml += "</tr><tr>";
+                showHtml += "<td><label class=\"radio-inline\"><input type=\"radio\" name=\"FieldData\"    value=\"time1\" " + (values == "time1" ? "checked" : "") + " >时间格式：2018-05-22 15:33</label></td>";
+                showHtml += "<td><label class=\"radio-inline\"><input type=\"radio\" name=\"FieldData\"    value=\"time2\" " + (values == "time2" ? "checked" : "") + " >时间格式：2018-05-22 15:33:36</label></td>";
+                showHtml += "</tr></table>";
+                showHtml += "</div>";
+            }
+            showHtml += "<button type=\"button\" class=\"btn btn-success btn-block\" style=\"margin-top:10px;\" onclick=\"parentFunSetSelectDataZh()\">保　存</button></div>";
             //页面层
             showIndex = layer.open({
                 type: 1,
@@ -490,10 +504,10 @@
                 showHtml += "<td><label class=\"radio-inline\"><input type=\"radio\"   name=\"FieldData\"  value=\"date\" " + (values == "date" ? "checked" : "") + ">日期格式：2018-05-22</label></td>";
                 showHtml += "<td><label class=\"radio-inline\"><input type=\"radio\"   name=\"FieldData\"  value=\"datezw\" " + (values == "datezw" ? "checked" : "") + ">日期格式：2018年05月22日</label></td>";
                 showHtml += "</tr><tr>";
-                showHtml += "<td><label class=\"radio-inline\"><input type=\"radio\" name=\"FieldData\"    value=\"time1\" " + (values == "time" ? "checked" : "") + " >时间格式：2018-05-22 15:33</label></td>";
+                showHtml += "<td><label class=\"radio-inline\"><input type=\"radio\" name=\"FieldData\"    value=\"time1\" " + (values == "time1" ? "checked" : "") + " >时间格式：2018-05-22 15:33</label></td>";
                 showHtml += "<td><label class=\"radio-inline\"><input type=\"radio\" name=\"FieldData\"    value=\"time1zw\" " + (values == "timezw" ? "checked" : "") + " >时间格式：2018年05月日 15时33分</label></td>";
                 showHtml += "</tr><tr>";
-                showHtml += "<td><label class=\"radio-inline\"><input type=\"radio\" name=\"FieldData\"    value=\"time2\" " + (values == "time" ? "checked" : "") + " >时间格式：2018-05-22 15:33:36</label></td>";
+                showHtml += "<td><label class=\"radio-inline\"><input type=\"radio\" name=\"FieldData\"    value=\"time2\" " + (values == "time2" ? "checked" : "") + " >时间格式：2018-05-22 15:33:36</label></td>";
                 showHtml += "<td><label class=\"radio-inline\"><input type=\"radio\" name=\"FieldData\"    value=\"time2zw\" " + (values == "timezw" ? "checked" : "") + " >时间格式：2018年05月日 15时33分36秒</label></td>";
                 showHtml += "</tr><tr>";
                 showHtml += "<td><label class=\"radio-inline\"><input type=\"radio\" name=\"FieldData\"    value=\"img\" " + (values == "img" ? "checked" : "") + " >图片组</label></td>";

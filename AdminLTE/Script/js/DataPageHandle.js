@@ -380,7 +380,7 @@ function SetImgUrl(row, data, endfun) {
         var srcArr = data.split(',');
         var redata = "";
         for (var i = 0; i < srcArr.length; i++) {
-            redata += "<img width='20' bnt-click='ShowImg' img-group='" + row.ItemID + "' img-start='" + i + "'  src='" + srcArr[i] + "' \" />";
+            redata += "<img width='27' bnt-click='ShowImg' img-group='" + row.ItemID + "' img-start='" + i + "'  src='" + srcArr[i] + "' \" />";
         }
         endfun(redata);
     } else {
