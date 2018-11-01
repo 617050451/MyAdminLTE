@@ -115,8 +115,8 @@
         <div class="content-wrapper" style="margin-top:-5px;">
             <!-- Content Header (Page header) -->
             <section class="content-header" style="padding:1px;padding-top:6px;">
-                <div class="nav-tabs-custom">
-                    <ul class="nav nav-tabs" id="tabnav">
+                <div class="nav-tabs-custom" style="margin-bottom:5px;">
+                    <ul class="nav nav-tabs" id="tabnav" style="border-bottom:none;border-left:1px solid #f4f4f4;">
                         <li class="active" menu-moid="1000"><a href="javascript:setPage(1000)">首页</a></li>
                     </ul>
                 </div>

@@ -34,7 +34,7 @@
 </head>
 <body>
     <form id="FromPage">
-        <section class="content" style="margin-top: -13px;">
+        <section class="content" >
             <div class="row">
                 <div class="col-xs-12">
                     <div class="box box-primary">

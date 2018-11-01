@@ -34,7 +34,7 @@
 </head>
 <body>
     <form id="FromPage">
-        <section class="content" style="margin-top: -13px;">
+        <section class="content">
             <div class="row">
                 <table id="tableInfo" class="table" style="margin: 0px; margin-top: -3px; border-left: 1px solid #ddd; border-right: 1px solid #ddd;">
                     <tbody>
