@@ -388,17 +388,31 @@ namespace BLL
                     {
                         if (FieldKey.Contains("__Start"))
                         {
-                            sb.Append(" AND ");
-                            if (type == 1)
-                                sb.Append(" NewCyFsTable.");
-                            sb.Append(FieldKey + ">= CONVERT(datetime,'" + FieldValue + "')");
+                            var NewFieldKey = FieldKey.Replace("__Start", "");
+                            List<Model.M_TableField> listmf = TableFielModelList.Where(x => x.FieldKey == NewFieldKey).ToList();
+                            if (listmf != null && listmf.Count > 0)
+                            {
+                                var SelectData = listmf[0].SelectData;
+                                sb.Append(" AND ");
+                                if (type == 1)
+                                    sb.Append(" NewCyFsTable.");
+                                sb.Append(NewFieldKey + ">= CONVERT(datetime,'" + FieldValue + "')");
+                            }
                         }
                         else if (FieldKey.Contains("__End"))
                         {
-                            sb.Append(" AND ");
-                            if (type == 1)
-                                sb.Append(" NewCyFsTable.");
-                            sb.Append(FieldKey + "<= CONVERT(datetime,'" + FieldValue + "')");
+                            var NewFieldKey = FieldKey.Replace("__End", "");
+                            List<Model.M_TableField> listmf = TableFielModelList.Where(x => x.FieldKey == NewFieldKey).ToList();
+                            if (listmf != null && listmf.Count > 0)
+                            {
+                                var SelectData = listmf[0].SelectData;
+                                if (SelectData == "date")
+                                    FieldValue += " 23:59:59";
+                                sb.Append(" AND ");
+                                if (type == 1)
+                                    sb.Append(" NewCyFsTable.");
+                                sb.Append(NewFieldKey + "<= CONVERT(datetime,'" + FieldValue + "')");
+                            }
                         }
                         else
                         {
