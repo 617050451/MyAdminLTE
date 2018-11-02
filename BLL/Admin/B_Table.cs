@@ -236,7 +236,7 @@ namespace BLL
                                 break;
                             case "3":
                                 strHtml += "<div class=\"col-lg-2\">";
-                                strHtml += "<label class=\"col-xs control-label table-label\">" + item.FieldText + "<span class=\"text-danger\">（等于查询）<span></label >";
+                                strHtml += "<label class=\"col-xs control-label table-label\">" + item.FieldText + "<span class=\"text-danger\">（等于查询）</span></label >";
                                 strHtml += "<input type=\"text\" name=\"" + item.FieldKey + "\" data-type=\"datepicker\"  class=\"form-control\" placeholder=\"" + item.FieldText + "\" />";
                                 strHtml += "</div>";
                                 break;
@@ -270,11 +270,11 @@ namespace BLL
                                 }
                                 strHtml += "<div class=\"col-lg-3\">";
                                 strHtml += "<label class=\"col-xs control-label table-label\" style=\"width:100%;\">" + item.FieldText + "<span class=\"text-danger\">（时间查询）<span></label >";
-                                strHtml += "<input type=\"text\" style=\"width:44%;display: inline;\" name=\"" + item.FieldKey + "[Start]\" data-type=\"" + datatype + "\"  class=\"form-control\" placeholder=\"起始时间\" id=\"" + item.FieldKey + "_Start\" />";
-                                strHtml += "　至　<input type=\"text\" style=\"width:44%;display: inline;\" name=\"" + item.FieldKey + "[End]\" data-type=\"" + datatype + "\"  class=\"form-control\" placeholder=\"截止时间\" id=\"" + item.FieldKey + "_End\" />";
+                                strHtml += "<input type=\"text\" style=\"width:44%;display: inline;\" name=\"" + item.FieldKey + "__Start\" data-type=\"" + datatype + "\"  class=\"form-control\" placeholder=\"起始时间\" id=\"" + item.FieldKey + "__Start\" />";
+                                strHtml += "　至　<input type=\"text\" style=\"width:44%;display: inline;\" name=\"" + item.FieldKey + "__End\" data-type=\"" + datatype + "\"  class=\"form-control\" placeholder=\"截止时间\" id=\"" + item.FieldKey + "__End\" />";
                                 strHtml += "</div>";
                                 strHtml += "<script src=\"../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js\"></script>";
-                                strHtml += "<script>$('#" + item.FieldKey + "_Start').datetimepicker({format: '" + format + "',autoclose : true,minView: '"+ minView + "',todayBtn: true,minuteStep: 1});$('#" + item.FieldKey + "_End').datetimepicker({format: '" + format + "',autoclose : true,minView: '"+ minView + "',todayBtn: true,minuteStep: 1})</script>";
+                                strHtml += "<script>$('#" + item.FieldKey + "__Start').datetimepicker({format: '" + format + "',autoclose : true,minView: '"+ minView + "',todayBtn: true,minuteStep: 1});$('#" + item.FieldKey + "__End').datetimepicker({format: '" + format + "',autoclose : true,minView: '"+ minView + "',todayBtn: true,minuteStep: 1})</script>";
                                 break;
                             default:
                                 break;
@@ -312,7 +312,11 @@ namespace BLL
             var WhereSQL = GetWhereSQL(where, 1);
             return " SELECT " + strHtml + " FROM " + TableModel.TableName + " AS NewCyFsTable " + WhereSQL;
         }
-        //设置配置聚合显示HTML
+        /// <summary>
+        /// 设置配置聚合显示HTML
+        /// </summary>
+        /// <param name="dataTable"></param>
+        /// <returns></returns>
         public string SetSumHtml(System.Data.DataTable dataTable)
         {
             if (dataTable.Columns.Count > 1)
@@ -370,10 +374,9 @@ namespace BLL
         {
             var TableFielModelList = this.GetTableFieldModel();
             StringBuilder sb = new StringBuilder();
-            if (type == 1)//数据表
-                sb.Append(" WHERE 1=1 ");
-            else
-                sb.Append(" 1=1 ");//XML数据表
+            if (type == 1)//1数据表 2XML数据表
+                sb.Append(" WHERE ");
+            sb.Append(" 1=1 ");
             System.Data.DataTable dt = (where == null || where == "" ? null : BLL.JsonHelper.DeserializeJsonToObject<System.Data.DataTable>(where));//条件数据
             if (BaseClass.IsNullOrNotNull(dt))
             {
@@ -383,24 +386,41 @@ namespace BLL
                     var FieldValue = dt.Rows[i][1].ToString();
                     if (!string.IsNullOrWhiteSpace(FieldValue) && FieldValue != "AllOption")
                     {
-                        List<Model.M_TableField> listmf = TableFielModelList.Where(x => x.FieldKey == FieldKey).ToList();
-                        if (listmf != null && listmf.Count > 0)
+                        if (FieldKey.Contains("__Start"))
                         {
-                            var item = listmf[0];
-                            var gstype = " = ";
-                            var SelectType = item.SelectType;
-                            var SelectData = item.SelectData;
-                            if (SelectType == 1)
-                            {
-                                gstype = " LIKE ";
-                                FieldValue = "%" + FieldValue + "%";
-                            }
-                            else if (SelectType == 2 || SelectType == 3)
-                                gstype = " = ";
+                            sb.Append(" AND ");
                             if (type == 1)
-                                sb.Append(" AND NewCyFsTable." + FieldKey + gstype + "'" + FieldValue + "'");
-                            else
-                                sb.Append(" AND " + FieldKey + gstype + "'" + FieldValue + "'");
+                                sb.Append(" NewCyFsTable.");
+                            sb.Append(FieldKey + ">= CONVERT(datetime,'" + FieldValue + "')");
+                        }
+                        else if (FieldKey.Contains("__End"))
+                        {
+                            sb.Append(" AND ");
+                            if (type == 1)
+                                sb.Append(" NewCyFsTable.");
+                            sb.Append(FieldKey + "<= CONVERT(datetime,'" + FieldValue + "')");
+                        }
+                        else
+                        {
+                            List<Model.M_TableField> listmf = TableFielModelList.Where(x => x.FieldKey == FieldKey).ToList();
+                            if (listmf != null && listmf.Count > 0)
+                            {
+                                var item = listmf[0];
+                                var gstype = " = ";
+                                var SelectType = item.SelectType;
+                                var SelectData = item.SelectData;
+                                if (SelectType == 1)
+                                {
+                                    gstype = " LIKE ";
+                                    FieldValue = "%" + FieldValue + "%";
+                                }
+                                else if (SelectType == 2 || SelectType == 3)
+                                    gstype = " = ";
+                                if (type == 1)
+                                    sb.Append(" AND NewCyFsTable." + FieldKey + gstype + "'" + FieldValue + "'");
+                                else
+                                    sb.Append(" AND " + FieldKey + gstype + "'" + FieldValue + "'");
+                            }
                         }
                     }
                 }

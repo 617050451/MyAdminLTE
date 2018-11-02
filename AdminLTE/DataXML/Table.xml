@@ -176,7 +176,7 @@
       </StatusID>
       <CreatorID FieldKey="CreatorID" FieldText="录入人" FieldDataType="3" FieldData="SELECT name from dbo.[t_Users] where No = row.No" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="12">
       </CreatorID>
-      <CreaterDateTime FieldKey="CreaterDateTime" FieldText="录入时间" FieldDataType="4" FieldData="time2" FieldStatusID="1" SelectType="4" SelectData="time2" FieldOrder="13">
+      <CreaterDateTime FieldKey="CreaterDateTime" FieldText="录入时间" FieldDataType="4" FieldData="time2" FieldStatusID="1" SelectType="4" SelectData="date" FieldOrder="13">
       </CreaterDateTime>
       <ImgUrl FieldKey="ImgUrl" FieldText="头像" FieldDataType="4" FieldData="img" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="6">
       </ImgUrl>
