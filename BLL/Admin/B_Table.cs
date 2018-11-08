@@ -191,6 +191,8 @@ namespace BLL
             {
                 if (TableFielModelList != null && TableFielModelList.Count > 0)
                 {
+                    var SEOValue = "";
+                    var SEOHtml = "";
                     foreach (var item in TableFielModelList)
                     {
                         string type = item.SelectType.ToString();
@@ -274,13 +276,24 @@ namespace BLL
                                 strHtml += "　至　<input type=\"text\" style=\"width:44%;display: inline;\" name=\"" + item.FieldKey + "__End\" data-type=\"" + datatype + "\"  class=\"form-control\" placeholder=\"截止时间\" id=\"" + item.FieldKey + "__End\" />";
                                 strHtml += "</div>";
                                 strHtml += "<script src=\"../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js\"></script>";
-                                strHtml += "<script>$('#" + item.FieldKey + "__Start').datetimepicker({format: '" + format + "',autoclose : true,minView: '"+ minView + "',todayBtn: true,minuteStep: 1});$('#" + item.FieldKey + "__End').datetimepicker({format: '" + format + "',autoclose : true,minView: '"+ minView + "',todayBtn: true,minuteStep: 1})</script>";
+                                strHtml += "<script>$('#" + item.FieldKey + "__Start').datetimepicker({format: '" + format + "',autoclose : true,minView: '" + minView + "',todayBtn: true,minuteStep: 1});$('#" + item.FieldKey + "__End').datetimepicker({format: '" + format + "',autoclose : true,minView: '" + minView + "',todayBtn: true,minuteStep: 1})</script>";
+                                break;
+                            case "5":
+                                SEOValue += item.FieldOrder + ",";
                                 break;
                             default:
                                 break;
                         }
                     }
                     strHtml += "<div bnt-click=\"Select\" class=\"col-sm-1 table-p\" style=\"margin-top:30px;\"><button type =\"button\" class=\"btn btn-danger pull-right btn-block btn-primary\">查询</button></div>";
+                    if (SEOValue.Length > 0)
+                    {
+                        SEOHtml += "<div class=\"col-lg-2\">";
+                        SEOHtml += "<label class=\"col-xs control-label table-label\">搜索<span class=\"text-danger\">（综合查询）</span></label >";
+                        SEOHtml += "<input type=\"text\" bnt-keyup=\"SEOFieldKey\" bnt-value=\"" + SEOValue + "\"  name=\"SEOFieldKey\" data-type=\"datepicker\"  class=\"form-control\" placeholder=\"搜索\" />";
+                        SEOHtml += "</div>";
+                        strHtml = SEOHtml + strHtml;
+                    }
                 }
             }
             return strHtml;

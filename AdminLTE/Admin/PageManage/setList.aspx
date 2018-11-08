@@ -185,11 +185,11 @@
         </div>        
         <div id="MoreButtons" class="text-left hidden">
             <div class="col-sm-12" style="margin-top: 5px;">
-                <div class="form-group" style="margin-bottom: 5px;">
+                <div class="form-group col-sm-6" style="margin-bottom: 5px;">
                     <label for="BntName" class="control-label">按钮名称</label>
                     <input type="text" name="BntName" class="form-control" placeholder="按钮名称" value="" />
                 </div>
-                <div class="form-group" style="margin-bottom: 5px;">
+                <div class="form-group col-sm-6" style="margin-bottom: 5px;">
                     <label for="BntAction" class="control-label">执行动作</label>
                     <select class="form-control" name="BntAction">
                         <option value="1">弹层（页面）</option>
@@ -198,41 +198,43 @@
                         <option value="4">SQL</option>
                     </select>
                 </div>
-                <div class="form-group" style="margin-bottom: 5px;">
+                <div class="form-group col-sm-12" style="margin-bottom: 5px;">
                     <label for="ConfirmText" class="control-label">询问框内容</label>
                     <input type="text" name="ConfirmText" class="form-control" placeholder="询问框内容" />
                 </div>
-                <div class="form-group" style="margin-bottom: 5px;">
+                <div class="form-group col-sm-12" style="margin-bottom: 5px;">
                     <label for="BntActionContent" class="control-label">执行内容</label>
                     <textarea name="BntActionContent" class="form-control" placeholder="执行内容" rows="3"></textarea>
                 </div>
-                <div class="form-group text-left" style="margin-bottom: 5px;">
-                    <div class="col-sm-6" style="padding: 0px;">
-                        <label for="Widths" class="control-label">弹层宽度</label>
-                        <input type="text" name="Widths" class="form-control" placeholder="弹层宽度" />
-                    </div>
-                    <div class="col-sm-6" style="padding: 0px;">
-                        <label for="Heigths" class="control-label">弹层高度</label>
-                        <input type="text" name="Heigths" class="form-control" placeholder="弹层高度" />
-                    </div>
+                <div class="form-group col-sm-6" style="margin-bottom: 5px;">
+                    <label for="Widths" class="control-label">弹层宽度</label>
+                    <input type="text" name="Widths" class="form-control" placeholder="弹层宽度" />
                 </div>
-                <div class="form-group" style="margin-bottom: 5px;">
+                <div class="form-group col-sm-6" style="margin-bottom: 5px;">
+                    <label for="Heigths" class="control-label">弹层高度</label>
+                    <input type="text" name="Heigths" class="form-control" placeholder="弹层高度" />
+                </div>
+                <div class="form-group col-sm-6">
                     <label for="BntActionCondition" class="control-label" style="margin-top: 5px;">执行条件</label>
                     <select class="form-control">
                         <option value="1">执行</option>
                         <option value="2">动态（前台判断）</option>
                         <option value="3">动态（后台判断）</option>
                     </select>
-                    <textarea name="BntActionCondition" class="form-control" placeholder="执行条件" rows="3"></textarea>
                 </div>
-                <div class="form-group">
+                <div class="form-group col-sm-6">
                     <label for="BntIsEnable" class="control-label">是否启用</label>
                     <select class="form-control" name="BntIsEnable">
                         <option value="1">启用</option>
                         <option value="0">禁用</option>
                     </select>
                 </div>
-                <button type="button" class="btn btn-success btn-block" onclick="bntSaveTableInfoOnclick()">保存</button>
+                 <div class="form-group col-sm-12" style="margin-bottom: 5px;">                  
+                    <textarea name="BntActionCondition" class="form-control" placeholder="执行条件" rows="3"></textarea>
+                </div>
+                <div class="col-sm-12">
+                    <button type="button" class="btn btn-success btn-block" onclick="bntSaveTableInfoOnclick()">保存</button>
+                </div>
             </div>
         </div>
     </form>
@@ -398,7 +400,7 @@
                 type: 1,
                 title: '更多按钮',
                 skin: 'layui-layer-rim', //加上边框
-                area: ['680px', '675px'], //宽高
+                area: ['680px', '552px'], //宽高
                 content: showHtml,
                 offset: ['45px']
             });

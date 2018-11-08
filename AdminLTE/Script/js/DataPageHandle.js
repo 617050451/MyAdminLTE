@@ -218,12 +218,21 @@ $(function () {
                         loadding('加载中，请稍等...');
                         ShowImgUrl(sender);
                         loadClose();
+                    }, SEOFieldKey: funaggregate.SEOFieldKey || function (sender) {//综合查询
+                        var bntvalue = $(sender).attr("bnt-value");
+                        var value = $(sender).val();
                     }
-                };
+                };           
             $('body *[bnt-click]').unbind("click"); 
             $('body *[bnt-click]').bind('click', function () {
                 var othis = $(this)
                     , attrEvent = othis.attr('bnt-click');
+                clickList[attrEvent] && clickList[attrEvent].call(this, othis);
+            });
+            $('body *[bnt-keyup]').unbind("keyup");
+            $('body *[bnt-keyup]').bind('keyup', function () {
+                var othis = $(this)
+                    , attrEvent = othis.attr('bnt-keyup');
                 clickList[attrEvent] && clickList[attrEvent].call(this, othis);
             });
         })

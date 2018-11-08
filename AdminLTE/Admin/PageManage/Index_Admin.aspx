@@ -319,16 +319,13 @@
         }
         //设置iframe
         function setiframeHeigth() {
-            var hl = $(".content-wrapper").height() - 57 + "px";
+            var hl = $(".content-wrapper").height() - 40 + "px";
             $(".content").find("iframe").css("height", hl);
         }
         //右键菜单
         var rgmoid = 1000;
         $(function () {
             //Hide contextmenu:
-            $(document).click(function () {
-               $(".contextmenu").hide();
-            });
             $(".contextmenu li").unbind("click");
             $(".contextmenu li").click(function () {
                 var name = $(this).attr("data-i");
@@ -348,6 +345,16 @@
                 }
                 $(".contextmenu").hide();
             });
+            $(".contextmenu").mouseout(function (e) {
+                var xx = e.originalEvent.x || e.originalEvent.layerX || 0;
+                var yy = e.originalEvent.y || e.originalEvent.layerY || 0;
+                var left = parseInt($(".contextmenu").css("left").replace("px", ""));
+                var top = parseInt($(".contextmenu").css("top").replace("px", ""));
+                if (xx < left || xx > (left + 115))
+                    $(".contextmenu").hide();
+                if (yy < top || yy > (top + 115))
+                    $(".contextmenu").hide();
+            });
         })
         function contextmenuclick() {
             $(".contextmenu").hide();
@@ -365,7 +372,7 @@
                 var menuWidth = $(".contextmenu").width();
                 var menuHeight = $(".contextmenu").height();
                 //Security margin:
-                var secMargin = 10;
+                var secMargin = 0;
                 //Prevent page overflow:
                 if (posX + menuWidth + secMargin >= winWidth
                     && posY + menuHeight + secMargin >= winHeight) {
@@ -381,7 +388,7 @@
                 else if (posY + menuHeight + secMargin >= winHeight) {
                     //Case 3: bottom overflow:
                     posLeft = posX + secMargin + "px";
-                    posTop = posY - menuHeight - secMargin + "px";
+                    posTop = posY - menuHeight - secMargin  + "px";
                 }
                 else {
                     //Case 4: default values:
@@ -394,9 +401,9 @@
                     "top": posTop
                 }).show();
                 $(".contextmenu li").show();
-                if (rgmoid == 1000) {
-                    $(".contextmenu li:eq(1)").hide();
-                }
+                //if (rgmoid == 1000) {
+                //    $(".contextmenu li:eq(1)").hide();
+                //}
                 //Prevent browser default contextmenu.
                 return false;
             });

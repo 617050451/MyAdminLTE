@@ -507,7 +507,7 @@ namespace BLL
             sb.Append("<option " + (SelectType == 2 ? "selected=\"selected\"" : "") + " value=\"2\">下拉查询</option>");
             sb.Append("<option " + (SelectType == 3 ? "selected=\"selected\"" : "") + " value=\"3\">等于查询</option>");
             sb.Append("<option " + (SelectType == 4 ? "selected=\"selected\"" : "") + " value=\"4\">时间查询</option>");
-            sb.Append("<option " + (SelectType == 5 ? "selected=\"selected\"" : "") + " value=\"5\">高级查询</option>");
+            sb.Append("<option " + (SelectType == 5 ? "selected=\"selected\"" : "") + " value=\"5\">综合查询</option>");
             sb.Append("</select></div>");
             sb.Append("&nbsp;<a class=\"text-primary " + (SelectType == 2 || SelectType == 4 ? "" : "hidden") + "\"  href=\"javascript:void(0)\" onclick=\"setSelectData(this," + SelectType + ")\">&nbsp;设置</a>");
             sb.Append("<input type=\"text\" class=\"form-control hidden\" name=\"SelectData\" value='" + SelectData + "'/>");

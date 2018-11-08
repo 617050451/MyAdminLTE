@@ -168,7 +168,7 @@
       </Sex>
       <Birthday FieldKey="Birthday" FieldText="生日" FieldDataType="4" FieldData="datezw" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="8">
       </Birthday>
-      <Telephone FieldKey="Telephone" FieldText="电话" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="9">
+      <Telephone FieldKey="Telephone" FieldText="电话" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="5" SelectData="" FieldOrder="9">
       </Telephone>
       <Address FieldKey="Address" FieldText="地址" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="10">
       </Address>
