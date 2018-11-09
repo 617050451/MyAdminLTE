@@ -219,8 +219,24 @@ $(function () {
                         ShowImgUrl(sender);
                         loadClose();
                     }, SEOFieldKey: funaggregate.SEOFieldKey || function (sender) {//综合查询
-                        var bntvalue = $(sender).attr("bnt-value");
                         var value = $(sender).val();
+                        if (value.length > 0) {
+                            var valuelist = $(sender).attr("bnt-value").split(',');
+                            $("#example tbody tr").each(function () {
+                                for (var i = 0; i < valuelist.length; i++) {
+                                    $(this).hide();
+                                    var item = valuelist[i];
+                                    var index = $("#example th[filedkey=" + item + "]").index();
+                                    if ($(this).find("td:eq(" + index + ")").filter(":contains('" + value + "')").length > 0)
+                                    {
+                                        $(this).show();
+                                        break;
+                                    }
+                                }
+                            })                           
+                        } else {
+                            $('#example tbody tr').show();
+                        }
                     }
                 };           
             $('body *[bnt-click]').unbind("click"); 

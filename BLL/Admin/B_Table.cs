@@ -108,7 +108,7 @@ namespace BLL
             {
                 if (item.FieldStatusID == 1)
                 {
-                    TableThead.Append(string.Format("<th aria-controls=\"example\" rowspan=\"1\" colspan=\"1\" aria-label=\"{0}: \">{1}</th>", item.FieldText, item.FieldText));
+                    TableThead.Append(string.Format("<th aria-controls=\"example\" filedkey=\"{0}\" rowspan=\"1\" colspan=\"1\" aria-label=\"{1}: \">{2}</th>", item.FieldKey, item.FieldText, item.FieldText));
                     Columns.Append(SetFieldDataType(item.FieldDataType, item.FieldData, item.FieldKey));
                 }
             }
@@ -191,21 +191,22 @@ namespace BLL
             {
                 if (TableFielModelList != null && TableFielModelList.Count > 0)
                 {
-                    var SEOValue = "";
                     var SEOHtml = "";
+                    var SEOValue = "";
+                    var SEOText = "";
                     foreach (var item in TableFielModelList)
                     {
                         string type = item.SelectType.ToString();
                         switch (type)
                         {
                             case "1":
-                                strHtml += "<div class=\"col-lg-2\">";
+                                strHtml += "<div class=\"col-lg-2\" style=\"width: 12%;\">";
                                 strHtml += "<label class=\"col-xs control-label table-label\">" + item.FieldText + "<span class=\"text-danger\">（模糊查询）</span></label >";
                                 strHtml += "<input type=\"text\" name=\"" + item.FieldKey + "\"  class=\"form-control\" placeholder=\"" + item.FieldText + "\" />";
                                 strHtml += "</div>";
                                 break;
                             case "2":
-                                strHtml += "<div class=\"col-lg-2\">";
+                                strHtml += "<div class=\"col-lg-2\" style=\"width: 12%;\">";
                                 strHtml += "<label class=\"col-xs control-label table-label\">" + item.FieldText + "<span class=\"text-danger\">（下拉查询）</span></label >";
                                 strHtml += "<select name=\"" + item.FieldKey + "\" class=\"form-control select2 select2-hidden-accessible\"  aria-hidden=\"true\" >";
                                 strHtml += "<option selected = \"selected\" value = \"AllOption\" >全部</option >";
@@ -237,7 +238,7 @@ namespace BLL
                                 strHtml += "</div>";
                                 break;
                             case "3":
-                                strHtml += "<div class=\"col-lg-2\">";
+                                strHtml += "<div class=\"col-lg-2\" style=\"width: 12%;\">";
                                 strHtml += "<label class=\"col-xs control-label table-label\">" + item.FieldText + "<span class=\"text-danger\">（等于查询）</span></label >";
                                 strHtml += "<input type=\"text\" name=\"" + item.FieldKey + "\" data-type=\"datepicker\"  class=\"form-control\" placeholder=\"" + item.FieldText + "\" />";
                                 strHtml += "</div>";
@@ -272,14 +273,15 @@ namespace BLL
                                 }
                                 strHtml += "<div class=\"col-lg-3\">";
                                 strHtml += "<label class=\"col-xs control-label table-label\" style=\"width:100%;\">" + item.FieldText + "<span class=\"text-danger\">（时间查询）<span></label >";
-                                strHtml += "<input type=\"text\" style=\"width:44%;display: inline;\" name=\"" + item.FieldKey + "__Start\" data-type=\"" + datatype + "\"  class=\"form-control\" placeholder=\"起始时间\" id=\"" + item.FieldKey + "__Start\" />";
-                                strHtml += "　至　<input type=\"text\" style=\"width:44%;display: inline;\" name=\"" + item.FieldKey + "__End\" data-type=\"" + datatype + "\"  class=\"form-control\" placeholder=\"截止时间\" id=\"" + item.FieldKey + "__End\" />";
+                                strHtml += "<input type=\"text\" style=\"width:40%;display: inline;\" name=\"" + item.FieldKey + "__Start\" data-type=\"" + datatype + "\"  class=\"form-control\" placeholder=\"起始时间\" id=\"" + item.FieldKey + "__Start\" />";
+                                strHtml += "　<input type=\"text\" style=\"width:40%;display: inline;\" name=\"" + item.FieldKey + "__End\" data-type=\"" + datatype + "\"  class=\"form-control\" placeholder=\"截止时间\" id=\"" + item.FieldKey + "__End\" />";
                                 strHtml += "</div>";
                                 strHtml += "<script src=\"../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js\"></script>";
                                 strHtml += "<script>$('#" + item.FieldKey + "__Start').datetimepicker({format: '" + format + "',autoclose : true,minView: '" + minView + "',todayBtn: true,minuteStep: 1});$('#" + item.FieldKey + "__End').datetimepicker({format: '" + format + "',autoclose : true,minView: '" + minView + "',todayBtn: true,minuteStep: 1})</script>";
                                 break;
                             case "5":
-                                SEOValue += item.FieldOrder + ",";
+                                SEOValue += item.FieldKey + ",";
+                                SEOText += item.FieldText + "、";
                                 break;
                             default:
                                 break;
@@ -289,8 +291,8 @@ namespace BLL
                     if (SEOValue.Length > 0)
                     {
                         SEOHtml += "<div class=\"col-lg-2\">";
-                        SEOHtml += "<label class=\"col-xs control-label table-label\">搜索<span class=\"text-danger\">（综合查询）</span></label >";
-                        SEOHtml += "<input type=\"text\" bnt-keyup=\"SEOFieldKey\" bnt-value=\"" + SEOValue + "\"  name=\"SEOFieldKey\" data-type=\"datepicker\"  class=\"form-control\" placeholder=\"搜索\" />";
+                        SEOHtml += "<label class=\"col-xs control-label table-label\">搜索<span class=\"text-danger\">（" + SEOText.TrimEnd('、') + "）</span></label >";
+                        SEOHtml += "<input type=\"text\" bnt-keyup=\"SEOFieldKey\" bnt-value=\"" + SEOValue.TrimEnd(',') + "\"  name=\"SEOFieldKey\" data-type=\"datepicker\"  class=\"form-control\" placeholder=\"搜索\" />";
                         SEOHtml += "</div>";
                         strHtml = SEOHtml + strHtml;
                     }

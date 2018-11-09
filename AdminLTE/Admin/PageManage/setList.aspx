@@ -448,14 +448,16 @@
         }
         var showData;
         var showIndex = 0;
-        function setSelectData(obj, type) {
+        function setSelectData(obj) {
             showData = $(obj).parent().find("[name=SelectData]");
             var values = $(showData).val();
+            var type = $(obj).parent().find("[name=SelectType]").val();
             var showHtml = "<div class=\"form-group text-center\" style=\"margin:5px;\">";
             if (type == 2) {
                 showHtml += "<p><span style=\"color: blue;\">JSON数据：[{\"key\":\"启用\",\"value\":\"1\"},{\"key\":\"不启用\",value:\"0\"}]</span></p> ";
                 showHtml += "<p><span style=\"color: blue;\">SQL表达式：[{\"key\":\"SQL\",\"value\":\"select sg(启用),1\"}]</span></p>";
                 showHtml += "<p><span style=\"color: blue;\">单引号属于特殊字符，sg(启用)='启用'</span> <span style=\"color: red;\"> 必须是JSON数据格式</p>";
+                showHtml += "<p><textarea class=\"form-control\" placeholder=\"查询条件\" rows=\"4\">" + values + "</textarea></p>";
             }
             else if (type == 4) {
                 showHtml += "<div class=\"form-group text-left\">";
@@ -469,7 +471,7 @@
                 showHtml += "</tr></table>";
                 showHtml += "</div>";
             }
-            showHtml += "<button type=\"button\" class=\"btn btn-success btn-block\" style=\"margin-top:10px;\" onclick=\"parentFunSetSelectDataZh()\">保　存</button></div>";
+            showHtml += "<button type=\"button\" class=\"btn btn-success btn-block\" style=\"margin-top:10px;\" onclick=\"parentFunSetSelectData()\">保　存</button></div>";
             //页面层
             showIndex = layer.open({
                 type: 1,

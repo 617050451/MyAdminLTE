@@ -162,15 +162,15 @@
       </Account>
       <Password FieldKey="Password" FieldText="密码" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="4">
       </Password>
-      <Name FieldKey="Name" FieldText="姓名" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="1" SelectData="" FieldOrder="5">
+      <Name FieldKey="Name" FieldText="姓名" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="5" SelectData="" FieldOrder="5">
       </Name>
-      <Sex FieldKey="Sex" FieldText="性别" FieldDataType="2" FieldData="data == 1?&quot;男&quot;:&quot;女&quot;" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="7">
+      <Sex FieldKey="Sex" FieldText="性别" FieldDataType="2" FieldData="data == 1?&quot;男&quot;:&quot;女&quot;" FieldStatusID="1" SelectType="2" SelectData="[{&quot;key&quot;:&quot;男&quot;,&quot;value&quot;:&quot;1&quot;},{&quot;key&quot;:&quot;女&quot;,value:&quot;0&quot;}]" FieldOrder="7">
       </Sex>
       <Birthday FieldKey="Birthday" FieldText="生日" FieldDataType="4" FieldData="datezw" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="8">
       </Birthday>
       <Telephone FieldKey="Telephone" FieldText="电话" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="5" SelectData="" FieldOrder="9">
       </Telephone>
-      <Address FieldKey="Address" FieldText="地址" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="10">
+      <Address FieldKey="Address" FieldText="地址" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="5" SelectData="" FieldOrder="10">
       </Address>
       <StatusID FieldKey="StatusID" FieldText="状态" FieldDataType="2" FieldData="data == 1?&quot;启用&quot;:&quot;禁用&quot;" FieldStatusID="1" SelectType="2" SelectData="[{&quot;key&quot;:&quot;启用&quot;,&quot;value&quot;:&quot;1&quot;},{&quot;key&quot;:&quot;不启用&quot;,value:&quot;0&quot;}]" FieldOrder="11">
       </StatusID>
