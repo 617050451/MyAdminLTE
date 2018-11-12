@@ -149,11 +149,11 @@ namespace BLL
             string data = string.Empty;
             if (FieldDataType == 1)
                 data = ", render: function (data, type, row) { return  data }";
-            if (FieldDataType == 2)
+            else if (FieldDataType == 2)
                 data = ", render: function (data, type, row) { return  " + FieldData + " }";
-            if (FieldDataType == 3)
+            else if (FieldDataType == 3)
                 data = ", render: function (data, type, row) { return data;}";
-            if (FieldDataType == 4)
+            else if (FieldDataType == 4)
             {
                 if (FieldData == "yearM")
                     data = ", render: function (data, type, row) { return SetDateTime(data,\"yyyy-MM\");}";
@@ -176,6 +176,8 @@ namespace BLL
                 else
                     data = ", render: function (data, type, row) {  return data }";
             }
+            else if (FieldDataType == 5)
+                data = ", render: function (data, type, row) { return  " + FieldData + " }";
             return "{\"data\": \"" + FieldKey + "\"" + data + "},";
         }
         /// <summary>

@@ -40,12 +40,12 @@
                     <tbody>
                         <tr>
                             <td style="border-top:none;">
-                                <h4 style="margin: 5px;">
-                                    <a href="javasrcpt:void(0)"><span class="label label-warning" onclick="showTableInfoHtml()"><%=TableModel.Title %><%=TableModel.FileName %></span></a>
-                                    <a href="javasrcpt:void(0)"><span class="label label-primary" onclick="showTableInfoHtmlSum()">显示设置</span></a>
-                                    <a href="javasrcpt:void(0)"><span class="label label-primary" onclick="showFragmentCodeHtml()">片段代码</span></a>
+                                <h4 style="padding:0;margin:0;">
+                                    <a href="javasrcpt:void(0)"><span class="label label-warning" onclick="showTableInfoHtml()" style="margin-top:7px;display: inline-block;line-height: 1.2;"><%=TableModel.Title %><%=TableModel.FileName %></span></a>
+                                    <a href="javasrcpt:void(0)"><span class="label label-primary" onclick="showTableInfoHtmlSum()" style="margin-top:7px;display: inline-block;line-height: 1.2;">显示设置</span></a>
+                                    <a href="javasrcpt:void(0)"><span class="label label-primary" onclick="showFragmentCodeHtml()" style="margin-top:7px;display: inline-block;line-height: 1.2;">片段代码</span></a>
                                     <a href="javascript:PagePreview('<%=TableModel.Title %>','/Page/<%=TableModel.FileName %>.html','<%=TableModel.TableID %>')">
-                                        <span class="label label-primary">页面预览</span></a>
+                                        <span class="label label-primary" style="margin-top:7px;display: inline-block;line-height: 1.2;">页面预览</span></a>
                                 </h4>
                             </td>
                             <td>
@@ -100,8 +100,8 @@
                             <th>显示名称</th>
                             <th>数据呈现</th>
                             <th>查询条件</th>
-                            <th style="width:100px;">是否启用</th>
-                            <th style="width:100px;">排序</th>
+                            <th>是否启用</th>
+                            <th>排序</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -163,10 +163,10 @@
                 <div class="text-center">
                     <p style="margin-top: 3px;"><span style="color: blue;">顶部片段代码</span></p>
                     <textarea name="TopHead" class="form-control" placeholder="顶部片段代码" rows="8"></textarea>
-                    <p style="margin-top: 3px;"><span style="color: blue;">底部片段HTML</span></p>
-                    <textarea name="BottomHtml" class="form-control" placeholder="底部片段HTML" rows="8"></textarea>
                     <p style="margin-top: 3px;"><span style="color: blue;">底部片段代码</span></p>
-                    <textarea name="BottomScript" class="form-control" placeholder="底部片段代码" rows="8"></textarea>
+                    <textarea name="BottomHtml" class="form-control" placeholder="底部片段代码" rows="8"></textarea>
+                    <p style="margin-top: 3px;"><span style="color: blue;">底部闭包片段代码</span></p>
+                    <textarea name="BottomScript" class="form-control" placeholder="底部闭包片段代码" rows="8"></textarea>
                     <button type="button" class="btn btn-success btn-block" onclick="bntSaveTableInfoFragmentCodeOnclick()" style="margin-top: 5px; margin-bottom: 5px;">保存</button>
                 </div>
             </div>
@@ -506,6 +506,10 @@
                 showHtml += "<td><label class=\"radio-inline\"><input type=\"radio\" name=\"FieldData\"    value=\"img\" " + (values == "img" ? "checked" : "") + " >图片组</label></td>";
                 showHtml += "</tr></table>";
                 showHtml += "</div>";
+            }
+             else if (FieldDataTypeValue == "5") {
+                showHtml += "<p> <span style=\"color: blue;\">例子：&nbsp;\"< a href=\"javascript:test(\"+ data +\")\">查看详情 < /a >\"</p><p> <span style=\"color: blue;\">&nbsp;row：</span>自定显示 当前行所有字段的对象（row.[字段] 字段名必须一致）</p>";
+                showHtml += "<textarea name=\"FieldData\" class=\"form-control\" placeholder=\"数据呈现\" rows=\"11\">" + values + "</textarea>";
             }
             showHtml += "<button type=\"button\" class=\"btn btn-success btn-block\" style=\"margin-top:10px;\" onclick=\"parentFunSetSelectDataZh()\">保　存</button></div>";
             //页面层

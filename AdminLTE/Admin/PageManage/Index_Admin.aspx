@@ -102,22 +102,22 @@
             <!-- /.sidebar -->
         </aside>
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper" style="margin-top:-5px;">
+        <div class="content-wrapper">
             <!-- Content Header (Page header) -->
-            <section class="content-header" style="padding:1px;padding-top:6px;">
-                <div class="nav-tabs-custom" style="margin-bottom:5px;">
+            <section class="content-header" style="padding:1px;">
+                <div class="nav-tabs-custom" style="margin-bottom:0px;">
                     <ul class="nav nav-tabs" id="tabnav" style="border-bottom:none;border-left:1px solid #f4f4f4;">
-                        <li class="active" menu-moid="1000"><a href="javascript:setPage(1000)">首页</a></li>
+                        <li class="active" menu-moid="0"><a href="javascript:setPage(0)">首页</a></li>
                     </ul>
                 </div>
                 <!-- /.box-body -->
             </section>
-            <section class="content" menu-type="nav-tabs" menu-moid="1000" style="margin-top:-35px;display:none;padding:1px;">
+            <section class="content" menu-type="nav-tabs" menu-moid="0">
                 <iframe src="WelcomePage_Admin.aspx" ></iframe>
             </section>
         </div>
         <!-- /.content-wrapper -->
-        <footer class="main-footer" style="margin-top:-20px;">
+        <footer class="main-footer">
             <div class="pull-right hidden-xs">
                 <b>Version</b> 5.2.0
             </div>
@@ -240,11 +240,17 @@
             border: none;
             overflow: hidden;
             background-color: white;
-            padding-top: 20px;
+            padding: 0;
+            margin:0;
         }
         #tabnav span:hover {
             background-color:red;
             color:#f4f4f4;
+        }
+        section[menu-type=nav-tabs] {
+            padding: 0;
+            margin:0;
+            background-color: white;
         }
     </style>
     <script type="text/javascript">
@@ -282,7 +288,7 @@
                 $(".content[menu-moid='" + moid + "']").show();
             } else {
                 $("#tabnav").append("<li class=\"active\" menu-controller=\"" + controller + "\" menu-moid=\"" + moid + "\"><a  href=\"javascript:setPage(" + moid + ")\" >" + text + "<span style=\"margin-left:7px;cursor:pointer;border-radius: 19px;padding-right:1px;padding-bottom:1px;\"><i class=\"fa fa-fw fa-close\" onclick=\"CloseTabFun(" + moid + ")\"></i><span></a></li>");
-                $(".content-header").parent().append("<section class=\"content\" menu-type=\"nav-tabs\" menu-moid=\"" + moid + "\" style=\"margin-top:-35px;padding:0px;padding-left:0px;padding-right:0px;\"><iframe src=\"" + controller + "\" ></iframe></section>");
+                $(".content-header").parent().append("<section class=\"content\" menu-type=\"nav-tabs\" menu-moid=\"" + moid + "\"><iframe src=\"" + controller + "\" ></iframe></section>");
             }
             setPage(moid, param)
         }
@@ -319,11 +325,11 @@
         }
         //设置iframe
         function setiframeHeigth() {
-            var hl = $(".content-wrapper").height() - 41 + "px";
+            var hl = $(".content-wrapper").height() - 51 + "px";
             $(".content").find("iframe").css("height", hl);
         }
         //右键菜单
-        var rgmoid = 1000;
+        var rgmoid = 0;
         $(function () {
             //Hide contextmenu:
             $(".contextmenu li").unbind("click");
@@ -401,10 +407,6 @@
                     "top": posTop
                 }).show();
                 $(".contextmenu li").show();
-                //if (rgmoid == 1000) {
-                //    $(".contextmenu li:eq(1)").hide();
-                //}
-                //Prevent browser default contextmenu.
                 return false;
             });
         }
@@ -415,7 +417,7 @@
                 $("#tabnav li").removeClass("active");
                 $(".content[menu-type='nav-tabs']").hide();
                 $("#tabnav").append("<li class=\"active\" menu-controller=\"" + controller + "\" menu-moid=\"" + moid + "\"><a  href=\"javascript:setPage('" + moid + "')\" >" + title + "<span style=\"margin-left:7px;cursor:pointer;border-radius: 19px;padding-right:1px;padding-bottom:1px;\"><i class=\"fa fa-fw fa-close\" onclick=\"CloseTabFun('" + moid + "')\"></i><span></a></li>");
-                $(".content-header").parent().append("<section class=\"content\" menu-type=\"nav-tabs\" menu-moid=\"" + moid + "\" style=\"margin-top:-35px;padding:0px;padding-left:0px;padding-right:0px;\"><iframe src=\"" + controller + "\" ></iframe></section>");
+                $(".content-header").parent().append("<section class=\"content\" menu-type=\"nav-tabs\" menu-moid=\"" + moid + "\"><iframe src=\"" + controller + "\" ></iframe></section>");
             }
             setPage(moid);
         }

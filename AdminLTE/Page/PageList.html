@@ -29,7 +29,7 @@
 </head>
 <body>
     <form id="PageForm">
-        <section class="content">
+        <section class="content" style="padding-top: 5px;">
             <div data-resple="iswhere" class="box box-solid hidden" style="margin-bottom: 5px;">
                 <div class="box-header with-border" style="padding:5px;">
                     <h3 class="box-title" style="font-size:15px;">高级查询</h3>
@@ -41,7 +41,7 @@
                 </div>
                 <div class="box box-danger" style="margin-bottom: 5px;">
                     <div class="box-body" id="selectwherefrom">
-                      <div class="col-lg-2"><label class="col-xs control-label table-label">页面标题<span class="text-danger">（模糊查询）</span></label ><input type="text" name="Title"  class="form-control" placeholder="页面标题" /></div><div bnt-click="Select" class="col-sm-1 table-p" style="margin-top:30px;"><button type ="button" class="btn btn-danger pull-right btn-block btn-primary">查询</button></div>
+                      <div class="col-lg-2" style="width: 12%;"><label class="col-xs control-label table-label">页面标题<span class="text-danger">（模糊查询）</span></label ><input type="text" name="Title"  class="form-control" placeholder="页面标题" /></div><div bnt-click="Select" class="col-sm-1 table-p" style="margin-top:30px;"><button type ="button" class="btn btn-danger pull-right btn-block btn-primary">查询</button></div>
                     </div>
                 </div>
             </div>
@@ -57,7 +57,7 @@
                             <table id="example" class="table table-bordered table-hover" style="margin-top:-13px;">
                                 <thead>
                                     <tr role="row" style="background-color: rgb(238, 238, 238);">
-									<th aria-controls="example" rowspan="1" colspan="1" aria-label="编号: ">编号</th><th aria-controls="example" rowspan="1" colspan="1" aria-label="页面标题: ">页面标题</th><th aria-controls="example" rowspan="1" colspan="1" aria-label="页面文件名: ">页面文件名</th><th aria-controls="example" rowspan="1" colspan="1" aria-label="数据类型: ">数据类型</th><th aria-controls="example" rowspan="1" colspan="1" aria-label="数据对象: ">数据对象</th><th aria-controls="example" rowspan="1" colspan="1" aria-label="数据集合: ">数据集合</th><th aria-controls="example" rowspan="1" colspan="1" aria-label="备注: ">备注</th><th aria-controls="example" rowspan="1" colspan="1" aria-label="操作: ">操作</th>
+									<th aria-controls="example" filedkey="TableID" rowspan="1" colspan="1" aria-label="编号: ">编号</th><th aria-controls="example" filedkey="Title" rowspan="1" colspan="1" aria-label="页面标题: ">页面标题</th><th aria-controls="example" filedkey="FileName" rowspan="1" colspan="1" aria-label="页面文件名: ">页面文件名</th><th aria-controls="example" filedkey="TableType" rowspan="1" colspan="1" aria-label="数据类型: ">数据类型</th><th aria-controls="example" filedkey="TableName" rowspan="1" colspan="1" aria-label="数据对象: ">数据对象</th><th aria-controls="example" filedkey="SQL" rowspan="1" colspan="1" aria-label="数据集合: ">数据集合</th><th aria-controls="example" filedkey="Note" rowspan="1" colspan="1" aria-label="备注: ">备注</th><th aria-controls="example" rowspan="1" colspan="1" aria-label="操作: ">操作</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -85,52 +85,40 @@
     <script src="../../Script/AdminLTE-2.4.2/dist/js/adminlte.min.js"></script>
     <script src="../../Script/layer-v3.1.0/layer/layer.js"></script>
     <script src="../Script/js/DataPageHandle.js"></script>
-	            <script id="LayerOpenHtml" type="text/html">
+	            <div id="LayerOpenHtml" class="hidden">
         <div id="LayerOpenHtmlFrom">
-            <div class="form-group" style="display: -webkit-box; margin-top: 10px;">
-                <label for="Title" class="col-sm-2 control-label text-right" lay-verify="email" style="padding: 0px; line-height: 32px;">标题：</label>
-                <div class="col-sm-10">
+             <div class="form-group col-sm-6">
+                    <label for="title" class="control-label">标题</label>
                     <input type="text" name="Title" class="form-control" placeholder="标题" value="" />
                 </div>
-            </div>
-            <div class="form-group" style="display: -webkit-box;">
-                <label for="FileName" class="col-sm-2 control-label text-right" style="padding: 0px; line-height: 32px;">页面名称：</label>
-                <div class="col-sm-10">
+                <div class="form-group col-sm-6">
+                    <label for="FileName" class="control-label">页面名称</label>
                     <input type="text" name="FileName" class="form-control" placeholder="页面名称" value="" />
                 </div>
-            </div>
-            <div class="form-group" style="display: -webkit-box;">
-                <label for="TableType" class="col-sm-2 control-label text-right" style="padding: 0px; line-height: 32px;">数据类型：</label>
-                <div class="col-sm-10">
+                <div class="form-group col-sm-6">
+                    <label for="TableType" class="control-label">数据类型</label>
                     <select class="form-control" name="TableType">
                         <option value="1">数据库表</option>
-                        <option value="2">XML数据表</option>
+                        <option  value="2">XML数据表</option>
                     </select>
                 </div>
-            </div>
-            <div class="form-group" style="display: -webkit-box; margin-top: 10px;">
-                <label for="TableName" class="col-sm-2 control-label text-right" style="padding: 0px; line-height: 32px;">数据对象：</label>
-                <div class="col-sm-10">
-                    <input type="text" name="TableName" class="form-control" placeholder="数据表" value="" />
+                <div class="form-group col-sm-6">
+                    <label for="TableName" class="control-label">数据对象</label>
+                    <textarea name="TableName" class="form-control" placeholder="数据对象" rows="1"></textarea>
                 </div>
-            </div>
-            <div class="form-group" style="display: -webkit-box;">
-                <label for="SQL" class="col-sm-2 control-label text-right" style="padding: 0px;">数据集合：</label>
-                <div class="col-sm-10">
+                <div class="form-group col-sm-12">
+                    <label for="SQL" class="control-label">数据集合</label>
                     <textarea name="SQL" class="form-control" placeholder="SQL" rows="3"></textarea>
                 </div>
-            </div>
-            <div class="form-group" style="display: -webkit-box;">
-                <label for="Note" class="col-sm-2 control-label text-right" style="padding: 0px;">备注：</label>
-                <div class="col-sm-10">
-                    <textarea name="Note" class="form-control" placeholder="备注" rows="2"></textarea>
+                <div class="form-group col-sm-12">
+                    <label for="Note" class="control-label">备注</label>
+                    <textarea name="Note" class="form-control" placeholder="备注" rows="3"></textarea>
                 </div>
-            </div>
-            <div class="text-center">
+               <div class="text-center col-sm-12">
                 <button type="button" class="btn btn-success"> 保 　存 </button>
             </div>
         </div>
-</script>
+ </div>
     <script>
         $(function () {
 		    var funaggregate = {};
@@ -154,7 +142,7 @@
                     area: ['620px', '475px'], //宽高
                     content: showHtml,
                     success: function () {
-                        if (value != undefined && value != null && value != "") {
+                        if (value != undefined && value != null &&  value != "") {
                             var param = {};
                             param.Gettype = 'GetDataView';
                             param.Option = option;
@@ -167,7 +155,7 @@
                                 dataType: "json",
                                 async: false,
                                 success: function (result) {
-                                    if (result.code != null && result.code != "") {
+                                    if (result.code != null &&  result.code != "") {
                                         layer.msg(result.msg);
                                     } else {
                                         var json = result[0];

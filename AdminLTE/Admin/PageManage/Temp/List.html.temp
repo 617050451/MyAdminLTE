@@ -29,7 +29,7 @@
 </head>
 <body>
     <form id="PageForm">
-        <section class="content">
+        <section class="content" style="padding-top: 5px;">
             <div data-resple="iswhere" class="box box-solid hidden" style="margin-bottom: 5px;">
                 <div class="box-header with-border" style="padding:5px;">
                     <h3 class="box-title" style="font-size:15px;">高级查询</h3>

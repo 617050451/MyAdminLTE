@@ -34,7 +34,7 @@
 </head>
 <body>
     <form id="FromPage">
-        <section class="content">
+        <section class="content"  style="padding:5px;">
             <div class="row">
                 <div class="col-xs-12">
                     <div class="box box-primary">
@@ -114,9 +114,8 @@
                 $("#ifmSetPage").prop("src", $(this).attr("data-src") + "?ItemID=" + lastitemid);
             });
             $(".box-body ul li a:eq(0)").click();
-            $("#ifmSetPage").css("height", (document.body.clientHeight - 180) + "px");
+            $("#ifmSetPage").css("height", (document.documentElement.clientHeight - 175) + "px");
         });
-
         function OnInput(event) {
             var text = event.target.value;
             if (text == "") {

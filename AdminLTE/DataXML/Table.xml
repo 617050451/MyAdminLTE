@@ -20,52 +20,40 @@
     </COLUMNS>
     <TopHead>
     </TopHead>
-    <BottomHtml>            &lt;script id="LayerOpenHtml" type="text/html"&gt;
+    <BottomHtml>            &lt;div id="LayerOpenHtml" class="hidden"&gt;
         &lt;div id="LayerOpenHtmlFrom"&gt;
-            &lt;div class="form-group" style="display: -webkit-box; margin-top: 10px;"&gt;
-                &lt;label for="Title" class="col-sm-2 control-label text-right" lay-verify="email" style="padding: 0px; line-height: 32px;"&gt;标题：&lt;/label&gt;
-                &lt;div class="col-sm-10"&gt;
+             &lt;div class="form-group col-sm-6"&gt;
+                    &lt;label for="title" class="control-label"&gt;标题&lt;/label&gt;
                     &lt;input type="text" name="Title" class="form-control" placeholder="标题" value="" /&gt;
                 &lt;/div&gt;
-            &lt;/div&gt;
-            &lt;div class="form-group" style="display: -webkit-box;"&gt;
-                &lt;label for="FileName" class="col-sm-2 control-label text-right" style="padding: 0px; line-height: 32px;"&gt;页面名称：&lt;/label&gt;
-                &lt;div class="col-sm-10"&gt;
+                &lt;div class="form-group col-sm-6"&gt;
+                    &lt;label for="FileName" class="control-label"&gt;页面名称&lt;/label&gt;
                     &lt;input type="text" name="FileName" class="form-control" placeholder="页面名称" value="" /&gt;
                 &lt;/div&gt;
-            &lt;/div&gt;
-            &lt;div class="form-group" style="display: -webkit-box;"&gt;
-                &lt;label for="TableType" class="col-sm-2 control-label text-right" style="padding: 0px; line-height: 32px;"&gt;数据类型：&lt;/label&gt;
-                &lt;div class="col-sm-10"&gt;
+                &lt;div class="form-group col-sm-6"&gt;
+                    &lt;label for="TableType" class="control-label"&gt;数据类型&lt;/label&gt;
                     &lt;select class="form-control" name="TableType"&gt;
                         &lt;option value="1"&gt;数据库表&lt;/option&gt;
-                        &lt;option value="2"&gt;XML数据表&lt;/option&gt;
+                        &lt;option  value="2"&gt;XML数据表&lt;/option&gt;
                     &lt;/select&gt;
                 &lt;/div&gt;
-            &lt;/div&gt;
-            &lt;div class="form-group" style="display: -webkit-box; margin-top: 10px;"&gt;
-                &lt;label for="TableName" class="col-sm-2 control-label text-right" style="padding: 0px; line-height: 32px;"&gt;数据对象：&lt;/label&gt;
-                &lt;div class="col-sm-10"&gt;
-                    &lt;input type="text" name="TableName" class="form-control" placeholder="数据表" value="" /&gt;
+                &lt;div class="form-group col-sm-6"&gt;
+                    &lt;label for="TableName" class="control-label"&gt;数据对象&lt;/label&gt;
+                    &lt;textarea name="TableName" class="form-control" placeholder="数据对象" rows="1"&gt;&lt;/textarea&gt;
                 &lt;/div&gt;
-            &lt;/div&gt;
-            &lt;div class="form-group" style="display: -webkit-box;"&gt;
-                &lt;label for="SQL" class="col-sm-2 control-label text-right" style="padding: 0px;"&gt;数据集合：&lt;/label&gt;
-                &lt;div class="col-sm-10"&gt;
+                &lt;div class="form-group col-sm-12"&gt;
+                    &lt;label for="SQL" class="control-label"&gt;数据集合&lt;/label&gt;
                     &lt;textarea name="SQL" class="form-control" placeholder="SQL" rows="3"&gt;&lt;/textarea&gt;
                 &lt;/div&gt;
-            &lt;/div&gt;
-            &lt;div class="form-group" style="display: -webkit-box;"&gt;
-                &lt;label for="Note" class="col-sm-2 control-label text-right" style="padding: 0px;"&gt;备注：&lt;/label&gt;
-                &lt;div class="col-sm-10"&gt;
-                    &lt;textarea name="Note" class="form-control" placeholder="备注" rows="2"&gt;&lt;/textarea&gt;
+                &lt;div class="form-group col-sm-12"&gt;
+                    &lt;label for="Note" class="control-label"&gt;备注&lt;/label&gt;
+                    &lt;textarea name="Note" class="form-control" placeholder="备注" rows="3"&gt;&lt;/textarea&gt;
                 &lt;/div&gt;
-            &lt;/div&gt;
-            &lt;div class="text-center"&gt;
+               &lt;div class="text-center col-sm-12"&gt;
                 &lt;button type="button" class="btn btn-success"&gt; 保 　存 &lt;/button&gt;
             &lt;/div&gt;
         &lt;/div&gt;
-&lt;/script&gt;</BottomHtml>
+ &lt;/div&gt;</BottomHtml>
     <BottomScript>
         funaggregate.InsertItemID = function () {
                 LayerOpenHtml(1, '新增页面信息', '');
@@ -86,7 +74,7 @@
                     area: ['620px', '475px'], //宽高
                     content: showHtml,
                     success: function () {
-                        if (value != undefined &amp;&amp; value != null &amp;&amp; value != "") {
+                        if (value != undefined &amp;&amp; value != null &amp;&amp;  value != "") {
                             var param = {};
                             param.Gettype = 'GetDataView';
                             param.Option = option;
@@ -99,7 +87,7 @@
                                 dataType: "json",
                                 async: false,
                                 success: function (result) {
-                                    if (result.code != null &amp;&amp; result.code != "") {
+                                    if (result.code != null &amp;&amp;  result.code != "") {
                                         layer.msg(result.msg);
                                     } else {
                                         var json = result[0];
@@ -180,7 +168,7 @@
       </CreaterDateTime>
       <ImgUrl FieldKey="ImgUrl" FieldText="头像" FieldDataType="4" FieldData="img" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="6">
       </ImgUrl>
-      <GUID FieldKey="GUID" FieldText="GUID" FieldDataType="1" FieldData="" FieldStatusID="0" SelectType="0" SelectData="" FieldOrder="1">
+      <GUID FieldKey="GUID" FieldText="GUID" FieldDataType="1" FieldData="&quot;&lt;a&gt;&quot;+data+&quot;&lt;/a&gt;&quot;" FieldStatusID="0" SelectType="0" SelectData="" FieldOrder="1">
       </GUID>
     </COLUMNS>
     <TopHead>
