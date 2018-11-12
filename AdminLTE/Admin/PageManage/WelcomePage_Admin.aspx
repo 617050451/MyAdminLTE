@@ -9,7 +9,7 @@
 </head>
 <body>
     <form id="PageFrom">
-        <section class="content" style="margin-top: 50px;">
+        <section class="content" style="margin-top: 50px;padding-bottom:10px;">
             <div class="box box-solid">
                 <div class="box box-danger">
                     <div class="box-body" id="selectWhere">

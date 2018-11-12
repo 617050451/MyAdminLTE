@@ -6,7 +6,7 @@
 <head runat="server">
     <title>页面编辑</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <!-- Tell the browser to be responsive to screen width -->
+    <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
     <!-- Bootstrap 3.3.7 -->
     <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/bootstrap/dist/css/bootstrap.min.css" />
@@ -34,20 +34,20 @@
 </head>
 <body>
     <form id="FromPage">
-        <section class="content" >
+        <section class="content">
             <div class="row">
                 <div class="col-xs-12">
                     <div class="box box-primary">
-                        <div class="box-body" style="line-height:32px;">
-                            <label style="float:left;">选择页面：</label>
+                        <div class="box-body" style="line-height: 32px;">
+                            <label style="float: left;">选择页面：</label>
                             <div class="col-xs-6">
-                                <select class="form-control" style="float:left;" onchange="SelectTable(this)" id="selecttable">
+                                <select class="form-control" style="float: left;" onchange="SelectTable(this)" id="selecttable">
                                     <%=OptionList %>
                                 </select>
                             </div>
-                            <label style="float:left;">搜索：</label>
-                            <div class="col-xs-4" style="float:left;">
-                                <input type="text" class="form-control" placeholder="页面名称" oninput="OnInput (event)" onpropertychange="OnPropChanged (event)"/>
+                            <label style="float: left;">搜索：</label>
+                            <div class="col-xs-4" style="float: left;">
+                                <input type="text" class="form-control" placeholder="页面名称" oninput="OnInput (event)" onpropertychange="OnPropChanged (event)" />
                             </div>
                         </div>
                     </div>
@@ -55,14 +55,14 @@
             </div>
             <div class="row">
                 <div class="col-xs-12">
-                    <div class="box box-primary">
+                    <div class="box box-primary" style="margin-bottom: 0px;">
                         <div class="box-body">
                             <ul class="nav nav-tabs" id="selectnav">
                                 <li class="active"><a href="javascript:void(0)" data-src="SetList.aspx">显示页面</a></li>
                                 <li><a href="javascript:void(0)" data-src="SetInsert.aspx">新增页面</a></li>
                                 <li><a href="javascript:void(0)" data-src="SetUpdate.aspx">修改页面</a></li>
                             </ul>
-                            <iframe id="ifmSetPage"  style="width:100%;height:auto;border:none;min-height:800px;"></iframe>
+                            <iframe id="ifmSetPage" style="width: 100%; height: auto; border: none;"></iframe>
                         </div>
                         <!-- /.box-body -->
                     </div>
@@ -73,7 +73,7 @@
             <!-- /.row -->
         </section>
     </form>
-     <!-- jQuery 3 -->
+    <!-- jQuery 3 -->
     <script src="../../Script/AdminLTE-2.4.2/bower_components/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap 3.3.7 -->
     <script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -86,7 +86,6 @@
     <script src="../../Script/AdminLTE-2.4.2/bower_components/fastclick/lib/fastclick.js"></script>
     <!-- AdminLTE App -->
     <script src="../../Script/AdminLTE-2.4.2/dist/js/adminlte.min.js"></script>
-    <script src="../../Script/js/cyfs.js"></script>
     <script src="../../Script/layer-v3.1.0/layer/layer.js"></script>
     <script>
         var lastitemid = "";
@@ -97,7 +96,7 @@
         $(document).bind("contextmenu", function (e) {
             top.$(".contextmenu").hide();
             return false;
-        }); 
+        });
         $(document).ready(function () {
             $(".box-body ul li a").click(function () {
                 $(".box-body ul li").removeClass("active");
@@ -115,6 +114,7 @@
                 $("#ifmSetPage").prop("src", $(this).attr("data-src") + "?ItemID=" + lastitemid);
             });
             $(".box-body ul li a:eq(0)").click();
+            $("#ifmSetPage").css("height", (document.body.clientHeight - 180) + "px");
         });
 
         function OnInput(event) {
@@ -135,13 +135,13 @@
             var options = $("#selecttable option");
             options.first().attr("selected", true);
         }
-        function OnPropChanged (event) {
-            if (event.propertyName.toLowerCase () == "value") {
-                alert ("The new content: " + event.srcElement.value);
+        function OnPropChanged(event) {
+            if (event.propertyName.toLowerCase() == "value") {
+                alert("The new content: " + event.srcElement.value);
             }
         }
         function SelectTable(obj) {
-          $(".box-body ul li a:eq(0)").click();
+            $(".box-body ul li a:eq(0)").click();
         }
     </script>
 </body>

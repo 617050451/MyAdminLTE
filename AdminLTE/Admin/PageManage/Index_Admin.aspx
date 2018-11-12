@@ -319,7 +319,7 @@
         }
         //设置iframe
         function setiframeHeigth() {
-            var hl = $(".content-wrapper").height() - 40 + "px";
+            var hl = $(".content-wrapper").height() - 41 + "px";
             $(".content").find("iframe").css("height", hl);
         }
         //右键菜单

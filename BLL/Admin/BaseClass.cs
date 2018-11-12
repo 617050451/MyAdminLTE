@@ -452,8 +452,8 @@ namespace BLL
             sb.Append("<td>" + mf.FieldKey + "<div class=\"input-group input-group-sm\"><input type=\"text\" name=\"FieldKey\" class=\"form-control hidden\" value='" + mf.FieldKey + "'/></div></td>");
             sb.Append("<td><div class=\"input-group input-group-sm\"><input type=\"text\" name=\"FieldText\"  class=\"form-control\" value='" + mf.FieldText + "\'/></div></td>");
             sb.Append("<td class=\"form-inline\">" + GetFieldDataTypeHtml(mf.FieldDataType, mf.FieldData) + "</td>");//
-            sb.Append("<td>" + GetFieldStatusIDHtml(mf.FieldStatusID) + "</td>");
             sb.Append("<td class=\"form-inline\">" + GetSelectTypeHtml(mf.SelectType, mf.SelectData) + "</div>");
+            sb.Append("<td>" + GetFieldStatusIDHtml(mf.FieldStatusID) + "</td>");
             sb.Append("<td><div class=\"input-group input-group-sm\"><input type=\"text\"   class=\"form-control\"  name=\"FieldOrder\" value='" + mf.FieldOrder + "'/></div></td>");
             return sb.ToString();
         }

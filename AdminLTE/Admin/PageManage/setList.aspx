@@ -36,16 +36,16 @@
     <form id="FromPage">
         <section class="content">
             <div class="row">
-                <table id="tableInfo" class="table" style="margin: 0px; margin-top: -3px; border-left: 1px solid #ddd; border-right: 1px solid #ddd;">
+                <table id="tableInfo" class="table" style="margin: 0px; margin-top: -15px;border: 1px solid #f4f4f4; border-top: none;">
                     <tbody>
                         <tr>
-                            <td>
+                            <td style="border-top:none;">
                                 <h4 style="margin: 5px;">
                                     <a href="javasrcpt:void(0)"><span class="label label-warning" onclick="showTableInfoHtml()"><%=TableModel.Title %><%=TableModel.FileName %></span></a>
                                     <a href="javasrcpt:void(0)"><span class="label label-primary" onclick="showTableInfoHtmlSum()">显示设置</span></a>
                                     <a href="javasrcpt:void(0)"><span class="label label-primary" onclick="showFragmentCodeHtml()">片段代码</span></a>
                                     <a href="javascript:PagePreview('<%=TableModel.Title %>','/Page/<%=TableModel.FileName %>.html','<%=TableModel.TableID %>')">
-                                    <span class="label label-primary">页面预览</span></a>
+                                        <span class="label label-primary">页面预览</span></a>
                                 </h4>
                             </td>
                             <td>
@@ -83,7 +83,7 @@
                                     <option <%=TableModel.IsPlus==0?"selected='selected'":"" %> value="0">展开</option>
                                 </select>
                             </td>
-                            <td style="width: 240px; border: none;">
+                            <td style="width: 240px;">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-info" onclick="bntOrderClick()">自动排序</button>
                                     <button type="button" class="btn btn-info" onclick="showMoreButtonsHtml()">更多按钮</button>
@@ -96,12 +96,12 @@
                 <table id="example" class="table table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th>字段称</th>
+                            <th style="width:100px;">字段称</th>
                             <th>显示名称</th>
                             <th>数据呈现</th>
-                            <th>是否启用</th>
                             <th>查询条件</th>
-                            <th>排序</th>
+                            <th style="width:100px;">是否启用</th>
+                            <th style="width:100px;">排序</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -112,59 +112,47 @@
         </section>
         <div id="setTableInfo" class="hidden">
             <div class="col-sm-12" style="margin-top: 5px;">
-                <div class="form-group">
+                <div class="form-group col-sm-6">
                     <label for="title" class="control-label">标题</label>
                     <input type="text" name="Title" class="form-control" placeholder="标题" value="<%=TableModel.Title %>" />
                 </div>
-                <div class="form-group">
+                <div class="form-group col-sm-6">
                     <label for="FileName" class="control-label">页面名称</label>
                     <input type="text" name="FileName" class="form-control" placeholder="页面名称" value="<%=TableModel.FileName %>" />
                 </div>
-                <div class="form-group">
+                <div class="form-group col-sm-6">
                     <label for="TableType" class="control-label">数据类型</label>
-                    <select class="form-control" name="TableType"> 
+                    <select class="form-control" name="TableType">
                         <option <%=TableModel.TableType==1?"selected='selected'":"" %> value="1">数据库表</option>
                         <option <%=TableModel.TableType==2?"selected='selected'":"" %> value="2">XML数据表</option>
                     </select>
                 </div>
-                <div class="form-group">
+                <div class="form-group col-sm-6">
                     <label for="TableName" class="control-label">数据对象</label>
                     <textarea name="TableName" class="form-control" placeholder="数据对象" rows="1"><%=TableModel.TableName%></textarea>
                 </div>
-                <div class="form-group">
+                <div class="form-group col-sm-12">
                     <label for="SQL" class="control-label">数据集合</label>
                     <textarea name="SQL" class="form-control" placeholder="SQL" rows="3"><%=TableModel.SQL%></textarea>
                 </div>
-                <div class="form-group">
+                <div class="form-group col-sm-12">
                     <label for="Note" class="control-label">备注</label>
-                    <textarea name="Note" class="form-control" placeholder="备注" rows="2"><%=TableModel.Note%></textarea>
+                    <textarea name="Note" class="form-control" placeholder="备注" rows="3"><%=TableModel.Note%></textarea>
                 </div>
-                <button type="button" class="btn btn-success btn-block" onclick="bntSaveTableInfoOnclick()">保存</button>
+                <div class="col-sm-12">
+                    <button type="button" class="btn btn-success btn-block" onclick="bntSaveTableInfoOnclick()">保存</button>
+                </div>
             </div>
         </div>
         <div id="setTableInfoSum" class="hidden">
             <div class="col-sm-12" style="margin-top: 5px;">
                 <div class="text-center">
-                    <p style="margin-top: 3px;"><span style="color: blue;">聚合显示例子(说明)</span></p>
                     <div class="text-left">
-                        <table class="table table-bordered table-hover">
-                            <tr>
-                                <td>
-                                    <label class="radio-inline">JSON数据：[{"type":"COUNT","key":"GUID","title":"数据总条数："}]</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="radio-inline">SQL表达式：[{"type":"SQL","key":"select sg(1)","title":"数据总条数："}]</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="radio-inline">单引号属于特殊字符，sg(条件)='条件' 必须是JSON数据格式</label>
-                                </td>
-                            </tr>
-                        </table>
+                        <label class="inline">JSON数据：[{"type":"COUNT","key":"GUID","title":"数据总条数："}]<br/></label>
+                        <label class="inline">SQL表达式：[{"type":"SQL","key":"select sg(1)","title":"数据总条数："}]<br/></label>
+                        <label class="inline">单引号属于特殊字符，sg(条件)='条件' 必须是JSON数据格式</label>
                     </div>
+                    <p style="margin-top: 3px;"><span style="color: blue;">聚合显示</span></p>
                     <textarea name="PredefinedSQL" class="form-control" placeholder="聚合显示" rows="4"><%=TableModel.PredefinedSQL%></textarea>
                     <button type="button" class="btn btn-success btn-block" onclick="bntSaveTableInfoOnclickSum()" style="margin-top: 5px;">保存</button>
                 </div>
@@ -174,15 +162,15 @@
             <div class="col-sm-12" style="margin-top: 5px;">
                 <div class="text-center">
                     <p style="margin-top: 3px;"><span style="color: blue;">顶部片段代码</span></p>
-                    <textarea name="TopHead" class="form-control" placeholder="顶部片段代码" rows="10"></textarea>
-                     <p style="margin-top: 3px;"><span style="color: blue;">底部片段HTML</span></p>
-                    <textarea name="BottomHtml" class="form-control" placeholder="底部片段HTML" rows="10"></textarea>
+                    <textarea name="TopHead" class="form-control" placeholder="顶部片段代码" rows="8"></textarea>
+                    <p style="margin-top: 3px;"><span style="color: blue;">底部片段HTML</span></p>
+                    <textarea name="BottomHtml" class="form-control" placeholder="底部片段HTML" rows="8"></textarea>
                     <p style="margin-top: 3px;"><span style="color: blue;">底部片段代码</span></p>
-                    <textarea name="BottomScript" class="form-control" placeholder="底部片段代码" rows="10"></textarea>
-                    <button type="button" class="btn btn-success btn-block" onclick="bntSaveTableInfoFragmentCodeOnclick()" style="margin-top: 5px;">保存</button>
+                    <textarea name="BottomScript" class="form-control" placeholder="底部片段代码" rows="8"></textarea>
+                    <button type="button" class="btn btn-success btn-block" onclick="bntSaveTableInfoFragmentCodeOnclick()" style="margin-top: 5px; margin-bottom: 5px;">保存</button>
                 </div>
             </div>
-        </div>        
+        </div>
         <div id="MoreButtons" class="text-left hidden">
             <div class="col-sm-12" style="margin-top: 5px;">
                 <div class="form-group col-sm-6" style="margin-bottom: 5px;">
@@ -220,6 +208,7 @@
                         <option value="1">执行</option>
                         <option value="2">动态（前台判断）</option>
                         <option value="3">动态（后台判断）</option>
+                        <option value="1">不执行</option>
                     </select>
                 </div>
                 <div class="form-group col-sm-6">
@@ -229,7 +218,7 @@
                         <option value="0">禁用</option>
                     </select>
                 </div>
-                 <div class="form-group col-sm-12" style="margin-bottom: 5px;">                  
+                <div class="form-group col-sm-12" style="margin-bottom: 5px;">
                     <textarea name="BntActionCondition" class="form-control" placeholder="执行条件" rows="3"></textarea>
                 </div>
                 <div class="col-sm-12">
@@ -258,10 +247,10 @@
     <script id="BottomScriptModel" type="text/html"><%=TableBll.GetFragmentCodeModel("BottomScript")%></script>
     <script> 
         $(function () {
-             $(document).bind("contextmenu", function (e) {
+            $(document).bind("contextmenu", function (e) {
                 top.$(".contextmenu").hide();
                 return false;
-            }); 
+            });
             $("select[name=SelectType]").change(function () {
                 if ($(this).val() == 2 || $(this).val() == 4) {
                     $(this).parent().next("a").removeClass("hidden")
@@ -410,15 +399,15 @@
             //页面层
             layer.open({
                 type: 1,
-                title: '更多按钮',
+                title: '片段代码',
                 skin: 'layui-layer-rim', //加上边框
-                area: ['680px', '645px'], //宽高
+                area: ['680px', '545px'], //宽高
                 content: showHtml,
                 offset: ['45px'],
                 success: function () {
                     $(".layui-layer [name=TopHead]").text($("#TopHeadModel").html());
                     $(".layui-layer [name=BottomHtml]").text($("#BottomHtmlModel").html());
-                     $(".layui-layer [name=BottomScript]").text($("#BottomScriptModel").html());
+                    $(".layui-layer [name=BottomScript]").text($("#BottomScriptModel").html());
                 }
             });
         }
@@ -429,7 +418,7 @@
                 type: 1,
                 title: '数据设置',
                 skin: 'layui-layer-rim', //加上边框
-                area: ['680px', '600px'], //宽高
+                area: ['680px', '475px'], //宽高
                 content: showHtml,
                 offset: ['45px']
             });
@@ -441,7 +430,7 @@
                 type: 1,
                 title: '显示设置',
                 skin: 'layui-layer-rim', //加上边框
-                area: ['680px', '368px'], //宽高
+                area: ['580px', '368px'], //宽高
                 content: showHtml,
                 offset: ['45px']
             });
