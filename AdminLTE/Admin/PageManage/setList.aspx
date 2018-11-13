@@ -34,9 +34,9 @@
 </head>
 <body>
     <form id="FromPage">
-        <section class="content">
+        <section class="content" style="padding-top:0px;">
             <div class="row">
-                <table id="tableInfo" class="table" style="margin: 0px; margin-top: -15px;border: 1px solid #f4f4f4; border-top: none;">
+                <table id="tableInfo" class="table" style="margin: 0px; border: 1px solid #f4f4f4; border-top: none;">
                     <tbody>
                         <tr>
                             <td style="border-top:none;">
@@ -98,7 +98,7 @@
                         <tr>
                             <th style="width:100px;">字段称</th>
                             <th>显示名称</th>
-                            <th>数据呈现</th>
+                            <th>数据处理</th>
                             <th>查询条件</th>
                             <th>是否启用</th>
                             <th>排序</th>
@@ -163,63 +163,66 @@
                 <div class="text-center">
                     <p style="margin-top: 3px;"><span style="color: blue;">顶部片段代码</span></p>
                     <textarea name="TopHead" class="form-control" placeholder="顶部片段代码" rows="8"></textarea>
-                    <p style="margin-top: 3px;"><span style="color: blue;">底部片段代码</span></p>
+                    <p style="margin-top: 3px;"><span style="color: blue;">底部片段HTML代码</span></p>
                     <textarea name="BottomHtml" class="form-control" placeholder="底部片段代码" rows="8"></textarea>
-                    <p style="margin-top: 3px;"><span style="color: blue;">底部闭包片段代码</span></p>
-                    <textarea name="BottomScript" class="form-control" placeholder="底部闭包片段代码" rows="8"></textarea>
+                    <p style="margin-top: 3px;"><span style="color: blue;">底部片段代码</span></p>
+                    <textarea name="BottomScript" class="form-control" placeholder="底部片段代码" rows="8"></textarea>
                     <button type="button" class="btn btn-success btn-block" onclick="bntSaveTableInfoFragmentCodeOnclick()" style="margin-top: 5px; margin-bottom: 5px;">保存</button>
                 </div>
             </div>
         </div>
         <div id="MoreButtons" class="text-left hidden">
             <div class="col-sm-12" style="margin-top: 5px;">
-                <div class="form-group col-sm-6" style="margin-bottom: 5px;">
-                    <label for="BntName" class="control-label">按钮名称</label>
+                <div class="form-group col-sm-6">
+                    <label for="Name" class="control-label">按钮名称</label>
                     <input type="text" name="BntName" class="form-control" placeholder="按钮名称" value="" />
                 </div>
-                <div class="form-group col-sm-6" style="margin-bottom: 5px;">
-                    <label for="BntAction" class="control-label">执行动作</label>
-                    <select class="form-control" name="BntAction">
+                <div class="form-group col-sm-3">
+                    <label for="ButtonType" class="control-label">按钮类型</label>
+                    <select class="form-control" name="ButtonType">
+                        <option value="1">常用按钮</option>
+                        <option value="0">自定义</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="StatusID" class="control-label">按钮状态</label>
+                    <select class="form-control" name="StatusID">
+                        <option value="1">启用</option>
+                        <option value="0">禁用</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-12">
+                    <label for="ButtonCss" class="control-label">按钮样式</label>
+                    <input type="text" name="ButtonCss" class="form-control" placeholder="按钮样式" />
+                </div>
+                                <div class="form-group col-sm-4" style="margin-bottom: 5px;">
+                    <label for="ActionType" class="control-label">执行动作</label>
+                    <select class="form-control" name="ActionType">
                         <option value="1">弹层（页面）</option>
                         <option value="2">新开（页面）</option>
                         <option value="3">脚本</option>
                         <option value="4">SQL</option>
                     </select>
                 </div>
-                <div class="form-group col-sm-12" style="margin-bottom: 5px;">
-                    <label for="ConfirmText" class="control-label">询问框内容</label>
-                    <input type="text" name="ConfirmText" class="form-control" placeholder="询问框内容" />
+                <div class="form-group col-sm-8">
+                    <label for="ActionBeforeContent" class="control-label">执行前内容</label>
+                    <input type="text" name="ActionBeforeContent" class="form-control" placeholder="执行前内容" />
                 </div>
-                <div class="form-group col-sm-12" style="margin-bottom: 5px;">
-                    <label for="BntActionContent" class="control-label">执行内容</label>
-                    <textarea name="BntActionContent" class="form-control" placeholder="执行内容" rows="3"></textarea>
+                <div class="form-group col-sm-12">
+                    <label for="ActionContent" class="control-label">执行内容</label>
+                    <textarea name="ActionContent" class="form-control" placeholder="执行内容" rows="2"></textarea>
                 </div>
-                <div class="form-group col-sm-6" style="margin-bottom: 5px;">
-                    <label for="Widths" class="control-label">弹层宽度</label>
-                    <input type="text" name="Widths" class="form-control" placeholder="弹层宽度" />
-                </div>
-                <div class="form-group col-sm-6" style="margin-bottom: 5px;">
-                    <label for="Heigths" class="control-label">弹层高度</label>
-                    <input type="text" name="Heigths" class="form-control" placeholder="弹层高度" />
-                </div>
-                <div class="form-group col-sm-6">
-                    <label for="BntActionCondition" class="control-label" style="margin-top: 5px;">执行条件</label>
-                    <select class="form-control">
+                <div class="form-group col-sm-4">
+                    <label for="ImplementType" class="control-label" >执行类型</label>
+                    <select class="form-control" name="ImplementType"> 
                         <option value="1">执行</option>
                         <option value="2">动态（前台判断）</option>
                         <option value="3">动态（后台判断）</option>
                         <option value="1">不执行</option>
                     </select>
                 </div>
-                <div class="form-group col-sm-6">
-                    <label for="BntIsEnable" class="control-label">是否启用</label>
-                    <select class="form-control" name="BntIsEnable">
-                        <option value="1">启用</option>
-                        <option value="0">禁用</option>
-                    </select>
-                </div>
-                <div class="form-group col-sm-12" style="margin-bottom: 5px;">
-                    <textarea name="BntActionCondition" class="form-control" placeholder="执行条件" rows="3"></textarea>
+                <div class="form-group col-sm-8">
+                    <textarea name="ImplementContent" class="form-control" placeholder="执行条件" rows="2"  style="margin-top: 5px;"></textarea>
                 </div>
                 <div class="col-sm-12">
                     <button type="button" class="btn btn-success btn-block" onclick="bntSaveTableInfoOnclick()">保存</button>
@@ -244,7 +247,7 @@
     <script src="../../Script/layer-v3.1.0/layer/layer.js"></script>
     <script id="TopHeadModel" type="text/html"><%=TableBll.GetFragmentCodeModel("TopHead")%></script>
     <script id="BottomHtmlModel" type="text/html"><%=TableBll.GetFragmentCodeModel("BottomHtml")%></script>
-    <script id="BottomScriptModel" type="text/html"><%=TableBll.GetFragmentCodeModel("BottomScript")%></script>
+    <script id="BottomScriptModel" type="text/javascript"><%=TableBll.GetFragmentCodeModel("BottomScript")%></script>
     <script> 
         $(function () {
             $(document).bind("contextmenu", function (e) {
@@ -389,7 +392,7 @@
                 type: 1,
                 title: '更多按钮',
                 skin: 'layui-layer-rim', //加上边框
-                area: ['680px', '552px'], //宽高
+                area: ['680px', '495px'], //宽高
                 content: showHtml,
                 offset: ['45px']
             });

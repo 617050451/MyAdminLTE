@@ -568,6 +568,8 @@ namespace BLL
                         }
                     }
                     xml.Save(xmlPath);
+                    if (ModelData.TableName == "Table.xml")
+                        XmlToUpdateTableFielModel(Convert.ToInt32(ItemID));
                 }
                 return true;
             }
@@ -626,6 +628,10 @@ namespace BLL
                     xmlCOLUMNSChildId.InnerText = "";
                     xmlElemDeptChildId.AppendChild(xmlCOLUMNSChildId);
 
+                    XmlElement xmlMoreButtonChildId = xml.CreateElement("MoreButton");
+                    xmlMoreButtonChildId.InnerText = "";
+                    xmlElemDeptChildId.AppendChild(xmlMoreButtonChildId);
+
                     XmlElement xmlTopHeadChildId = xml.CreateElement("TopHead");
                     xmlTopHeadChildId.InnerText = "";
                     xmlElemDeptChildId.AppendChild(xmlTopHeadChildId);
@@ -639,8 +645,8 @@ namespace BLL
                     xmlElemDeptChildId.AppendChild(xmlBottomScriptChildId);
                 }
                 root.AppendChild(xmlElemDeptChildId);
-                xml.Save(xmlPath);
                 XmlColumnsNode.InnerText = MaxID.ToString();
+                xml.Save(xmlPath);
                 if (ModelData.TableName == "Table.xml")
                     XmlToUpdateTableFielModel(MaxID);
                 return MaxID.ToString();

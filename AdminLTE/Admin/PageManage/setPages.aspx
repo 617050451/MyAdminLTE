@@ -34,7 +34,7 @@
 </head>
 <body>
     <form id="FromPage">
-        <section class="content"  style="padding:5px;">
+        <section class="content" style="padding: 10px;">
             <div class="row">
                 <div class="col-xs-12">
                     <div class="box box-primary">
@@ -86,6 +86,7 @@
     <script src="../../Script/AdminLTE-2.4.2/bower_components/fastclick/lib/fastclick.js"></script>
     <!-- AdminLTE App -->
     <script src="../../Script/AdminLTE-2.4.2/dist/js/adminlte.min.js"></script>
+    <script src="../../Script/js/DataPageHandle.js"></script>
     <script src="../../Script/layer-v3.1.0/layer/layer.js"></script>
     <script>
         var lastitemid = "";
@@ -113,6 +114,9 @@
                 }
                 $("#ifmSetPage").prop("src", $(this).attr("data-src") + "?ItemID=" + lastitemid);
             });
+            var selectvalue = $.cookie("selectvalue");
+            if (selectvalue != undefined && selectvalue.length > 0)
+                $("#selecttable").val(selectvalue);
             $(".box-body ul li a:eq(0)").click();
             $("#ifmSetPage").css("height", (document.documentElement.clientHeight - 175) + "px");
         });
@@ -140,6 +144,7 @@
             }
         }
         function SelectTable(obj) {
+            $.cookie("selectvalue", $(obj).val(), { expires: 1, domain: 'localhost' });
             $(".box-body ul li a:eq(0)").click();
         }
     </script>

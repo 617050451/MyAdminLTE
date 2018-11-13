@@ -86,7 +86,7 @@ namespace AdminLTE.Ajax
             var FromValues = context.Server.UrlDecode(context.Request.QueryString["FromValues"]);
             BLL.B_Table TableBll = new BLL.B_Table(option);
             var NewID = TableBll.InsertTableData(FromValues);
-            if (!string.IsNullOrWhiteSpace(TableBll.InsertTableData(FromValues)))
+            if (!string.IsNullOrWhiteSpace(NewID))
                 context.Response.Write("{\"code\":1,\"msg\":\"保存成功!\",\"newitemid\":\"" + NewID + "\"}");
             else
                 context.Response.Write("{\"code\":500,\"msg\":\"保存失败!\"}");
