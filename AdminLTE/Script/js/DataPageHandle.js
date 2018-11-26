@@ -265,8 +265,11 @@ $(function () {
                     $("#example tr").css("background-color", "");
                     $(this).css("background-color", "#eee");
                 });
-                $("#example .showBnt").mouseover(function () {
-                      $(this).nextAll().re; 
+                $("#example .showBntA").mouseover(function () {
+                    $(this).nextAll(".showBntDiv").removeClass("hide"); 
+                });
+                $("#example .showBntDiv").mouseout(function () {
+                    $(this).addClass("hide");
                 });
             });
         })
