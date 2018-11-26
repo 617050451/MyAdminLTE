@@ -239,7 +239,7 @@ $(function () {
                         }
                     }
                 };           
-            $('body *[bnt-click]').unbind("click"); 
+            $('body *[bnt-click]').unbind("click");  
             $('body *[bnt-click]').bind('click', function () {
                 var othis = $(this)
                     , attrEvent = othis.attr('bnt-click');
