@@ -102,6 +102,33 @@
                     area: ['680px', '495px'], //宽高
                     content: showHtml,
                     success: function () {
+					  if (value != undefined && value != null && value != "") {
+                            var param = {};
+                            param.Gettype = 'GetDataView';
+                            param.Option = option;
+                            param.ChoiceValue = value;
+                            $.ajax({
+                                type: "GET",
+                                url: listconifg.url,
+                                cache: false,  //禁用缓存
+                                data: param,  //传入组装的参数
+                                dataType: "json",
+                                async: false,
+                                success: function (result) {
+                                    if (result.code != null && result.code != "") {
+                                        layer.msg(result.msg);
+                                    } else {
+                                        var json = result[0];
+                                        $.each(json, function (key, val) {
+                                            $(".layui-layer [name=" + key + "]").val(val);
+                                        });
+                                    }
+                                },
+                                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                    layer.msg("系统繁忙，请稍等.....");
+                                }
+                            });
+                        }
                         $(".layui-layer #LayerOpenHtmlFrom #BntClickSaveFrom").unbind("click");
                         $(".layui-layer #LayerOpenHtmlFrom #BntClickSaveFrom").bind("click", function () {
                             BntSaveFromData(option);

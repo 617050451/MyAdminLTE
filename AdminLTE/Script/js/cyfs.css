@@ -7,9 +7,10 @@ td {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-td:last-child {
-    white-space: normal;
-}
+
+    td:last-child {
+        white-space: normal;
+    }
 
 tr:hover td {
     height: auto;
@@ -33,11 +34,21 @@ tr:hover td {
     width: auto;
     padding-top: 6px;
 }
+
 .content button {
     border: none;
 }
+
 #example button {
-    border-radius:3px;
-    width: 60px;
-    height: 27px;
+    border-radius: 3px;
+    padding: 5px 10px 5px 10px;
+}
+
+.ThForMoreButton {
+    width: 30px;
+    text-align: center;
+}
+
+.showBnt {
+    margin-left: 12px;
 }

@@ -57,7 +57,7 @@
                             <table id="example" class="table table-bordered table-hover" style="margin-top:-13px;">
                                 <thead>
                                     <tr role="row" style="background-color: rgb(238, 238, 238);">
-									<th aria-controls="example" filedkey="ID" rowspan="1" colspan="1" aria-label="ID: ">ID</th><th aria-controls="example" filedkey="TableID" rowspan="1" colspan="1" aria-label="TableID: ">TableID</th><th aria-controls="example" filedkey="ActionType" rowspan="1" colspan="1" aria-label="ActionType: ">ActionType</th><th aria-controls="example" filedkey="Name" rowspan="1" colspan="1" aria-label="Name: ">Name</th><th aria-controls="example" filedkey="ActionContent" rowspan="1" colspan="1" aria-label="ActionContent: ">ActionContent</th><th aria-controls="example" filedkey="ActionBeforeContent" rowspan="1" colspan="1" aria-label="ActionBeforeContent: ">ActionBeforeContent</th><th aria-controls="example" filedkey="ButtonType" rowspan="1" colspan="1" aria-label="ButtonType: ">ButtonType</th><th aria-controls="example" filedkey="ButtonCss" rowspan="1" colspan="1" aria-label="ButtonCss: ">ButtonCss</th><th aria-controls="example" filedkey="ImplementType" rowspan="1" colspan="1" aria-label="ImplementType: ">ImplementType</th><th aria-controls="example" filedkey="ImplementContent" rowspan="1" colspan="1" aria-label="ImplementContent: ">ImplementContent</th><th aria-controls="example" filedkey="StatusID" rowspan="1" colspan="1" aria-label="StatusID: ">StatusID</th><th aria-controls="example" rowspan="1" colspan="1" aria-label="操作: ">操作</th>
+									<th aria-controls="example" filedkey="ID" rowspan="1" colspan="1" aria-label="ID: ">ID</th><th aria-controls="example" filedkey="TableID" rowspan="1" colspan="1" aria-label="TableID: ">TableID</th><th aria-controls="example" filedkey="ActionType" rowspan="1" colspan="1" aria-label="ActionType: ">ActionType</th><th aria-controls="example" filedkey="BntName" rowspan="1" colspan="1" aria-label="BntName: ">BntName</th><th aria-controls="example" filedkey="ActionContent" rowspan="1" colspan="1" aria-label="ActionContent: ">ActionContent</th><th aria-controls="example" filedkey="ActionBeforeContent" rowspan="1" colspan="1" aria-label="ActionBeforeContent: ">ActionBeforeContent</th><th aria-controls="example" filedkey="ButtonType" rowspan="1" colspan="1" aria-label="ButtonType: ">ButtonType</th><th aria-controls="example" filedkey="ButtonCss" rowspan="1" colspan="1" aria-label="ButtonCss: ">ButtonCss</th><th aria-controls="example" filedkey="ImplementType" rowspan="1" colspan="1" aria-label="ImplementType: ">ImplementType</th><th aria-controls="example" filedkey="ImplementContent" rowspan="1" colspan="1" aria-label="ImplementContent: ">ImplementContent</th><th aria-controls="example" filedkey="StatusID" rowspan="1" colspan="1" aria-label="StatusID: ">StatusID</th><th aria-controls="example" class="ThForMoreButton" rowspan="1" colspan="1" aria-label="更多: "><a href='javascropt:void(0)'><i class='fa fa-cog'></i></a></th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -138,6 +138,8 @@
                 </div>
                 <div class="form-group col-sm-8">
                     <textarea name="ImplementContent" class="form-control" placeholder="执行条件" rows="2"  style="margin-top: 5px;"></textarea>
+                    <input type="hidden" name="ID" value="" />
+                    <input type="hidden" name="TableID" value="3" />
                 </div>
                 <div class="col-sm-12">
                     <button id="BntClickSaveFrom"  type="button" class="btn btn-success btn-block"  >保存</button>
@@ -166,6 +168,33 @@
                     area: ['680px', '495px'], //宽高
                     content: showHtml,
                     success: function () {
+					  if (value != undefined && value != null && value != "") {
+                            var param = {};
+                            param.Gettype = 'GetDataView';
+                            param.Option = option;
+                            param.ChoiceValue = value;
+                            $.ajax({
+                                type: "GET",
+                                url: listconifg.url,
+                                cache: false,  //禁用缓存
+                                data: param,  //传入组装的参数
+                                dataType: "json",
+                                async: false,
+                                success: function (result) {
+                                    if (result.code != null && result.code != "") {
+                                        layer.msg(result.msg);
+                                    } else {
+                                        var json = result[0];
+                                        $.each(json, function (key, val) {
+                                            $(".layui-layer [name=" + key + "]").val(val);
+                                        });
+                                    }
+                                },
+                                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                    layer.msg("系统繁忙，请稍等.....");
+                                }
+                            });
+                        }
                         $(".layui-layer #LayerOpenHtmlFrom #BntClickSaveFrom").unbind("click");
                         $(".layui-layer #LayerOpenHtmlFrom #BntClickSaveFrom").bind("click", function () {
                             BntSaveFromData(option);
@@ -206,7 +235,7 @@
                     }
                 });
             }
-            var columns = [{"data": "ID", render: function (data, type, row) { return  data }},{"data": "TableID", render: function (data, type, row) { return  data }},{"data": "ActionType", render: function (data, type, row) { return  data }},{"data": "Name", render: function (data, type, row) { return  data }},{"data": "ActionContent", render: function (data, type, row) { return  data }},{"data": "ActionBeforeContent", render: function (data, type, row) { return  data }},{"data": "ButtonType", render: function (data, type, row) { return  data }},{"data": "ButtonCss", render: function (data, type, row) { return  data }},{"data": "ImplementType", render: function (data, type, row) { return  data }},{"data": "ImplementContent", render: function (data, type, row) { return  data }},{"data": "StatusID", render: function (data, type, row) { return  data }},{"data": "ItemID", render: function (data, type, row) { return "<button name='UpdateItemID' bnt-click = 'UpdateItemID'  type = 'button' class='btn btn-warning  btn-xs' value='"+ data+"'>修　改</button> <button name='DeleteItemID' bnt-click='DeleteItemID'  type='button' class='btn btn-danger btn-xs' value='"+ data+"'>删　除</button>"}}];
+            var columns = [{"data": "ID", render: function (data, type, row) { return  data }},{"data": "TableID", render: function (data, type, row) { return  data }},{"data": "ActionType", render: function (data, type, row) { return  data }},{"data": "BntName", render: function (data, type, row) { return  data }},{"data": "ActionContent", render: function (data, type, row) { return  data }},{"data": "ActionBeforeContent", render: function (data, type, row) { return  data }},{"data": "ButtonType", render: function (data, type, row) { return  data }},{"data": "ButtonCss", render: function (data, type, row) { return  data }},{"data": "ImplementType", render: function (data, type, row) { return  data }},{"data": "ImplementContent", render: function (data, type, row) { return  data }},{"data": "StatusID", render: function (data, type, row) { return  data }},{"data": "ItemID", render: function (data, type, row) { return "<a class='showBnt' href='javascropt:void(0)'><i class='fa fa-ellipsis-v'></i></a><button name='UpdateItemID' bnt-click = 'UpdateItemID'  type = 'button' class='btn btn-warning  btn-xs hide' value='"+ data+"'>修　改</button> <button name='DeleteItemID' bnt-click='DeleteItemID'  type='button' class='btn btn-danger btn-xs hide' value='"+ data+"'>删　除</button>"}}];
             listconifg.isplus = 0;
             listconifg.iswhere = 0;
             listconifg.ischoice = 0;

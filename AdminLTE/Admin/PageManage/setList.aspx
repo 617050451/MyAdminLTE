@@ -243,11 +243,11 @@
     <script src="../../Script/AdminLTE-2.4.2/bower_components/fastclick/lib/fastclick.js"></script>
     <!-- AdminLTE App -->
     <script src="../../Script/AdminLTE-2.4.2/dist/js/adminlte.min.js"></script>
-    <script src="../../Script/js/cyfs.js"></script>
+    <script src="../../Script/js/DataPageHandle.js"></script>
     <script src="../../Script/layer-v3.1.0/layer/layer.js"></script>
-    <script id="TopHeadModel" type="text/html"><%=TableBll.GetFragmentCodeModel("TopHead")%></script>
-    <script id="BottomHtmlModel" type="text/html"><%=TableBll.GetFragmentCodeModel("BottomHtml")%></script>
-    <script id="BottomScriptModel" type="text/javascript"><%=TableBll.GetFragmentCodeModel("BottomScript")%></script>
+    <span id="TopHeadModel" class="hide"><%=TableBll.GetFragmentCodeModel("TopHead")%></span>
+    <span id="BottomHtmlModel" class="hide"><%=TableBll.GetFragmentCodeModel("BottomHtml")%></span>
+    <span id="BottomScriptModel" class="hide"><%=TableBll.GetFragmentCodeModel("BottomScript")%></span>
     <script> 
         $(function () {
             $(document).bind("contextmenu", function (e) {
@@ -408,9 +408,9 @@
                 content: showHtml,
                 offset: ['45px'],
                 success: function () {
-                    $(".layui-layer [name=TopHead]").text($("#TopHeadModel").html());
-                    $(".layui-layer [name=BottomHtml]").text($("#BottomHtmlModel").html());
-                    $(".layui-layer [name=BottomScript]").text($("#BottomScriptModel").html());
+                    $(".layui-layer [name=TopHead]").text($.unescapeHTML($("#TopHeadModel").html()));
+                    $(".layui-layer [name=BottomHtml]").text($.unescapeHTML($("#BottomHtmlModel").html()));
+                    $(".layui-layer [name=BottomScript]").text($.unescapeHTML($("#BottomScriptModel").html()));
                 }
             });
         }

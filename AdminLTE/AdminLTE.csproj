@@ -74,6 +74,8 @@
     <Content Include="DataXML\Table.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="DataXML\MoreButton.xml" />
+    <Content Include="Page\MoreButton.html" />
     <Content Include="Page\OldPage\MeanList.aspx" />
     <Content Include="Page\PageList.html" />
     <Content Include="Page\OldPage\MoreButtonList.aspx" />

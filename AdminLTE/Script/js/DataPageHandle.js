@@ -251,26 +251,29 @@ $(function () {
                     , attrEvent = othis.attr('bnt-keyup');
                 clickList[attrEvent] && clickList[attrEvent].call(this, othis);
             });
+           //选中行
+            $(function () {
+                $("#example tr").click(function () {
+                    $("#example tr").css("background-color", "");
+                    $(this).css("background-color", "#eee");
+                })
+                $("#example tr").mouseover(function () {
+                    $("#example tr").css("background-color", "");
+                    $(this).css("background-color", "#eee");
+                });
+                $("#example tr").mouseout(function () {
+                    $("#example tr").css("background-color", "");
+                    $(this).css("background-color", "#eee");
+                });
+                $("#example .showBnt").mouseover(function () {
+                      $(this).nextAll().re; 
+                });
+            });
         })
         if (jQuery.isFunction("GetDataSuccess")) {
             GetDataSuccess();
         }
     }
-    //选中行
-    $(function () {
-        $("#example tr").click(function () {
-            $("#example tr").css("background-color", "");
-            $(this).css("background-color", "#eee");
-        })
-        $("#example tr").mouseover(function () {
-            $("#example tr").css("background-color", "");
-            $(this).css("background-color", "#eee");
-        });
-        $("#example tr").mouseout(function () {
-            $("#example tr").css("background-color", "");
-            $(this).css("background-color", "#eee");
-        });
-    });
     //选中的值
     function OnCheckboxOnClick() {
         var guidValues = "";
@@ -457,6 +460,15 @@ function GetFromJson(obj) {
     // 按字符 idata 转换成 JSON 格式  
     return idata;
 }
+jQuery.escapeHTML = function (a) {
+    a = "" + a;
+    return a.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");;
+}
+jQuery.unescapeHTML = function (a) {
+    a = "" + a;
+    return a.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&apos;/g, "'");
+}
+
 jQuery.cookie = function (name, value, options) {
     if (typeof value != 'undefined') {
         options = options || {};
