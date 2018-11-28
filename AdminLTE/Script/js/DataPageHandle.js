@@ -265,6 +265,7 @@ $(function () {
                     $("#example tr").css("background-color", "");
                     $(this).css("background-color", "#eee");
                 });
+                $("#example .showBntDiv").parent("td").css("position", "relative");
                 $("#example .showBntA").mouseover(function () {
                     $(this).nextAll(".showBntDiv").removeClass("hide"); 
                 });

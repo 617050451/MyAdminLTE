@@ -52,3 +52,9 @@ tr:hover td {
 .showBntA {
     margin-left: 12px;
 }
+.showBntDiv {
+    display: flex;
+    position: absolute;
+    right: 0;
+    top: 3px;
+}

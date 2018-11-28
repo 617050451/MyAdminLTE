@@ -120,7 +120,7 @@ namespace BLL
                     BntHmtl += "<button name='UpdateItemID' bnt-click = 'UpdateItemID'  type = 'button' class='btn btn-warning  btn-xs' value='\"+ data+\"'>修　改</button> ";
                 if (TableModel.IsDelete == 1 && TableModel.IsChoice == 0)
                     BntHmtl += "<button name='DeleteItemID' bnt-click='DeleteItemID'  type='button' class='btn btn-danger btn-xs' value='\"+ data+\"'>删　除</button>";
-                BntHmtl += "</div>";
+                BntHmtl += "</div></div>";
                 if (!string.IsNullOrWhiteSpace(BntHmtl))
                     Columns.Append("{\"data\": \"" + "ItemID" + "\", render: function (data, type, row) { return \"" + BntHmtl + "\"}},");
             }
