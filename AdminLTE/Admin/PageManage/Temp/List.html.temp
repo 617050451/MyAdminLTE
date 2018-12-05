@@ -29,17 +29,17 @@
 </head>
 <body>
     <form id="PageForm">
-        <section class="content" style="padding-top: 5px;">
-            <div data-resple="iswhere" class="box box-solid hidden" style="margin-bottom: 5px;">
-                <div class="box-header with-border" style="padding:5px;">
-                    <h3 class="box-title" style="font-size:15px;">高级查询</h3>
+        <section class="content paddingxl">
+            <div data-resple="iswhere" class="box box-solid marginbottomxl hidden">
+                <div class="box-header with-border">
+                    <h3 class="box-title" style="font-weight: 600;text-align: center;display: block;">{Title}</h3>
                     <div class="box-tools">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse" style="margin-top:-5px;">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
                             <i data-resple="isplus" class=""></i>
                         </button>
                     </div>
                 </div>
-                <div class="box box-danger" style="margin-bottom: 5px;">
+                <div class="box box-default marginbottomxl">
                     <div class="box-body" id="selectwherefrom">
                       {WhereHtml}
                     </div>
@@ -47,14 +47,14 @@
             </div>
             <div class="row">
                 <div class="col-xs-12">
-                    <div class="box box-primary">
+                    <div class="box box-solid box-default">
                         <div class="box-body">
                             <div id="ltlbnts" class="pull-left" style="height:24px;">
 							    {TopBotton} 
                             </div>
                             <div id="ltlSum" class="pull-right" style="height:24px;">
                             </div>
-                            <table id="example" class="table table-bordered table-hover" style="margin-top:-13px;">
+                            <table id="example" class="table table-bordered table-hover">
                                 <thead>
                                     <tr role="row" style="background-color: rgb(238, 238, 238);">
 									{TableThead}

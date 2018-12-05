@@ -237,6 +237,37 @@ $(function () {
                         } else {
                             $('#example tbody tr').show();
                         }
+                    }, ShowColumn: funaggregate.ShowColumn || function (sender) {
+                        loadding('加载中，请稍等...');
+                        var showHtml = "<div><table class='table table-bordered table-hover dataTable no-footer'>";
+                        $(this).parent("th").siblings("th").each(function (index) {
+                            showHtml += "<tr><td><input type='checkbox' checked='checked' data-index=" + index + "/> " + $(this).text() + "</td></tr>";
+                        });
+                        showHtml += "</table></div>";
+                        //页面层
+                        layer.open({
+                            type: 1,
+                            id: "columninfo",
+                            title: "设置显示列",
+                            shade: false,
+                            skin: 'layui-layer-rim', //加上边框
+                            area: ['200px'], //宽高
+                            offset: 'rt',
+                            content: showHtml,
+                            success: function () {
+                                $("#columninfo input[type='checkbox']").change(function () {
+                                    var index = $(this).data("index");
+                                    if ($(this).is(':checked')) {
+                                        $("#example tr th:nth-child(" + (index + 1) + ")").show();
+                                        $("#example tr td:nth-child(" + (index + 1) + ")").show();
+                                    } else {
+                                        $("#example tr th:nth-child(" + (index + 1) + ")").hide();
+                                        $("#example tr td:nth-child(" + (index + 1) + ")").hide();
+                                    }
+                                });
+                            }
+                        });
+                        loadClose();
                     }
                 };           
             $('body *[bnt-click]').unbind("click");  
@@ -265,11 +296,13 @@ $(function () {
                     $("#example tr").css("background-color", "");
                     $(this).css("background-color", "#eee");
                 });
-                $("#example .showBntDiv").parent("td").css("position", "relative");
-                $("#example .showBntA").mouseover(function () {
-                    $(this).nextAll(".showBntDiv").removeClass("hide"); 
+                $("#example .showBntA").mouseover(function (f) {
+                    var xx = f.pageX;
+                    var yy = f.pageY;
+                    $(this).nextAll(".showBntDiv").css({ "left": (xx - 110) + "px", "top": (yy - 60) + "px" });
+                    $(this).nextAll(".showBntDiv").removeClass("hide");
                 });
-                $("#example .showBntDiv").mouseout(function () {
+                $("#example .showBntDiv").mouseleave(function () {
                     $(this).addClass("hide");
                 });
             });

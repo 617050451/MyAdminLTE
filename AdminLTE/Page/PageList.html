@@ -29,17 +29,17 @@
 </head>
 <body>
     <form id="PageForm">
-        <section class="content" style="padding-top: 5px;">
-            <div data-resple="iswhere" class="box box-solid hidden" style="margin-bottom: 5px;">
-                <div class="box-header with-border" style="padding:5px;">
-                    <h3 class="box-title" style="font-size:15px;">高级查询</h3>
+        <section class="content paddingxl">
+            <div data-resple="iswhere" class="box box-solid marginbottomxl hidden">
+                <div class="box-header with-border">
+                    <h3 class="box-title" style="font-weight: 600;text-align: center;display: block;">页面管理</h3>
                     <div class="box-tools">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse" style="margin-top:-5px;">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
                             <i data-resple="isplus" class=""></i>
                         </button>
                     </div>
                 </div>
-                <div class="box box-danger" style="margin-bottom: 5px;">
+                <div class="box box-default marginbottomxl">
                     <div class="box-body" id="selectwherefrom">
                       <div class="col-lg-2" style="width: 12%;"><label class="col-xs control-label table-label">页面标题<span class="text-danger">（模糊查询）</span></label ><input type="text" name="Title"  class="form-control" placeholder="页面标题" /></div><div bnt-click="Select" class="col-sm-1 table-p" style="margin-top:30px;"><button type ="button" class="btn btn-danger pull-right btn-block btn-primary">查询</button></div>
                     </div>
@@ -47,17 +47,17 @@
             </div>
             <div class="row">
                 <div class="col-xs-12">
-                    <div class="box box-primary">
+                    <div class="box box-solid box-default">
                         <div class="box-body">
                             <div id="ltlbnts" class="pull-left" style="height:24px;">
 							    <button name='InsertItemID' bnt-click='InsertItemID' style='margin-right:2px;' type='button' class='btn btn-success btn-xs'>新　增</button> 
                             </div>
                             <div id="ltlSum" class="pull-right" style="height:24px;">
                             </div>
-                            <table id="example" class="table table-bordered table-hover" style="margin-top:-13px;">
+                            <table id="example" class="table table-bordered table-hover">
                                 <thead>
                                     <tr role="row" style="background-color: rgb(238, 238, 238);">
-									<th aria-controls="example" filedkey="TableID" rowspan="1" colspan="1" aria-label="编号: ">编号</th><th aria-controls="example" filedkey="Title" rowspan="1" colspan="1" aria-label="页面标题: ">页面标题</th><th aria-controls="example" filedkey="FileName" rowspan="1" colspan="1" aria-label="页面文件名: ">页面文件名</th><th aria-controls="example" filedkey="TableType" rowspan="1" colspan="1" aria-label="数据类型: ">数据类型</th><th aria-controls="example" filedkey="TableName" rowspan="1" colspan="1" aria-label="数据对象: ">数据对象</th><th aria-controls="example" filedkey="SQL" rowspan="1" colspan="1" aria-label="数据集合: ">数据集合</th><th aria-controls="example" filedkey="Note" rowspan="1" colspan="1" aria-label="备注: ">备注</th><th aria-controls="example" class="ThForMoreButton" rowspan="1" colspan="1" aria-label="更多: "><a href='javascropt:void(0)'><i class='fa fa-cog'></i></a></th>
+									<th aria-controls="example" filedkey="TableID" rowspan="1" colspan="1" aria-label="编号: ">编号</th><th aria-controls="example" filedkey="Title" rowspan="1" colspan="1" aria-label="页面标题: ">页面标题</th><th aria-controls="example" filedkey="FileName" rowspan="1" colspan="1" aria-label="页面文件名: ">页面文件名</th><th aria-controls="example" filedkey="TableType" rowspan="1" colspan="1" aria-label="数据类型: ">数据类型</th><th aria-controls="example" filedkey="TableName" rowspan="1" colspan="1" aria-label="数据对象: ">数据对象</th><th aria-controls="example" filedkey="SQL" rowspan="1" colspan="1" aria-label="数据集合: ">数据集合</th><th aria-controls="example" filedkey="Note" rowspan="1" colspan="1" aria-label="备注: ">备注</th><th aria-controls="example" class="ThForMoreButton" rowspan="1" colspan="1" aria-label="更多: "><a  bnt-click='ShowColumn' href='javascropt:void(0)'><i class='fa fa-cog'></i></a></th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>

@@ -114,7 +114,7 @@ namespace BLL
             }
             if (TableModel.IsUpdate == 1 || (TableModel.IsDelete == 1 && TableModel.IsChoice == 0))
             {
-                TableThead.Append(string.Format("<th aria-controls=\"example\" class=\"ThForMoreButton\" rowspan=\"1\" colspan=\"1\" aria-label=\"更多: \">{0}</th>", "<a href='javascropt:void(0)'><i class='fa fa-cog'></i></a>"));
+                TableThead.Append(string.Format("<th aria-controls=\"example\" class=\"ThForMoreButton\" rowspan=\"1\" colspan=\"1\" aria-label=\"更多: \">{0}</th>", "<a  bnt-click='ShowColumn' href='javascropt:void(0)'><i class='fa fa-cog'></i></a>"));
                 var BntHmtl = "<a class='showBntA' href='javascropt:void(0)'><i class='fa fa-ellipsis-v'></i></a><div class='showBntDiv hide'>";
                 if (TableModel.IsUpdate == 1)
                     BntHmtl += "<button name='UpdateItemID' bnt-click = 'UpdateItemID'  type = 'button' class='btn btn-warning  btn-xs' value='\"+ data+\"'>修　改</button> ";

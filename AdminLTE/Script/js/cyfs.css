@@ -58,3 +58,9 @@ tr:hover td {
     right: 0;
     top: 3px;
 }
+.paddingxl {
+    padding:5px;
+}
+.marginbottomxl {
+    margin-bottom: 5px;
+}

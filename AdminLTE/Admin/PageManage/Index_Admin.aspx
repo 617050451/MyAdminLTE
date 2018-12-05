@@ -113,7 +113,7 @@
                 <!-- /.box-body -->
             </section>
             <section class="content" menu-type="nav-tabs" menu-moid="0">
-                <iframe src="WelcomePage_Admin.aspx" ></iframe>
+                <iframe src="WelcomePage_Admin.aspx" style="border:none;min-width:1200px;min-height:600px;" ></iframe>
             </section>
         </div>
         <!-- /.content-wrapper -->
