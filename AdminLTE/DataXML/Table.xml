@@ -3,7 +3,7 @@
   <MAXID>3</MAXID>
   <OPTION TableID="1" Title="页面管理" PrimaryKey="TableID" FileName="PageList" SQL="select '' as TableID,'' as Title,'' as FileName,'' as TableType,'' as TableName,'' as SQL,'' as Note" PredefinedSQL="[{&quot;type&quot;:&quot;COUNT&quot;,&quot;key&quot;:&quot;TableID&quot;,&quot;title&quot;:&quot;记录总条数：&quot;}]" TableType="2" TableName="Table.xml" IsPlus="1" IsWhere="1" IsChoice="0" IsInsert="1" IsUpdate="1" IsDelete="1" Note="" ColunmName="1">
     <COLUMNS>
-      <TableID FieldKey="TableID" FieldText="编号" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="1">
+      <TableID FieldKey="TableID" FieldText="编号" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="1" >
       </TableID>
       <Title FieldKey="Title" FieldText="页面标题" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="1" SelectData="" FieldOrder="2">
       </Title>

@@ -297,10 +297,21 @@ $(function () {
                     $("#example tr").css("background-color", "");
                     $(this).css("background-color", "#eee");
                 });
-                $("#example .showBntA").mouseover(function (f) {
-                    var xx = f.pageX;
-                    var yy = f.pageY;
-                    $(this).nextAll(".showBntDiv").css({ "left": (xx - 110) + "px", "top": (yy - 60) + "px" });
+                $("#example tr td").mouseover(function (e) {
+                    $('body').append('<div id="tooltip">' + $(this).text() + '</div>');
+                    var thisWidth = $(this).width(); // div 的宽度
+                    var wordWidth = $('#tooltip').width(); // 先转为js对象; 文字的宽度
+                     if (wordWidth > thisWidth + 5) { // 加5是为了让div宽度多一点,比文字不超出时多宽,因为文字不超出,那么宽度为div的宽度
+                         $('#tooltip').css({
+                             'left': (e.pageX + 'px'),
+                             'top': (e.pageY + 'px')
+                         }).show();
+                    }
+                }).mouseout(function () {
+                    $('#tooltip').remove();
+                });
+                $("#example .showBntDiv").parent("td").css({ "position": "relative", "overflow":"inherit"});
+                $("#example .showBntA").mouseover(function () {
                     $(this).nextAll(".showBntDiv").removeClass("hide");
                 });
                 $("#example .showBntDiv").mouseleave(function () {

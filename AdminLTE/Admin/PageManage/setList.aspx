@@ -229,6 +229,42 @@
                 </div>
             </div>
         </div>
+        <div id="setFieldOther" class="hidden">
+            <div class="col-sm-12" style="margin-top: 5px;">
+                <div class="form-group col-sm-8">
+                    <label for="TextAlign" class="control-label">对齐方式：</label>
+                    <label class="radio-inline"><input type="radio" name="TextAlign" value="left" />左对齐</label>
+                    <label class="radio-inline"><input type="radio" name="TextAlign" value="center" />居中对齐</label>
+                    <label class="radio-inline"><input type="radio" name="TextAlign" value="right" />右对齐</label>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label for="FileName" class="control-label">页面名称</label>
+                    <input type="text" name="FileName" class="form-control" placeholder="页面名称" value="<%=TableModel.FileName %>" />
+                </div>
+                <div class="form-group col-sm-6">
+                    <label for="TableType" class="control-label">数据类型</label>
+                    <select class="form-control" name="TableType">
+                        <option <%=TableModel.TableType==1?"selected='selected'":"" %> value="1">数据库表</option>
+                        <option <%=TableModel.TableType==2?"selected='selected'":"" %> value="2">XML数据表</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label for="TableName" class="control-label">数据对象</label>
+                    <textarea name="TableName" class="form-control" placeholder="数据对象" rows="1"><%=TableModel.TableName%></textarea>
+                </div>
+                <div class="form-group col-sm-12">
+                    <label for="SQL" class="control-label">数据集合</label>
+                    <textarea name="SQL" class="form-control" placeholder="SQL" rows="3"><%=TableModel.SQL%></textarea>
+                </div>
+                <div class="form-group col-sm-12">
+                    <label for="Note" class="control-label">备注</label>
+                    <textarea name="Note" class="form-control" placeholder="备注" rows="3"><%=TableModel.Note%></textarea>
+                </div>
+                <div class="col-sm-12">
+                    <button type="button" class="btn btn-success btn-block" onclick="bntSaveTableInfoOnclick()">保存</button>
+                </div>
+            </div>
+        </div>
     </form>
     <!-- jQuery 3 -->
     <script src="../../Script/AdminLTE-2.4.2/bower_components/jquery/dist/jquery.min.js"></script>
@@ -269,6 +305,20 @@
                     $(this).parent().next("a").addClass("hidden");
             });
         })
+        //
+        function setFieldOther(obj) {
+            var showHtml = $("#setFieldOther").html();
+            //页面层
+            layer.open({
+                type: 1,
+                title: '其他设置',
+                skin: 'layui-layer-rim', //加上边框
+                area: ['680px', '495px'], //宽高
+                content: showHtml,
+                offset: ['45px']
+            });
+        }
+        //
         function bntSaveClick(obj) {
             loadding('正在保存，请稍等...', obj);
             var values = $("#example").find("input,select").serializeArray();
