@@ -231,37 +231,22 @@
         </div>
         <div id="setFieldOther" class="hidden">
             <div class="col-sm-12" style="margin-top: 5px;">
-                <div class="form-group col-sm-8">
-                    <label for="TextAlign" class="control-label">对齐方式：</label>
-                    <label class="radio-inline"><input type="radio" name="TextAlign" value="left" />左对齐</label>
+                <div class="form-group col-sm-6">
+                    <label for="TextAlign" class="control-label">对齐方式</label><br/>
+                    <label class="radio-inline"><input type="radio" checked="checked" name="TextAlign" value="left" />左对齐</label>
                     <label class="radio-inline"><input type="radio" name="TextAlign" value="center" />居中对齐</label>
                     <label class="radio-inline"><input type="radio" name="TextAlign" value="right" />右对齐</label>
                 </div>
                 <div class="form-group col-sm-6">
-                    <label for="FileName" class="control-label">页面名称</label>
-                    <input type="text" name="FileName" class="form-control" placeholder="页面名称" value="<%=TableModel.FileName %>" />
-                </div>
-                <div class="form-group col-sm-6">
-                    <label for="TableType" class="control-label">数据类型</label>
-                    <select class="form-control" name="TableType">
-                        <option <%=TableModel.TableType==1?"selected='selected'":"" %> value="1">数据库表</option>
-                        <option <%=TableModel.TableType==2?"selected='selected'":"" %> value="2">XML数据表</option>
-                    </select>
-                </div>
-                <div class="form-group col-sm-6">
-                    <label for="TableName" class="control-label">数据对象</label>
-                    <textarea name="TableName" class="form-control" placeholder="数据对象" rows="1"><%=TableModel.TableName%></textarea>
+                    <label for="Width" class="control-label">宽度</label>
+                    <input type="text" name="Width" class="form-control" placeholder="宽度" value="" />
                 </div>
                 <div class="form-group col-sm-12">
-                    <label for="SQL" class="control-label">数据集合</label>
-                    <textarea name="SQL" class="form-control" placeholder="SQL" rows="3"><%=TableModel.SQL%></textarea>
-                </div>
-                <div class="form-group col-sm-12">
-                    <label for="Note" class="control-label">备注</label>
-                    <textarea name="Note" class="form-control" placeholder="备注" rows="3"><%=TableModel.Note%></textarea>
+                    <label for="OtherCSS" class="control-label">其他样式</label>
+                    <textarea name="OtherCSS" class="form-control" placeholder="其他样式" rows="3"></textarea>
                 </div>
                 <div class="col-sm-12">
-                    <button type="button" class="btn btn-success btn-block" onclick="bntSaveTableInfoOnclick()">保存</button>
+                    <button type="button" class="btn btn-success btn-block" onclick="bntSaveFieldOtherOnclick(this)">保存</button>
                 </div>
             </div>
         </div>
@@ -306,17 +291,37 @@
             });
         })
         //
-        function setFieldOther(obj) {
+        var otherG;
+        function setFieldOther(othis, obj) {
+            otherG = othis;
             var showHtml = $("#setFieldOther").html();
             //页面层
-            layer.open({
+            showIndex = layer.open({
+                id: obj,
                 type: 1,
                 title: '其他设置',
                 skin: 'layui-layer-rim', //加上边框
-                area: ['680px', '495px'], //宽高
+                area: ['680px', '425px'], //宽高
                 content: showHtml,
-                offset: ['45px']
+                offset: ['45px'],
+                success: function () {
+                    var TextAlign = $(otherG).nextAll("[name=TextAlign]").val();
+                    var Width = $(otherG).nextAll("[name=Width]").val();
+                    var OtherCSS = $(otherG).nextAll("[name=OtherCSS]").val();
+                    $(".layui-layer #" + obj).find("[name=TextAlign][value=" + TextAlign + "]").prop("checked", "checked");
+                    $(".layui-layer #" + obj).find("[name=Width]").val(Width);
+                    $(".layui-layer #" + obj).find("[name=OtherCSS]").val(OtherCSS);
+                }
             });
+        }
+        function bntSaveFieldOtherOnclick(othis) {
+            var TextAlign = $(othis).parent().siblings().find("[name=TextAlign]:checked").val();
+            var Width = $(othis).parent().siblings().find("[name=Width]").val();
+            var OtherCSS = $(othis).parent().siblings().find("[name=OtherCSS]").val();
+            $(otherG).nextAll("[name=TextAlign]").val(TextAlign);
+            $(otherG).nextAll("[name=Width]").val(Width);
+            $(otherG).nextAll("[name=OtherCSS]").val(OtherCSS);
+            layer.close(showIndex);
         }
         //
         function bntSaveClick(obj) {

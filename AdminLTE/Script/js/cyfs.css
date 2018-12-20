@@ -66,5 +66,8 @@ td {
     opacity: 0.9;
     font-size: 17px;
     z-index: 99;
-width:100px;
+}
+.tdpositionoverflow {
+    position: relative;
+    overflow: inherit;
 }

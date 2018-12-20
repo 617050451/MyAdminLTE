@@ -126,6 +126,45 @@ namespace Model
                 IsDicMyProperty.Add(nameof(FieldOrder), true);
             }
         }
+        /// <summary>
+        /// TextAlign
+        /// </summary>		
+        private string TextAlignValue;
+        public string TextAlign
+        {
+            get { return TextAlignValue; }
+            set
+            {
+                TextAlignValue = value;
+                IsDicMyProperty.Add(nameof(TextAlign), true);
+            }
+        }
+        /// <summary>
+        /// Width
+        /// </summary>		
+        private string WidthValue;
+        public string Width
+        {
+            get { return WidthValue; }
+            set
+            {
+                WidthValue = value;
+                IsDicMyProperty.Add(nameof(Width), true);
+            }
+        }
+        /// <summary>
+        /// OtherCSS
+        /// </summary>		
+        private string OtherCSSValue;
+        public string OtherCSS
+        {
+            get { return OtherCSSValue; }
+            set
+            {
+                OtherCSSValue = value;
+                IsDicMyProperty.Add(nameof(OtherCSS), true);
+            }
+        }
         public bool IsFieldAssign(string Fieldname)
         {
             if (IsDicMyProperty.ContainsKey(Fieldname))

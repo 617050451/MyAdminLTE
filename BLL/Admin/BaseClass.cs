@@ -34,36 +34,17 @@ namespace BLL
             foreach (XmlNode xn in rootChil)
             {
                 Model.M_Table mt = new Model.M_Table();
-                var TableID = xn.Attributes["TableID"].Value;
-                var Title = xn.Attributes["Title"].Value;
-                var FileName = xn.Attributes["FileName"].Value;
-                var IsPlus = xn.Attributes["IsPlus"].Value;
-                var IsWhere = xn.Attributes["IsWhere"].Value;
-                var IsChoice = xn.Attributes["IsChoice"].Value;
-                var IsInsert = xn.Attributes["IsInsert"].Value;
-                var IsUpdate = xn.Attributes["IsUpdate"].Value;
-                var IsDelete = xn.Attributes["IsDelete"].Value;
-                var SQL = xn.Attributes["SQL"].Value;
-                var PredefinedSQL = xn.Attributes["PredefinedSQL"].Value;
-                var TableType = xn.Attributes["TableType"].Value;
-                var TableName = xn.Attributes["TableName"].Value;
-                var PrimaryKey = xn.Attributes["PrimaryKey"].Value;
-                var Note = xn.Attributes["Note"].Value;
-                mt.TableID = Convert.ToInt32(TableID);
-                mt.Title = Title;
-                mt.FileName = FileName;
-                mt.SQL = SQL;
-                mt.PredefinedSQL = PredefinedSQL;
-                mt.TableName = TableName;
-                mt.TableType = Convert.ToInt32(TableType); ;
-                mt.PrimaryKey = PrimaryKey;
-                mt.IsPlus = Convert.ToInt32(IsPlus);
-                mt.IsWhere = Convert.ToInt32(IsWhere);
-                mt.IsChoice = Convert.ToInt32(IsChoice);
-                mt.IsInsert = Convert.ToInt32(IsInsert);
-                mt.IsUpdate = Convert.ToInt32(IsUpdate);
-                mt.IsDelete = Convert.ToInt32(IsDelete);
-                mt.Note = Note;
+                PropertyInfo[] propertys = mt.GetType().GetProperties();
+                foreach (PropertyInfo property in propertys)
+                {
+                    var attrName = property.Name;
+                    if (xn.Attributes[attrName] != null)
+                    {
+                        Type columnType = property.PropertyType;
+                        object obj = Convert.ChangeType(xn.Attributes[attrName].Value, columnType);
+                        property.SetValue(mt, obj, null);
+                    }
+                }
                 ListModel.Add(mt);
             }
             return ListModel;
@@ -83,36 +64,17 @@ namespace BLL
             XmlNode xn = root.SelectSingleNode("OPTION[@TableID=" + ItemID + "]");//获取指定子节点  
             if (xn != null)
             {
-                var TableID = xn.Attributes["TableID"].Value;
-                var Title = xn.Attributes["Title"].Value;
-                var FileName = xn.Attributes["FileName"].Value;
-                var IsPlus = xn.Attributes["IsPlus"].Value;
-                var IsWhere = xn.Attributes["IsWhere"].Value;
-                var IsChoice = xn.Attributes["IsChoice"].Value;
-                var IsInsert = xn.Attributes["IsInsert"].Value;
-                var IsUpdate = xn.Attributes["IsUpdate"].Value;
-                var IsDelete = xn.Attributes["IsDelete"].Value;
-                var SQL = xn.Attributes["SQL"].Value;
-                var PredefinedSQL = xn.Attributes["PredefinedSQL"].Value;
-                var TableType = xn.Attributes["TableType"].Value;
-                var TableName = xn.Attributes["TableName"].Value;
-                var PrimaryKey = xn.Attributes["PrimaryKey"].Value;
-                var Note = xn.Attributes["Note"].Value;
-                mt.TableID = Convert.ToInt32(TableID);
-                mt.Title = Title;
-                mt.FileName = FileName;
-                mt.SQL = SQL;
-                mt.PredefinedSQL = PredefinedSQL;
-                mt.TableName = TableName;
-                mt.TableType = Convert.ToInt32(TableType); ;
-                mt.PrimaryKey = PrimaryKey;
-                mt.IsPlus = Convert.ToInt32(IsPlus);
-                mt.IsWhere = Convert.ToInt32(IsWhere);
-                mt.IsChoice = Convert.ToInt32(IsChoice);
-                mt.IsInsert = Convert.ToInt32(IsInsert);
-                mt.IsUpdate = Convert.ToInt32(IsUpdate);
-                mt.IsDelete = Convert.ToInt32(IsDelete);
-                mt.Note = Note;
+                PropertyInfo[] propertys = mt.GetType().GetProperties();
+                foreach (PropertyInfo property in propertys)
+                {
+                    var attrName = property.Name;
+                    if (xn.Attributes[attrName] != null)
+                    {                     
+                        Type columnType = property.PropertyType;
+                        object obj = Convert.ChangeType(xn.Attributes[attrName].Value, columnType);
+                        property.SetValue(mt, obj, null);
+                    }
+                }
             }
             return mt;
         }
@@ -190,23 +152,17 @@ namespace BLL
                     foreach (XmlNode xcn in XmlColumnsNode.ChildNodes)
                     {
                         Model.M_TableField mf = new Model.M_TableField();
-                        string FieldKey = xcn.Attributes["FieldKey"].Value;
-                        string FieldText = xcn.Attributes["FieldText"].Value;
-                        string FieldDataType = xcn.Attributes["FieldDataType"].Value;
-                        string FieldData = xcn.Attributes["FieldData"].Value;
-                        string FieldStatusID = xcn.Attributes["FieldStatusID"].Value;
-                        string SelectType = xcn.Attributes["SelectType"].Value;
-                        string SelectData = xcn.Attributes["SelectData"].Value;
-                        string FieldOrder = xcn.Attributes["FieldOrder"].Value;
-                        mf.TableID = ItemID;
-                        mf.FieldKey = FieldKey;
-                        mf.FieldText = FieldText;
-                        mf.FieldDataType = Convert.ToInt32(FieldDataType);
-                        mf.FieldData = FieldData;
-                        mf.FieldStatusID = Convert.ToInt32(FieldStatusID);
-                        mf.SelectType = Convert.ToInt32(SelectType);
-                        mf.SelectData = SelectData;
-                        mf.FieldOrder = Convert.ToInt32(FieldOrder);
+                        PropertyInfo[] propertys = mf.GetType().GetProperties();
+                        foreach (PropertyInfo property in propertys)
+                        {
+                            var attrName = property.Name;
+                            if (xcn.Attributes[attrName] != null)
+                            {
+                                Type columnType = property.PropertyType;
+                                object obj = Convert.ChangeType(xcn.Attributes[attrName].Value, columnType);
+                                property.SetValue(mf, obj, null);
+                            }
+                        }
                         ListModel.Add(mf);
                     }
                 }
@@ -450,7 +406,12 @@ namespace BLL
             StringBuilder sb = new StringBuilder();
             sb.Append("<tr role=\"row\" class=\"odd\">");
             sb.Append("<td>" + mf.FieldKey + "<div class=\"input-group input-group-sm\"><input type=\"text\" name=\"FieldKey\" class=\"form-control hidden\" value='" + mf.FieldKey + "'/></div></td>");
-            sb.Append("<td class=\"form-inline\"><div class=\"input-group input-group-sm\"><input type=\"text\" name=\"FieldText\"  class=\"form-control\" value='" + mf.FieldText + "\'/></div><a class=\"text-primary \" href=\"javascript:void(0)\" onclick=\"setFieldOther('" + mf.FieldKey + "')\">&nbsp;其他设置</a></td>");
+            sb.Append("<td class=\"form-inline\"><div class=\"input-group input-group-sm\"><input type=\"text\" name=\"FieldText\"  class=\"form-control\" value='" + mf.FieldText + "\'/></div>");
+            sb.Append("<a class=\"text-primary \" href=\"javascript:void(0)\" onclick=\"setFieldOther(this,'" + mf.FieldKey + "')\">&nbsp;其他设置</a>");
+            sb.Append("<input type=\"text\" class=\"form-control hidden\" name=\"TextAlign\" value='" + mf.TextAlign + "'/>");
+            sb.Append("<input type=\"text\" class=\"form-control hidden\" name=\"Width\" value='" + mf.Width + "'/>");
+            sb.Append("<input type=\"text\" class=\"form-control hidden\" name=\"OtherCSS\" value='" + mf.OtherCSS + "'/>");
+            sb.Append("</td>");
             sb.Append("<td class=\"form-inline\">" + GetFieldDataTypeHtml(mf.FieldDataType, mf.FieldData) + "</td>");//
             sb.Append("<td class=\"form-inline\">" + GetSelectTypeHtml(mf.SelectType, mf.SelectData) + "</div>");
             sb.Append("<td>" + GetFieldStatusIDHtml(mf.FieldStatusID) + "</td>");

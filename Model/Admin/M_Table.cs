@@ -220,5 +220,20 @@ namespace Model
             else
                 return false;
         }
+        /// <summary>
+        /// 利用反射来判断对象是否包含某个属性
+        /// </summary>
+        /// <param name="instance">object</param>
+        /// <param name="propertyName">需要判断的属性</param>
+        /// <returns>是否包含</returns>
+        public bool ContainProperty(string propertyName)
+        {
+            if (this != null && !string.IsNullOrEmpty(propertyName))
+            {
+                object _findedPropertyInfo = this.GetType().GetProperty(propertyName);
+                return (_findedPropertyInfo != null);
+            }
+            return false;
+        }
     }
 }

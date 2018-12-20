@@ -135,6 +135,14 @@ $(function () {
         funaggregate = funaggregate || {}
         //注册按钮事件
         $(function () {
+            var TableThNameHtml = "<div><table class='table table-bordered'>";
+            $(".ThForMoreButton").siblings("th").each(function (index) {
+                TableThNameHtml += "<tr><td style='padding:5px;'><input type='checkbox' checked='checked' data-index='" + (index + 1) + "' /> " + $(this).text() + "</td></tr>";
+                var textalign = $(this).css("text-align");
+                $("#example tr td:nth-child(" + (index + 1) + ")").css("text-align", textalign);
+            });
+            TableThNameHtml += "</table></div>";
+            //
             var data = redata
                 , $body = $('body')
                 , commend = {
@@ -227,23 +235,17 @@ $(function () {
                                     $(this).hide();
                                     var item = valuelist[i];
                                     var index = $("#example th[filedkey=" + item + "]").index();
-                                    if ($(this).find("td:eq(" + index + ")").filter(":contains('" + value + "')").length > 0)
-                                    {
+                                    if ($(this).find("td:eq(" + index + ")").filter(":contains('" + value + "')").length > 0) {
                                         $(this).show();
                                         break;
                                     }
                                 }
-                            })                           
+                            })
                         } else {
                             $('#example tbody tr').show();
                         }
                     }, ShowColumn: funaggregate.ShowColumn || function (sender) {
                         loadding('加载中，请稍等...');
-                        var showHtml = "<div><table class='table table-bordered'>";
-                        $(this).parent("th").siblings("th").each(function (index) {
-                            showHtml += "<tr><td style='padding:5px;'><input type='checkbox' checked='checked' data-index='" + (index + 1) + "' /> " + $(this).text() + "</td></tr>";
-                        });
-                        showHtml += "</table></div>";
                         //页面层
                         layer.open({
                             type: 1,
@@ -253,11 +255,10 @@ $(function () {
                             skin: 'layui-layer-rim', //加上边框
                             area: ['200px'], //宽高
                             offset: 'rt',
-                            content: showHtml,
+                            content: TableThNameHtml,
                             success: function () {
                                 $("#columninfo input[type='checkbox']").change(function () {
                                     var index = $(this).data("index");
-                                    console.log(index);
                                     if ($(this).is(':checked')) {
                                         $("#example tr th:nth-child(" + index + ")").show();
                                         $("#example tr td:nth-child(" + index + ")").show();
@@ -270,8 +271,8 @@ $(function () {
                         });
                         loadClose();
                     }
-                };           
-            $('body *[bnt-click]').unbind("click");  
+                };
+            $('body *[bnt-click]').unbind("click");
             $('body *[bnt-click]').bind('click', function () {
                 var othis = $(this)
                     , attrEvent = othis.attr('bnt-click');
@@ -283,12 +284,12 @@ $(function () {
                     , attrEvent = othis.attr('bnt-keyup');
                 clickList[attrEvent] && clickList[attrEvent].call(this, othis);
             });
-           //选中行
+            //选中行
             $(function () {
                 $("#example tr").click(function () {
                     $("#example tr").css("background-color", "");
                     $(this).css("background-color", "#eee");
-                })
+                });
                 $("#example tr").mouseover(function () {
                     $("#example tr").css("background-color", "");
                     $(this).css("background-color", "#eee");
@@ -297,28 +298,37 @@ $(function () {
                     $("#example tr").css("background-color", "");
                     $(this).css("background-color", "#eee");
                 });
-                $("#example tr td").mouseover(function (e) {
-                    $('body').append('<div id="tooltip">' + $(this).text() + '</div>');
-                    var thisWidth = $(this).width(); // div 的宽度
-                    var wordWidth = $('#tooltip').width(); // 先转为js对象; 文字的宽度
-                     if (wordWidth > thisWidth + 5) { // 加5是为了让div宽度多一点,比文字不超出时多宽,因为文字不超出,那么宽度为div的宽度
-                         $('#tooltip').css({
-                             'left': (e.pageX + 'px'),
-                             'top': (e.pageY + 'px')
-                         }).show();
-                    }
-                }).mouseout(function () {
-                    $('#tooltip').remove();
-                });
-                $("#example .showBntDiv").parent("td").css({ "position": "relative", "overflow":"inherit"});
+                $("#example .showBntDiv").parent("td").addClass("tdpositionoverflow");
                 $("#example .showBntA").mouseover(function () {
                     $(this).nextAll(".showBntDiv").removeClass("hide");
                 });
                 $("#example .showBntDiv").mouseleave(function () {
                     $(this).addClass("hide");
                 });
+                $("#example tr td:not([class=tdpositionoverflow])").mouseover(function (e) {
+                    $('body').append('<div id="tooltip">' + $(this).text() + '</div>');
+                    var windowWidth = $(window).width();
+                    var thisWidth = $(this).width(); // div 的宽度
+                    var wordWidth = $('#tooltip').width(); // 先转为js对象; 文字的宽度
+                    var x = e.pageX;
+                    var y = e.pageY;
+                    var r = windowWidth - x - thisWidth - 100;
+                    if (windowWidth / 2 < x) {
+                        r = windowWidth - x;
+                        x = x - thisWidth - 100;
+                    }
+                    if (wordWidth > thisWidth + 5) { // 加5是为了让div宽度多一点,比文字不超出时多宽,因为文字不超出,那么宽度为div的宽度
+                        $('#tooltip').css({
+                            'left': (x + 'px'),
+                            'right': (r + 'px'),
+                            'top': (y + 'px')
+                        }).show();
+                    }
+                }).mouseout(function () {
+                    $('#tooltip').remove();
+                });
             });
-        })
+        });
         if (jQuery.isFunction("GetDataSuccess")) {
             GetDataSuccess();
         }

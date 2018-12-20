@@ -228,10 +228,11 @@
             text-decoration: none;
             transition: ease .2s;
         }
-        .contextmenu li:hover {
-            background: #CE93D8;
-            border-left: 3px solid #9C27B0;
-        }
+            .contextmenu li:hover {
+                background: #3c8dbc;
+                opacity: 0.9;
+                border-left: 3px solid #337ab7;
+            }
         .contextmenu li:hover a {
             color: #FFFFFF;
         }

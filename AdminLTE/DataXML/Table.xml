@@ -3,19 +3,19 @@
   <MAXID>3</MAXID>
   <OPTION TableID="1" Title="页面管理" PrimaryKey="TableID" FileName="PageList" SQL="select '' as TableID,'' as Title,'' as FileName,'' as TableType,'' as TableName,'' as SQL,'' as Note" PredefinedSQL="[{&quot;type&quot;:&quot;COUNT&quot;,&quot;key&quot;:&quot;TableID&quot;,&quot;title&quot;:&quot;记录总条数：&quot;}]" TableType="2" TableName="Table.xml" IsPlus="1" IsWhere="1" IsChoice="0" IsInsert="1" IsUpdate="1" IsDelete="1" Note="" ColunmName="1">
     <COLUMNS>
-      <TableID FieldKey="TableID" FieldText="编号" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="1" >
+      <TableID FieldKey="TableID" FieldText="编号" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="1" TextAlign="left" Width="50px" OtherCSS="">
       </TableID>
-      <Title FieldKey="Title" FieldText="页面标题" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="1" SelectData="" FieldOrder="2">
+      <Title FieldKey="Title" FieldText="页面标题" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="1" SelectData="" FieldOrder="2" TextAlign="left" Width="" OtherCSS="">
       </Title>
-      <FileName FieldKey="FileName" FieldText="页面文件名" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="3">
+      <FileName FieldKey="FileName" FieldText="页面文件名" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="3" TextAlign="left" Width="" OtherCSS="">
       </FileName>
-      <TableName FieldKey="TableName" FieldText="数据对象" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="5">
+      <TableName FieldKey="TableName" FieldText="数据对象" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="5" TextAlign="left" Width="" OtherCSS="">
       </TableName>
-      <Note FieldKey="Note" FieldText="备注" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="7">
+      <Note FieldKey="Note" FieldText="备注" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="7" TextAlign="left" Width="" OtherCSS="">
       </Note>
-      <TableType FieldKey="TableType" FieldText="数据类型" FieldDataType="2" FieldData="data == 1?&quot;数据库表格&quot;:&quot;XML数据表&quot;" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="4">
+      <TableType FieldKey="TableType" FieldText="数据类型" FieldDataType="2" FieldData="data == 1?&quot;数据库表格&quot;:&quot;XML数据表&quot;" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="4" TextAlign="left" Width="" OtherCSS="">
       </TableType>
-      <SQL FieldKey="SQL" FieldText="数据集合" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="6">
+      <SQL FieldKey="SQL" FieldText="数据集合" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="6" TextAlign="left" Width="" OtherCSS="">
       </SQL>
     </COLUMNS>
     <TopHead>

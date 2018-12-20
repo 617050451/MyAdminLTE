@@ -108,7 +108,9 @@ namespace BLL
             {
                 if (item.FieldStatusID == 1)
                 {
-                    TableThead.Append(string.Format("<th aria-controls=\"example\" filedkey=\"{0}\" rowspan=\"1\" colspan=\"1\" aria-label=\"{1}: \">{2}</th>", item.FieldKey, item.FieldText, item.FieldText));
+                    var Width = item.Width;
+                    var TextAlign = item.TextAlign;
+                    TableThead.Append(string.Format("<th aria-controls=\"example\" filedkey=\"{0}\" rowspan=\"1\" colspan=\"1\" aria-label=\"{1}: \" style=\"width:{2};text-align:{3};\">{4}</th>", item.FieldKey, item.FieldText, Width, TextAlign, item.FieldText));
                     Columns.Append(SetFieldDataType(item.FieldDataType, item.FieldData, item.FieldKey));
                 }
             }
