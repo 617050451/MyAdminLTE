@@ -250,7 +250,7 @@ $(function () {
                         layer.open({
                             type: 1,
                             id: "columninfo",
-                            title: "设置显示标题列",
+                            title: "设置数据列",
                             shade: false,
                             skin: 'layui-layer-rim', //加上边框
                             area: ['200px'], //宽高
@@ -527,7 +527,6 @@ jQuery.unescapeHTML = function (a) {
     a = "" + a;
     return a.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&apos;/g, "'");
 }
-
 jQuery.cookie = function (name, value, options) {
     if (typeof value != 'undefined') {
         options = options || {};

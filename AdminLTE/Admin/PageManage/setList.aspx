@@ -86,7 +86,7 @@
                             <td style="width: 240px;">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-info" onclick="bntOrderClick()">自动排序</button>
-                                    <button type="button" class="btn btn-info" onclick="showMoreButtonsHtml()">更多按钮</button>
+<%--                                    <button type="button" class="btn btn-info" onclick="showMoreButtonsHtml()">更多按钮</button>--%>
                                     <button type="button" class="btn btn-info" onclick="bntSaveClick(this)">保&nbsp;存</button>
                                 </div>
                             </td>

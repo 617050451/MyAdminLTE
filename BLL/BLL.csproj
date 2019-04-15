@@ -51,6 +51,7 @@
     <Compile Include="Admin\JsonHelper.cs" />
     <Compile Include="Admin\t_TablesClass.cs" />
     <Compile Include="Admin\ObjectData.cs" />
+    <Compile Include="Admin\WeChatHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

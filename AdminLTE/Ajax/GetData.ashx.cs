@@ -34,7 +34,7 @@ namespace AdminLTE.Ajax
                     case "GetDataView":
                         GetDataView(context, Convert.ToInt32(option));
                         break;
-                    case "SaveFromData":
+                    case "SaveFromData"://
                         var ChoiceValue = context.Request["ChoiceValue"];
                         if(string.IsNullOrWhiteSpace(ChoiceValue))
                             InsertData(context, Convert.ToInt32(option));

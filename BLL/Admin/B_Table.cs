@@ -375,10 +375,10 @@ namespace BLL
                 }
                 else
                     SQLFieldKey += "," + item.FieldKey;
-            }
+            } 
             sb.Append(SQLFieldKey.TrimEnd(',') + " FROM " + TableName + " AS NewCyFsTable ");
             var WhereSQL = GetWhereSQL(where, 1);
-            var OrderBySQL = GetOrderBySQL(order, 1);
+            var OrderBySQL = GetOrderBySQL(order, 1, TableModel.PrimaryKey);
             sb.Append(WhereSQL);
             sb.Append(OrderBySQL);
             var NewPageSQL = string.Format(sb.ToString(), OrderBySQL);
@@ -466,7 +466,7 @@ namespace BLL
         /// </summary>
         /// <param name="order"></param>
         /// <returns></returns>
-        public string GetOrderBySQL(string order, int type)
+        public string GetOrderBySQL(string order, int type,string primarykey)
         {
             var TableFielModelList = this.GetTableFieldModel();
             StringBuilder sb = new StringBuilder();
@@ -488,7 +488,7 @@ namespace BLL
                 }
             }
             if (string.IsNullOrWhiteSpace(sb.ToString()))
-                return "";
+                return " ORDER BY "+ primarykey;
             else if (type == 1)
                 return " ORDER BY " + sb.ToString().TrimEnd(',');
             else
@@ -542,7 +542,7 @@ namespace BLL
                 System.Data.DataTable dataTable = BaseClass.GetDataTableColumns(TableModel.SQL);
                 var tableJson = BaseClass.GetDataTableForXML(dataTable, TableModel.TableName);
                 var WhereSQL = GetWhereSQL(where, 2);
-                var OrderBySQL = GetOrderBySQL(order, 2);
+                var OrderBySQL = GetOrderBySQL(order, 2, TableModel.PrimaryKey);
                 System.Data.DataRow[] queryRsesult = tableJson.Select(WhereSQL, OrderBySQL);
                 System.Data.DataTable dtCopy = tableJson.Clone();
                 int minNum = (Convert.ToInt32(PageIndex) - 1) * Convert.ToInt32(PageSize);

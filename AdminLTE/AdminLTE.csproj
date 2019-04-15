@@ -75,6 +75,13 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="DataXML\MoreButton.xml" />
+    <Content Include="Shop\css\common.css" />
+    <Content Include="Shop\img\02.png" />
+    <Content Include="Shop\img\03.png" />
+    <Content Include="Shop\img\cart.png" />
+    <Content Include="Shop\img\food.png" />
+    <Content Include="Shop\img\header.png" />
+    <Content Include="Shop\index.aspx" />
     <Content Include="Page\MoreButton.html" />
     <Content Include="Page\OldPage\MeanList.aspx" />
     <Content Include="Page\PageList.html" />
@@ -6890,6 +6897,8 @@
     <Content Include="Script\layer-v3.1.0\layer\theme\default\loading-2.gif" />
     <Content Include="Script\layer-v3.1.0\test.html" />
     <Content Include="Script\layer-v3.1.0\更新日志.txt" />
+    <Content Include="Shop\js\jquery.fly.min.js" />
+    <Content Include="Shop\js\jquery.min.js" />
     <Content Include="UplaodImg\my.jpg" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -6994,6 +7003,13 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shop\index.aspx.cs">
+      <DependentUpon>index.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Shop\index.aspx.designer.cs">
+      <DependentUpon>index.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Script\AdminLTE-2.4.2\.gitignore" />
@@ -7629,7 +7645,6 @@
     <Content Include="Ajax\GetData.ashx" />
     <Content Include="Admin\PageManage\Temp\List.html.temp" />
     <None Include="packages.config" />
-    <None Include="Properties\PublishProfiles\cy.pubxml" />
     <Content Include="Script\layer-v3.1.0\文档\jquery下载.url" />
     <Content Include="Script\layer-v3.1.0\文档\layer官网.url" />
     <Content Include="Script\layer-v3.1.0\文档\layer文档.url" />
@@ -7650,6 +7665,7 @@
     <Content Include="Script\AdminLTE-2.4.2\bower_components\bootstrap-datetimepicker\sample in bootstrap v3\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Script\AdminLTE-2.4.2\bower_components\bootstrap-datetimepicker\sample in bootstrap v3\bootstrap\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Script\AdminLTE-2.4.2\bower_components\bootstrap-datetimepicker\tests\README.md" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

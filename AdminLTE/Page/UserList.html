@@ -29,17 +29,17 @@
 </head>
 <body>
     <form id="PageForm">
-        <section class="content" style="padding-top: 5px;">
-            <div data-resple="iswhere" class="box box-solid hidden" style="margin-bottom: 5px;">
-                <div class="box-header with-border" style="padding:5px;">
-                    <h3 class="box-title" style="font-size:15px;">高级查询</h3>
+        <section class="content paddingxl">
+            <div data-resple="iswhere" class="box box-solid marginbottomxl hidden">
+                <div class="box-header with-border">
+                    <h3 class="box-title" style="font-weight: 600;text-align: center;display: block;">用户管理</h3>
                     <div class="box-tools">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse" style="margin-top:-5px;">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
                             <i data-resple="isplus" class=""></i>
                         </button>
                     </div>
                 </div>
-                <div class="box box-danger" style="margin-bottom: 5px;">
+                <div class="box box-default marginbottomxl">
                     <div class="box-body" id="selectwherefrom">
                       <div class="col-lg-2"><label class="col-xs control-label table-label">搜索<span class="text-danger">（姓名、电话、地址）</span></label ><input type="text" bnt-keyup="SEOFieldKey" bnt-value="Name,Telephone,Address"  name="SEOFieldKey" data-type="datepicker"  class="form-control" placeholder="搜索" /></div><div class="col-lg-2" style="width: 12%;"><label class="col-xs control-label table-label">性别<span class="text-danger">（下拉查询）</span></label ><select name="Sex" class="form-control select2 select2-hidden-accessible"  aria-hidden="true" ><option selected = "selected" value = "AllOption" >全部</option ><option value = "1" >男</option ><option value = "0" >女</option ></select></div><div class="col-lg-2" style="width: 12%;"><label class="col-xs control-label table-label">状态<span class="text-danger">（下拉查询）</span></label ><select name="StatusID" class="form-control select2 select2-hidden-accessible"  aria-hidden="true" ><option selected = "selected" value = "AllOption" >全部</option ><option value = "1" >启用</option ><option value = "0" >不启用</option ></select></div><div class="col-lg-3"><label class="col-xs control-label table-label" style="width:100%;">录入时间<span class="text-danger">（时间查询）<span></label ><input type="text" style="width:40%;display: inline;" name="CreaterDateTime__Start" data-type="datepicker"  class="form-control" placeholder="起始时间" id="CreaterDateTime__Start" />　<input type="text" style="width:40%;display: inline;" name="CreaterDateTime__End" data-type="datepicker"  class="form-control" placeholder="截止时间" id="CreaterDateTime__End" /></div><script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script><script>$('#CreaterDateTime__Start').datetimepicker({format: 'yyyy-mm-dd',autoclose : true,minView: '2',todayBtn: true,minuteStep: 1});$('#CreaterDateTime__End').datetimepicker({format: 'yyyy-mm-dd',autoclose : true,minView: '2',todayBtn: true,minuteStep: 1})</script><div bnt-click="Select" class="col-sm-1 table-p" style="margin-top:30px;"><button type ="button" class="btn btn-danger pull-right btn-block btn-primary">查询</button></div>
                     </div>
@@ -47,17 +47,17 @@
             </div>
             <div class="row">
                 <div class="col-xs-12">
-                    <div class="box box-primary">
+                    <div class="box box-solid box-default">
                         <div class="box-body">
                             <div id="ltlbnts" class="pull-left" style="height:24px;">
 							    <button name='DeleteItemID' bnt-click='DeleteItemID' style='margin-right:2px;' type='button' class='btn btn-danger btn-xs'>删　除</button><button name='InsertItemID' bnt-click='InsertItemID' style='margin-right:2px;' type='button' class='btn btn-success btn-xs'>新　增</button> 
                             </div>
                             <div id="ltlSum" class="pull-right" style="height:24px;">
                             </div>
-                            <table id="example" class="table table-bordered table-hover" style="margin-top:-13px;">
+                            <table id="example" class="table table-bordered table-hover">
                                 <thead>
                                     <tr role="row" style="background-color: rgb(238, 238, 238);">
-									<th style="width:12px;"  rowspan="1" colspan="1" aria-label=""><input bnt-click="SelectAll" name="SelectAll" type="checkbox" class="table-checkable"></th><th aria-controls="example" filedkey="No" rowspan="1" colspan="1" aria-label="编号: ">编号</th><th aria-controls="example" filedkey="Account" rowspan="1" colspan="1" aria-label="账号: ">账号</th><th aria-controls="example" filedkey="Password" rowspan="1" colspan="1" aria-label="密码: ">密码</th><th aria-controls="example" filedkey="Name" rowspan="1" colspan="1" aria-label="姓名: ">姓名</th><th aria-controls="example" filedkey="ImgUrl" rowspan="1" colspan="1" aria-label="头像: ">头像</th><th aria-controls="example" filedkey="Sex" rowspan="1" colspan="1" aria-label="性别: ">性别</th><th aria-controls="example" filedkey="Birthday" rowspan="1" colspan="1" aria-label="生日: ">生日</th><th aria-controls="example" filedkey="Telephone" rowspan="1" colspan="1" aria-label="电话: ">电话</th><th aria-controls="example" filedkey="Address" rowspan="1" colspan="1" aria-label="地址: ">地址</th><th aria-controls="example" filedkey="StatusID" rowspan="1" colspan="1" aria-label="状态: ">状态</th><th aria-controls="example" filedkey="CreatorID" rowspan="1" colspan="1" aria-label="录入人: ">录入人</th><th aria-controls="example" filedkey="CreaterDateTime" rowspan="1" colspan="1" aria-label="录入时间: ">录入时间</th><th aria-controls="example" rowspan="1" colspan="1" aria-label="操作: ">操作</th>
+									<th style="width:12px;"  rowspan="1" colspan="1" aria-label=""><input bnt-click="SelectAll" name="SelectAll" type="checkbox" class="table-checkable"></th><th aria-controls="example" filedkey="No" rowspan="1" colspan="1" aria-label="编号: " style="width:50px;text-align:left;">编号</th><th aria-controls="example" filedkey="Account" rowspan="1" colspan="1" aria-label="账号: " style="width:50px;text-align:left;">账号</th><th aria-controls="example" filedkey="Password" rowspan="1" colspan="1" aria-label="密码: " style="width:50px;text-align:left;">密码</th><th aria-controls="example" filedkey="Name" rowspan="1" colspan="1" aria-label="姓名: " style="width:50px;text-align:left;">姓名</th><th aria-controls="example" filedkey="ImgUrl" rowspan="1" colspan="1" aria-label="头像: " style="width:50px;text-align:left;">头像</th><th aria-controls="example" filedkey="Sex" rowspan="1" colspan="1" aria-label="性别: " style="width:50px;text-align:left;">性别</th><th aria-controls="example" filedkey="Birthday" rowspan="1" colspan="1" aria-label="生日: " style="width:50px;text-align:left;">生日</th><th aria-controls="example" filedkey="Telephone" rowspan="1" colspan="1" aria-label="电话: " style="width:50px;text-align:left;">电话</th><th aria-controls="example" filedkey="Address" rowspan="1" colspan="1" aria-label="地址: " style="width:50px;text-align:left;">地址</th><th aria-controls="example" filedkey="StatusID" rowspan="1" colspan="1" aria-label="状态: " style="width:50px;text-align:left;">状态</th><th aria-controls="example" filedkey="CreatorID" rowspan="1" colspan="1" aria-label="录入人: " style="width:50px;text-align:left;">录入人</th><th aria-controls="example" filedkey="CreaterDateTime" rowspan="1" colspan="1" aria-label="录入时间: " style="width:50px;text-align:left;">录入时间</th><th aria-controls="example" class="ThForMoreButton" rowspan="1" colspan="1" aria-label="更多: "><a  bnt-click='ShowColumn' href='javascropt:void(0)'><i class='fa fa-cog'></i></a></th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -90,7 +90,86 @@
         $(function () {
 		    var funaggregate = {};
 			
-            var columns = [{ "data": "ItemID", render: function (data, type, row) { return "<input  bnt-click='CheckBoxItemID' name='CheckBoxItemID' type='checkbox' class='table-checkable'  value='" + data + "'/>" } },{"data": "No", render: function (data, type, row) { return  data }},{"data": "Account", render: function (data, type, row) { return  data }},{"data": "Password", render: function (data, type, row) { return  data }},{"data": "Name", render: function (data, type, row) { return  data }},{"data": "ImgUrl", render: function (data, type, row) {  SetImgUrl(row,data,function (reData) { data=reData;}); return data; }},{"data": "Sex", render: function (data, type, row) { return  data == 1?"男":"女" }},{"data": "Birthday", render: function (data, type, row) { return SetDateTime(data,"yyyy年MM月dd日 ");}},{"data": "Telephone", render: function (data, type, row) { return  data }},{"data": "Address", render: function (data, type, row) { return  data }},{"data": "StatusID", render: function (data, type, row) { return  data == 1?"启用":"禁用" }},{"data": "CreatorID", render: function (data, type, row) { return data;}},{"data": "CreaterDateTime", render: function (data, type, row) { return SetDateTime(data,"yyyy-MM-dd HH:mm:ss");}},{"data": "ItemID", render: function (data, type, row) { return "<button name='UpdateItemID' bnt-click = 'UpdateItemID'  type = 'button' class='btn btn-warning  btn-xs' value='"+ data+"'>修　改</button> "}}];
+			var Index;
+            function LayerOpenHtml(option, title, value) {
+                var showHtml = $("#LayerOpenHtml").html();
+                //页面层
+                layer.open({
+                    type: 1,
+                    id: value,
+                    title: title,
+                    skin: 'layui-layer-rim', //加上边框
+                    area: ['680px', '495px'], //宽高
+                    content: showHtml,
+                    success: function () {
+					  if (value != undefined && value != null && value != "") {
+                            var param = {};
+                            param.Gettype = 'GetDataView';
+                            param.Option = option;
+                            param.ChoiceValue = value;
+                            $.ajax({
+                                type: "GET",
+                                url: listconifg.url,
+                                cache: false,  //禁用缓存
+                                data: param,  //传入组装的参数
+                                dataType: "json",
+                                async: false,
+                                success: function (result) {
+                                    if (result.code != null && result.code != "") {
+                                        layer.msg(result.msg);
+                                    } else {
+                                        var json = result[0];
+                                        $.each(json, function (key, val) {
+                                            $(".layui-layer [name=" + key + "]").val(val);
+                                        });
+                                    }
+                                },
+                                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                    layer.msg("系统繁忙，请稍等.....");
+                                }
+                            });
+                        }
+                        $(".layui-layer #LayerOpenHtmlFrom #BntClickSaveFrom").unbind("click");
+                        $(".layui-layer #LayerOpenHtmlFrom #BntClickSaveFrom").bind("click", function () {
+                            BntSaveFromData(option);
+                        })
+                    }
+                });
+            }
+            //保存事件
+            function BntSaveFromData(option) {
+                var FromValues = $(".layui-layer #LayerOpenHtmlFrom").find(listconifg.fromchildren).serializeArray();
+                var param = {};
+                param.Gettype = 'SaveFromData';
+                param.Option = option;
+                param.ChoiceValue = $(".layui-layer-content").attr("ID");
+                param.FromValues = GetFromJson(FromValues);
+                //ajax请求数据
+                $.ajax({
+                    type: "GET",
+                    url: listconifg.url,
+                    cache: false,  //禁用缓存
+                    data: param,  //传入组装的参数
+                    dataType: "json",
+                    async: false,
+                    success: function (result) {
+                        if (result != null && result.code == "1") {
+                            layer.msg('保存成功', {
+                                icon: 1, time: 1500, end: function () {
+                                    layer.closeAll();
+                                    location.reload();
+                                }
+                            });
+                        } else {
+                            layer.msg(result.msg);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        layer.msg("系统繁忙，请稍等.....");
+                    }
+                });
+            }
+            var columns = [{ "data": "ItemID", render: function (data, type, row) { return "<input  bnt-click='CheckBoxItemID' name='CheckBoxItemID' type='checkbox' class='table-checkable'  value='" + data + "'/>" } },{"data": "No", render: function (data, type, row) { return  data }},{"data": "Account", render: function (data, type, row) { return  data }},{"data": "Password", render: function (data, type, row) { return  data }},{"data": "Name", render: function (data, type, row) { return  data }},{"data": "ImgUrl", render: function (data, type, row) {  SetImgUrl(row,data,function (reData) { data=reData;}); return data; }},{"data": "Sex", render: function (data, type, row) { return  data == 1?"男":"女" }},{"data": "Birthday", render: function (data, type, row) { return SetDateTime(data,"yyyy年MM月dd日 ");}},{"data": "Telephone", render: function (data, type, row) { return  data }},{"data": "Address", render: function (data, type, row) { return  data }},{"data": "StatusID", render: function (data, type, row) { return  data == 1?"启用":"禁用" }},{"data": "CreatorID", render: function (data, type, row) { return data;}},{"data": "CreaterDateTime", render: function (data, type, row) { return SetDateTime(data,"yyyy-MM-dd HH:mm:ss");}},{"data": "ItemID", render: function (data, type, row) { return "<a class='showBntA' href='javascropt:void(0)'><i class='fa fa-ellipsis-v'></i></a><div class='showBntDiv hide'><button name='UpdateItemID' bnt-click = 'UpdateItemID'  type = 'button' class='btn btn-warning  btn-xs' value='"+ data+"'>修　改</button> </div></div>"}}];
             listconifg.isplus = 0;
             listconifg.iswhere = 1;
             listconifg.ischoice = 1;
