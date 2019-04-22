@@ -21,7 +21,7 @@ $(function () {
         "iswhere": 0,
         "ischoice": 0,
         "where": "",
-        "dom": "t<'row'<'#id.col-xs-2 table-l'l><'#id.col-xs-3'i><'#id.col-xs-6 table-p'p>>r",
+        "dom": "t<'row'<'#pageleft.col-xs-2 table-l'l><'#pageinfo.col-xs-3'i><'#pageright.col-xs-6 table-p'p>>r",
         "lengthChange": true,
         "autoWidth": false,
         "aLengthMenu": [25, 50, 100, 200],
@@ -93,6 +93,7 @@ $(function () {
                                     //此时的数据需确保正确无误，异常判断应在执行此回调前自行处理完毕
                                     callback(returnData);
                                     $("#ltlSum").html(result.sumHtml);
+                                    $("#example tr th").show();
                                     GetDataAfter(result.data, option, funaggregate);
                                 }, 10);
                             }

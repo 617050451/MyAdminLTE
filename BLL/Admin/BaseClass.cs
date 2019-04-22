@@ -225,10 +225,22 @@ namespace BLL
                     {
                         var ColunmName = dataTable.Rows[i][0].ToString();
                         var ColunmValue = dataTable.Rows[i][1].ToString();
-                        if (ColunmName == "FieldKey")
-                            xmlNodeFieldKey = XmlColumnsNode.SelectSingleNode(ColunmValue);
+                        XmlAttribute Atr = xmlNodeFieldKey.Attributes[ColunmName];
+                        if (Atr == null)
+                        {
+                            XmlAttribute nAtr = CreateAttribute(XmlColumnsNode, ColunmName, ColunmValue);
+                            if (nAtr == null)
+                                return false;
+                            else
+                                xmlNodeFieldKey.Attributes.Append(nAtr);
+                        }
                         else
-                            xmlNodeFieldKey.Attributes[ColunmName].Value = ColunmValue;
+                        {
+                            if (ColunmName == "FieldKey")
+                                xmlNodeFieldKey = XmlColumnsNode.SelectSingleNode(ColunmValue);
+                            else
+                                xmlNodeFieldKey.Attributes[ColunmName].Value = ColunmValue;
+                        }
                     }
                     xml.Save(xmlPath);
                 }
@@ -305,6 +317,23 @@ namespace BLL
             catch (Exception)
             {
                 return false;
+            }
+        }
+        public static XmlAttribute CreateAttribute(XmlNode node, string attributeName, string value)
+        {
+            try
+            {
+                XmlDocument doc = node.OwnerDocument;
+                XmlAttribute attr = null;
+                attr = doc.CreateAttribute(attributeName);
+                attr.Value = value;
+                node.Attributes.SetNamedItem(attr);
+                return attr;
+            }
+            catch (Exception err)
+            {
+                string desc = err.Message;
+                return null;
             }
         }
         /// <summary>
@@ -408,9 +437,9 @@ namespace BLL
             sb.Append("<td>" + mf.FieldKey + "<div class=\"input-group input-group-sm\"><input type=\"text\" name=\"FieldKey\" class=\"form-control hidden\" value='" + mf.FieldKey + "'/></div></td>");
             sb.Append("<td class=\"form-inline\"><div class=\"input-group input-group-sm\"><input type=\"text\" name=\"FieldText\"  class=\"form-control\" value='" + mf.FieldText + "\'/></div>");
             sb.Append("<a class=\"text-primary \" href=\"javascript:void(0)\" onclick=\"setFieldOther(this,'" + mf.FieldKey + "')\">&nbsp;其他设置</a>");
-            sb.Append("<input type=\"text\" class=\"form-control hidden\" name=\"TextAlign\" value='" + mf.TextAlign + "'/>");
-            sb.Append("<input type=\"text\" class=\"form-control hidden\" name=\"Width\" value='" + mf.Width + "'/>");
-            sb.Append("<input type=\"text\" class=\"form-control hidden\" name=\"OtherCSS\" value='" + mf.OtherCSS + "'/>");
+            sb.Append("<input type=\"text\" class=\"form-control hidden\" name=\"TextAlign\" value=\"" + mf.TextAlign + "\"/>");
+            sb.Append("<input type=\"text\" class=\"form-control hidden\" name=\"Width\" value=\"" + mf.Width + "\"/>");
+            sb.Append("<input type=\"text\" class=\"form-control hidden\" name=\"OtherCSS\" value=\"" + mf.OtherCSS + "\"/>");
             sb.Append("</td>");
             sb.Append("<td class=\"form-inline\">" + GetFieldDataTypeHtml(mf.FieldDataType, mf.FieldData) + "</td>");//
             sb.Append("<td class=\"form-inline\">" + GetSelectTypeHtml(mf.SelectType, mf.SelectData) + "</div>");

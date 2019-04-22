@@ -6,25 +6,25 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
     <!-- Bootstrap 3.3.7 -->
-    <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/Script/AdminLTE-2.4.2/bower_components/bootstrap/dist/css/bootstrap.min.css" />
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/Script/AdminLTE-2.4.2/bower_components/font-awesome/css/font-awesome.min.css" />
     <!-- Ionicons -->
-    <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/Ionicons/css/ionicons.min.css" />
+    <link rel="stylesheet" href="/Script/AdminLTE-2.4.2/bower_components/Ionicons/css/ionicons.min.css" />
     <!-- DataTables -->
-    <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css" />
+    <link rel="stylesheet" href="/Script/AdminLTE-2.4.2/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css" />
     <!-- Theme style -->
-    <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/dist/css/AdminLTE.min.css" />
+    <link rel="stylesheet" href="/Script/AdminLTE-2.4.2/dist/css/AdminLTE.min.css" />
     <!-- bootstrap datetimepicker -->
-	<link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" />
+	<link rel="stylesheet" href="/Script/AdminLTE-2.4.2/bower_components/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" />
     <!-- AdminLTE Skins. Choose a skin from the css/skins
     folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/dist/css/skins/_all-skins.min.css" />
+    <link rel="stylesheet" href="/Script/AdminLTE-2.4.2/dist/css/skins/_all-skins.min.css" />
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
-    <link href="../../Script/js/cyfs.css" rel="stylesheet" />
+    <link href="/Script/js/cyfs.css" rel="stylesheet" />
 	<!-- jQuery 3 -->
-    <script src="../../Script/AdminLTE-2.4.2/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/Script/AdminLTE-2.4.2/bower_components/jquery/dist/jquery.min.js"></script>
 	
 </head>
 <body>
@@ -48,7 +48,7 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="box box-solid box-default">
-                        <div class="box-body">
+                        <div class="box-body" style="padding-bottom: 2px;">
                             <div id="ltlbnts" class="pull-left" style="height:24px;">
 							    <button name='InsertItemID' bnt-click='InsertItemID' style='margin-right:2px;' type='button' class='btn btn-success btn-xs'>新　增</button> 
                             </div>
@@ -57,7 +57,7 @@
                             <table id="example" class="table table-bordered table-hover">
                                 <thead>
                                     <tr role="row" style="background-color: rgb(238, 238, 238);">
-									<th aria-controls="example" filedkey="TableID" rowspan="1" colspan="1" aria-label="编号: " style="width:50px;text-align:left;">编号</th><th aria-controls="example" filedkey="Title" rowspan="1" colspan="1" aria-label="页面标题: " style="width:;text-align:left;">页面标题</th><th aria-controls="example" filedkey="FileName" rowspan="1" colspan="1" aria-label="页面文件名: " style="width:;text-align:left;">页面文件名</th><th aria-controls="example" filedkey="TableType" rowspan="1" colspan="1" aria-label="数据类型: " style="width:;text-align:left;">数据类型</th><th aria-controls="example" filedkey="TableName" rowspan="1" colspan="1" aria-label="数据对象: " style="width:;text-align:left;">数据对象</th><th aria-controls="example" filedkey="SQL" rowspan="1" colspan="1" aria-label="数据集合: " style="width:;text-align:left;">数据集合</th><th aria-controls="example" filedkey="Note" rowspan="1" colspan="1" aria-label="备注: " style="width:;text-align:left;">备注</th><th aria-controls="example" class="ThForMoreButton" rowspan="1" colspan="1" aria-label="更多: "><a  bnt-click='ShowColumn' href='javascropt:void(0)'><i class='fa fa-cog'></i></a></th>
+									<th aria-controls="example" filedkey="TableID" rowspan="1" colspan="1" aria-label="编号: " style="width:30px;text-align:left;;">编号</th><th aria-controls="example" filedkey="Title" rowspan="1" colspan="1" aria-label="页面标题: " style="width:;text-align:center;;">页面标题</th><th aria-controls="example" filedkey="FileName" rowspan="1" colspan="1" aria-label="页面文件名: " style="width:;text-align:left;;">页面文件名</th><th aria-controls="example" filedkey="TableType" rowspan="1" colspan="1" aria-label="数据类型: " style="width:;text-align:left;;">数据类型</th><th aria-controls="example" filedkey="TableName" rowspan="1" colspan="1" aria-label="数据对象: " style="width:;text-align:left;;">数据对象</th><th aria-controls="example" filedkey="SQL" rowspan="1" colspan="1" aria-label="数据集合: " style="width:;text-align:left;;">数据集合</th><th aria-controls="example" filedkey="Note" rowspan="1" colspan="1" aria-label="备注: " style="width:;text-align:left;;">备注</th><th aria-controls="example" class="ThForMoreButton" rowspan="1" colspan="1" aria-label="更多: "><a  bnt-click='ShowColumn' href='javascropt:void(0)'><i class='fa fa-cog'></i></a></th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -73,17 +73,17 @@
         </section>
     </form>
     <!-- Bootstrap 3.3.7 -->
-    <script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/Script/AdminLTE-2.4.2/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- DataTables -->
-    <script src="../../Script/AdminLTE-2.4.2/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="../../Script/AdminLTE-2.4.2/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="/Script/AdminLTE-2.4.2/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="/Script/AdminLTE-2.4.2/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
     <!-- SlimScroll -->
-    <script src="../../Script/AdminLTE-2.4.2/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="/Script/AdminLTE-2.4.2/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
     <!-- FastClick -->
-    <script src="../../Script/AdminLTE-2.4.2/bower_components/fastclick/lib/fastclick.js"></script>
+    <script src="/Script/AdminLTE-2.4.2/bower_components/fastclick/lib/fastclick.js"></script>
     <!-- AdminLTE App -->
-    <script src="../../Script/AdminLTE-2.4.2/dist/js/adminlte.min.js"></script>
-    <script src="../../Script/layer-v3.1.0/layer/layer.js"></script>
+    <script src="/Script/AdminLTE-2.4.2/dist/js/adminlte.min.js"></script>
+    <script src="/Script/layer-v3.1.0/layer/layer.js"></script>
     <script src="../Script/js/DataPageHandle.js"></script>
 	   <div id="LayerOpenHtml" class="hidden">
         <div id="LayerOpenHtmlFrom">

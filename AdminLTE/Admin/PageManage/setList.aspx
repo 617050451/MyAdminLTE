@@ -34,59 +34,72 @@
 </head>
 <body>
     <form id="FromPage">
-        <section class="content" style="padding-top:0px;">
+        <section class="content" style="padding-top: 0px;">
             <div class="row">
                 <table id="tableInfo" class="table" style="margin: 0px; border: 1px solid #f4f4f4; border-top: none;">
                     <tbody>
                         <tr>
-                            <td style="border-top:none;">
-                                <h4 style="padding:0;margin:0;">
-                                    <a href="javasrcpt:void(0)"><span class="label label-warning" onclick="showTableInfoHtml()" style="margin-top:7px;display: inline-block;line-height: 1.2;"><%=TableModel.Title %><%=TableModel.FileName %></span></a>
-                                    <a href="javasrcpt:void(0)"><span class="label label-primary" onclick="showTableInfoHtmlSum()" style="margin-top:7px;display: inline-block;line-height: 1.2;">显示设置</span></a>
-                                    <a href="javasrcpt:void(0)"><span class="label label-primary" onclick="showFragmentCodeHtml()" style="margin-top:7px;display: inline-block;line-height: 1.2;">片段代码</span></a>
+                            <td style="border-top: none;">
+                                <h4 style="padding: 0; margin: 0;">
+                                    <a href="javasrcpt:void(0)"><span class="label label-warning" onclick="showTableInfoHtml()" style="margin-top: 7px; display: inline-block; line-height: 1.2;"><%=TableModel.Title %><%=TableModel.FileName %></span></a>
+                                    <a href="javasrcpt:void(0)"><span class="label label-primary" onclick="showTableInfoHtmlSum()" style="margin-top: 7px; display: inline-block; line-height: 1.2;">显示设置</span></a>
+                                    <a href="javasrcpt:void(0)"><span class="label label-primary" onclick="showFragmentCodeHtml()" style="margin-top: 7px; display: inline-block; line-height: 1.2;">片段代码</span></a>
                                     <a href="javascript:PagePreview('<%=TableModel.Title %>','/Page/<%=TableModel.FileName %>.html','<%=TableModel.TableID %>')">
-                                        <span class="label label-primary" style="margin-top:7px;display: inline-block;line-height: 1.2;">页面预览</span></a>
+                                        <span class="label label-primary" style="margin-top: 7px; display: inline-block; line-height: 1.2;">页面预览</span></a>
                                 </h4>
                             </td>
-                            <td>
-                                <select name="IsChoice" class="form-control select2 select2-hidden-accessible">
-                                    <option <%=TableModel.IsChoice==1?"selected='selected'":"" %> value="1">有选择</option>
-                                    <option <%=TableModel.IsChoice==0?"selected='selected'":"" %> value="0">无选择</option>
-                                </select>
+                            <td style="padding:8px 0;">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="IsChoice" value="1" <%=TableModel.IsChoice==1?"checked='checked'":"" %> />
+                                        选择
+                                    </label>
+                                </div>
                             </td>
-                            <td>
-                                <select name="IsInsert" class="form-control select2 select2-hidden-accessible">
-                                    <option <%=TableModel.IsInsert==1?"selected='selected'":"" %> value="1">有添加</option>
-                                    <option <%=TableModel.IsInsert==0?"selected='selected'":"" %> value="0">无添加</option>
-                                </select>
+                            <td style="padding:8px 0;">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="IsInsert" value="1" <%=TableModel.IsInsert==1?"checked='checked'":"" %> />
+                                        添加
+                                    </label>
+                                </div>
                             </td>
-                            <td>
-                                <select name="IsUpdate" class="form-control select2 select2-hidden-accessible">
-                                    <option <%=TableModel.IsUpdate==1?"selected='selected'":"" %> value="1">有修改</option>
-                                    <option <%=TableModel.IsUpdate==0?"selected='selected'":"" %> value="0">无修改</option>
-                                </select></td>
-                            <td>
-                                <select name="IsDelete" class="form-control select2 select2-hidden-accessible">
-                                    <option <%=TableModel.IsDelete==1?"selected='selected'":"" %> value="1">有删除</option>
-                                    <option <%=TableModel.IsDelete==0?"selected='selected'":"" %> value="0">无删除</option>
-                                </select>
+                          <td style="padding:8px 0;">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="IsUpdate" value="1" <%=TableModel.IsUpdate==1?"checked='checked'":"" %> />
+                                        修改
+                                    </label>
+                                </div>
                             </td>
-                            <td>
-                                <select name="IsWhere" class="form-control select2 select2-hidden-accessible">
-                                    <option <%=TableModel.IsWhere==1?"selected='selected'":"" %> value="1">有查询</option>
-                                    <option <%=TableModel.IsWhere==0?"selected='selected'":"" %> value="0">无查询</option>
-                                </select>
+                            <td style="padding:8px 0;">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="IsDelete" value="1" <%=TableModel.IsDelete==1?"checked='checked'":"" %> />
+                                        删除
+                                    </label>
+                                </div>
                             </td>
-                            <td>
-                                <select name="IsPlus" class="form-control select2 select2-hidden-accessible">
-                                    <option <%=TableModel.IsPlus==1?"selected='selected'":"" %> value="1">折叠</option>
-                                    <option <%=TableModel.IsPlus==0?"selected='selected'":"" %> value="0">展开</option>
-                                </select>
+                           <td style="padding:8px 0;">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="IsWhere" value="1" <%=TableModel.IsWhere==1?"checked='checked'":"" %> />
+                                        查询
+                                    </label>
+                                </div>
                             </td>
-                            <td style="width: 240px;">
+                           <td style="padding:8px 0;">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="IsPlus" value="1" <%=TableModel.IsPlus==1?"checked='checked'":"" %> />
+                                        折叠
+                                    </label>
+                                </div>
+                            </td>
+                            <td style="text-align: right;">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-info" onclick="bntOrderClick()">自动排序</button>
-<%--                                    <button type="button" class="btn btn-info" onclick="showMoreButtonsHtml()">更多按钮</button>--%>
+                                    <%--                                    <button type="button" class="btn btn-info" onclick="showMoreButtonsHtml()">更多按钮</button>--%>
                                     <button type="button" class="btn btn-info" onclick="bntSaveClick(this)">保&nbsp;存</button>
                                 </div>
                             </td>
@@ -96,7 +109,7 @@
                 <table id="example" class="table table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th style="width:100px;">字段称</th>
+                            <th style="width: 100px;">字段称</th>
                             <th>显示名称</th>
                             <th>数据处理</th>
                             <th>查询条件</th>
@@ -148,8 +161,10 @@
             <div class="col-sm-12" style="margin-top: 5px;">
                 <div class="text-center">
                     <div class="text-left">
-                        <label class="inline">JSON数据：[{"type":"COUNT","key":"GUID","title":"数据总条数："}]<br/></label>
-                        <label class="inline">SQL表达式：[{"type":"SQL","key":"select sg(1)","title":"数据总条数："}]<br/></label>
+                        <label class="inline">JSON数据：[{"type":"COUNT","key":"GUID","title":"数据总条数："}]<br />
+                        </label>
+                        <label class="inline">SQL表达式：[{"type":"SQL","key":"select sg(1)","title":"数据总条数："}]<br />
+                        </label>
                         <label class="inline">单引号属于特殊字符，sg(条件)='条件' 必须是JSON数据格式</label>
                     </div>
                     <p style="margin-top: 3px;"><span style="color: blue;">聚合显示</span></p>
@@ -195,7 +210,7 @@
                     <label for="ButtonCss" class="control-label">按钮样式</label>
                     <input type="text" name="ButtonCss" class="form-control" placeholder="按钮样式" />
                 </div>
-                                <div class="form-group col-sm-4" style="margin-bottom: 5px;">
+                <div class="form-group col-sm-4" style="margin-bottom: 5px;">
                     <label for="ActionType" class="control-label">执行动作</label>
                     <select class="form-control" name="ActionType">
                         <option value="1">弹层（页面）</option>
@@ -213,8 +228,8 @@
                     <textarea name="ActionContent" class="form-control" placeholder="执行内容" rows="2"></textarea>
                 </div>
                 <div class="form-group col-sm-4">
-                    <label for="ImplementType" class="control-label" >执行类型</label>
-                    <select class="form-control" name="ImplementType"> 
+                    <label for="ImplementType" class="control-label">执行类型</label>
+                    <select class="form-control" name="ImplementType">
                         <option value="1">执行</option>
                         <option value="2">动态（前台判断）</option>
                         <option value="3">动态（后台判断）</option>
@@ -222,7 +237,7 @@
                     </select>
                 </div>
                 <div class="form-group col-sm-8">
-                    <textarea name="ImplementContent" class="form-control" placeholder="执行条件" rows="2"  style="margin-top: 5px;"></textarea>
+                    <textarea name="ImplementContent" class="form-control" placeholder="执行条件" rows="2" style="margin-top: 5px;"></textarea>
                 </div>
                 <div class="col-sm-12">
                     <button type="button" class="btn btn-success btn-block" onclick="bntSaveTableInfoOnclick()">保存</button>
@@ -232,10 +247,13 @@
         <div id="setFieldOther" class="hidden">
             <div class="col-sm-12" style="margin-top: 5px;">
                 <div class="form-group col-sm-6">
-                    <label for="TextAlign" class="control-label">对齐方式</label><br/>
-                    <label class="radio-inline"><input type="radio" checked="checked" name="TextAlign" value="left" />左对齐</label>
-                    <label class="radio-inline"><input type="radio" name="TextAlign" value="center" />居中对齐</label>
-                    <label class="radio-inline"><input type="radio" name="TextAlign" value="right" />右对齐</label>
+                    <label for="TextAlign" class="control-label">对齐方式</label><br />
+                    <label class="radio-inline">
+                        <input type="radio" checked="checked" name="TextAlign" value="left" />左对齐</label>
+                    <label class="radio-inline">
+                        <input type="radio" name="TextAlign" value="center" />居中对齐</label>
+                    <label class="radio-inline">
+                        <input type="radio" name="TextAlign" value="right" />右对齐</label>
                 </div>
                 <div class="form-group col-sm-6">
                     <label for="Width" class="control-label">宽度</label>
@@ -308,7 +326,8 @@
                     var TextAlign = $(otherG).nextAll("[name=TextAlign]").val();
                     var Width = $(otherG).nextAll("[name=Width]").val();
                     var OtherCSS = $(otherG).nextAll("[name=OtherCSS]").val();
-                    $(".layui-layer #" + obj).find("[name=TextAlign][value=" + TextAlign + "]").prop("checked", "checked");
+                    if (TextAlign.length > 0)
+                        $(".layui-layer #" + obj).find("[name=TextAlign][value=" + TextAlign + "]").prop("checked", "checked");
                     $(".layui-layer #" + obj).find("[name=Width]").val(Width);
                     $(".layui-layer #" + obj).find("[name=OtherCSS]").val(OtherCSS);
                 }
@@ -327,7 +346,15 @@
         function bntSaveClick(obj) {
             loadding('正在保存，请稍等...', obj);
             var values = $("#example").find("input,select").serializeArray();
-            var tableInfo = $("#tableInfo").find("select").serializeArray();
+            //var tableInfo = $("#tableInfo").find("input[type='checkbox']").serializeArray();
+            var tableInfo = [];
+            $("#tableInfo").find("input[type='checkbox']").each(function () {
+                var name = $(this).prop("name");
+                var value = 0;
+                if ($(this).is(':checked'))
+                    value = 1;
+                tableInfo.push({ "name": name, "value": value });
+            })
             //封装请求参数
             var param = {};
             param.gettype = "SetData";
@@ -565,7 +592,7 @@
                 showHtml += "</tr></table>";
                 showHtml += "</div>";
             }
-             else if (FieldDataTypeValue == "5") {
+            else if (FieldDataTypeValue == "5") {
                 showHtml += "<p> <span style=\"color: blue;\">例子：&nbsp;\"< a href=\"javascript:test(\"+ data +\")\">查看详情 < /a >\"</p><p> <span style=\"color: blue;\">&nbsp;row：</span>自定显示 当前行所有字段的对象（row.[字段] 字段名必须一致）</p>";
                 showHtml += "<textarea name=\"FieldData\" class=\"form-control\" placeholder=\"数据呈现\" rows=\"11\">" + values + "</textarea>";
             }

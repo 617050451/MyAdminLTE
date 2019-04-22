@@ -29,17 +29,17 @@
 </head>
 <body>
     <form id="PageForm">
-        <section class="content" style="padding-top: 5px;">
-            <div data-resple="iswhere" class="box box-solid hidden" style="margin-bottom: 5px;">
-                <div class="box-header with-border" style="padding:5px;">
-                    <h3 class="box-title" style="font-size:15px;">高级查询</h3>
+        <section class="content paddingxl">
+            <div data-resple="iswhere" class="box box-solid marginbottomxl hidden">
+                <div class="box-header with-border">
+                    <h3 class="box-title" style="font-weight: 600;text-align: center;display: block;">按钮管理</h3>
                     <div class="box-tools">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse" style="margin-top:-5px;">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
                             <i data-resple="isplus" class=""></i>
                         </button>
                     </div>
                 </div>
-                <div class="box box-danger" style="margin-bottom: 5px;">
+                <div class="box box-default marginbottomxl">
                     <div class="box-body" id="selectwherefrom">
                       
                     </div>
@@ -47,17 +47,17 @@
             </div>
             <div class="row">
                 <div class="col-xs-12">
-                    <div class="box box-primary">
+                    <div class="box box-solid box-default">
                         <div class="box-body">
                             <div id="ltlbnts" class="pull-left" style="height:24px;">
 							    <button name='InsertItemID' bnt-click='InsertItemID' style='margin-right:2px;' type='button' class='btn btn-success btn-xs'>新　增</button> 
                             </div>
                             <div id="ltlSum" class="pull-right" style="height:24px;">
                             </div>
-                            <table id="example" class="table table-bordered table-hover" style="margin-top:-13px;">
+                            <table id="example" class="table table-bordered table-hover">
                                 <thead>
                                     <tr role="row" style="background-color: rgb(238, 238, 238);">
-									<th aria-controls="example" filedkey="ID" rowspan="1" colspan="1" aria-label="ID: ">ID</th><th aria-controls="example" filedkey="TableID" rowspan="1" colspan="1" aria-label="TableID: ">TableID</th><th aria-controls="example" filedkey="ActionType" rowspan="1" colspan="1" aria-label="ActionType: ">ActionType</th><th aria-controls="example" filedkey="BntName" rowspan="1" colspan="1" aria-label="BntName: ">BntName</th><th aria-controls="example" filedkey="ActionContent" rowspan="1" colspan="1" aria-label="ActionContent: ">ActionContent</th><th aria-controls="example" filedkey="ActionBeforeContent" rowspan="1" colspan="1" aria-label="ActionBeforeContent: ">ActionBeforeContent</th><th aria-controls="example" filedkey="ButtonType" rowspan="1" colspan="1" aria-label="ButtonType: ">ButtonType</th><th aria-controls="example" filedkey="ButtonCss" rowspan="1" colspan="1" aria-label="ButtonCss: ">ButtonCss</th><th aria-controls="example" filedkey="ImplementType" rowspan="1" colspan="1" aria-label="ImplementType: ">ImplementType</th><th aria-controls="example" filedkey="ImplementContent" rowspan="1" colspan="1" aria-label="ImplementContent: ">ImplementContent</th><th aria-controls="example" filedkey="StatusID" rowspan="1" colspan="1" aria-label="StatusID: ">StatusID</th><th aria-controls="example" class="ThForMoreButton" rowspan="1" colspan="1" aria-label="更多: "><a href='javascropt:void(0)'><i class='fa fa-cog'></i></a></th>
+									<th aria-controls="example" filedkey="ID" rowspan="1" colspan="1" aria-label="ID: " style="width:50px;text-align:center;">ID</th><th aria-controls="example" filedkey="TableID" rowspan="1" colspan="1" aria-label="TableID: " style="width:;text-align:;">TableID</th><th aria-controls="example" filedkey="ActionType" rowspan="1" colspan="1" aria-label="ActionType: " style="width:;text-align:;">ActionType</th><th aria-controls="example" filedkey="BntName" rowspan="1" colspan="1" aria-label="BntName: " style="width:;text-align:;">BntName</th><th aria-controls="example" filedkey="ActionContent" rowspan="1" colspan="1" aria-label="ActionContent: " style="width:;text-align:;">ActionContent</th><th aria-controls="example" filedkey="ActionBeforeContent" rowspan="1" colspan="1" aria-label="ActionBeforeContent: " style="width:;text-align:;">ActionBeforeContent</th><th aria-controls="example" filedkey="ButtonType" rowspan="1" colspan="1" aria-label="ButtonType: " style="width:;text-align:;">ButtonType</th><th aria-controls="example" filedkey="ButtonCss" rowspan="1" colspan="1" aria-label="ButtonCss: " style="width:;text-align:;">ButtonCss</th><th aria-controls="example" filedkey="ImplementType" rowspan="1" colspan="1" aria-label="ImplementType: " style="width:;text-align:;">ImplementType</th><th aria-controls="example" filedkey="ImplementContent" rowspan="1" colspan="1" aria-label="ImplementContent: " style="width:;text-align:;">ImplementContent</th><th aria-controls="example" filedkey="StatusID" rowspan="1" colspan="1" aria-label="StatusID: " style="width:;text-align:;">StatusID</th><th aria-controls="example" class="ThForMoreButton" rowspan="1" colspan="1" aria-label="更多: "><a  bnt-click='ShowColumn' href='javascropt:void(0)'><i class='fa fa-cog'></i></a></th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -235,7 +235,7 @@
                     }
                 });
             }
-            var columns = [{"data": "ID", render: function (data, type, row) { return  data }},{"data": "TableID", render: function (data, type, row) { return  data }},{"data": "ActionType", render: function (data, type, row) { return  data }},{"data": "BntName", render: function (data, type, row) { return  data }},{"data": "ActionContent", render: function (data, type, row) { return  data }},{"data": "ActionBeforeContent", render: function (data, type, row) { return  data }},{"data": "ButtonType", render: function (data, type, row) { return  data }},{"data": "ButtonCss", render: function (data, type, row) { return  data }},{"data": "ImplementType", render: function (data, type, row) { return  data }},{"data": "ImplementContent", render: function (data, type, row) { return  data }},{"data": "StatusID", render: function (data, type, row) { return  data }},{"data": "ItemID", render: function (data, type, row) { return "<a class='showBnt' href='javascropt:void(0)'><i class='fa fa-ellipsis-v'></i></a><button name='UpdateItemID' bnt-click = 'UpdateItemID'  type = 'button' class='btn btn-warning  btn-xs hide' value='"+ data+"'>修　改</button> <button name='DeleteItemID' bnt-click='DeleteItemID'  type='button' class='btn btn-danger btn-xs hide' value='"+ data+"'>删　除</button>"}}];
+            var columns = [{"data": "ID", render: function (data, type, row) { return  data }},{"data": "TableID", render: function (data, type, row) { return  data }},{"data": "ActionType", render: function (data, type, row) { return  data }},{"data": "BntName", render: function (data, type, row) { return  data }},{"data": "ActionContent", render: function (data, type, row) { return  data }},{"data": "ActionBeforeContent", render: function (data, type, row) { return  data }},{"data": "ButtonType", render: function (data, type, row) { return  data }},{"data": "ButtonCss", render: function (data, type, row) { return  data }},{"data": "ImplementType", render: function (data, type, row) { return  data }},{"data": "ImplementContent", render: function (data, type, row) { return  data }},{"data": "StatusID", render: function (data, type, row) { return  data }},{"data": "ItemID", render: function (data, type, row) { return "<a class='showBntA' href='javascropt:void(0)'><i class='fa fa-ellipsis-v'></i></a><div class='showBntDiv hide'><button name='UpdateItemID' bnt-click = 'UpdateItemID'  type = 'button' class='btn btn-warning  btn-xs' value='"+ data+"'>修　改</button> <button name='DeleteItemID' bnt-click='DeleteItemID'  type='button' class='btn btn-danger btn-xs' value='"+ data+"'>删　除</button></div></div>"}}];
             listconifg.isplus = 0;
             listconifg.iswhere = 0;
             listconifg.ischoice = 0;

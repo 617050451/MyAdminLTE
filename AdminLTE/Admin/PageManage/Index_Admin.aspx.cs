@@ -10,7 +10,7 @@ namespace AdminLTE.Admin.PageManage
     public partial class Index_Admin : BasePage
     {
         public string strJson = null;
-        public string imgurl = "../../Script/AdminLTE-2.4.2/dist/img/user2-160x160.jpg";
+        public string imgurl = "/Script/AdminLTE-2.4.2/dist/img/user2-160x160.jpg";
         public string username = "admin";
         protected void Page_Load(object sender, EventArgs e)
         {
