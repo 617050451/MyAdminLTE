@@ -10,17 +10,17 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
     <!-- Bootstrap 3.3.7 -->
-    <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/Script/AdminLTE-2.4.2/bower_components/bootstrap/dist/css/bootstrap.min.css" />
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/Script/AdminLTE-2.4.2/bower_components/font-awesome/css/font-awesome.min.css" />
     <!-- Ionicons -->
-    <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/Ionicons/css/ionicons.min.css" />
+    <link rel="stylesheet" href="/Script/AdminLTE-2.4.2/bower_components/Ionicons/css/ionicons.min.css" />
     <!-- DataTables -->
-    <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css" />
+    <link rel="stylesheet" href="/Script/AdminLTE-2.4.2/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css" />
     <!-- Theme style -->
-    <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/dist/css/AdminLTE.min.css" />
+    <link rel="stylesheet" href="/Script/AdminLTE-2.4.2/dist/css/AdminLTE.min.css" />
     <!-- bootstrap datepicker -->
-    <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" />
+    <link rel="stylesheet" href="/Script/AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" />
     <!-- AdminLTE Skins. Choose a skin from the css/skins
     folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/dist/css/skins/_all-skins.min.css" />
@@ -37,96 +37,126 @@
     <form id="FromPage">
         <section class="content" style="margin-top: -13px;">
             <div class="row">
-                <table id="tableInfo" class="table" style="margin: 0px; margin-top: -3px; border-left: 1px solid #ddd; border-right: 1px solid #ddd;">
-                    <tbody>
-                        <tr>
-                            <td style="width: 160px; border: none; float: right;">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-info" onclick="bntOrderClick()">自动排序</button>
-                                    <button type="button" class="btn btn-info" onclick="bntSaveClick(this)">保&nbsp;存</button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table id="example" class="table table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th>字段称</th>
-                            <th>显示名称</th>
-                            <th>方式呈现</th>
-                            <th>是否启用</th>
-                            <th>排序</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <%=GetSetListHtml(ItemGUID) %>
-                    </tbody>
-                </table>
+                <div class="col-xs-12">
+                    <div class="box-body" style="line-height: 32px;">
+                        <label style="float: left;">排版列数：</label>
+                        <div class="col-xs-1">
+                            <select class="form-control" style="float: left;" onchange="SetCulomnNum(this)">
+                                <option value="col-xs-12">1列</option>
+                                <option value="col-xs-6">2列</option>
+                                <option value="col-xs-4">3列</option>
+                                <option value="col-xs-3">4列</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="box-header ui-sortable-handle" style="cursor: move;">
+                    <i class="ion ion-clipboard"></i>
+                    <h3 class="box-title">字段列表</h3>
+                </div>
+                <div class="box-body">
+                    <ul class="todo-list ui-sortable">
+                        <li>
+                            <span class="handle ui-sortable-handle">
+                                <i class="fa fa-ellipsis-v"></i>
+                                <i class="fa fa-ellipsis-v"></i>
+                            </span>
+                            <input type="checkbox" name="FieldKey" value="GUID" checked="checked" />
+                            <span class="text" style="min-width: 120px;">GUID</span>
+                            <input type="text" name="FieldText" value="GUID" />
+                            <select style="height: 26px;" onchange="SetCulomnNum(this)">
+                                <option value="0" selected="selected">不合并</option>
+                                <option value="1">合并1列</option>
+                                <option value="2">合并2列</option>
+                                <option value="3">合并3列</option>
+                                <option value="4">合并4列</option>
+                            </select>
+                        </li>
+                        <li>
+                            <span class="handle ui-sortable-handle">
+                                <i class="fa fa-ellipsis-v"></i>
+                                <i class="fa fa-ellipsis-v"></i>
+                            </span>
+                            <input type="checkbox" name="FieldKey" value="No" checked="checked" />
+                            <span class="text" style="min-width: 120px;">No</span>
+                            <input type="text" name="No" value="用户编号" />
+                            <select style="height: 26px;" onchange="SetCulomnNum(this)">
+                                <option value="0" selected="selected">不合并</option>
+                                <option value="1">合并1列</option>
+                                <option value="2">合并2列</option>
+                                <option value="3">合并3列</option>
+                                <option value="4">合并4列</option>
+                            </select>
+                        </li>
+                        <li>
+                            <span class="handle ui-sortable-handle">
+                                <i class="fa fa-ellipsis-v"></i>
+                                <i class="fa fa-ellipsis-v"></i>
+                            </span>
+                            <input type="checkbox" name="FieldKey" value="Account" checked="checked" />
+                            <span class="text" style="min-width: 120px;">Account</span>
+                            <input type="text" name="Account" value="用户账号" />
+                            <select style="height: 26px;" onchange="SetCulomnNum(this)">
+                                <option value="0" selected="selected">不合并</option>
+                                <option value="1">合并1列</option>
+                                <option value="2">合并2列</option>
+                                <option value="3">合并3列</option>
+                                <option value="4">合并4列</option>
+                            </select>
+                        </li>
+                        <li>
+                            <span class="handle ui-sortable-handle">
+                                <i class="fa fa-ellipsis-v"></i>
+                                <i class="fa fa-ellipsis-v"></i>
+                            </span>
+                            <input type="checkbox" name="FieldKey" value="Name" checked="checked" />
+                            <span class="text" style="min-width: 120px;">Name</span>
+                            <input type="text" name="Name" value="用户姓名" />
+                            <select style="height: 26px;" onchange="SetCulomnNum(this)">
+                                <option value="0" selected="selected">不合并</option>
+                                <option value="1">合并1列</option>
+                                <option value="2">合并2列</option>
+                                <option value="3">合并3列</option>
+                                <option value="4">合并4列</option>
+                            </select>
+                        </li>
+                    </ul>
+                </div>
+                <div class="box-footer clearfix no-border">
+                    <button type="button" class="btn btn-default pull-right"><i class="fa fa-plus"></i>Add item</button>
+                </div>
             </div>
         </section>
     </form>
     <!-- jQuery 3 -->
-    <script src="../../Script/AdminLTE-2.4.2/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/Script/AdminLTE-2.4.2/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/Script/AdminLTE-2.4.2/bower_components/jquery-ui/jquery-ui.min.js"></script>
     <!-- Bootstrap 3.3.7 -->
-    <script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/Script/AdminLTE-2.4.2/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- DataTables -->
-    <script src="../../Script/AdminLTE-2.4.2/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="../../Script/AdminLTE-2.4.2/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="/Script/AdminLTE-2.4.2/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="/Script/AdminLTE-2.4.2/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
     <!-- SlimScroll -->
-    <script src="../../Script/AdminLTE-2.4.2/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="/Script/AdminLTE-2.4.2/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
     <!-- FastClick -->
-    <script src="../../Script/AdminLTE-2.4.2/bower_components/fastclick/lib/fastclick.js"></script>
+    <script src="/Script/AdminLTE-2.4.2/bower_components/fastclick/lib/fastclick.js"></script>
     <!-- AdminLTE App -->
-    <script src="../../Script/AdminLTE-2.4.2/dist/js/adminlte.min.js"></script>
-    <script src="../../Script/js/cyfs.js"></script>
-    <script src="../../Script/layer-v3.1.0/layer/layer.js"></script>
+    <script src="/Script/AdminLTE-2.4.2/dist/js/adminlte.min.js"></script>
+    <script src="/Script/js/cyfs.js"></script>
+    <script src="/Script/layer-v3.1.0/layer/layer.js"></script>
     <script>
-         function bntOrderClick() {
-            loadding('正在处理，请稍等...');
-            var param = {};
-            param.gettype = "SetOrder";
-            $.ajax({
-                type: "post",
-                url: GetPageName(),
-                cache: false,  //禁用缓存
-                data: param,  //传入组装的参数
-                dataType: "text",
-                success: function (result) {
-                    debugger;
-                    if (result == "True") {
-                        layer.msg('操作成功！', {
-                            icon: 1, time: 1500, end: function () {
-                                location.reload();
-                            }
-                        });
-                    }
-                }
-            });
-        }
-       function bntSaveClick(obj) {
-            loadding('正在保存，请稍等...', obj);
-            var values = $("#example").find("input,select").serializeArray();
-            //封装请求参数
-            var param = {};
-            param.gettype = "SetData";
-            param.values = JSON.stringify(values);   
-            $.ajax({
-                type: "post",
-                url: GetPageName(),
-                cache: false,  //禁用缓存
-                data: param,  //传入组装的参数
-                dataType: "text",
-                success: function (result) {
-                    if (result == "True") {
-                        layer.msg('操作成功！', {
-                            icon: 1, time: 1500, end: function () {
-                                location.reload();
-                            }
-                        });
-                    }
-                }
-            });
+        // jQuery UI sortable for the todo list
+        $('.todo-list').sortable({
+            placeholder: 'sort-highlight',
+            handle: '.handle',
+            forcePlaceholderSize: true,
+            zIndex: 999999
+        });
+        function SetCulomnNum(obj) {
+            $(".todo-list li").removeAttr("class");
+            $(".todo-list li").addClass($(obj).val());
         }
     </script>
 </body>

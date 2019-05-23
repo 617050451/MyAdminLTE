@@ -92,9 +92,20 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li class="active"><a menu-moid="1001" href="javascript:void(0)" menu-text="所有页面" menu-controller="/Page/PageList.html">
-                                <i class="fa fa-circle-o text"></i>所有页面</a></li>
+                            <li class="active"><a menu-moid="1001" href="javascript:void(0)" menu-text="所有页面" menu-controller="/Page/PageList.html"><i class="fa fa-circle-o text"></i>所有页面</a></li>
                             <li><a href="javascript:void(0)"  menu-moid="1002"  menu-text="编辑页面" menu-controller="SetPages.aspx" ><i class="fa fa-circle-o text"></i>编辑页面</a></li>
+                        </ul>
+                    </li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-dashboard"></i><span>一级菜单</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="active"><a menu-moid="901" href="javascript:void(0)" menu-text="二级1" menu-controller="/Page/PageList.html"><i class="fa fa-circle-o text"></i>二级1</a></li>
+                            <li><a href="javascript:void(0)"  menu-moid="902"  menu-text="二级2" menu-controller="SetPages.aspx" ><i class="fa fa-circle-o text"></i>二级2</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -291,6 +302,7 @@
                 $("#tabnav").append("<li class=\"active\" menu-controller=\"" + controller + "\" menu-moid=\"" + moid + "\"><a  href=\"javascript:setPage(" + moid + ")\" >" + text + "<span style=\"margin-left:7px;cursor:pointer;border-radius: 19px;padding-right:1px;padding-bottom:1px;\"><i class=\"fa fa-fw fa-close\" onclick=\"CloseTabFun(" + moid + ")\"></i><span></a></li>");
                 $(".content-header").parent().append("<section class=\"content\" menu-type=\"nav-tabs\" menu-moid=\"" + moid + "\"><iframe src=\"" + controller + "\" ></iframe></section>");
             }
+            $("")
             setPage(moid, param)
         }
         //page跳转
@@ -301,9 +313,11 @@
                 $("#tabnav li").css("border-top-color", "");
                 $("#tabnav li[menu-moid='" + moid + "']").css("border-top-color", color);
                 $(".sidebar-menu .treeview-menu i").css("color", "");
-                $(obj).find("i").css("color", color);
-                $(".treeview-menu li").removeClass("active");
-                $(obj).parent("li").addClass("active");
+                $(".sidebar-menu .treeview-menu li a[menu-moid='" + moid + "']").find("i").css("color", color);
+                $(".sidebar-menu .treeview-menu li").removeClass("active");
+                $(".sidebar-menu .treeview-menu li a[menu-moid='" + moid + "']").parent("li").addClass("active");
+                $(".sidebar-menu .treeview").removeClass("active").removeClass("menu-open");
+                $(".sidebar-menu .treeview-menu li a[menu-moid='" + moid + "']").parents(".treeview").addClass("active").addClass("menu-open");
                 $("#tabnav li").removeClass("active");
                 $("#tabnav li[menu-moid='" + moid + "']").addClass("active");
                 $(".content[menu-type='nav-tabs']").hide();

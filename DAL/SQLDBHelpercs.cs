@@ -163,7 +163,7 @@ namespace DAL
                 else
                     return "";
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }

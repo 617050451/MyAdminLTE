@@ -6,25 +6,25 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
     <!-- Bootstrap 3.3.7 -->
-    <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/Script/AdminLTE-2.4.2/bower_components/bootstrap/dist/css/bootstrap.min.css" />
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/Script/AdminLTE-2.4.2/bower_components/font-awesome/css/font-awesome.min.css" />
     <!-- Ionicons -->
-    <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/Ionicons/css/ionicons.min.css" />
+    <link rel="stylesheet" href="/Script/AdminLTE-2.4.2/bower_components/Ionicons/css/ionicons.min.css" />
     <!-- DataTables -->
-    <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css" />
+    <link rel="stylesheet" href="/Script/AdminLTE-2.4.2/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css" />
     <!-- Theme style -->
-    <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/dist/css/AdminLTE.min.css" />
+    <link rel="stylesheet" href="/Script/AdminLTE-2.4.2/dist/css/AdminLTE.min.css" />
     <!-- bootstrap datetimepicker -->
-	<link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/bower_components/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" />
+	<link rel="stylesheet" href="/Script/AdminLTE-2.4.2/bower_components/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" />
     <!-- AdminLTE Skins. Choose a skin from the css/skins
     folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="../../Script/AdminLTE-2.4.2/dist/css/skins/_all-skins.min.css" />
+    <link rel="stylesheet" href="/Script/AdminLTE-2.4.2/dist/css/skins/_all-skins.min.css" />
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
-    <link href="../../Script/js/cyfs.css" rel="stylesheet" />
+    <link href="/Script/js/cyfs.css" rel="stylesheet" />
 	<!-- jQuery 3 -->
-    <script src="../../Script/AdminLTE-2.4.2/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/Script/AdminLTE-2.4.2/bower_components/jquery/dist/jquery.min.js"></script>
 	
 </head>
 <body>
@@ -48,7 +48,7 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="box box-solid box-default">
-                        <div class="box-body">
+                        <div class="box-body" style="padding-bottom: 2px;">
                             <div id="ltlbnts" class="pull-left" style="height:24px;">
 							    <button name='InsertItemID' bnt-click='InsertItemID' style='margin-right:2px;' type='button' class='btn btn-success btn-xs'>新　增</button> 
                             </div>
@@ -57,7 +57,7 @@
                             <table id="example" class="table table-bordered table-hover">
                                 <thead>
                                     <tr role="row" style="background-color: rgb(238, 238, 238);">
-									<th aria-controls="example" filedkey="ID" rowspan="1" colspan="1" aria-label="ID: " style="width:50px;text-align:center;">ID</th><th aria-controls="example" filedkey="TableID" rowspan="1" colspan="1" aria-label="TableID: " style="width:;text-align:;">TableID</th><th aria-controls="example" filedkey="ActionType" rowspan="1" colspan="1" aria-label="ActionType: " style="width:;text-align:;">ActionType</th><th aria-controls="example" filedkey="BntName" rowspan="1" colspan="1" aria-label="BntName: " style="width:;text-align:;">BntName</th><th aria-controls="example" filedkey="ActionContent" rowspan="1" colspan="1" aria-label="ActionContent: " style="width:;text-align:;">ActionContent</th><th aria-controls="example" filedkey="ActionBeforeContent" rowspan="1" colspan="1" aria-label="ActionBeforeContent: " style="width:;text-align:;">ActionBeforeContent</th><th aria-controls="example" filedkey="ButtonType" rowspan="1" colspan="1" aria-label="ButtonType: " style="width:;text-align:;">ButtonType</th><th aria-controls="example" filedkey="ButtonCss" rowspan="1" colspan="1" aria-label="ButtonCss: " style="width:;text-align:;">ButtonCss</th><th aria-controls="example" filedkey="ImplementType" rowspan="1" colspan="1" aria-label="ImplementType: " style="width:;text-align:;">ImplementType</th><th aria-controls="example" filedkey="ImplementContent" rowspan="1" colspan="1" aria-label="ImplementContent: " style="width:;text-align:;">ImplementContent</th><th aria-controls="example" filedkey="StatusID" rowspan="1" colspan="1" aria-label="StatusID: " style="width:;text-align:;">StatusID</th><th aria-controls="example" class="ThForMoreButton" rowspan="1" colspan="1" aria-label="更多: "><a  bnt-click='ShowColumn' href='javascropt:void(0)'><i class='fa fa-cog'></i></a></th>
+									<th aria-controls="example" filedkey="ID" rowspan="1" colspan="1" aria-label="编号: " style="width:50px;text-align:center;">编号</th><th aria-controls="example" filedkey="TableID" rowspan="1" colspan="1" aria-label="数据表: " style="">数据表</th><th aria-controls="example" filedkey="ActionType" rowspan="1" colspan="1" aria-label="执行动作: " style="">执行动作</th><th aria-controls="example" filedkey="BntName" rowspan="1" colspan="1" aria-label="按钮名称: " style="">按钮名称</th><th aria-controls="example" filedkey="ActionContent" rowspan="1" colspan="1" aria-label="执行内容: " style="">执行内容</th><th aria-controls="example" filedkey="ButtonType" rowspan="1" colspan="1" aria-label="按钮类型: " style="">按钮类型</th><th aria-controls="example" filedkey="ImplementType" rowspan="1" colspan="1" aria-label="执行类型: " style="">执行类型</th><th aria-controls="example" filedkey="StatusID" rowspan="1" colspan="1" aria-label="状态: " style="">状态</th><th aria-controls="example" class="ThForMoreButton" rowspan="1" colspan="1" aria-label="更多: "><div class="btn-group"><button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown" aria-expanded="true"><i class="fa fa-wrench"></i></button> <ul class="dropdown-menu" role="menu" style="right:0;left:auto;min-width: 125px;"><li><a href="javascript:void(0)"><input type="checkbox"  checked="checked"/>编号</a></li><li><a href="javascript:void(0)"><input type="checkbox"  checked="checked"/>数据表</a></li><li><a href="javascript:void(0)"><input type="checkbox"  checked="checked"/>执行动作</a></li><li><a href="javascript:void(0)"><input type="checkbox"  checked="checked"/>按钮名称</a></li><li><a href="javascript:void(0)"><input type="checkbox"  checked="checked"/>执行内容</a></li><li><a href="javascript:void(0)"><input type="checkbox"  checked="checked"/>执行前内容</a></li><li><a href="javascript:void(0)"><input type="checkbox"  checked="checked"/>按钮类型</a></li><li><a href="javascript:void(0)"><input type="checkbox"  checked="checked"/>按钮样式</a></li><li><a href="javascript:void(0)"><input type="checkbox"  checked="checked"/>执行类型</a></li><li><a href="javascript:void(0)"><input type="checkbox"  checked="checked"/>执行条件</a></li><li><a href="javascript:void(0)"><input type="checkbox"  checked="checked"/>状态</a></li></ul></div></th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -73,24 +73,24 @@
         </section>
     </form>
     <!-- Bootstrap 3.3.7 -->
-    <script src="../../Script/AdminLTE-2.4.2/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/Script/AdminLTE-2.4.2/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- DataTables -->
-    <script src="../../Script/AdminLTE-2.4.2/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="../../Script/AdminLTE-2.4.2/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="/Script/AdminLTE-2.4.2/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="/Script/AdminLTE-2.4.2/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
     <!-- SlimScroll -->
-    <script src="../../Script/AdminLTE-2.4.2/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="/Script/AdminLTE-2.4.2/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
     <!-- FastClick -->
-    <script src="../../Script/AdminLTE-2.4.2/bower_components/fastclick/lib/fastclick.js"></script>
+    <script src="/Script/AdminLTE-2.4.2/bower_components/fastclick/lib/fastclick.js"></script>
     <!-- AdminLTE App -->
-    <script src="../../Script/AdminLTE-2.4.2/dist/js/adminlte.min.js"></script>
-    <script src="../../Script/layer-v3.1.0/layer/layer.js"></script>
+    <script src="/Script/AdminLTE-2.4.2/dist/js/adminlte.min.js"></script>
+    <script src="/Script/layer-v3.1.0/layer/layer.js"></script>
     <script src="../Script/js/DataPageHandle.js"></script>
 	        <div id="LayerOpenHtml" class="hidden">
          <div id="LayerOpenHtmlFrom">
             <div class="col-sm-12" style="margin-top: 5px;">
                 <div class="form-group col-sm-6">
                     <label for="Name" class="control-label">按钮名称</label>
-                    <input type="text" name="BntName" class="form-control" placeholder="按钮名称" value="" />
+                    <input type="text" name="BntName" class="form-control" placeholder="按钮名称" value="">
                 </div>
                 <div class="form-group col-sm-3">
                     <label for="ButtonType" class="control-label">按钮类型</label>
@@ -108,7 +108,7 @@
                 </div>
                 <div class="form-group col-sm-12">
                     <label for="ButtonCss" class="control-label">按钮样式</label>
-                    <input type="text" name="ButtonCss" class="form-control" placeholder="按钮样式" />
+                    <input type="text" name="ButtonCss" class="form-control" placeholder="按钮样式">
                 </div>
                                 <div class="form-group col-sm-4" style="margin-bottom: 5px;">
                     <label for="ActionType" class="control-label">执行动作</label>
@@ -121,14 +121,14 @@
                 </div>
                 <div class="form-group col-sm-8">
                     <label for="ActionBeforeContent" class="control-label">执行前内容</label>
-                    <input type="text" name="ActionBeforeContent" class="form-control" placeholder="执行前内容" />
+                    <input type="text" name="ActionBeforeContent" class="form-control" placeholder="执行前内容">
                 </div>
                 <div class="form-group col-sm-12">
                     <label for="ActionContent" class="control-label">执行内容</label>
                     <textarea name="ActionContent" class="form-control" placeholder="执行内容" rows="2"></textarea>
                 </div>
                 <div class="form-group col-sm-4">
-                    <label for="ImplementType" class="control-label" >执行类型</label>
+                    <label for="ImplementType" class="control-label">执行类型</label>
                     <select class="form-control" name="ImplementType"> 
                         <option value="1">执行</option>
                         <option value="2">动态（前台判断）</option>
@@ -137,12 +137,12 @@
                     </select>
                 </div>
                 <div class="form-group col-sm-8">
-                    <textarea name="ImplementContent" class="form-control" placeholder="执行条件" rows="2"  style="margin-top: 5px;"></textarea>
-                    <input type="hidden" name="ID" value="" />
-                    <input type="hidden" name="TableID" value="3" />
+                    <textarea name="ImplementContent" class="form-control" placeholder="执行条件" rows="2" style="margin-top: 5px;"></textarea>
+                    <input type="hidden" name="ID" value="">
+                    <input type="hidden" name="TableID" value="3">
                 </div>
                 <div class="col-sm-12">
-                    <button id="BntClickSaveFrom"  type="button" class="btn btn-success btn-block"  >保存</button>
+                    <button id="BntClickSaveFrom" type="button" class="btn btn-success btn-block">保存</button>
                 </div>
             </div>
          </div>
@@ -151,10 +151,10 @@
         $(function () {
 		    var funaggregate = {};
 			funaggregate.InsertItemID = function () {
-          LayerOpenHtml(3, '新增按钮信息', '');
+          LayerOpenHtml(2, '新增按钮信息', '');
   }
  funaggregate.UpdateItemID = function () {
-          LayerOpenHtml(3, '修改按钮信息', $(this).val());
+          LayerOpenHtml(2, '修改按钮信息', $(this).val());
   }
 			var Index;
             function LayerOpenHtml(option, title, value) {
@@ -235,13 +235,13 @@
                     }
                 });
             }
-            var columns = [{"data": "ID", render: function (data, type, row) { return  data }},{"data": "TableID", render: function (data, type, row) { return  data }},{"data": "ActionType", render: function (data, type, row) { return  data }},{"data": "BntName", render: function (data, type, row) { return  data }},{"data": "ActionContent", render: function (data, type, row) { return  data }},{"data": "ActionBeforeContent", render: function (data, type, row) { return  data }},{"data": "ButtonType", render: function (data, type, row) { return  data }},{"data": "ButtonCss", render: function (data, type, row) { return  data }},{"data": "ImplementType", render: function (data, type, row) { return  data }},{"data": "ImplementContent", render: function (data, type, row) { return  data }},{"data": "StatusID", render: function (data, type, row) { return  data }},{"data": "ItemID", render: function (data, type, row) { return "<a class='showBntA' href='javascropt:void(0)'><i class='fa fa-ellipsis-v'></i></a><div class='showBntDiv hide'><button name='UpdateItemID' bnt-click = 'UpdateItemID'  type = 'button' class='btn btn-warning  btn-xs' value='"+ data+"'>修　改</button> <button name='DeleteItemID' bnt-click='DeleteItemID'  type='button' class='btn btn-danger btn-xs' value='"+ data+"'>删　除</button></div></div>"}}];
+            var columns = [{"data": "ID", render: function (data, type, row) { return  data }},{"data": "TableID", render: function (data, type, row) { return row.ToCcTableID }},{"data": "ActionType", render: function (data, type, row) { return  data == 1?"弹层（页面）":(data == 2?"新开（页面）":(data == 3?"脚本":"SQL")) }},{"data": "BntName", render: function (data, type, row) { return  data }},{"data": "ActionContent", render: function (data, type, row) { return  data }},{"data": "ButtonType", render: function (data, type, row) { return  data == 1?"常用按钮":"自定义" }},{"data": "ImplementType", render: function (data, type, row) { return  data == 1?"执行":(data == 2?"动态（前台判断）":(data == 3?"动态（后台判断）":"不执行")) }},{"data": "StatusID", render: function (data, type, row) { return  data == 1?"启用":"禁用"　 }},{"data": "ItemID", render: function (data, type, row) { return "<a class='showBntA' href='javascropt:void(0)'><i class='fa fa-ellipsis-v'></i></a><div class='showBntDiv hide'><button name='DeleteItemID' bnt-click='DeleteItemID'  type='button' class='btn btn-danger btn-xs' value='"+ data+"'>删　除</button><button name='UpdateItemID' bnt-click = 'UpdateItemID'  type = 'button' class='btn btn-warning  btn-xs' value='"+ data+"'>修　改</button> </div></div>"}}];
             listconifg.isplus = 0;
             listconifg.iswhere = 0;
             listconifg.ischoice = 0;
             listconifg.columns = columns;
 			listconifg.setTable();
-            listconifg.getData(3,funaggregate);
+            listconifg.getData(2,funaggregate);
         })
     </script>
 </body>

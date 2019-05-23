@@ -79,7 +79,7 @@ namespace BLL
             return mt;
         }
         /// <summary>
-        /// 查询指定key的InnerText值
+        /// 查询Table.Xml指定key的InnerText值
         /// </summary>
         /// <param name="ItemID"></param>
         /// <param name="KeyName"></param>
@@ -100,6 +100,38 @@ namespace BLL
                     data = XmlColumnsNode.InnerText;
             }
             return data;
+        }
+        /// <summary>
+        /// 查询指定Xml指定key的属性值
+        /// </summary>
+        /// <param name="ItemID"></param>
+        /// <param name="KeyName"></param>
+        /// <returns></returns>
+        public static string XmlSelectXmlKeyInnerText(string XmlName, string XmlNodeKeyName, string KeyValue, string KeyName)
+        {
+            string data = "";
+            try
+            {
+                string xmlPath = System.AppDomain.CurrentDomain.BaseDirectory + "\\DataXML\\" + XmlName;
+                XmlDocument xml = new XmlDocument();
+                xml.Load(xmlPath);//读取文件
+                XmlElement root = xml.DocumentElement;//获取根节点
+                StringBuilder sb = new StringBuilder();
+                XmlNodeList xn = root.SelectNodes("OPTION[@" + XmlNodeKeyName + "=" + KeyValue + "]");//获取指定子节点  
+                if (xn != null)
+                {
+                    foreach (XmlNode item in xn)
+                    {
+                        data += item.Attributes[KeyName].Value + ",";
+                    }
+                }
+                   
+            }
+            catch (Exception)
+            {
+                data = "";
+            }
+            return data.TrimEnd(',');
         }
         /// <summary>
         /// 修改指定key的InnerText值
@@ -748,8 +780,8 @@ namespace BLL
             else
                 return false;
         }
-        //读取变量
-        public static string GetValueForKey(string sql)
+        //sg()转换
+        public static string GetSgForStr(string sql)
         {
             System.Text.RegularExpressions.Regex reg = new Regex("(?<=sg\\().*?(?=\\))", RegexOptions.IgnoreCase);
             MatchCollection mc = reg.Matches(sql);

@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TABLES>
-  <MAXID>2</MAXID>
-  <OPTION TableID="1" Title="页面管理" PrimaryKey="TableID" FileName="PageList" SQL="select '' as TableID,'' as Title,'' as FileName,'' as TableType,'' as TableName,'' as SQL,'' as Note" PredefinedSQL="[{&quot;type&quot;:&quot;COUNT&quot;,&quot;key&quot;:&quot;TableID&quot;,&quot;title&quot;:&quot;记录总条数：&quot;}]" TableType="2" TableName="Table.xml" IsPlus="1" IsWhere="1" IsChoice="0" IsInsert="1" IsUpdate="1" IsDelete="1" Note="" ColunmName="1">
+  <MAXID>3</MAXID>
+  <OPTION TableID="1" Title="页面管理" PrimaryKey="TableID" FileName="PageList" SQL="select '' as TableID,'' as Title,'' as FileName,'' as TableType,'' as TableName,'' as SQL,'' as Note" PredefinedSQL="[{&quot;type&quot;:&quot;COUNT&quot;,&quot;key&quot;:&quot;TableID&quot;,&quot;title&quot;:&quot;记录总条数：&quot;}]" TableType="2" TableName="Table.xml" IsPlus="1" IsWhere="1" IsChoice="0" IsInsert="1" IsUpdate="1" IsDelete="0" Note="" ColunmName="1">
     <COLUMNS>
       <TableID FieldKey="TableID" FieldText="编号" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="1" TextAlign="left" Width="30px" OtherCSS="">
       </TableID>
-      <Title FieldKey="Title" FieldText="页面标题" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="1" SelectData="" FieldOrder="2" TextAlign="center" Width="" OtherCSS="">
+      <Title FieldKey="Title" FieldText="页面标题" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="1" SelectData="" FieldOrder="2" TextAlign="left" Width="" OtherCSS="">
       </Title>
       <FileName FieldKey="FileName" FieldText="页面文件名" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="3" TextAlign="left" Width="" OtherCSS="">
       </FileName>
@@ -13,9 +13,9 @@
       </TableName>
       <Note FieldKey="Note" FieldText="备注" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="7" TextAlign="left" Width="" OtherCSS="">
       </Note>
-      <TableType FieldKey="TableType" FieldText="数据类型" FieldDataType="2" FieldData="data == 1?&quot;数据库表格&quot;:&quot;XML数据表&quot;" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="4" TextAlign="left" Width="" OtherCSS="">
+      <TableType FieldKey="TableType" FieldText="数据类型" FieldDataType="2" FieldData="data == 1?&quot;数据库表格&quot;:&quot;XML数据表&quot;" FieldStatusID="1" SelectType="2" SelectData="[{&quot;key&quot;:&quot;数据表&quot;,&quot;value&quot;:&quot;1&quot;},{&quot;key&quot;:&quot;XML数据表&quot;,value:&quot;2&quot;}]" FieldOrder="4" TextAlign="left" Width="" OtherCSS="">
       </TableType>
-      <SQL FieldKey="SQL" FieldText="数据集合" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="6" TextAlign="left" Width="" OtherCSS="">
+      <SQL FieldKey="SQL" FieldText="数据集合" FieldDataType="1" FieldData="" FieldStatusID="0" SelectType="0" SelectData="" FieldOrder="6" TextAlign="left" Width="" OtherCSS="">
       </SQL>
     </COLUMNS>
     <TopHead>
@@ -63,27 +63,27 @@ funaggregate.UpdateItemID = function () {
   </OPTION>
   <OPTION FileName="MoreButton" Note="" SQL="SELECT 1 AS ID,1 AS TableID,'' AS BntName,'' as ActionType,'' as ActionContent,'' as ActionBeforeContent,'' as ButtonType,'' as ButtonCss,'' as ImplementType,'' as ImplementContent,'' as StatusID" TableName="MoreButton.xml" TableType="2" Title="按钮管理" TableID="2" IsPlus="0" IsWhere="0" IsChoice="0" IsInsert="1" IsUpdate="1" IsDelete="1" PredefinedSQL="" PrimaryKey="ID">
     <COLUMNS>
-      <ID FieldKey="ID" FieldText="ID" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="1" TextAlign="center" Width="50px" OtherCSS="">
+      <ID FieldKey="ID" FieldText="编号" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="1" TextAlign="center" Width="50px" OtherCSS="">
       </ID>
-      <TableID FieldKey="TableID" FieldText="TableID" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="2" TextAlign="" Width="" OtherCSS="">
+      <TableID FieldKey="TableID" FieldText="数据表" FieldDataType="3" FieldData="Table.xml_Title" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="2" TextAlign="" Width="" OtherCSS="">
       </TableID>
-      <ActionType FieldKey="ActionType" FieldText="ActionType" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="3" TextAlign="" Width="" OtherCSS="">
+      <ActionType FieldKey="ActionType" FieldText="执行动作" FieldDataType="2" FieldData="data == 1?&quot;弹层（页面）&quot;:(data == 2?&quot;新开（页面）&quot;:(data == 3?&quot;脚本&quot;:&quot;SQL&quot;))" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="3" TextAlign="" Width="" OtherCSS="">
       </ActionType>
-      <ActionContent FieldKey="ActionContent" FieldText="ActionContent" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="4" TextAlign="" Width="" OtherCSS="">
+      <ActionContent FieldKey="ActionContent" FieldText="执行内容" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="4" TextAlign="" Width="" OtherCSS="">
       </ActionContent>
-      <ButtonType FieldKey="ButtonType" FieldText="ButtonType" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="6" TextAlign="" Width="" OtherCSS="">
+      <ButtonType FieldKey="ButtonType" FieldText="按钮类型" FieldDataType="2" FieldData="data == 1?&quot;常用按钮&quot;:&quot;自定义&quot;" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="6" TextAlign="" Width="" OtherCSS="">
       </ButtonType>
-      <ButtonCss FieldKey="ButtonCss" FieldText="ButtonCss" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="7" TextAlign="" Width="" OtherCSS="">
+      <ButtonCss FieldKey="ButtonCss" FieldText="按钮样式" FieldDataType="1" FieldData="" FieldStatusID="0" SelectType="0" SelectData="" FieldOrder="7" TextAlign="" Width="" OtherCSS="">
       </ButtonCss>
-      <ImplementType FieldKey="ImplementType" FieldText="ImplementType" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="8" TextAlign="" Width="" OtherCSS="">
+      <ImplementType FieldKey="ImplementType" FieldText="执行类型" FieldDataType="2" FieldData="data == 1?&quot;执行&quot;:(data == 2?&quot;动态（前台判断）&quot;:(data == 3?&quot;动态（后台判断）&quot;:&quot;不执行&quot;))" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="8" TextAlign="" Width="" OtherCSS="">
       </ImplementType>
-      <ImplementContent FieldKey="ImplementContent" FieldText="ImplementContent" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="9" TextAlign="" Width="" OtherCSS="">
+      <ImplementContent FieldKey="ImplementContent" FieldText="执行条件" FieldDataType="1" FieldData="" FieldStatusID="0" SelectType="0" SelectData="" FieldOrder="9" TextAlign="" Width="" OtherCSS="">
       </ImplementContent>
-      <StatusID FieldKey="StatusID" FieldText="StatusID" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="10" TextAlign="" Width="" OtherCSS="">
+      <StatusID FieldKey="StatusID" FieldText="状态" FieldDataType="2" FieldData="data == 1?&quot;启用&quot;:&quot;禁用&quot;　" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="10" TextAlign="" Width="" OtherCSS="">
       </StatusID>
-      <ActionBeforeContent FieldKey="ActionBeforeContent" FieldText="ActionBeforeContent" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="5" TextAlign="" Width="" OtherCSS="">
+      <ActionBeforeContent FieldKey="ActionBeforeContent" FieldText="执行前内容" FieldDataType="1" FieldData="" FieldStatusID="0" SelectType="0" SelectData="" FieldOrder="5" TextAlign="" Width="" OtherCSS="">
       </ActionBeforeContent>
-      <BntName FieldKey="BntName" FieldText="BntName" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="3" TextAlign="" Width="" OtherCSS="">
+      <BntName FieldKey="BntName" FieldText="按钮名称" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="3" TextAlign="" Width="" OtherCSS="">
       </BntName>
     </COLUMNS>
     <TopHead>
@@ -93,7 +93,7 @@ funaggregate.UpdateItemID = function () {
             &lt;div class="col-sm-12" style="margin-top: 5px;"&gt;
                 &lt;div class="form-group col-sm-6"&gt;
                     &lt;label for="Name" class="control-label"&gt;按钮名称&lt;/label&gt;
-                    &lt;input type="text" name="BntName" class="form-control" placeholder="按钮名称" value="" /&gt;
+                    &lt;input type="text" name="BntName" class="form-control" placeholder="按钮名称" value=""&gt;
                 &lt;/div&gt;
                 &lt;div class="form-group col-sm-3"&gt;
                     &lt;label for="ButtonType" class="control-label"&gt;按钮类型&lt;/label&gt;
@@ -111,7 +111,7 @@ funaggregate.UpdateItemID = function () {
                 &lt;/div&gt;
                 &lt;div class="form-group col-sm-12"&gt;
                     &lt;label for="ButtonCss" class="control-label"&gt;按钮样式&lt;/label&gt;
-                    &lt;input type="text" name="ButtonCss" class="form-control" placeholder="按钮样式" /&gt;
+                    &lt;input type="text" name="ButtonCss" class="form-control" placeholder="按钮样式"&gt;
                 &lt;/div&gt;
                                 &lt;div class="form-group col-sm-4" style="margin-bottom: 5px;"&gt;
                     &lt;label for="ActionType" class="control-label"&gt;执行动作&lt;/label&gt;
@@ -124,14 +124,14 @@ funaggregate.UpdateItemID = function () {
                 &lt;/div&gt;
                 &lt;div class="form-group col-sm-8"&gt;
                     &lt;label for="ActionBeforeContent" class="control-label"&gt;执行前内容&lt;/label&gt;
-                    &lt;input type="text" name="ActionBeforeContent" class="form-control" placeholder="执行前内容" /&gt;
+                    &lt;input type="text" name="ActionBeforeContent" class="form-control" placeholder="执行前内容"&gt;
                 &lt;/div&gt;
                 &lt;div class="form-group col-sm-12"&gt;
                     &lt;label for="ActionContent" class="control-label"&gt;执行内容&lt;/label&gt;
                     &lt;textarea name="ActionContent" class="form-control" placeholder="执行内容" rows="2"&gt;&lt;/textarea&gt;
                 &lt;/div&gt;
                 &lt;div class="form-group col-sm-4"&gt;
-                    &lt;label for="ImplementType" class="control-label" &gt;执行类型&lt;/label&gt;
+                    &lt;label for="ImplementType" class="control-label"&gt;执行类型&lt;/label&gt;
                     &lt;select class="form-control" name="ImplementType"&gt; 
                         &lt;option value="1"&gt;执行&lt;/option&gt;
                         &lt;option value="2"&gt;动态（前台判断）&lt;/option&gt;
@@ -140,21 +140,47 @@ funaggregate.UpdateItemID = function () {
                     &lt;/select&gt;
                 &lt;/div&gt;
                 &lt;div class="form-group col-sm-8"&gt;
-                    &lt;textarea name="ImplementContent" class="form-control" placeholder="执行条件" rows="2"  style="margin-top: 5px;"&gt;&lt;/textarea&gt;
-                    &lt;input type="hidden" name="ID" value="" /&gt;
-                    &lt;input type="hidden" name="TableID" value="3" /&gt;
+                    &lt;textarea name="ImplementContent" class="form-control" placeholder="执行条件" rows="2" style="margin-top: 5px;"&gt;&lt;/textarea&gt;
+                    &lt;input type="hidden" name="ID" value=""&gt;
+                    &lt;input type="hidden" name="TableID" value="3"&gt;
                 &lt;/div&gt;
                 &lt;div class="col-sm-12"&gt;
-                    &lt;button id="BntClickSaveFrom"  type="button" class="btn btn-success btn-block"  &gt;保存&lt;/button&gt;
+                    &lt;button id="BntClickSaveFrom" type="button" class="btn btn-success btn-block"&gt;保存&lt;/button&gt;
                 &lt;/div&gt;
             &lt;/div&gt;
          &lt;/div&gt;
      &lt;/div&gt;</BottomHtml>
     <BottomScript>funaggregate.InsertItemID = function () {
-          LayerOpenHtml(3, '新增按钮信息', '');
+          LayerOpenHtml(2, '新增按钮信息', '');
   }
  funaggregate.UpdateItemID = function () {
-          LayerOpenHtml(3, '修改按钮信息', $(this).val());
+          LayerOpenHtml(2, '修改按钮信息', $(this).val());
   }</BottomScript>
+  </OPTION>
+  <OPTION FileName="UserList" Note="" SQL="SELECT [GUID] ,[No] ,[Account] ,[Name] ,[Sex] ,[ImgUrl] ,[Telephone]  FROM [dbo].[t_Users] " TableName="[dbo].[t_Users] " TableType="1" Title="用户管理" TableID="3" IsPlus="0" IsWhere="1" IsChoice="0" IsInsert="0" IsUpdate="0" IsDelete="0" PredefinedSQL="" PrimaryKey="GUID">
+    <COLUMNS>
+      <GUID FieldKey="GUID" FieldText="GUID" FieldDataType="1" FieldData="" FieldStatusID="0" SelectType="0" SelectData="" FieldOrder="1" TextAlign="" Width="" OtherCSS="">
+      </GUID>
+      <No FieldKey="No" FieldText="用户编号" FieldDataType="1" FieldData="select name from [dbo].[t_Users]  where no=row.No" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="2" TextAlign="" Width="" OtherCSS="">
+      </No>
+      <Account FieldKey="Account" FieldText="账号" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="5" SelectData="" FieldOrder="3" TextAlign="" Width="" OtherCSS="">
+      </Account>
+      <Name FieldKey="Name" FieldText="姓名" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="5" SelectData="" FieldOrder="4" TextAlign="" Width="" OtherCSS="">
+      </Name>
+      <Sex FieldKey="Sex" FieldText="性别" FieldDataType="2" FieldData="data == 1?&quot;男&quot;:&quot;女&quot;　" FieldStatusID="1" SelectType="2" SelectData="[{&quot;key&quot;:&quot;男&quot;,&quot;value&quot;:&quot;1&quot;},{&quot;key&quot;:&quot;女&quot;,value:&quot;0&quot;}]" FieldOrder="5" TextAlign="" Width="" OtherCSS="">
+      </Sex>
+      <ImgUrl FieldKey="ImgUrl" FieldText="头像" FieldDataType="4" FieldData="img" FieldStatusID="1" SelectType="0" SelectData="" FieldOrder="6" TextAlign="" Width="" OtherCSS="">
+      </ImgUrl>
+      <Telephone FieldKey="Telephone" FieldText="联系电话" FieldDataType="1" FieldData="" FieldStatusID="1" SelectType="5" SelectData="" FieldOrder="7" TextAlign="" Width="" OtherCSS="">
+      </Telephone>
+    </COLUMNS>
+    <MoreButton>
+    </MoreButton>
+    <TopHead>
+    </TopHead>
+    <BottomHtml>
+    </BottomHtml>
+    <BottomScript>
+    </BottomScript>
   </OPTION>
 </TABLES>

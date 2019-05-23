@@ -568,9 +568,9 @@
             if (FieldDataTypeValue == "2") {
                 showHtml += "<p><span style=\"color: blue;\">固定转换(一般例子)：</span>data == 1?\"启用\":\"禁用\"　　data：</span>最终显示的值</p><p><span style=\"color: blue;\">特殊例子：</span><span>\"<标签>\" + data + \"<标签>\"　　也可以是JQ语句&nbsp;alert(data);</span><p/><p> <span style=\"color: blue;\">row：</span>当前行所有字段的对象（row.[字段] 字段名必须一致）（不执行二次转换）</p>";
                 showHtml += "<textarea name=\"FieldData\" class=\"form-control\" placeholder=\"数据呈现\" rows=\"10\">" + values + "</textarea>";
-            } else if (FieldDataTypeValue == "3") {
-                showHtml += "<p><span style=\"color: blue;\">动态转换(例子)：</span>select [字段] from [表名] where  [字段] =sg(row.[列表所有的字段])</p><p> <span style=\"color: blue;\">&nbsp;row：</span>当前行所有字段的对象（row.[字段] 字段名必须一致）（异步请求转换）单引号统一使用sg(值)</p>";
-                showHtml += "<textarea name=\"FieldData\" class=\"form-control\" placeholder=\"数据呈现\" rows=\"11\">" + values + "</textarea>";
+            } else if (FieldDataTypeValue == "3" ) {
+                showHtml += "<p><span style=\"color: blue;\">动态转换(例子) 数据表：</span>select [字段] from [表名] where  [字段] =sg(row.[列表所有的字段])</p><p><span style=\"color: blue;\">XML数据表：</span>文件名.xml_字段名_查询字段名(不填默认当前字段名)</p><p> <span style=\"color: blue;\">&nbsp;row：</span>当前行所有字段的对象（row.[字段] 字段名必须一致）（异步请求转换）单引号统一使用sg(值)</p>";
+                showHtml += "<textarea name=\"FieldData\" class=\"form-control\" placeholder=\"数据呈现\" rows=\"10\">" + values + "</textarea>";
             }
             else if (FieldDataTypeValue == "4") {
                 showHtml += "<div class=\"form-group text-left\">";

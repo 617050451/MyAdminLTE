@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -111,21 +113,26 @@ namespace BLL
                     var Width = item.Width;
                     var TextAlign = item.TextAlign;
                     var OtherCSS = item.OtherCSS;
-                    TableThead.Append(string.Format("<th aria-controls=\"example\" filedkey=\"{0}\" rowspan=\"1\" colspan=\"1\" aria-label=\"{1}: \" style=\"width:{2};text-align:{3};{4};\">{5}</th>", item.FieldKey, item.FieldText, Width, TextAlign, OtherCSS, item.FieldText));
+                    TableThead.Append(string.Format("<th aria-controls=\"example\" filedkey=\"{0}\" rowspan=\"1\" colspan=\"1\" aria-label=\"{1}: \" style=\"{2}\">{3}</th>", item.FieldKey, item.FieldText, (string.IsNullOrWhiteSpace(item.Width) ? "" : "width:" + item.Width + ";") + (string.IsNullOrWhiteSpace(item.TextAlign) ? "" : "text-align:" + item.TextAlign + ";") + (string.IsNullOrWhiteSpace(item.OtherCSS) ? "" : item.OtherCSS), item.FieldText));
                     Columns.Append(SetFieldDataType(item.FieldDataType, item.FieldData, item.FieldKey));
                 }
             }
             if (TableModel.IsUpdate == 1 || (TableModel.IsDelete == 1 && TableModel.IsChoice == 0))
             {
-                TableThead.Append(string.Format("<th aria-controls=\"example\" class=\"ThForMoreButton\" rowspan=\"1\" colspan=\"1\" aria-label=\"更多: \">{0}</th>", "<a  bnt-click='ShowColumn' href='javascropt:void(0)'><i class='fa fa-cog'></i></a>"));
+                string returnStr = "<th aria-controls=\"example\" class=\"ThForMoreButton\" rowspan=\"1\" colspan=\"1\" aria-label=\"更多: \">{0}</th>";
+                TableThead.Append(string.Format(returnStr, GetShowCulomn(TableFielModelList)));
                 var BntHmtl = "<a class='showBntA' href='javascropt:void(0)'><i class='fa fa-ellipsis-v'></i></a><div class='showBntDiv hide'>";
-                if (TableModel.IsUpdate == 1)
-                    BntHmtl += "<button name='UpdateItemID' bnt-click = 'UpdateItemID'  type = 'button' class='btn btn-warning  btn-xs' value='\"+ data+\"'>修　改</button> ";
                 if (TableModel.IsDelete == 1 && TableModel.IsChoice == 0)
                     BntHmtl += "<button name='DeleteItemID' bnt-click='DeleteItemID'  type='button' class='btn btn-danger btn-xs' value='\"+ data+\"'>删　除</button>";
+                if (TableModel.IsUpdate == 1)
+                    BntHmtl += "<button name='UpdateItemID' bnt-click = 'UpdateItemID'  type = 'button' class='btn btn-warning  btn-xs' value='\"+ data+\"'>修　改</button> ";
                 BntHmtl += "</div></div>";
                 if (!string.IsNullOrWhiteSpace(BntHmtl))
                     Columns.Append("{\"data\": \"" + "ItemID" + "\", render: function (data, type, row) { return \"" + BntHmtl + "\"}},");
+            }
+            else
+            {
+                TopButton.Append("<div style=\"position: absolute;right: 15px;top: 3px;\"> " + GetShowCulomn(TableFielModelList) + "</div>");
             }
             h_hovertreeTemplate = h_hovertreeTemplate.Replace("{TableID}", bItemID.ToString());
             h_hovertreeTemplate = h_hovertreeTemplate.Replace("{TableThead}", TableThead.ToString());
@@ -141,6 +148,19 @@ namespace BLL
             fs.Close();
             h_hovertreeSr.Close();
         }
+
+        public string GetShowCulomn(List<Model.M_TableField> TableFielModelList)
+        {        
+            string showCulomnStr = "<div class=\"btn-group\"><button type=\"button\" class=\"btn btn-box-tool dropdown-toggle\" data-toggle=\"dropdown\" aria-expanded=\"true\"><i class=\"fa fa-wrench\"></i></button>";
+            showCulomnStr += " <ul class=\"dropdown-menu\" role=\"menu\" style=\"right:0;left:auto;min-width: 125px;\">";
+            foreach (var item in TableFielModelList)
+            {
+                showCulomnStr += "<li><a href=\"javascript:void(0)\"><input type=\"checkbox\"  checked=\"checked\"/>" + item.FieldText + "</a></li>";
+            }
+            showCulomnStr += "</ul></div>";
+            return showCulomnStr;
+        }
+
         /// <summary>
         /// 解析转换显示
         /// </summary>
@@ -154,9 +174,9 @@ namespace BLL
             if (FieldDataType == 1)
                 data = ", render: function (data, type, row) { return  data }";
             else if (FieldDataType == 2)
-                data = ", render: function (data, type, row) { return  " + FieldData + " }";
+                data = ", render: function (data, type, row) { return  " + (FieldData==""?"data": FieldData) + " }";
             else if (FieldDataType == 3)
-                data = ", render: function (data, type, row) { return data;}";
+                data = ", render: function (data, type, row) { return row.ToCc" + FieldKey + " }";
             else if (FieldDataType == 4)
             {
                 if (FieldData == "yearM")
@@ -206,13 +226,13 @@ namespace BLL
                         switch (type)
                         {
                             case "1":
-                                strHtml += "<div class=\"col-lg-2\" style=\"width: 12%;\">";
+                                strHtml += "<div class=\"col-lg-2\" style=\"width: 15%;min-width:200px;\">";
                                 strHtml += "<label class=\"col-xs control-label table-label\">" + item.FieldText + "<span class=\"text-danger\">（模糊查询）</span></label >";
                                 strHtml += "<input type=\"text\" name=\"" + item.FieldKey + "\"  class=\"form-control\" placeholder=\"" + item.FieldText + "\" />";
                                 strHtml += "</div>";
                                 break;
                             case "2":
-                                strHtml += "<div class=\"col-lg-2\" style=\"width: 12%;\">";
+                                strHtml += "<div class=\"col-lg-2\" style=\"width: 15%;min-width:200px;\">";
                                 strHtml += "<label class=\"col-xs control-label table-label\">" + item.FieldText + "<span class=\"text-danger\">（下拉查询）</span></label >";
                                 strHtml += "<select name=\"" + item.FieldKey + "\" class=\"form-control select2 select2-hidden-accessible\"  aria-hidden=\"true\" >";
                                 strHtml += "<option selected = \"selected\" value = \"AllOption\" >全部</option >";
@@ -225,7 +245,7 @@ namespace BLL
                                         if (objdata.Rows[j][0].ToString().ToUpper() == "SQL")
                                         {
                                             var sqldata = objdata.Rows[j][1].ToString();
-                                            System.Data.DataTable tsqldt = BaseClass.GetDataTable(BaseClass.GetValueForKey(sqldata));
+                                            System.Data.DataTable tsqldt = BaseClass.GetDataTable(BaseClass.GetSgForStr(sqldata));
                                             if (tsqldt != null && tsqldt.Rows.Count > 0)
                                             {
                                                 for (int m = 0; m < tsqldt.Rows.Count; m++)
@@ -244,7 +264,7 @@ namespace BLL
                                 strHtml += "</div>";
                                 break;
                             case "3":
-                                strHtml += "<div class=\"col-lg-2\" style=\"width: 12%;\">";
+                                strHtml += "<div class=\"col-lg-2\" style=\"width: 12%;min-width:200px;\">";
                                 strHtml += "<label class=\"col-xs control-label table-label\">" + item.FieldText + "<span class=\"text-danger\">（等于查询）</span></label >";
                                 strHtml += "<input type=\"text\" name=\"" + item.FieldKey + "\" data-type=\"datepicker\"  class=\"form-control\" placeholder=\"" + item.FieldText + "\" />";
                                 strHtml += "</div>";
@@ -296,7 +316,7 @@ namespace BLL
                     strHtml += "<div bnt-click=\"Select\" class=\"col-sm-1 table-p\" style=\"margin-top:30px;\"><button type =\"button\" class=\"btn btn-danger pull-right btn-block btn-primary\">查询</button></div>";
                     if (SEOValue.Length > 0)
                     {
-                        SEOHtml += "<div class=\"col-lg-2\">";
+                        SEOHtml += "<div class=\"col-lg-3\" >";
                         SEOHtml += "<label class=\"col-xs control-label table-label\">搜索<span class=\"text-danger\">（" + SEOText.TrimEnd('、') + "）</span></label >";
                         SEOHtml += "<input type=\"text\" bnt-keyup=\"SEOFieldKey\" bnt-value=\"" + SEOValue.TrimEnd(',') + "\"  name=\"SEOFieldKey\" data-type=\"datepicker\"  class=\"form-control\" placeholder=\"搜索\" />";
                         SEOHtml += "</div>";
@@ -325,7 +345,7 @@ namespace BLL
                     var Key = DataRow["key"].ToString();
                     var Title = DataRow["title"].ToString();
                     if (Type.ToUpper() == "SQL")
-                        strHtml += string.Format(",('{0}'+ CONVERT(VARCHAR(20),({1}))) AS ColumnName" + i.ToString(), Title, BaseClass.GetValueForKey(Key));
+                        strHtml += string.Format(",('{0}'+ CONVERT(VARCHAR(20),({1}))) AS ColumnName" + i.ToString(), Title, BaseClass.GetSgForStr(Key));
                     else
                         strHtml += string.Format(",('{0}'+ CONVERT(VARCHAR(20),{1}({2}))) AS ColumnName" + i.ToString(), Title, Type, Key);
                 }
@@ -370,9 +390,9 @@ namespace BLL
             string SQLFieldKey = "";
             foreach (var item in TableFielModelList)
             {
-                if (item.FieldDataType == 3)
+                if (item.FieldDataType == 3 && !item.FieldData.ToLower().Contains(".xml"))
                 {
-                    SQLFieldKey += ",(" + item.FieldData.Replace("row.", "NewCyFsTable.") + ") as " + item.FieldKey;
+                    SQLFieldKey += ",(" + BaseClass.GetSgForStr(item.FieldData).Replace("row.", "NewCyFsTable.") + ") as ToCc" + item.FieldKey;
                 }
                 else
                     SQLFieldKey += "," + item.FieldKey;
@@ -495,9 +515,27 @@ namespace BLL
             else
                 return sb.ToString().TrimEnd(',');
         }
-
-
-
+        //row.[字段]-获取显示转换数据
+        //public string GetFieldKeyValue(Dictionary<string, string> data)
+        //{
+        //    DataRow[] dr = this.GetTableFieldModel().Select("FieldKey='" + data["FieldKey"] + "'");
+        //    var fieldata = dr[0]["FieldData"].ToString();
+        //    foreach (var item in data)
+        //    {
+        //        fieldata = fieldata.Replace("row." + item.Key, item.Value);
+        //    }
+        //    return BaseClass.GetDataViewSQL(BaseClass.GetSgForStr(fieldata));
+        //}
+        //row.[字段]-获取显示转换数据
+        public string GetFieldKeyValue(DataRow dr, string str)
+        {
+            var fieldata = str;
+            foreach (DataColumn item in dr.Table.Columns)
+            {
+                fieldata = fieldata.Replace("row." + item.ColumnName, dr[item.ColumnName].ToString());
+            }
+            return BaseClass.GetDataViewSQL(BaseClass.GetSgForStr(fieldata));
+        }
 
         /// <summary>
         /// 获取表格数据Json
@@ -510,12 +548,41 @@ namespace BLL
         public string GetDataListJson(int PageStart, int PageIndex, int PageSize, string where, string order)
         {
             var TableModel = this.GetTableModel();
+            var TableFielModelList = this.GetTableFieldModel();
             if (TableModel.TableType == 1)
             {
                 System.Data.DataSet ds = BaseClass.GetDataSet(SetFieldSQL(where, order, PageIndex, PageSize) + SetCountSQL(where));
                 if (ds != null)
                 {
                     System.Data.DataTable tableJson = ds.Tables[0];
+                    var FileDataType3List = TableFielModelList.Where(x => x.FieldDataType == 3).ToList();
+                    if (FileDataType3List.Count > 0)
+                    {
+                        for (int j = 0; j < FileDataType3List.Count; j++)
+                        {
+                            var FieldDataType = FileDataType3List[j].FieldDataType;
+                            var FieldKey = FileDataType3List[j].FieldKey;
+                            var FieldData = FileDataType3List[j].FieldData;
+                            if (FieldData.ToLower().Contains(".xml"))//xml文件
+                            {
+                                var FielDataList = FieldData.Trim(' ').Split('_');
+                                if (FielDataList.Length >= 2)
+                                {
+                                    var XmlNodeKeyName = FieldKey;
+                                    if (FielDataList.Length == 3)
+                                        XmlNodeKeyName = FielDataList[2];
+                                    var NewFieldKey = "ToCc" + FieldKey;
+                                    tableJson.Columns.Add(NewFieldKey, Type.GetType("System.String"));
+                                    for (int i = 0; i < tableJson.Rows.Count; i++)
+                                    {
+                                        var FileValue = tableJson.Rows[i][FieldKey].ToString();
+                                        var NewFileValue = BaseClass.XmlSelectXmlKeyInnerText(FielDataList[0], XmlNodeKeyName, FileValue, FielDataList[1]);
+                                        tableJson.Rows[i][NewFieldKey] = NewFileValue;
+                                    }
+                                }
+                            }
+                        }
+                    }
                     System.Data.DataTable tableCount = ds.Tables[1];
                     if (tableJson != null)
                     {
@@ -539,7 +606,6 @@ namespace BLL
             }
             else if (TableModel.TableType == 2)
             {
-                var TableFielModelList = this.GetTableFieldModel();
                 System.Data.DataTable dataTable = BaseClass.GetDataTableColumns(TableModel.SQL);
                 var tableJson = BaseClass.GetDataTableForXML(dataTable, TableModel.TableName);
                 var WhereSQL = GetWhereSQL(where, 2);
@@ -552,6 +618,44 @@ namespace BLL
                     dtCopy.Rows.Add(queryRsesult[i].ItemArray);
                 StringBuilder sb = new StringBuilder();
                 sb.Append("{\"total\":" + tableJson.Rows.Count + ",\"page\":1,\"limit\":" + PageSize + ",\"data\":");
+                var FileDataType3List = TableFielModelList.Where(x => x.FieldDataType == 3).ToList();
+                if (FileDataType3List.Count > 0)
+                {
+                    for (int j = 0; j < FileDataType3List.Count; j++)
+                    {                       
+                        var FieldDataType = FileDataType3List[j].FieldDataType;
+                        var FieldKey = FileDataType3List[j].FieldKey;
+                        var FieldData = FileDataType3List[j].FieldData;
+                        if (FieldData.ToLower().Contains(".xml"))//xml文件
+                        {
+                            var FielDataList = FieldData.Trim(' ').Split('_');
+                            if (FielDataList.Length >= 2)
+                            {
+                                var XmlNodeKeyName = FieldKey;
+                                if (FielDataList.Length == 3)
+                                    XmlNodeKeyName = FielDataList[2];
+                                var NewFieldKey = "ToCc" + FieldKey;
+                                dtCopy.Columns.Add(NewFieldKey, Type.GetType("System.String"));
+                                for (int i = 0; i < tableJson.Rows.Count; i++)
+                                {
+                                    var FileValue = tableJson.Rows[i][FieldKey].ToString();
+                                    var NewFileValue = BaseClass.XmlSelectXmlKeyInnerText(FielDataList[0], XmlNodeKeyName, FileValue, FielDataList[1]);
+                                    dtCopy.Rows[i][NewFieldKey] = NewFileValue;
+                                }
+                            }
+                        }
+                        else //数据表
+                        {
+                            var NewFieldKey = "ToCc" + FieldKey;
+                            dtCopy.Columns.Add(NewFieldKey, Type.GetType("System.String"));
+                            for (int i = 0; i < dtCopy.Rows.Count; i++)
+                            {
+                                var NewFileValue = GetFieldKeyValue(dtCopy.Rows[i], FieldData);
+                                dtCopy.Rows[i][NewFieldKey] = NewFileValue;
+                            }                                                   
+                        }
+                    }
+                }
                 var datatablejson = JsonHelper.DataTableToJsonWithJsonNet(dtCopy);
                 sb.Append(datatablejson);
                 sb.Append("}");

@@ -41,7 +41,7 @@ td {
 }
 
 .showBntA {
-    margin-left: 12px;
+    padding-left: 12px;
 }
 .showBntDiv {
     display: flex;
@@ -60,14 +60,25 @@ td {
     position: absolute;
     border-radius: 5px;
     background: #3c8dbc;
-    padding: 5px;
+    padding: 10px;
     color: #fff;
     display: none;
     opacity: 0.9;
-    font-size: 17px;
+    font-size: 16px;
     z-index: 99;
 }
 .tdpositionoverflow {
     position: relative;
     overflow: inherit;
+}
+    .tdpositionoverflow a {
+        display: block;
+        width: 100%;
+    }
+.dropdown-menu input[type=checkbox] {
+    position: absolute;
+    left: 5px;
+}
+#example th, td {
+    min-width: 30px;
 }

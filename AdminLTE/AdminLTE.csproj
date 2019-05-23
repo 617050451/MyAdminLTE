@@ -75,6 +75,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="DataXML\MoreButton.xml" />
+    <Content Include="Page\UserList.html" />
     <Content Include="Shop\css\common.css" />
     <Content Include="Shop\img\02.png" />
     <Content Include="Shop\img\03.png" />
@@ -89,7 +90,6 @@
     <Content Include="Page\OldPage\PageListAdmin.html" />
     <Content Include="Page\OldPage\TableList.aspx" />
     <Content Include="Page\OldPage\UserList.aspx" />
-    <Content Include="Page\UserList.html" />
     <Content Include="Script\AdminLTE-2.4.2\bower_components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.css" />
     <Content Include="Script\AdminLTE-2.4.2\bower_components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.min.css" />
     <Content Include="Script\AdminLTE-2.4.2\bower_components\bootstrap-colorpicker\dist\img\bootstrap-colorpicker\alpha-horizontal.png" />

@@ -245,32 +245,6 @@ $(function () {
                         } else {
                             $('#example tbody tr').show();
                         }
-                    }, ShowColumn: funaggregate.ShowColumn || function (sender) {
-                        loadding('加载中，请稍等...');
-                        //页面层
-                        layer.open({
-                            type: 1,
-                            id: "columninfo",
-                            title: "设置数据列",
-                            shade: false,
-                            skin: 'layui-layer-rim', //加上边框
-                            area: ['200px'], //宽高
-                            offset: 'rt',
-                            content: TableThNameHtml,
-                            success: function () {
-                                $("#columninfo input[type='checkbox']").change(function () {
-                                    var index = $(this).data("index");
-                                    if ($(this).is(':checked')) {
-                                        $("#example tr th:nth-child(" + index + ")").show();
-                                        $("#example tr td:nth-child(" + index + ")").show();
-                                    } else {
-                                        $("#example tr th:nth-child(" + index + ")").hide();
-                                        $("#example tr td:nth-child(" + index + ")").hide();
-                                    }
-                                });
-                            }
-                        });
-                        loadClose();
                     }
                 };
             $('body *[bnt-click]').unbind("click");
@@ -334,6 +308,20 @@ $(function () {
             GetDataSuccess();
         }
     }
+    $(".dropdown-menu li a input[type='checkbox']").change(function () {
+        var index = $(this).parent().parent("li").index() + 1;
+        if ($(this).is(':checked')) {
+            $("#example tr th:nth-child(" + index + ")").show();
+            $("#example tr td:nth-child(" + index + ")").show();
+        } else {
+            $("#example tr th:nth-child(" + index + ")").hide();
+            $("#example tr td:nth-child(" + index + ")").hide();
+        }
+    })
+    $(".dropdown-menu li").click(function () {
+        $(this).find("input[type='checkbox']").click();
+        event.stopPropagation();
+    })
     //选中的值
     function OnCheckboxOnClick() {
         var guidValues = "";

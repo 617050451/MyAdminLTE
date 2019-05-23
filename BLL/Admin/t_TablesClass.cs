@@ -228,7 +228,7 @@ namespace BLL
                                         if (objdata.Rows[j][0].ToString().ToUpper() == "SQL")
                                         {
                                             var sqldata = objdata.Rows[j][1].ToString();
-                                            DataTable tsqldt = BaseClass.GetDataTable(BaseClass.GetValueForKey(sqldata));
+                                            DataTable tsqldt = BaseClass.GetDataTable(BaseClass.GetSgForStr(sqldata));
                                             if (tsqldt != null && tsqldt.Rows.Count > 0)
                                             {
                                                 for (int m = 0; m < tsqldt.Rows.Count; m++)
@@ -341,7 +341,17 @@ namespace BLL
             {
                 fieldata = fieldata.Replace("row." + item.Key, item.Value);
             }
-            return BaseClass.GetDataViewSQL(BaseClass.GetValueForKey(fieldata));
+            return BaseClass.GetDataViewSQL(BaseClass.GetSgForStr(fieldata));
+        }
+        //获取显示转换数据
+        public string GetFieldKeyValue(DataRow dr,string str)
+        {
+            var fieldata = str;
+            foreach (DataColumn item in dr.Table.Columns)
+            {
+                fieldata = fieldata.Replace("row." + item.ColumnName, dr[item.ColumnName].ToString());
+            }
+            return BaseClass.GetDataViewSQL(BaseClass.GetSgForStr(fieldata));
         }
         //新增数据
         public string InsertModel(ObjectData model)

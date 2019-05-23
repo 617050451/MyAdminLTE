@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TABLES>
   <MAXID>1</MAXID>
-  <OPTION ActionBeforeContent="1" ActionContent="1" ActionType="1" BntName="测试一下" ButtonCss="1" ButtonType="1" ID="1" ImplementContent="1" ImplementType="1" StatusID="1" TableID="3">
+  <OPTION ActionBeforeContent="执行前内容" ActionContent="" ActionType="2" BntName="测试一下1" ButtonCss="按钮样式" ButtonType="1" ID="1" ImplementContent="" ImplementType="1" StatusID="1" TableID="1">
   </OPTION>
 </TABLES>
