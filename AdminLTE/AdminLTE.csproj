@@ -75,6 +75,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="DataXML\MoreButton.xml" />
+    <Content Include="DataXML\TableInsert.xml" />
     <Content Include="Page\UserList.html" />
     <Content Include="Shop\css\common.css" />
     <Content Include="Shop\img\02.png" />

@@ -1,7 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SetInsert.aspx.cs" Inherits="AdminLTE.Admin.PageManage.SetInsert" %>
 
 <!DOCTYPE html>
-
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -39,18 +38,19 @@
             <div class="row">
                 <div class="box-header ui-sortable-handle" style="cursor: move;">
                     <i class="ion ion-clipboard"></i>
-                    <h3 class="box-title">字段列表</h3>
-                    <label style="margin-left:20px;">排版列数：</label>
-                    <select id="setallculome"  style="width:60px;height:25px;" onchange="SetAllCulomnNum(this)">
+                    <label style="margin-left: 20px;">页面标题：</label>
+                    <input type="text" name="title" />
+                    <label style="margin-left: 5px;">排版列数：</label>
+                    <select id="setallculome" style="width: 60px; height: 25px;" onchange="SetAllCulomnNum(this)">
                         <option value="12" selected="selected">1列</option>
                         <option value="6">2列</option>
                         <option value="4">3列</option>
                         <option value="3">4列</option>
                     </select>
-                    <label style="margin-left:5px;">列名位置：</label>
-                    <select  style="width:60px;height:25px;">
+                    <label style="margin-left: 5px;">列名位置：</label>
+                    <select style="width: 60px; height: 25px;">
                         <option value="left" selected="selected">左边</option>
-                        <option value="top">上面</option>                       
+                        <option value="top">上面</option>
                         <option value="right">右边</option>
                         <option value="bottom">下面</option>
                     </select>
@@ -111,3 +111,4 @@
         }
     </script>
 </body>
+</html>

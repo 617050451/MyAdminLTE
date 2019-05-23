@@ -44,11 +44,14 @@ namespace AdminLTE.Admin.PageManage
                 sb.Append("<select style = \"height: 27px; \" >");
                 sb.Append("<option value = \"1\" selected=\"selected\">文本框</option>");
                 sb.Append("<option value = \"2\" >文本框（多行）</option >");
-                sb.Append("<option value = \"3\" >下拉框</ option >");
+                sb.Append("<option value = \"3\" >下拉框（单选）</ option >");
+                sb.Append("<option value = \"3\" >下拉框（多选）</ option >");
                 sb.Append("<option value = \"4\" >单选（radio）</option >");
                 sb.Append("<option value = \"5\" >多选（checkbox）</option >");
+                sb.Append("<option value = \"0\" >不显示（自增）</option >");
                 sb.Append("<option value = \"-1\" >不显示（hidden）</option >");
-                sb.Append("<option value = \"-2\" >不显示（label）</option >");
+                sb.Append("<option value = \"-2\" >显示（提交）</option >");
+                sb.Append("<option value = \"-3\" >显示（label）</option >");
                 sb.Append("</select> ");
                 sb.Append("<select style = \"height: 27px; \" onchange=\"SetOneCulomnNum(this)\" >");
                 sb.Append("<option value = \"0\" selected=\"selected\">不合并</option>");

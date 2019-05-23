@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TABLES>
+  <OPTION TableID="1" Title="新增页面" PrimaryKey="TableID" FileName="PageListAdd">
+    <COLUMNS>
+
+    </COLUMNS>
+  </OPTION>
+  <OPTION TableID="2" Title="新增按钮" PrimaryKey="ID" FileName="MoreButtonAdd">
+    <COLUMNS>
+
+    </COLUMNS>
+  </OPTION>
+</TABLES>
